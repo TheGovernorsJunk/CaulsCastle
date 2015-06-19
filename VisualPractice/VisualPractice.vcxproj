@@ -69,10 +69,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="auxiliary.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="auxiliary.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
   </ItemGroup>
   <ItemGroup>
