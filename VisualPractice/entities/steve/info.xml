@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<entity name="steve">
+  <animation name="walk"
+             width="56"
+             height="72"
+             frames="4"
+             x="0"
+             y="0">
+  </animation>
+</entity>
