@@ -80,4 +80,23 @@ namespace te
             ball.update(dt);
         }
     }
+
+    void handleWallCollision(Rectangle& ball, const Rectangle& wall, float dt)
+    {
+        if (checkCollision(ball, wall))
+        {
+            Vector2f vel = ball.getVelocity();
+            SDL_Rect intersection = getIntersection(ball, wall);
+            if (intersection.w > intersection.h)
+            {
+                vel.y = -vel.y;
+                ball.setVelocity(vel);
+            }
+            else
+            {
+                vel.x = -vel.x;
+                ball.setVelocity(vel);
+            }
+        }
+    }
 }

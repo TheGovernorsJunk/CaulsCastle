@@ -26,8 +26,10 @@ int main(int argc, char** argv)
     float ballSpeed = 50;
 
     Rectangle dot(300.f, 110.f, 25, 25, -200.f, 0.f);
-    Rectangle paddle(600.f, 20.f, 25, 200, 0.f, 0.f);
-    Rectangle paddle2(50.f, 20.f, 25, 200, 0.f, 0.f);
+    Rectangle paddle(600.f, 30.f, 25, 200, 0.f, 0.f);
+    Rectangle paddle2(50.f, 30.f, 25, 200, 0.f, 0.f);
+    Rectangle topWall(0.f, 0.f, 640, 10);
+    Rectangle bottomWall(0.f, 470.f, 640, 10);
 
     SDL_Event e;
     bool running = true;
@@ -53,9 +55,13 @@ int main(int argc, char** argv)
         dot.update(dt);
         paddle.update(dt);
         paddle2.update(dt);
+        topWall.update(dt);
+        bottomWall.update(dt);
 
         handlePaddleCollision(dot, paddle, dt);
         handlePaddleCollision(dot, paddle2, dt);
+        handleWallCollision(dot, topWall, dt);
+        handleWallCollision(dot, bottomWall, dt);
 
         SDL_SetRenderDrawColor(pRenderer.get(), 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(pRenderer.get());
@@ -63,6 +69,8 @@ int main(int argc, char** argv)
         dot.draw(pRenderer);
         paddle.draw(pRenderer);
         paddle2.draw(pRenderer);
+        topWall.draw(pRenderer);
+        bottomWall.draw(pRenderer);
 
         SDL_RenderPresent(pRenderer.get());
         t0 = now;

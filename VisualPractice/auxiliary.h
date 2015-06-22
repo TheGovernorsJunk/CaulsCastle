@@ -19,6 +19,7 @@ namespace te
     Vector2i getCenter(const Rectangle& rect);
 
     void handlePaddleCollision(Rectangle& ball, const Rectangle& paddle, float dt, float velocityScalar = 200.f);
+    void handleWallCollision(Rectangle& ball, const Rectangle& wall, float dt);
 }
 
 #endif
