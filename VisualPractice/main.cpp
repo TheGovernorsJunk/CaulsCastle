@@ -1,5 +1,4 @@
 #include <SDL.h>
-#include <memory>
 #include <iostream>
 #include <math.h>
 #include "types.h"
