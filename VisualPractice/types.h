@@ -9,6 +9,8 @@ namespace te
         float x;
         float y;
         Vector2f(float x, float y);
+        Vector2f operator+(Vector2f o);
+        Vector2f operator-(Vector2f o);
     };
 
     struct Vector2i
@@ -16,6 +18,8 @@ namespace te
         int x;
         int y;
         Vector2i(int x, int y);
+        Vector2i operator+(Vector2i o);
+        Vector2i operator-(Vector2i o);
     };
 
 }
