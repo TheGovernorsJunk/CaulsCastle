@@ -1,10 +1,14 @@
 #include <SDL.h>
 #include <iostream>
 #include <math.h>
+#include <map>
+#include <functional>
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
 #include "entity.h"
+#include "commands.h"
+#include "player.h"
 
 using namespace te;
 
@@ -30,6 +34,11 @@ int main(int argc, char** argv)
     Rectangle topWall(0.f, 0.f, 640, 10);
     Rectangle bottomWall(0.f, 470.f, 640, 10);
 
+    KeyMap keys = createPaddleKeyMap();
+
+    Player player1(paddle, 1);
+    Player player2(paddle2, 2);
+
     SDL_Event e;
     bool running = true;
 
@@ -46,6 +55,8 @@ int main(int argc, char** argv)
             {
                 running = false;
             }
+            player1.issueCommand(e.key.keysym.sym, e.type)();
+            player2.issueCommand(e.key.keysym.sym, e.type)();
         }
 
         Uint64 now = SDL_GetPerformanceCounter();

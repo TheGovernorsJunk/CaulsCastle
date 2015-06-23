@@ -70,13 +70,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="auxiliary.cpp" />
+    <ClCompile Include="commands.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="types.cpp" />
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="auxiliary.h" />
+    <ClInclude Include="commands.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
   </ItemGroup>
