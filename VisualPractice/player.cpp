@@ -2,7 +2,7 @@
 
 namespace te
 {
-    Player::Player(Rectangle& paddle, unsigned int configN)
+    Player::Player(std::shared_ptr<Rectangle> paddle, unsigned int configN)
         : mCommandMap(createPaddleCommandMap(paddle))
         , mKeyMap(createPaddleKeyMap(configN))
     {}

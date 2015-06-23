@@ -29,15 +29,15 @@ int main(int argc, char** argv)
     float ballSpeed = 50;
 
     Rectangle dot(300.f, 110.f, 25, 25, -200.f, 0.f);
-    Rectangle paddle(600.f, 30.f, 25, 200, 0.f, 0.f);
-    Rectangle paddle2(50.f, 30.f, 25, 200, 0.f, 0.f);
+    std::shared_ptr<Rectangle> pPaddle1(new Rectangle(600.f, 30.f, 25, 200, 0.f, 0.f));
+    std::shared_ptr<Rectangle> pPaddle2(new Rectangle(50.f, 30.f, 25, 200, 0.f, 0.f));
     Rectangle topWall(0.f, 0.f, 640, 10);
     Rectangle bottomWall(0.f, 470.f, 640, 10);
 
     KeyMap keys = createPaddleKeyMap();
 
-    Player player1(paddle, 1);
-    Player player2(paddle2, 2);
+    Player player1(pPaddle1, 1);
+    Player player2(pPaddle2, 2);
 
     SDL_Event e;
     bool running = true;
@@ -63,13 +63,13 @@ int main(int argc, char** argv)
         float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
 
         dot.update(dt);
-        paddle.update(dt);
-        paddle2.update(dt);
+        pPaddle1->update(dt);
+        pPaddle2->update(dt);
         topWall.update(dt);
         bottomWall.update(dt);
 
-        handlePaddleCollision(dot, paddle, dt);
-        handlePaddleCollision(dot, paddle2, dt);
+        handlePaddleCollision(dot, *pPaddle1.get(), dt);
+        handlePaddleCollision(dot, *pPaddle2.get(), dt);
         handleWallCollision(dot, topWall, dt);
         handleWallCollision(dot, bottomWall, dt);
 
@@ -77,8 +77,8 @@ int main(int argc, char** argv)
         SDL_RenderClear(pRenderer.get());
 
         dot.draw(pRenderer);
-        paddle.draw(pRenderer);
-        paddle2.draw(pRenderer);
+        pPaddle1->draw(pRenderer);
+        pPaddle2->draw(pRenderer);
         topWall.draw(pRenderer);
         bottomWall.draw(pRenderer);
 

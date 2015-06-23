@@ -12,7 +12,7 @@ namespace te
     class Player
     {
     public:
-        Player(Rectangle& paddle, unsigned int configN = 1);
+        Player(std::shared_ptr<Rectangle> pPaddle, unsigned int configN = 1);
 
         Command issueCommand(SDL_Keycode key, Uint32 type) const;
     private:

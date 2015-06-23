@@ -5,6 +5,7 @@
 #include <map>
 #include <SDL_keycode.h>
 #include <SDL_events.h>
+#include <memory>
 
 namespace te
 {
@@ -16,7 +17,7 @@ namespace te
 
     typedef std::map<Action, Command> CommandMap;
 
-    CommandMap createPaddleCommandMap(Rectangle& paddle);
+    CommandMap createPaddleCommandMap(std::shared_ptr<Rectangle> pPaddle);
 
     typedef std::map<std::pair<SDL_Keycode, Uint32>, Action> KeyMap;
 

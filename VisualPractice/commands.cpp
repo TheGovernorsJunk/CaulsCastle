@@ -8,25 +8,28 @@ namespace te
 {
     static const float PADDLE_SPEED = 100.f;
 
-    CommandMap createPaddleCommandMap(Rectangle& paddle)
+    CommandMap createPaddleCommandMap(std::shared_ptr<Rectangle> pPaddle)
     {
         CommandMap commands;
-        commands[Action::UP] = [&]()
+        if (pPaddle.get() != nullptr)
         {
-            Vector2f vel = paddle.getVelocity() + Vector2f(0.f, -PADDLE_SPEED);
-            if (vel.y >= -PADDLE_SPEED && vel.y <= 0.f)
+            commands[Action::UP] = [pPaddle]()
             {
-                paddle.setVelocity(vel);
-            }
-        };
-        commands[Action::DOWN] = [&]()
-        {
-            Vector2f vel = paddle.getVelocity() + Vector2f(0.f, PADDLE_SPEED);
-            if (vel.y <= PADDLE_SPEED && vel.y >= 0.f)
+                Vector2f vel = pPaddle.get()->getVelocity() + Vector2f(0.f, -PADDLE_SPEED);
+                if (vel.y >= -PADDLE_SPEED && vel.y <= 0.f)
+                {
+                    pPaddle.get()->setVelocity(vel);
+                }
+            };
+            commands[Action::DOWN] = [pPaddle]()
             {
-                paddle.setVelocity(vel);
-            }
-        };
+                Vector2f vel = pPaddle.get()->getVelocity() + Vector2f(0.f, PADDLE_SPEED);
+                if (vel.y <= PADDLE_SPEED && vel.y >= 0.f)
+                {
+                    pPaddle.get()->setVelocity(vel);
+                }
+            };
+        }
         return commands;
     }
 
