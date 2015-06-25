@@ -3,11 +3,7 @@
 #include <math.h>
 #include <map>
 #include <functional>
-extern "C" {
-    #include <lua.h>
-    #include <lauxlib.h>
-    #include <lualib.h>
-}
+#include <lua.hpp>
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
