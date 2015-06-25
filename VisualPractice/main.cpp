@@ -3,6 +3,11 @@
 #include <math.h>
 #include <map>
 #include <functional>
+extern "C" {
+    #include <lua.h>
+    #include <lauxlib.h>
+    #include <lualib.h>
+}
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
@@ -14,6 +19,10 @@ using namespace te;
 
 int main(int argc, char** argv)
 {
+    std::shared_ptr<lua_State> L(luaL_newstate(), [](lua_State* L){ lua_close(L); });
+
+
+
     const int WIDTH = 640;
     const int HEIGHT = 480;
 
