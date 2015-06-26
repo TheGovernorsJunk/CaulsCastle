@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\lib\SDL2\SDL2-2.0.3\include;C:\lib\SDL2_image-2.0.0\include;C:\Users\Tanner\Desktop\VisualPractice\Lua;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\lib\SDL2\SDL2-2.0.3\lib\x86;C:\lib\SDL2_image-2.0.0\lib\x86;C:\Users\Tanner\Desktop\VisualPractice\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)..\Lua;$(ProjectDir)..\LuaBridge\Source\LuaBridge;$(ProjectDir)..\SDL2-2.0.3\include;$(ProjectDir)..\SDL2_image-2.0.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDL2-2.0.3\lib\x86;$(ProjectDir)..\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -93,6 +93,9 @@
     <Xml Include="entities\steve\info.xml">
       <SubType>Designer</SubType>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="script.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
