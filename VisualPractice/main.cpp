@@ -27,6 +27,8 @@ namespace te
             , mEntities()
             , mPositionMap()
             , mVelocityMap()
+            , mBoundingBoxMap()
+            , mDimensionMap()
         {
             lua_State* pL = mpL.get();
             luaL_openlibs(pL);
@@ -34,6 +36,8 @@ namespace te
             luabridge::getGlobalNamespace(pL)
                 .beginClass<LuaGameState>("GameState")
                 .addFunction("createEntity", &LuaGameState::createEntity)
+                .addFunction("setBoundingBox", &LuaGameState::setBoundingBox)
+                .addFunction("setSprite", &LuaGameState::setSprite)
                 .addFunction("destroyEntity", &LuaGameState::destroyEntity)
                 .endClass();
             luabridge::push(pL, this);
@@ -54,6 +58,28 @@ namespace te
             return handle;
         }
 
+        void setBoundingBox(EntityHandle handle, int width, int height)
+        {
+            if (!exists(handle)) return;
+
+            insertOrAssign(mBoundingBoxMap, std::make_pair(
+               handle, Vector2i(width, height)));
+        }
+
+        void setSprite(EntityHandle handle, int width, int height)
+        {
+            if (!exists(handle)) return;
+
+            insertOrAssign(mDimensionMap, std::make_pair(
+                handle, Vector2i(width, height)));
+        }
+
+        bool exists(EntityHandle handle)
+        {
+            auto it = std::find(std::begin(mEntities), std::end(mEntities), handle);
+            return it != std::end(mEntities);
+        }
+
         void destroyEntity(EntityHandle handle)
         {
             mEntities.erase(
@@ -69,6 +95,16 @@ namespace te
             {
                 mVelocityMap.erase(velocityIt);
             }
+            auto boundingBoxIt = mBoundingBoxMap.find(handle);
+            if (boundingBoxIt != mBoundingBoxMap.end())
+            {
+                mBoundingBoxMap.erase(boundingBoxIt);
+            }
+            auto dimensionIt = mDimensionMap.find(handle);
+            if (dimensionIt != mDimensionMap.end())
+            {
+                mDimensionMap.erase(dimensionIt);
+            }
         }
 
         void update(float dt)
@@ -79,6 +115,26 @@ namespace te
                 Vector2f& position = mPositionMap.find(handle)->second;
                 position.x += velocity.x * dt;
                 position.y += velocity.y * dt;
+            });
+        }
+
+        void draw(RendererPtr pRenderer)
+        {
+            forEachEntity([&](const EntityHandle& handle)
+            {
+                auto positionIt = mPositionMap.find(handle);
+                auto spriteIt = mDimensionMap.find(handle);
+                if (spriteIt != mDimensionMap.end())
+                {
+                    SDL_SetRenderDrawColor(pRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
+                    SDL_Rect rect = {
+                        (int)positionIt->second.x,
+                        (int)positionIt->second.y,
+                        spriteIt->second.x,
+                        spriteIt->second.y
+                    };
+                    SDL_RenderFillRect(pRenderer.get(), &rect);
+                }
             });
         }
 
@@ -93,6 +149,8 @@ namespace te
         std::vector<EntityHandle> mEntities;
         std::map<EntityHandle, Vector2f> mPositionMap;
         std::map<EntityHandle, Vector2f> mVelocityMap;
+        std::map<EntityHandle, Vector2i> mBoundingBoxMap;
+        std::map<EntityHandle, Vector2i> mDimensionMap;
     };
 }
 
