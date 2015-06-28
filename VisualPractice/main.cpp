@@ -71,6 +71,22 @@ namespace te
             }
         }
 
+        void update(float dt)
+        {
+            forEachEntity([&](const EntityHandle& handle)
+            {
+                Vector2f& velocity = mVelocityMap.find(handle)->second;
+                Vector2f& position = mPositionMap.find(handle)->second;
+                position.x += velocity.x * dt;
+                position.y += velocity.y * dt;
+            });
+        }
+
+        void forEachEntity(const std::function<void(const EntityHandle&)>& func)
+        {
+            std::for_each(mEntities.begin(), mEntities.end(), func);
+        }
+
     private:
         std::shared_ptr<lua_State> mpL;
         EntityHandle mHandleCount;
