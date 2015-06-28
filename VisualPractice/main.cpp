@@ -26,6 +26,7 @@ namespace te
             , mHandleCount(0)
             , mEntities()
             , mPositionMap()
+            , mVelocityMap()
         {
             lua_State* pL = mpL.get();
             luaL_openlibs(pL);
@@ -44,25 +45,38 @@ namespace te
 
         typedef unsigned int EntityHandle;
 
-        EntityHandle createEntity(float x, float y)
+        EntityHandle createEntity(float x, float y, float dx, float dy)
         {
             EntityHandle handle = mHandleCount++;
             mEntities.push_back(handle);
             mPositionMap.insert(std::make_pair(handle, Vector2f(x, y)));
+            mVelocityMap.insert(std::make_pair(handle, Vector2f(dx, dy)));
             return handle;
         }
 
         void destroyEntity(EntityHandle handle)
         {
-            mEntities.erase(std::remove(mEntities.begin(), mEntities.end(), handle));
-            auto it = mPositionMap.find(handle);
-            mPositionMap.erase(it);
+            mEntities.erase(
+                std::remove(mEntities.begin(), mEntities.end(), handle),
+                mEntities.end());
+            auto positionIt = mPositionMap.find(handle);
+            if (positionIt != mPositionMap.end())
+            {
+                mPositionMap.erase(positionIt);
+            }
+            auto velocityIt = mVelocityMap.find(handle);
+            if (velocityIt != mVelocityMap.end())
+            {
+                mVelocityMap.erase(velocityIt);
+            }
         }
+
     private:
         std::shared_ptr<lua_State> mpL;
         EntityHandle mHandleCount;
         std::vector<EntityHandle> mEntities;
         std::map<EntityHandle, Vector2f> mPositionMap;
+        std::map<EntityHandle, Vector2f> mVelocityMap;
     };
 }
 
