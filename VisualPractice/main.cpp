@@ -37,6 +37,8 @@ namespace te
             luabridge::getGlobalNamespace(pL)
                 .beginClass<LuaGameState>("GameState")
                 .addFunction("createEntity", &LuaGameState::createEntity)
+                .addFunction("setPosition", &LuaGameState::setVelocity)
+                .addFunction("setVelocity", &LuaGameState::setVelocity)
                 .addFunction("setBoundingBox", &LuaGameState::setBoundingBox)
                 .addFunction("setSprite", &LuaGameState::setSprite)
                 .addFunction("handleCollision", &LuaGameState::handleCollision)
@@ -60,6 +62,20 @@ namespace te
             mVelocityMap.insert(std::make_pair(handle, Vector2f(dx, dy)));
             mBoundingBoxMap.insert(std::make_pair(handle, Vector2i(0, 0)));
             return handle;
+        }
+
+        void setPosition(EntityHandle handle, float x, float y)
+        {
+            if (!exists(handle)) return;
+
+            mPositionMap[handle] = Vector2f(x, y);
+        }
+
+        void setVelocity(EntityHandle handle, float dx, float dy)
+        {
+            if (!exists(handle)) return;
+
+            mVelocityMap[handle] = Vector2f(dx, dy);
         }
 
         void setBoundingBox(EntityHandle handle, int width, int height)
