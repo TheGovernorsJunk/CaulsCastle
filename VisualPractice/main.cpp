@@ -82,8 +82,7 @@ namespace te
         {
             if (!exists(handle)) return;
 
-            auto it = mBoundingBoxMap.find(handle);
-            it->second = Vector2i(width, height);
+            mBoundingBoxMap[handle] = Vector2i(width, height);
         }
 
         void setSprite(EntityHandle handle, int width, int height)
