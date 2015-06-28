@@ -55,6 +55,7 @@ namespace te
             mEntities.push_back(handle);
             mPositionMap.insert(std::make_pair(handle, Vector2f(x, y)));
             mVelocityMap.insert(std::make_pair(handle, Vector2f(dx, dy)));
+            mBoundingBoxMap.insert(std::make_pair(handle, Vector2i(0, 0)));
             return handle;
         }
 
@@ -62,8 +63,8 @@ namespace te
         {
             if (!exists(handle)) return;
 
-            insertOrAssign(mBoundingBoxMap, std::make_pair(
-               handle, Vector2i(width, height)));
+            auto it = mBoundingBoxMap.find(handle);
+            it->second = Vector2i(width, height);
         }
 
         void setSprite(EntityHandle handle, int width, int height)
