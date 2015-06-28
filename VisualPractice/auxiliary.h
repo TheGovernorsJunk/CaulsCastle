@@ -1,6 +1,8 @@
 #ifndef TE_AUXILIARY_H
 #define TE_AUXILIARY_H
 
+#include <map>
+
 struct SDL_Rect;
 
 namespace te
@@ -20,6 +22,34 @@ namespace te
 
     void handlePaddleCollision(Rectangle& ball, const Rectangle& paddle, float dt, float velocityScalar = 200.f);
     void handleWallCollision(Rectangle& ball, const Rectangle& wall, float dt);
+
+    template <class K, class V>
+    void insertOrAssign(std::map<K,V>& map, std::pair<K, V>&& kvPair)
+    {
+        auto it = map.find(kvPair.first);
+        if (it == map.end())
+        {
+            map.insert(std::move(kvPair));
+        }
+        else
+        {
+            it->second = std::move(kvPair.second);
+        }
+    }
+
+    template <class K, class V>
+    void insertOrAssign(std::map<K, V>& map, const std::pair<K, V>& kvPair)
+    {
+        auto it = map.find(kvPair.first);
+        if (it != map.end())
+        {
+            map.insert(kvPair);
+        }
+        else
+        {
+            it->second = kvPair.second;
+        }
+    }
 }
 
 #endif
