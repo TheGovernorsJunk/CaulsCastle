@@ -68,7 +68,7 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="script.lua">
+    <None Include="init.lua">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -95,7 +95,7 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="script.lua" />
+    <None Include="init.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

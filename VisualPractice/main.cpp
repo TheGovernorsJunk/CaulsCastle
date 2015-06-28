@@ -1,9 +1,12 @@
 #include <SDL.h>
 #include <iostream>
 #include <math.h>
+#include <vector>
 #include <map>
 #include <functional>
+#include <algorithm>
 #include <lua.hpp>
+#include <LuaBridge.h>
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
@@ -13,11 +16,59 @@
 
 using namespace te;
 
+namespace te
+{
+    class LuaGameState
+    {
+    public:
+        LuaGameState(const std::string& filename = "init.lua")
+            : mpL(luaL_newstate(), [](lua_State* L){ lua_close(L); })
+            , mHandleCount(0)
+            , mEntities()
+            , mPositionMap()
+        {
+            lua_State* pL = mpL.get();
+            luaL_openlibs(pL);
+
+            luabridge::getGlobalNamespace(pL)
+                .beginClass<LuaGameState>("GameState")
+                .addFunction("createEntity", &LuaGameState::createEntity)
+                .addFunction("destroyEntity", &LuaGameState::destroyEntity)
+                .endClass();
+            luabridge::push(pL, this);
+            lua_setglobal(pL, "game");
+
+            luaL_dofile(pL, filename.c_str());
+            luabridge::getGlobal(pL, "main")();
+        }
+
+        typedef unsigned int EntityHandle;
+
+        EntityHandle createEntity(float x, float y)
+        {
+            EntityHandle handle = mHandleCount++;
+            mEntities.push_back(handle);
+            mPositionMap.insert(std::make_pair(handle, Vector2f(x, y)));
+            return handle;
+        }
+
+        void destroyEntity(EntityHandle handle)
+        {
+            mEntities.erase(std::remove(mEntities.begin(), mEntities.end(), handle));
+            auto it = mPositionMap.find(handle);
+            mPositionMap.erase(it);
+        }
+    private:
+        std::shared_ptr<lua_State> mpL;
+        EntityHandle mHandleCount;
+        std::vector<EntityHandle> mEntities;
+        std::map<EntityHandle, Vector2f> mPositionMap;
+    };
+}
+
 int main(int argc, char** argv)
 {
-    std::shared_ptr<lua_State> L(luaL_newstate(), [](lua_State* L){ lua_close(L); });
-
-
+    LuaGameState state;
 
     const int WIDTH = 640;
     const int HEIGHT = 480;
