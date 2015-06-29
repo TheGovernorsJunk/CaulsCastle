@@ -22,6 +22,23 @@ namespace te
         Vector2i operator-(Vector2i o);
     };
 
+    template <typename T>
+    struct Vector2
+    {
+        T x;
+        T y;
+        Vector2(T x = 0, T y = 0)
+            : x(x), y(y) {}
+        Vector2<T> operator+(Vector2<T> o)
+        {
+            return Vector2<T>(x + o.x, y + o.y);
+        }
+        Vector2<T> operator-(Vector2<T> o)
+        {
+            return Vector2<T>(x - o.x, y - o.y);
+        }
+    };
+
 }
 
 #endif

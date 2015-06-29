@@ -58,9 +58,9 @@ namespace te
         {
             EntityHandle handle = mHandleCount++;
             mEntities.push_back(handle);
-            mPositionMap.insert(std::make_pair(handle, Vector2f(x, y)));
-            mVelocityMap.insert(std::make_pair(handle, Vector2f(dx, dy)));
-            mBoundingBoxMap.insert(std::make_pair(handle, Vector2i(0, 0)));
+            mPositionMap.insert(std::make_pair(handle, Vector2<float>(x, y)));
+            mVelocityMap.insert(std::make_pair(handle, Vector2<float>(dx, dy)));
+            mBoundingBoxMap.insert(std::make_pair(handle, Vector2<int>(0, 0)));
             return handle;
         }
 
@@ -68,21 +68,21 @@ namespace te
         {
             if (!exists(handle)) return;
 
-            mPositionMap[handle] = Vector2f(x, y);
+            mPositionMap[handle] = Vector2<float>(x, y);
         }
 
         void setVelocity(EntityHandle handle, float dx, float dy)
         {
             if (!exists(handle)) return;
 
-            mVelocityMap[handle] = Vector2f(dx, dy);
+            mVelocityMap[handle] = Vector2<float>(dx, dy);
         }
 
         void setBoundingBox(EntityHandle handle, int width, int height)
         {
             if (!exists(handle)) return;
 
-            mBoundingBoxMap[handle] = Vector2i(width, height);
+            mBoundingBoxMap[handle] = Vector2<int>(width, height);
         }
 
         void setSprite(EntityHandle handle, int width, int height)
@@ -90,7 +90,7 @@ namespace te
             if (!exists(handle)) return;
 
             insertOrAssign(mDimensionMap, std::make_pair(
-                handle, Vector2i(width, height)));
+                handle, Vector2<int>(width, height)));
         }
 
         void handleCollision(EntityHandle e1, EntityHandle e2, luabridge::LuaRef handler)
@@ -148,8 +148,8 @@ namespace te
         {
             forEachEntity([&](const EntityHandle& handle)
             {
-                Vector2f& velocity = mVelocityMap.find(handle)->second;
-                Vector2f& position = mPositionMap.find(handle)->second;
+                Vector2<float>& velocity = mVelocityMap.find(handle)->second;
+                Vector2<float>& position = mPositionMap.find(handle)->second;
                 position.x += velocity.x * dt;
                 position.y += velocity.y * dt;
             });
@@ -208,10 +208,10 @@ namespace te
 
         std::vector<EntityHandle> mEntities;
 
-        std::map<EntityHandle, Vector2f> mPositionMap;
-        std::map<EntityHandle, Vector2f> mVelocityMap;
-        std::map<EntityHandle, Vector2i> mBoundingBoxMap;
-        std::map<EntityHandle, Vector2i> mDimensionMap;
+        std::map<EntityHandle, Vector2<float>> mPositionMap;
+        std::map<EntityHandle, Vector2<float>> mVelocityMap;
+        std::map<EntityHandle, Vector2<int>> mBoundingBoxMap;
+        std::map<EntityHandle, Vector2<int>> mDimensionMap;
 
         std::map<EntityPair, luabridge::LuaRef> mCollisionHandlerMap;
     };
