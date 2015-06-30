@@ -1,26 +1,25 @@
-function handle()
-    game:setVelocity(e1, 0, 0)
-    game:setVelocity(e2, 50, 0)
-end
-
-function vector(cppVector)
-    return cppVector.x, cppVector.y
+function handleWallCollision(ball, wall, dt)
+    vel = game:getVelocity(ball)
+    intersection = game:getIntersection(ball, wall)
+    if intersection.w > intersection.h then
+        vel.y = -vel.y
+        game:setVelocity(ball, vel)
+    else
+        vel.x = -vel.x
+        game:setVelocity(ball, vel)
+    end
 end
 
 function main()
-    e1 = game:createEntity(1, 25, 50, 0)
-    game:setSprite(e1, 50, 50)
-    game:setBoundingBox(e1, 50, 50)
+    ball = game:createEntity(50, 50, 175, 150)
+    game:setSprite(ball, 50, 50)
+    game:setBoundingBox(ball, 50, 50)
 
-    e2 = game:createEntity(200, 25, 0, 0)
-    game:setSprite(e2, 20, 20)
-    game:setBoundingBox(e2, 50, 50)
+    wall = game:createEntity(200, 300, 0, 0)
+    game:setSprite(wall, 400, 20)
+    game:setBoundingBox(wall, 400, 20)
 
-    game:handleCollision(e1, e2, handle)
-
-    v = Vector2(4, 5)
-    v = addV(v, v)
-    io.write(v.x,"\n")
-
-    io.write(vector(game:getVelocity(e1)))
+    game:handleCollision(ball, wall, function(dt)
+        handleWallCollision(ball, wall, dt)
+    end)
 end
