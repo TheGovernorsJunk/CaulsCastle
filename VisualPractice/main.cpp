@@ -39,10 +39,30 @@ namespace te
                 .addFunction("createEntity", &LuaGameState::createEntity)
                 .addFunction("setPosition", &LuaGameState::setVelocity)
                 .addFunction("setVelocity", &LuaGameState::setVelocity)
+                .addFunction("getVelocity", &LuaGameState::getVelocity)
                 .addFunction("setBoundingBox", &LuaGameState::setBoundingBox)
+                .addFunction("getBoundingBox", &LuaGameState::getBoundingBox)
                 .addFunction("setSprite", &LuaGameState::setSprite)
                 .addFunction("handleCollision", &LuaGameState::handleCollision)
                 .addFunction("destroyEntity", &LuaGameState::destroyEntity)
+                .endClass()
+                .beginClass<Vector2f>("Vector2")
+                .addConstructor<void(*)(void)>()
+                .addConstructor<void(*)(float, float)>()
+                .addData("x", &te::Vector2f::x)
+                .addData("y", &te::Vector2f::y)
+                .endClass()
+                .addFunction<te::Vector2f(*)(te::Vector2f, te::Vector2f)>("addV", &te::operator+)
+                .addFunction<te::Vector2f(*)(te::Vector2f, te::Vector2f)>("subtractV", &te::operator-)
+                .addFunction<te::Vector2f(*)(float, te::Vector2f)>("multiplyV", &te::operator*)
+                .addFunction<te::Vector2f(*)(te::Vector2f, float)>("divideV", &te::operator/)
+                .addFunction<float(*)(te::Vector2f)>("length", &te::length)
+                .addFunction<te::Vector2f(*)(te::Vector2f)>("length", &te::normalize)
+                .beginClass<SDL_Rect>("Rect")
+                .addData("h", &SDL_Rect::h)
+                .addData("w", &SDL_Rect::w)
+                .addData("x", &SDL_Rect::x)
+                .addData("y", &SDL_Rect::y)
                 .endClass();
             luabridge::push(pL, this);
             lua_setglobal(pL, "game");
@@ -58,9 +78,9 @@ namespace te
         {
             EntityHandle handle = mHandleCount++;
             mEntities.push_back(handle);
-            mPositionMap.insert(std::make_pair(handle, Vector2<float>(x, y)));
-            mVelocityMap.insert(std::make_pair(handle, Vector2<float>(dx, dy)));
-            mBoundingBoxMap.insert(std::make_pair(handle, Vector2<int>(0, 0)));
+            mPositionMap.insert(std::make_pair(handle, Vector2f(x, y)));
+            mVelocityMap.insert(std::make_pair(handle, Vector2f(dx, dy)));
+            mBoundingBoxMap.insert(std::make_pair(handle, Vector2i(0, 0)));
             return handle;
         }
 
@@ -68,21 +88,28 @@ namespace te
         {
             if (!exists(handle)) return;
 
-            mPositionMap[handle] = Vector2<float>(x, y);
+            mPositionMap[handle] = Vector2f(x, y);
         }
 
         void setVelocity(EntityHandle handle, float dx, float dy)
         {
             if (!exists(handle)) return;
 
-            mVelocityMap[handle] = Vector2<float>(dx, dy);
+            mVelocityMap[handle] = Vector2f(dx, dy);
+        }
+
+        Vector2f getVelocity(EntityHandle handle)
+        {
+            if (!exists(handle)) return Vector2f(0.f, 0.f);
+
+            return mVelocityMap[handle];
         }
 
         void setBoundingBox(EntityHandle handle, int width, int height)
         {
             if (!exists(handle)) return;
 
-            mBoundingBoxMap[handle] = Vector2<int>(width, height);
+            mBoundingBoxMap[handle] = Vector2i(width, height);
         }
 
         void setSprite(EntityHandle handle, int width, int height)
@@ -90,7 +117,7 @@ namespace te
             if (!exists(handle)) return;
 
             insertOrAssign(mDimensionMap, std::make_pair(
-                handle, Vector2<int>(width, height)));
+                handle, Vector2i(width, height)));
         }
 
         void handleCollision(EntityHandle e1, EntityHandle e2, luabridge::LuaRef handler)
@@ -148,33 +175,27 @@ namespace te
         {
             forEachEntity([&](const EntityHandle& handle)
             {
-                Vector2<float>& velocity = mVelocityMap.find(handle)->second;
-                Vector2<float>& position = mPositionMap.find(handle)->second;
-                position.x += velocity.x * dt;
-                position.y += velocity.y * dt;
+                mPositionMap[handle] += dt * mVelocityMap[handle];
             });
             std::for_each(
                 mCollisionHandlerMap.begin(),
                 mCollisionHandlerMap.end(),
                 [&](std::pair<const EntityPair, luabridge::LuaRef> kv)
             {
-                EntityHandle e1 = kv.first.first;
-
-                auto e1Position = mPositionMap.find(e1)->second;
-                auto e1BoundingBox = mBoundingBoxMap.find(e1)->second;
-
-                EntityHandle e2 = kv.first.second;
-
-                auto e2Position = mPositionMap.find(e2)->second;
-                auto e2BoundingBox = mBoundingBoxMap.find(e2)->second;
-
                 if (checkCollision(
-                    SDL_Rect{ (int)e1Position.x, (int)e1Position.y, e1BoundingBox.x, e1BoundingBox.y },
-                    SDL_Rect{ (int)e2Position.x, (int)e2Position.y, e2BoundingBox.x, e2BoundingBox.y }))
+                    getBoundingBox(kv.first.first),
+                    getBoundingBox(kv.first.second)))
                 {
                     kv.second();
                 }
             });
+        }
+
+        SDL_Rect getBoundingBox(EntityHandle handle)
+        {
+            Vector2f position = mPositionMap[handle];
+            Vector2i boundingBox = mBoundingBoxMap[handle];
+            return SDL_Rect{ (int)position.x, (int)position.y, boundingBox.x, boundingBox.y };
         }
 
         void draw(RendererPtr pRenderer)
@@ -208,10 +229,10 @@ namespace te
 
         std::vector<EntityHandle> mEntities;
 
-        std::map<EntityHandle, Vector2<float>> mPositionMap;
-        std::map<EntityHandle, Vector2<float>> mVelocityMap;
-        std::map<EntityHandle, Vector2<int>> mBoundingBoxMap;
-        std::map<EntityHandle, Vector2<int>> mDimensionMap;
+        std::map<EntityHandle, Vector2f> mPositionMap;
+        std::map<EntityHandle, Vector2f> mVelocityMap;
+        std::map<EntityHandle, Vector2i> mBoundingBoxMap;
+        std::map<EntityHandle, Vector2i> mDimensionMap;
 
         std::map<EntityPair, luabridge::LuaRef> mCollisionHandlerMap;
     };

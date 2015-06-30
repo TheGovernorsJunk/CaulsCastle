@@ -27,9 +27,6 @@
     <ClCompile Include="auxiliary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="types.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
