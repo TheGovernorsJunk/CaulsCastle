@@ -42,6 +42,7 @@ namespace te
                 .addFunction("getVelocity", &LuaGameState::getVelocity)
                 .addFunction("setBoundingBox", &LuaGameState::setBoundingBox)
                 .addFunction("getBoundingBox", &LuaGameState::getBoundingBox)
+                .addFunction("getIntersection", &LuaGameState::getIntersection)
                 .addFunction("setSprite", &LuaGameState::setSprite)
                 .addFunction("handleCollision", &LuaGameState::handleCollision)
                 .addFunction("destroyEntity", &LuaGameState::destroyEntity)
@@ -196,6 +197,13 @@ namespace te
             Vector2f position = mPositionMap[handle];
             Vector2i boundingBox = mBoundingBoxMap[handle];
             return SDL_Rect{ (int)position.x, (int)position.y, boundingBox.x, boundingBox.y };
+        }
+
+        SDL_Rect getIntersection(EntityHandle a, EntityHandle b)
+        {
+            SDL_Rect aRect = getBoundingBox(a);
+            SDL_Rect bRect = getBoundingBox(b);
+            return te::getIntersection(aRect, bRect);
         }
 
         void draw(RendererPtr pRenderer)
