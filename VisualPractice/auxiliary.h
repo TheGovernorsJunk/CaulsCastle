@@ -2,13 +2,13 @@
 #define TE_AUXILIARY_H
 
 #include <map>
+#include "types.h"
 
 struct SDL_Rect;
 
 namespace te
 {
 
-    struct Vector2i;
     class Rectangle;
 
     bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);

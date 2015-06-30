@@ -4,24 +4,6 @@
 namespace te
 {
 
-    struct Vector2f
-    {
-        float x;
-        float y;
-        Vector2f(float x = 0, float y = 0);
-        Vector2f operator+(Vector2f o);
-        Vector2f operator-(Vector2f o);
-    };
-
-    struct Vector2i
-    {
-        int x;
-        int y;
-        Vector2i(int x = 0, int y = 0);
-        Vector2i operator+(Vector2i o);
-        Vector2i operator-(Vector2i o);
-    };
-
     template <typename T>
     struct Vector2
     {
@@ -29,16 +11,58 @@ namespace te
         T y;
         Vector2(T x = 0, T y = 0)
             : x(x), y(y) {}
-        Vector2<T> operator+(Vector2<T> o)
+        Vector2<T>& operator+=(Vector2<T> o)
         {
-            return Vector2<T>(x + o.x, y + o.y);
-        }
-        Vector2<T> operator-(Vector2<T> o)
-        {
-            return Vector2<T>(x - o.x, y - o.y);
+            x += o.x;
+            y += o.y;
+            return *this;
         }
     };
 
+    template <typename T>
+    Vector2<T> operator+(Vector2<T> a, Vector2<T> b)
+    {
+        return Vector2<T>(a.x + b.x, a.y + b.y);
+    }
+
+    template <typename T>
+    Vector2<T> operator-(Vector2<T> a, Vector2<T> b)
+    {
+        return Vector2<T>(a.x - b.x, a.y - b.y);
+    }
+
+    template <typename T>
+    Vector2<T> operator*(Vector2<T> vector, T scalar)
+    {
+        return Vector2<T>(vector.x * scalar, vector.y * scalar);
+    }
+
+    template <typename T>
+    Vector2<T> operator*(T scalar, Vector2<T> vector)
+    {
+        return Vector2<T>(vector.x * scalar, vector.y * scalar);
+    }
+
+    template <typename T>
+    Vector2<T> operator/(Vector2<T> vector, T scalar)
+    {
+        return Vector2<T>(vector.x / scalar, vector.y / scalar);
+    }
+
+    template<typename T>
+    T length(Vector2<T> v)
+    {
+        return std::sqrt((v.x * v.x) + (v.y * v.y));
+    }
+
+    template<typename T>
+    Vector2<T> normalize(Vector2<T> v)
+    {
+        return v / length(v);
+    }
+
+    typedef Vector2<float> Vector2f;
+    typedef Vector2<int> Vector2i;
 }
 
 #endif

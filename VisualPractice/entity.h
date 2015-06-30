@@ -2,11 +2,10 @@
 #define TE_ENTITY_H
 
 #include "wrappers.h"
+#include "types.h"
 
 namespace te
 {
-
-    struct Vector2f;
 
     class Entity
     {
