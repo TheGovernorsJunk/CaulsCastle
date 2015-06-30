@@ -84,18 +84,18 @@ namespace te
             return handle;
         }
 
-        void setPosition(EntityHandle handle, float x, float y)
+        void setPosition(EntityHandle handle, const Vector2f& position)
         {
             if (!exists(handle)) return;
 
-            mPositionMap[handle] = Vector2f(x, y);
+            mPositionMap[handle] = position;
         }
 
-        void setVelocity(EntityHandle handle, float dx, float dy)
+        void setVelocity(EntityHandle handle, const Vector2f& velocity)
         {
             if (!exists(handle)) return;
 
-            mVelocityMap[handle] = Vector2f(dx, dy);
+            mVelocityMap[handle] = velocity;
         }
 
         Vector2f getVelocity(EntityHandle handle)
