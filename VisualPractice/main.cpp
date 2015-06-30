@@ -196,7 +196,12 @@ namespace te
         {
             Vector2f position = mPositionMap[handle];
             Vector2i boundingBox = mBoundingBoxMap[handle];
-            return SDL_Rect{ (int)position.x, (int)position.y, boundingBox.x, boundingBox.y };
+            return SDL_Rect{
+                (int)position.x - (boundingBox.x / 2),
+                (int)position.y - (boundingBox.y / 2),
+                boundingBox.x,
+                boundingBox.y
+            };
         }
 
         SDL_Rect getIntersection(EntityHandle a, EntityHandle b)
@@ -214,12 +219,14 @@ namespace te
                 auto spriteIt = mDimensionMap.find(handle);
                 if (spriteIt != mDimensionMap.end())
                 {
+                    Vector2f& pos = positionIt->second;
+                    Vector2i& dim = spriteIt->second;
                     SDL_SetRenderDrawColor(pRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
                     SDL_Rect rect = {
-                        (int)positionIt->second.x,
-                        (int)positionIt->second.y,
-                        spriteIt->second.x,
-                        spriteIt->second.y
+                        (int)pos.x - (dim.x / 2),
+                        (int)pos.y - (dim.y / 2),
+                        dim.x,
+                        dim.y
                     };
                     SDL_RenderFillRect(pRenderer.get(), &rect);
                 }
