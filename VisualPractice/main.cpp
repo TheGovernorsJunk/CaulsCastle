@@ -187,7 +187,7 @@ namespace te
                     getBoundingBox(kv.first.first),
                     getBoundingBox(kv.first.second)))
                 {
-                    kv.second();
+                    kv.second(dt);
                 }
             });
         }
