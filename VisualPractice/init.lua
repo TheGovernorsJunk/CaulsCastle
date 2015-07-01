@@ -19,7 +19,7 @@ function handlePaddleCollision(ball, paddle, speedScalar)
 end
 
 function main()
-    ball = game:createEntity(320, 240, 200, 0)
+    ball = game:createEntity(320, 240, 50, -150)
     game:setSprite(ball, 25, 25)
     game:setBoundingBox(ball, 25, 25)
 
@@ -35,6 +35,19 @@ function main()
     for i, paddle in ipairs(paddles) do
         game:handleCollision(ball, paddle, function(dt)
             handlePaddleCollision(ball, paddle, 200)
+        end)
+    end
+
+    topWall = game:createEntity(320, 0, 0, 0)
+    game:setBoundingBox(topWall, 640, 1)
+
+    bottomWall = game:createEntity(320, 480, 0, 0)
+    game:setBoundingBox(bottomWall, 640, 1)
+
+    walls = {topWall, bottomWall}
+    for i, wall in ipairs(walls) do
+        game:handleCollision(ball, wall, function(dt)
+            handleWallCollision(ball, wall)
         end)
     end
 end
