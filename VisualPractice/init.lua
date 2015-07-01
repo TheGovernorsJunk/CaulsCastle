@@ -13,25 +13,28 @@ end
 function handlePaddleCollision(ball, paddle, speedScalar)
     ballPos = game:getPosition(ball)
     paddlePos = game:getPosition(paddle)
-    io.write(ballPos.x," ",ballPos.y,"\n")
-    io.write(paddlePos.x," ",paddlePos.y,"\n")
-    paddleToBall = Vector2(
-        ballPos.x - paddlePos.x,
-        ballPos.y - paddlePos.y)
+    paddleToBall = subtractV(ballPos, paddlePos)
     velocity = multiplyV(speedScalar, normalizeV(paddleToBall))
     game:setVelocity(ball, velocity)
 end
 
 function main()
-    b = game:createEntity(50, 50, 175, 150)
-    game:setSprite(b, 50, 50)
-    game:setBoundingBox(b, 50, 50)
+    ball = game:createEntity(320, 240, 200, 0)
+    game:setSprite(ball, 25, 25)
+    game:setBoundingBox(ball, 25, 25)
 
-    wall = game:createEntity(320, 240, 0, 0)
-    game:setSprite(wall, 400, 20)
-    game:setBoundingBox(wall, 400, 20)
+    paddle1 = game:createEntity(10, 240, 0, 0)
+    game:setSprite(paddle1, 20, 100)
+    game:setBoundingBox(paddle1, 20, 100)
 
-    game:handleCollision(b, wall, function(dt)
-        handlePaddleCollision(b, wall, 200)
-    end)
+    paddle2 = game:createEntity(630, 240, 0, 0)
+    game:setSprite(paddle2, 20, 100)
+    game:setBoundingBox(paddle2, 20, 100)
+
+    paddles = {paddle1, paddle2}
+    for i, paddle in ipairs(paddles) do
+        game:handleCollision(ball, paddle, function(dt)
+            handlePaddleCollision(ball, paddle, 200)
+        end)
+    end
 end
