@@ -19,6 +19,12 @@ namespace te
         }
     };
 
+    template<typename T, typename O>
+    Vector2<T> convertVector2(O o)
+    {
+        return Vector2<T>((T)o.x, (T)o.y);
+    }
+
     template <typename T>
     Vector2<T> operator+(Vector2<T> a, Vector2<T> b)
     {
