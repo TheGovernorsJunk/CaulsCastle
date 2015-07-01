@@ -37,7 +37,8 @@ namespace te
             luabridge::getGlobalNamespace(pL)
                 .beginClass<LuaGameState>("GameState")
                 .addFunction("createEntity", &LuaGameState::createEntity)
-                .addFunction("setPosition", &LuaGameState::setVelocity)
+                .addFunction("setPosition", &LuaGameState::setPosition)
+                .addFunction("getPosition", &LuaGameState::getPosition)
                 .addFunction("setVelocity", &LuaGameState::setVelocity)
                 .addFunction("getVelocity", &LuaGameState::getVelocity)
                 .addFunction("setBoundingBox", &LuaGameState::setBoundingBox)
@@ -57,8 +58,8 @@ namespace te
                 .addFunction<te::Vector2f(*)(te::Vector2f, te::Vector2f)>("subtractV", &te::operator-)
                 .addFunction<te::Vector2f(*)(float, te::Vector2f)>("multiplyV", &te::operator*)
                 .addFunction<te::Vector2f(*)(te::Vector2f, float)>("divideV", &te::operator/)
-                .addFunction<float(*)(te::Vector2f)>("length", &te::length)
-                .addFunction<te::Vector2f(*)(te::Vector2f)>("length", &te::normalize)
+                .addFunction<float(*)(te::Vector2f)>("lengthV", &te::length)
+                .addFunction<te::Vector2f(*)(te::Vector2f)>("normalizeV", &te::normalize)
                 .beginClass<SDL_Rect>("Rect")
                 .addData("h", &SDL_Rect::h)
                 .addData("w", &SDL_Rect::w)
@@ -90,6 +91,13 @@ namespace te
             if (!exists(handle)) return;
 
             mPositionMap[handle] = position;
+        }
+
+        Vector2f getPosition(EntityHandle handle)
+        {
+            if (!exists(handle)) return Vector2f(0.f, 0.f);
+
+            return mPositionMap[handle];
         }
 
         void setVelocity(EntityHandle handle, const Vector2f& velocity)
