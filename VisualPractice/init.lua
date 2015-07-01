@@ -18,6 +18,13 @@ function handlePaddleCollision(ball, paddle)
     game:setVelocity(ball, velocity)
 end
 
+function handleGoalCollision(ball)
+    game:setPosition(ball, Vector2(320, 240))
+    ballVel = game:getVelocity(ball)
+    ballVel.x = -ballVel.x
+    game:setVelocity(ball, ballVel)
+end
+
 function makePaddleCommand(paddle, vector)
     return function()
         game:setVelocity(paddle, vector)
@@ -39,9 +46,7 @@ function main()
 
     paddles = {leftPaddle, rightPaddle}
     for i, paddle in ipairs(paddles) do
-        game:handleCollision(ball, paddle, function(dt)
-            handlePaddleCollision(ball, paddle)
-        end)
+        game:handleCollision(ball, paddle, handlePaddleCollision)
     end
 
     pressTable = {}
@@ -64,9 +69,7 @@ function main()
     walls = {topWall, bottomWall}
     for i, wall in ipairs(walls) do
         game:setBoundingBox(wall, Vector2(640, 1))
-        game:handleCollision(ball, wall, function(dt)
-            handleWallCollision(ball, wall)
-        end)
+        game:handleCollision(ball, wall, handleWallCollision)
     end
 
     leftGoal = game:createEntity(Vector2(-1, 240), Vector2(0, 0))
@@ -75,11 +78,6 @@ function main()
     goals = {leftGoal, rightGoal}
     for i, goal in ipairs(goals) do
         game:setBoundingBox(goal, Vector2(2, 480))
-        game:handleCollision(ball, goal, function(dt)
-            game:setPosition(ball, Vector2(320, 240))
-            ballVel = game:getVelocity(ball)
-            ballVel.x = -ballVel.x
-            game:setVelocity(ball, ballVel)
-        end)
+        game:handleCollision(ball, goal, handleGoalCollision)
     end
 end

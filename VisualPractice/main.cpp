@@ -227,7 +227,7 @@ namespace te
                     getBoundingBox(kv.first.first),
                     getBoundingBox(kv.first.second)))
                 {
-                    kv.second(dt);
+                    kv.second(kv.first.first, kv.first.second, dt);
                 }
             });
         }
