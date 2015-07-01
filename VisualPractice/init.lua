@@ -63,12 +63,12 @@ function main()
     releaseTable[108] = makePaddleCommand(rightPaddle, Vector2(0, 0))
     game:registerKeyReleaseTable(releaseTable)
 
-    local topWall = game:createEntity(Vector2(320, 0), Vector2(0, 0))
-    local bottomWall = game:createEntity(Vector2(320, 480), Vector2(0, 0))
+    local topWall = game:createEntity(Vector2(320, -1), Vector2(0, 0))
+    local bottomWall = game:createEntity(Vector2(320, 481), Vector2(0, 0))
 
     local walls = {topWall, bottomWall}
     for i, wall in ipairs(walls) do
-        game:setBoundingBox(wall, Vector2(640, 1))
+        game:setBoundingBox(wall, Vector2(640, 2))
         game:handleCollision(ball, wall, handleWallCollision)
     end
 
