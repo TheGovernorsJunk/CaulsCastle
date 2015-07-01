@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <SDL_render.h>
+#include <SDL_ttf.h>
 
 struct SDL_Window;
 struct SDL_Surface;
@@ -31,6 +32,9 @@ namespace te
 
     typedef std::shared_ptr<SDL_Texture> TexturePtr;
     TexturePtr loadTexture(const std::string& path, RendererPtr pRenderer);
+
+    typedef std::shared_ptr<TTF_Font> FontPtr;
+    FontPtr loadFont(const std::string& path, int ptSize);
 }
 
 #endif /* TE_WRAPPERS_H */

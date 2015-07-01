@@ -1,7 +1,6 @@
 #include "wrappers.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
 #include <iostream>
 #include <exception>
 
@@ -96,6 +95,13 @@ namespace te
         }
 
         return pTexture;
+    }
+
+    FontPtr loadFont(const std::string& path, int ptSize)
+    {
+        static auto fontDeleter = [](TTF_Font* f) { TTF_CloseFont(f); };
+
+        return FontPtr(TTF_OpenFont(path.c_str(), ptSize), fontDeleter);
     }
 
 }
