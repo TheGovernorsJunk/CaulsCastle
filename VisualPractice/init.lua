@@ -1,4 +1,4 @@
-function handleWallCollision(ball, wall, dt)
+function handleWallCollision(ball, wall)
     vel = game:getVelocity(ball)
     intersection = game:getIntersection(ball, wall)
     if intersection.w > intersection.h then
@@ -10,16 +10,28 @@ function handleWallCollision(ball, wall, dt)
     end
 end
 
-function main()
-    ball = game:createEntity(50, 50, 175, 150)
-    game:setSprite(ball, 50, 50)
-    game:setBoundingBox(ball, 50, 50)
+function handlePaddleCollision(ball, paddle, speedScalar)
+    ballPos = game:getPosition(ball)
+    paddlePos = game:getPosition(paddle)
+    io.write(ballPos.x," ",ballPos.y,"\n")
+    io.write(paddlePos.x," ",paddlePos.y,"\n")
+    paddleToBall = Vector2(
+        ballPos.x - paddlePos.x,
+        ballPos.y - paddlePos.y)
+    velocity = multiplyV(speedScalar, normalizeV(paddleToBall))
+    game:setVelocity(ball, velocity)
+end
 
-    wall = game:createEntity(200, 300, 0, 0)
+function main()
+    b = game:createEntity(50, 50, 175, 150)
+    game:setSprite(b, 50, 50)
+    game:setBoundingBox(b, 50, 50)
+
+    wall = game:createEntity(320, 240, 0, 0)
     game:setSprite(wall, 400, 20)
     game:setBoundingBox(wall, 400, 20)
 
-    game:handleCollision(ball, wall, function(dt)
-        handleWallCollision(ball, wall, dt)
+    game:handleCollision(b, wall, function(dt)
+        handlePaddleCollision(b, wall, 200)
     end)
 end
