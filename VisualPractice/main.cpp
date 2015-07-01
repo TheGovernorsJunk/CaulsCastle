@@ -37,6 +37,8 @@ namespace te
             lua_State* pL = mpL.get();
             luaL_openlibs(pL);
 
+            luaL_dofile(pL, "types.lua");
+
             luabridge::getGlobalNamespace(pL)
                 .beginClass<LuaGameState>("GameState")
                 .addFunction("createEntity", &LuaGameState::createEntity)
@@ -53,18 +55,6 @@ namespace te
                 .addFunction("registerKeyPressTable", &LuaGameState::registerKeyPressTable)
                 .addFunction("registerKeyReleaseTable", &LuaGameState::registerKeyReleaseTable)
                 .endClass()
-                .beginClass<Vector2f>("Vector2")
-                .addConstructor<void(*)(void)>()
-                .addConstructor<void(*)(float, float)>()
-                .addData("x", &te::Vector2f::x)
-                .addData("y", &te::Vector2f::y)
-                .endClass()
-                .addFunction<te::Vector2f(*)(te::Vector2f, te::Vector2f)>("addV", &te::operator+)
-                .addFunction<te::Vector2f(*)(te::Vector2f, te::Vector2f)>("subtractV", &te::operator-)
-                .addFunction<te::Vector2f(*)(float, te::Vector2f)>("multiplyV", &te::operator*)
-                .addFunction<te::Vector2f(*)(te::Vector2f, float)>("divideV", &te::operator/)
-                .addFunction<float(*)(te::Vector2f)>("lengthV", &te::length)
-                .addFunction<te::Vector2f(*)(te::Vector2f)>("normalizeV", &te::normalize)
                 .beginClass<SDL_Rect>("Rect")
                 .addData("h", &SDL_Rect::h)
                 .addData("w", &SDL_Rect::w)
@@ -80,61 +70,76 @@ namespace te
 
         typedef unsigned int EntityHandle;
         typedef std::pair<EntityHandle, EntityHandle> EntityPair;
+        typedef luabridge::LuaRef LuaVector;
+        typedef luabridge::LuaRef LuaFunction;
 
-        EntityHandle createEntity(const Vector2f& position, const Vector2f& velocity)
+        template<typename T>
+        LuaVector luaVector(const Vector2<T>& v)
+        {
+            luabridge::LuaRef LuaVector = luabridge::getGlobal(mpL.get(), "Vector");
+            return LuaVector["new"](LuaVector, v.x, v.y);
+        }
+
+        template<typename T>
+        Vector2<T> cppVector(const LuaVector& v)
+        {
+            return Vector2<T>(v["x"], v["y"]);
+        }
+
+        EntityHandle createEntity(LuaVector position, LuaVector velocity)
         {
             EntityHandle handle = mHandleCount++;
             mEntities.push_back(handle);
-            mPositionMap.insert(std::make_pair(handle, position));
-            mVelocityMap.insert(std::make_pair(handle, velocity));
+            mPositionMap.insert(std::make_pair(handle, cppVector<float>(position)));
+            mVelocityMap.insert(std::make_pair(handle, cppVector<float>(velocity)));
             mBoundingBoxMap.insert(std::make_pair(handle, Vector2i(0, 0)));
             return handle;
         }
 
-        void setPosition(EntityHandle handle, const Vector2f& position)
+        void setPosition(EntityHandle handle, LuaVector position)
         {
             if (!exists(handle)) return;
 
-            mPositionMap[handle] = position;
+            mPositionMap[handle] = cppVector<float>(position);
         }
 
-        Vector2f getPosition(EntityHandle handle)
+        LuaVector getPosition(EntityHandle handle)
         {
-            if (!exists(handle)) return Vector2f(0.f, 0.f);
+            if (!exists(handle)) return luaVector(Vector2f(0.f, 0.f));
 
-            return mPositionMap[handle];
+            return luaVector(mPositionMap[handle]);
         }
 
-        void setVelocity(EntityHandle handle, const Vector2f& velocity)
-        {
-            if (!exists(handle)) return;
-
-            mVelocityMap[handle] = velocity;
-        }
-
-        Vector2f getVelocity(EntityHandle handle)
-        {
-            if (!exists(handle)) return Vector2f(0.f, 0.f);
-
-            return mVelocityMap[handle];
-        }
-
-        void setBoundingBox(EntityHandle handle, const Vector2f& dimensions)
+        void setVelocity(EntityHandle handle, LuaVector velocity)
         {
             if (!exists(handle)) return;
 
-            mBoundingBoxMap[handle] = convertVector2<int>(dimensions);
+            mVelocityMap[handle] = cppVector<float>(velocity);
         }
 
-        void setSprite(EntityHandle handle, const Vector2f& dimensions)
+        LuaVector getVelocity(EntityHandle handle)
+        {
+            if (!exists(handle)) return luaVector(Vector2f(0.f, 0.f));
+
+            return luaVector(mVelocityMap[handle]);
+        }
+
+        void setBoundingBox(EntityHandle handle, LuaVector dimensions)
+        {
+            if (!exists(handle)) return;
+
+            mBoundingBoxMap[handle] = cppVector<int>(dimensions);
+        }
+
+        void setSprite(EntityHandle handle, LuaVector dimensions)
         {
             if (!exists(handle)) return;
 
             insertOrAssign(mDimensionMap, std::make_pair(
-                handle, convertVector2<int>(dimensions)));
+                handle, cppVector<int>(dimensions)));
         }
 
-        void handleCollision(EntityHandle e1, EntityHandle e2, luabridge::LuaRef handler)
+        void handleCollision(EntityHandle e1, EntityHandle e2, LuaFunction handler)
         {
             if (!exists(e1) || !exists(e2)) return;
 
@@ -314,7 +319,8 @@ namespace te
 
         luabridge::LuaRef mKeyPressTable;
         luabridge::LuaRef mKeyReleaseTable;
-        std::map<EntityPair, luabridge::LuaRef> mCollisionHandlerMap;
+
+        std::map<EntityPair, LuaFunction> mCollisionHandlerMap;
     };
 }
 
