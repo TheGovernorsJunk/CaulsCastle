@@ -29,6 +29,8 @@ namespace te
             , mVelocityMap()
             , mBoundingBoxMap()
             , mDimensionMap()
+            , mKeyPressTable(luabridge::newTable(mpL.get()))
+            , mKeyReleaseTable(luabridge::newTable(mpL.get()))
             , mCollisionHandlerMap()
         {
             lua_State* pL = mpL.get();
@@ -47,6 +49,8 @@ namespace te
                 .addFunction("setSprite", &LuaGameState::setSprite)
                 .addFunction("handleCollision", &LuaGameState::handleCollision)
                 .addFunction("destroyEntity", &LuaGameState::destroyEntity)
+                .addFunction("registerKeyPressTable", &LuaGameState::registerKeyPressTable)
+                .addFunction("registerKeyReleaseTable", &LuaGameState::registerKeyReleaseTable)
                 .endClass()
                 .beginClass<Vector2f>("Vector2")
                 .addConstructor<void(*)(void)>()
@@ -76,12 +80,12 @@ namespace te
         typedef unsigned int EntityHandle;
         typedef std::pair<EntityHandle, EntityHandle> EntityPair;
 
-        EntityHandle createEntity(float x, float y, float dx, float dy)
+        EntityHandle createEntity(const Vector2f& position, const Vector2f& velocity)
         {
             EntityHandle handle = mHandleCount++;
             mEntities.push_back(handle);
-            mPositionMap.insert(std::make_pair(handle, Vector2f(x, y)));
-            mVelocityMap.insert(std::make_pair(handle, Vector2f(dx, dy)));
+            mPositionMap.insert(std::make_pair(handle, position));
+            mVelocityMap.insert(std::make_pair(handle, velocity));
             mBoundingBoxMap.insert(std::make_pair(handle, Vector2i(0, 0)));
             return handle;
         }
@@ -114,19 +118,19 @@ namespace te
             return mVelocityMap[handle];
         }
 
-        void setBoundingBox(EntityHandle handle, int width, int height)
+        void setBoundingBox(EntityHandle handle, const Vector2f& dimensions)
         {
             if (!exists(handle)) return;
 
-            mBoundingBoxMap[handle] = Vector2i(width, height);
+            mBoundingBoxMap[handle] = convertVector2<int>(dimensions);
         }
 
-        void setSprite(EntityHandle handle, int width, int height)
+        void setSprite(EntityHandle handle, const Vector2f& dimensions)
         {
             if (!exists(handle)) return;
 
             insertOrAssign(mDimensionMap, std::make_pair(
-                handle, Vector2i(width, height)));
+                handle, convertVector2<int>(dimensions)));
         }
 
         void handleCollision(EntityHandle e1, EntityHandle e2, luabridge::LuaRef handler)
@@ -145,6 +149,16 @@ namespace te
             {
                 it->second = handler;
             }
+        }
+
+        void registerKeyPressTable(luabridge::LuaRef table)
+        {
+            mKeyPressTable = table;
+        }
+
+        void registerKeyReleaseTable(luabridge::LuaRef table)
+        {
+            mKeyReleaseTable = table;
         }
 
         bool exists(EntityHandle handle)
@@ -177,6 +191,24 @@ namespace te
             if (dimensionIt != mDimensionMap.end())
             {
                 mDimensionMap.erase(dimensionIt);
+            }
+        }
+
+        void processInput(const SDL_Event& evt)
+        {
+            if (evt.type == SDL_KEYDOWN)
+            {
+                if (mKeyPressTable[evt.key.keysym.sym].isFunction())
+                {
+                    mKeyPressTable[evt.key.keysym.sym]();
+                }
+            }
+            else if (evt.type == SDL_KEYUP)
+            {
+                if (mKeyReleaseTable[evt.key.keysym.sym].isFunction())
+                {
+                    mKeyReleaseTable[evt.key.keysym.sym]();
+                }
             }
         }
 
@@ -257,18 +289,21 @@ namespace te
         std::map<EntityHandle, Vector2i> mBoundingBoxMap;
         std::map<EntityHandle, Vector2i> mDimensionMap;
 
+        luabridge::LuaRef mKeyPressTable;
+        luabridge::LuaRef mKeyReleaseTable;
         std::map<EntityPair, luabridge::LuaRef> mCollisionHandlerMap;
     };
 }
 
 int main(int argc, char** argv)
 {
+    te::Initialization init;
+
     LuaGameState state;
 
     const int WIDTH = 640;
     const int HEIGHT = 480;
 
-    te::Initialization init;
     te::WindowPtr pWindow = te::wrapWindow(
         SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN)
     );
@@ -290,6 +325,7 @@ int main(int argc, char** argv)
             {
                 running = false;
             }
+            state.processInput(e);
         }
 
         Uint64 now = SDL_GetPerformanceCounter();

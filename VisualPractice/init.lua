@@ -10,44 +10,76 @@ function handleWallCollision(ball, wall)
     end
 end
 
-function handlePaddleCollision(ball, paddle, speedScalar)
+function handlePaddleCollision(ball, paddle)
     ballPos = game:getPosition(ball)
     paddlePos = game:getPosition(paddle)
     paddleToBall = subtractV(ballPos, paddlePos)
-    velocity = multiplyV(speedScalar, normalizeV(paddleToBall))
+    velocity = multiplyV(lengthV(game:getVelocity(ball)), normalizeV(paddleToBall))
     game:setVelocity(ball, velocity)
 end
 
+function makePaddleCommand(paddle, vector)
+    return function()
+        game:setVelocity(paddle, vector)
+    end
+end
+
 function main()
-    ball = game:createEntity(320, 240, 50, -150)
-    game:setSprite(ball, 25, 25)
-    game:setBoundingBox(ball, 25, 25)
+    ball = game:createEntity(Vector2(320, 240), Vector2(350, 0))
+    game:setSprite(ball, Vector2(25, 25))
+    game:setBoundingBox(ball, Vector2(25, 25))
 
-    paddle1 = game:createEntity(10, 240, 0, 0)
-    game:setSprite(paddle1, 20, 100)
-    game:setBoundingBox(paddle1, 20, 100)
+    leftPaddle = game:createEntity(Vector2(10, 240), Vector2(0, 0))
+    game:setSprite(leftPaddle, Vector2(20, 100))
+    game:setBoundingBox(leftPaddle, Vector2(20, 100))
 
-    paddle2 = game:createEntity(630, 240, 0, 0)
-    game:setSprite(paddle2, 20, 100)
-    game:setBoundingBox(paddle2, 20, 100)
+    rightPaddle = game:createEntity(Vector2(630, 240), Vector2(0, 0))
+    game:setSprite(rightPaddle, Vector2(20, 100))
+    game:setBoundingBox(rightPaddle, Vector2(20, 100))
 
-    paddles = {paddle1, paddle2}
+    paddles = {leftPaddle, rightPaddle}
     for i, paddle in ipairs(paddles) do
         game:handleCollision(ball, paddle, function(dt)
-            handlePaddleCollision(ball, paddle, 200)
+            handlePaddleCollision(ball, paddle)
         end)
     end
 
-    topWall = game:createEntity(320, 0, 0, 0)
-    game:setBoundingBox(topWall, 640, 1)
+    pressTable = {}
+    pressTable[119] = makePaddleCommand(leftPaddle, Vector2(0, -100))
+    pressTable[115] = makePaddleCommand(leftPaddle, Vector2(0, 100))
+    pressTable[112] = makePaddleCommand(rightPaddle, Vector2(0, -100))
+    pressTable[108] = makePaddleCommand(rightPaddle, Vector2(0, 100))
+    game:registerKeyPressTable(pressTable)
 
-    bottomWall = game:createEntity(320, 480, 0, 0)
-    game:setBoundingBox(bottomWall, 640, 1)
+    releaseTable = {}
+    releaseTable[119] = makePaddleCommand(leftPaddle, Vector2(0, 0))
+    releaseTable[115] = makePaddleCommand(leftPaddle, Vector2(0, 0))
+    releaseTable[112] = makePaddleCommand(rightPaddle, Vector2(0, 0))
+    releaseTable[108] = makePaddleCommand(rightPaddle, Vector2(0, 0))
+    game:registerKeyReleaseTable(releaseTable)
+
+    topWall = game:createEntity(Vector2(320, 0), Vector2(0, 0))
+    bottomWall = game:createEntity(Vector2(320, 480), Vector2(0, 0))
 
     walls = {topWall, bottomWall}
     for i, wall in ipairs(walls) do
+        game:setBoundingBox(wall, Vector2(640, 1))
         game:handleCollision(ball, wall, function(dt)
             handleWallCollision(ball, wall)
+        end)
+    end
+
+    leftGoal = game:createEntity(Vector2(-1, 240), Vector2(0, 0))
+    rightGoal = game:createEntity(Vector2(641, 240), Vector2(0, 0))
+
+    goals = {leftGoal, rightGoal}
+    for i, goal in ipairs(goals) do
+        game:setBoundingBox(goal, Vector2(2, 480))
+        game:handleCollision(ball, goal, function(dt)
+            game:setPosition(ball, Vector2(320, 240))
+            ballVel = game:getVelocity(ball)
+            ballVel.x = -ballVel.x
+            game:setVelocity(ball, ballVel)
         end)
     end
 end
