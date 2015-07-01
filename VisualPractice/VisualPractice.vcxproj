@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\lib\SDL2_image-2.0.0\include;$(ProjectDir)..\Lua;$(ProjectDir)..\LuaBridge\Source\LuaBridge;$(ProjectDir)..\SDL2-2.0.3\include;$(ProjectDir)..\SDL2_image-2.0.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\SDL2-2.0.3\lib\x86;$(ProjectDir)..\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\Lua;$(ProjectDir)..\LuaBridge\Source\LuaBridge;$(ProjectDir)..\SDL2-2.0.3\include;$(ProjectDir)..\SDL2_image-2.0.0\include;$(ProjectDir)..\SDL2_ttf-2.0.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDL2-2.0.3\lib\x86;$(ProjectDir)..\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\Debug;$(ProjectDir)..\SDL2_ttf-2.0.12\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;Lua.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

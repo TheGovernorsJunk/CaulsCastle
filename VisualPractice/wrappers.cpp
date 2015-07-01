@@ -1,6 +1,7 @@
 #include "wrappers.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <exception>
 
@@ -18,10 +19,15 @@ namespace te
         {
             throw std::runtime_error(IMG_GetError());
         }
+        if (TTF_Init() == -1)
+        {
+            throw std::runtime_error(TTF_GetError());
+        }
     }
 
     Initialization::~Initialization()
     {
+        TTF_Quit();
         IMG_Quit();
         SDL_Quit();
     }
