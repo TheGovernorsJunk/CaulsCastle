@@ -29,6 +29,7 @@ namespace te
             , mVelocityMap()
             , mBoundingBoxMap()
             , mDimensionMap()
+            , mPendingDestroys()
             , mKeyPressTable(luabridge::newTable(mpL.get()))
             , mKeyReleaseTable(luabridge::newTable(mpL.get()))
             , mCollisionHandlerMap()
@@ -48,7 +49,7 @@ namespace te
                 .addFunction("getIntersection", &LuaGameState::getIntersection)
                 .addFunction("setSprite", &LuaGameState::setSprite)
                 .addFunction("handleCollision", &LuaGameState::handleCollision)
-                .addFunction("destroyEntity", &LuaGameState::destroyEntity)
+                .addFunction("destroyEntity", &LuaGameState::addPendingDestroy)
                 .addFunction("registerKeyPressTable", &LuaGameState::registerKeyPressTable)
                 .addFunction("registerKeyReleaseTable", &LuaGameState::registerKeyReleaseTable)
                 .endClass()
@@ -167,11 +168,15 @@ namespace te
             return it != std::end(mEntities);
         }
 
+        void addPendingDestroy(EntityHandle handle)
+        {
+            mPendingDestroys.push_back(handle);
+        }
+
         void destroyEntity(EntityHandle handle)
         {
-            mEntities.erase(
-                std::remove(mEntities.begin(), mEntities.end(), handle),
-                mEntities.end());
+            if (!exists(handle)) return;
+
             auto positionIt = mPositionMap.find(handle);
             if (positionIt != mPositionMap.end())
             {
@@ -192,6 +197,21 @@ namespace te
             {
                 mDimensionMap.erase(dimensionIt);
             }
+            mEntities.erase(
+                std::remove(mEntities.begin(), mEntities.end(), handle),
+                mEntities.end());
+        }
+
+        void destroyEntities()
+        {
+            std::for_each(
+                mPendingDestroys.begin(),
+                mPendingDestroys.end(),
+                [&](const EntityHandle& handle)
+            {
+                destroyEntity(handle);
+            });
+            mPendingDestroys.clear();
         }
 
         void processInput(const SDL_Event& evt)
@@ -230,6 +250,7 @@ namespace te
                     kv.second(kv.first.first, kv.first.second, dt);
                 }
             });
+            destroyEntities();
         }
 
         SDL_Rect getBoundingBox(EntityHandle handle)
@@ -288,6 +309,8 @@ namespace te
         std::map<EntityHandle, Vector2f> mVelocityMap;
         std::map<EntityHandle, Vector2i> mBoundingBoxMap;
         std::map<EntityHandle, Vector2i> mDimensionMap;
+
+        std::vector<EntityHandle> mPendingDestroys;
 
         luabridge::LuaRef mKeyPressTable;
         luabridge::LuaRef mKeyReleaseTable;
