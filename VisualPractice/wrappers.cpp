@@ -99,9 +99,21 @@ namespace te
 
     FontPtr loadFont(const std::string& path, int ptSize)
     {
-        static auto fontDeleter = [](TTF_Font* f) { TTF_CloseFont(f); };
+        return FontPtr(TTF_OpenFont(path.c_str(), ptSize), &TTF_CloseFont);
+    }
 
-        return FontPtr(TTF_OpenFont(path.c_str(), ptSize), fontDeleter);
+    SurfacePtr loadTextSurface(const std::string& text, FontPtr pFont, const SDL_Color& fontColor, int width)
+    {
+        SurfacePtr pTextSurface(
+            TTF_RenderText_Blended_Wrapped(pFont.get(), text.c_str(), fontColor, width),
+            &SDL_FreeSurface);
+
+        if (pTextSurface.get() == NULL)
+        {
+            throw std::runtime_error(TTF_GetError());
+        }
+
+        return pTextSurface;
     }
 
 }

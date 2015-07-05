@@ -10,6 +10,7 @@ struct SDL_Window;
 struct SDL_Surface;
 struct SDL_Renderer;
 struct SDL_Texture;
+struct SDL_Color;
 
 namespace te
 {
@@ -35,6 +36,8 @@ namespace te
 
     typedef std::shared_ptr<TTF_Font> FontPtr;
     FontPtr loadFont(const std::string& path, int ptSize);
+
+    SurfacePtr loadTextSurface(const std::string& text, FontPtr pFont, const SDL_Color& fontColor, int width);
 }
 
 #endif /* TE_WRAPPERS_H */
