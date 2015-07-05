@@ -18,21 +18,36 @@ using namespace te;
 
 namespace te
 {
+    struct Sprite
+    {
+        TexturePtr pTexture;
+        int w;
+        int h;
+        Sprite(TexturePtr pTexture, int w, int h)
+            : pTexture(pTexture), w(w), h(h) {}
+    };
+
     class LuaGameState
     {
     public:
-        LuaGameState(const std::string& filename = "init.lua")
+        LuaGameState(RendererPtr pRenderer, const std::string& filename = "init.lua")
             : mpL(luaL_newstate(), [](lua_State* L){ lua_close(L); })
+            , mpRenderer(pRenderer)
             , mHandleCount(0)
             , mEntities()
             , mPositionMap()
             , mVelocityMap()
             , mBoundingBoxMap()
             , mDimensionMap()
+            , mSpriteMap()
             , mPendingDestroys()
             , mKeyPressTable(luabridge::newTable(mpL.get()))
             , mKeyReleaseTable(luabridge::newTable(mpL.get()))
             , mCollisionHandlerMap()
+            , mFontCount(0)
+            , mFontMap()
+            , mTextCount(0)
+            , mTextMap()
         {
             lua_State* pL = mpL.get();
             luaL_openlibs(pL);
@@ -54,6 +69,8 @@ namespace te
                 .addFunction("destroyEntity", &LuaGameState::addPendingDestroy)
                 .addFunction("registerKeyPressTable", &LuaGameState::registerKeyPressTable)
                 .addFunction("registerKeyReleaseTable", &LuaGameState::registerKeyReleaseTable)
+                .addFunction("loadFont", &LuaGameState::loadFont)
+                .addFunction("setTextSprite", &LuaGameState::setTextSprite)
                 .endClass()
                 .beginClass<SDL_Rect>("Rect")
                 .addData("h", &SDL_Rect::h)
@@ -72,6 +89,8 @@ namespace te
         typedef std::pair<EntityHandle, EntityHandle> EntityPair;
         typedef luabridge::LuaRef LuaVector;
         typedef luabridge::LuaRef LuaFunction;
+        typedef unsigned int FontHandle;
+        typedef unsigned int TextHandle;
 
         template<typename T>
         LuaVector luaVector(const Vector2<T>& v)
@@ -165,6 +184,43 @@ namespace te
         void registerKeyReleaseTable(luabridge::LuaRef table)
         {
             mKeyReleaseTable = table;
+        }
+
+        FontHandle loadFont(const std::string& filename, int ptSize)
+        {
+            FontPtr pFont = te::loadFont(filename, ptSize);
+
+            mFontMap.insert(std::make_pair(
+                mFontCount,
+                pFont));
+
+            return mFontCount++;
+        }
+
+        void setTextSprite(EntityHandle entity, FontHandle font, const std::string& text, Uint32 color, int width)
+        {
+            if (!exists(entity)) return;
+            if (mFontMap.find(font) == mFontMap.end()) return;
+
+            SDL_Color colorStruct = {
+                (Uint8) ((0xFF0000 & color) >> 16),
+                (Uint8) ((0x00FF00 & color) >> 8),
+                (Uint8) (0x0000FF & color),
+                (Uint8) (0xFFFFFF)
+            };
+            SurfacePtr pTextSurface = loadTextSurface(text, mFontMap[font], colorStruct, width);
+            TexturePtr pTextTexture(
+                SDL_CreateTextureFromSurface(mpRenderer.get(), pTextSurface.get()),
+                &SDL_DestroyTexture);
+
+            Sprite sprite(
+                pTextTexture,
+                pTextSurface->w,
+                pTextSurface->h);
+
+            insertOrAssign(mSpriteMap, std::make_pair(
+                entity,
+                sprite));
         }
 
         bool exists(EntityHandle handle)
@@ -277,24 +333,41 @@ namespace te
             return te::getIntersection(aRect, bRect);
         }
 
-        void draw(RendererPtr pRenderer)
+        void draw()
         {
             forEachEntity([&](const EntityHandle& handle)
             {
                 auto positionIt = mPositionMap.find(handle);
-                auto spriteIt = mDimensionMap.find(handle);
-                if (spriteIt != mDimensionMap.end())
+                auto rectIt = mDimensionMap.find(handle);
+                if (rectIt != mDimensionMap.end())
                 {
                     Vector2f& pos = positionIt->second;
-                    Vector2i& dim = spriteIt->second;
-                    SDL_SetRenderDrawColor(pRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
+                    Vector2i& dim = rectIt->second;
+                    SDL_SetRenderDrawColor(mpRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
                     SDL_Rect rect = {
                         (int)pos.x - (dim.x / 2),
                         (int)pos.y - (dim.y / 2),
                         dim.x,
                         dim.y
                     };
-                    SDL_RenderFillRect(pRenderer.get(), &rect);
+                    SDL_RenderFillRect(mpRenderer.get(), &rect);
+                }
+                auto spriteIt = mSpriteMap.find(handle);
+                if (spriteIt != mSpriteMap.end())
+                {
+                    Vector2f& pos = positionIt->second;
+                    Vector2i dim(spriteIt->second.w, spriteIt->second.h);
+                    SDL_Rect rect = {
+                        (int)pos.x - (dim.x / 2),
+                        (int)pos.y - (dim.y / 2),
+                        dim.x,
+                        dim.y
+                    };
+                    SDL_RenderCopy(
+                        mpRenderer.get(),
+                        spriteIt->second.pTexture.get(),
+                        NULL,
+                        &rect);
                 }
             });
         }
@@ -306,6 +379,7 @@ namespace te
 
     private:
         std::shared_ptr<lua_State> mpL;
+        RendererPtr mpRenderer;
         EntityHandle mHandleCount;
 
         std::vector<EntityHandle> mEntities;
@@ -314,6 +388,7 @@ namespace te
         std::map<EntityHandle, Vector2f> mVelocityMap;
         std::map<EntityHandle, Vector2i> mBoundingBoxMap;
         std::map<EntityHandle, Vector2i> mDimensionMap;
+        std::map<EntityHandle, Sprite> mSpriteMap;
 
         std::vector<EntityHandle> mPendingDestroys;
 
@@ -321,14 +396,18 @@ namespace te
         luabridge::LuaRef mKeyReleaseTable;
 
         std::map<EntityPair, LuaFunction> mCollisionHandlerMap;
+
+        FontHandle mFontCount;
+        std::map<FontHandle, FontPtr> mFontMap;
+
+        TextHandle mTextCount;
+        std::map<TextHandle, TexturePtr> mTextMap;
     };
 }
 
 int main(int argc, char** argv)
 {
     te::Initialization init;
-
-    LuaGameState state;
 
     const int WIDTH = 640;
     const int HEIGHT = 480;
@@ -337,6 +416,8 @@ int main(int argc, char** argv)
         SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN)
     );
     te::RendererPtr pRenderer = te::createRenderer(pWindow);
+
+    LuaGameState state(pRenderer);
 
     SDL_Event e;
     bool running = true;
@@ -365,7 +446,7 @@ int main(int argc, char** argv)
         SDL_SetRenderDrawColor(pRenderer.get(), 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(pRenderer.get());
 
-        state.draw(pRenderer);
+        state.draw();
 
         SDL_RenderPresent(pRenderer.get());
         t0 = now;
