@@ -19,7 +19,9 @@ local function handlePaddleCollision(ball, paddle)
     game:setVelocity(ball, velocity)
 end
 
-local function handleGoalCollision(ball)
+local function handleGoalCollision(ball, goal, scores, font)
+    scores[goal].score = scores[goal].score + 1
+    game:setTextSprite(scores[goal].entity, font, scores[goal].score, 0xFFFFFF, 25)
     game:setPosition(ball, Vector:new(320, 240))
     local ballVel = game:getVelocity(ball)
     ballVel.x = -ballVel.x
@@ -74,12 +76,26 @@ function main()
         game:handleCollision(ball, wall, handleWallCollision)
     end
 
-    local leftGoal = game:createEntity(Vector:new(-1, 240), Vector:new(0, 0))
-    local rightGoal = game:createEntity(Vector:new(641, 240), Vector:new(0, 0))
+    local rightPaddleGoal = game:createEntity(Vector:new(-1, 240), Vector:new(0, 0))
+    local leftPaddleGoal = game:createEntity(Vector:new(641, 240), Vector:new(0, 0))
 
-    local goals = {leftGoal, rightGoal}
+    local font = game:loadFont("fonts/Minecraftia-Regular.ttf", 24)
+    local scores = {}
+    scores[leftPaddleGoal] = {
+        entity = game:createEntity(Vector:new(25, 25), Vector:new(0, 0)),
+        score = 0
+    }
+    scores[rightPaddleGoal] = {
+        entity = game:createEntity(Vector:new(615, 25), Vector:new(0, 0)),
+        score = 0
+    }
+
+    local goals = {leftPaddleGoal, rightPaddleGoal}
     for i, goal in ipairs(goals) do
         game:setBoundingBox(goal, Vector:new(2, 480))
-        game:handleCollision(ball, goal, handleGoalCollision)
+        game:setTextSprite(scores[goal].entity, font, scores[goal].score, 0xFFFFFF, 25)
+        game:handleCollision(ball, goal, function()
+            handleGoalCollision(ball, goal, scores, font)
+        end)
     end
 end
