@@ -46,8 +46,6 @@ namespace te
             , mCollisionHandlerMap()
             , mFontCount(0)
             , mFontMap()
-            , mTextCount(0)
-            , mTextMap()
         {
             lua_State* pL = mpL.get();
             luaL_openlibs(pL);
@@ -399,9 +397,6 @@ namespace te
 
         FontHandle mFontCount;
         std::map<FontHandle, FontPtr> mFontMap;
-
-        TextHandle mTextCount;
-        std::map<TextHandle, TexturePtr> mTextMap;
     };
 }
 
