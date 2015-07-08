@@ -73,6 +73,7 @@
     <ClCompile Include="auxiliary.cpp" />
     <ClCompile Include="commands.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="wrappers.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="auxiliary.h" />
     <ClInclude Include="commands.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="entity_manager.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
