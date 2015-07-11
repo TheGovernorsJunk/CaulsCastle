@@ -3,47 +3,85 @@
 
 namespace te
 {
-    Entity::Entity(unsigned id)
-        : selfOrNext(id) {}
-
-    EntityManager::EntityManager(size_t size)
-        : mGeneration(size, Entity(0))
-        , mFirstAvailable(0)
+    EntityManager::EntityManager(unsigned size)
+        : mEntities()
     {
-        assert(size > 0);
-        for (unsigned i = 0; i < mGeneration.size(); ++i)
-        {
-            mGeneration[i].selfOrNext = i + 1;
-        }
+        mEntities.reserve(size);
     }
 
     Entity EntityManager::create()
     {
-        Entity& entity = mGeneration[mFirstAvailable];
-        std::swap(entity.selfOrNext, mFirstAvailable);
-        if (mFirstAvailable == mGeneration.size())
+        if (mEntities.size() < mEntities.capacity() || mAvailableIndices.empty())
         {
-            mGeneration.resize(
-                mGeneration.size() + DEFAULT_SIZE,
-                0);
-            for (unsigned i = mFirstAvailable; i < mGeneration.size(); ++i)
-            {
-                mGeneration[i].selfOrNext = i + 1;
-            }
+            Entity entity;
+            entity.index = mEntities.size();
+            entity.generation = 0;
+            mEntities.push_back(entity);
+            return entity;
         }
-        return entity;
+        else
+        {
+            Entity entity = mEntities[mAvailableIndices.front()];
+            mAvailableIndices.pop_front();
+            return entity;
+        }
     }
 
-    bool EntityManager::isAlive(Entity entity)
+    bool EntityManager::isAlive(Entity entity) const
     {
-        return mGeneration[entity.selfOrNext].selfOrNext == entity.selfOrNext;
+        return entity.generation == mEntities[entity.index].generation;
     }
 
     void EntityManager::destroy(Entity entity)
     {
-        if (isAlive(entity))
+        ++mEntities[entity.index].generation;
+        mAvailableIndices.push_back(entity.index);
+    }
+
+    /*
+    EntityManager::EntityManager()
+        : mEntities(1024)
+        , mFirstAvailable(&mEntities[0])
+        , mLastAvailable(&mEntities[mEntities.size() - 1])
+    {
+        for (auto it = mEntities.begin(); it != mEntities.end(); ++it)
         {
-            std::swap(mGeneration[entity.selfOrNext].selfOrNext, mFirstAvailable);
+            Entity& entity = *it;
+            entity.index = it - mEntities.begin();
+            entity.generation = 0;
+            if (it != mEntities.end() - 1)
+            {
+                entity.next = &*(it + 1);
+            }
+        }
+        mEntities[mEntities.size() - 1].next = nullptr;
+    }
+
+    Entity EntityManager::create()
+    {
+        if (mFirstAvailable != nullptr)
+        {
+            Entity& entity = *mFirstAvailable;
+            mFirstAvailable = entity.next;
+            return entity;
+        }
+        else
+        {
+            mEntities.resize(mEntities.size() + 1024);
         }
     }
+
+    bool EntityManager::isAlive(Entity entity)
+    {
+        return mEntities[entity.index].generation == entity.generation;
+    }
+
+    void EntityManager::destroy(Entity entity)
+    {
+        Entity& indexedEntity = mEntities[entity.index];
+        ++indexedEntity.generation;
+        (*mLastAvailable).next = &indexedEntity;
+        mLastAvailable = &indexedEntity;
+    }
+    */
 }

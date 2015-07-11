@@ -1,7 +1,8 @@
-#ifndef TE_ENTITY_H
-#define TE_ENTITY_H
+#ifndef TE_ENTITY_MANAGER_H
+#define TE_ENTITY_MANAGER_H
 
 #include <vector>
+#include <deque>
 
 namespace te
 {
@@ -9,21 +10,23 @@ namespace te
     {
     private:
         friend class EntityManager;
-        unsigned selfOrNext;
-        Entity(unsigned id);
+        unsigned index;
+        unsigned generation;
     };
 
     class EntityManager
     {
     public:
-        EntityManager(size_t size = DEFAULT_SIZE);
+        EntityManager(unsigned size = 1024);
         Entity create();
-        bool isAlive(Entity e);
+        bool isAlive(Entity e) const;
         void destroy(Entity e);
     private:
-        const static size_t DEFAULT_SIZE = 1024;
-        std::vector<Entity> mGeneration;
-        unsigned mFirstAvailable;
+        typedef std::vector<Entity> EntityContainer;
+        typedef std::deque<unsigned> IndexQueue;
+
+        EntityContainer mEntities;
+        IndexQueue mAvailableIndices;
     };
 }
 
