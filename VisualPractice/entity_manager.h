@@ -27,6 +27,7 @@ namespace te
 
         EntityContainer mEntities;
         IndexQueue mAvailableIndices;
+        unsigned mAllocationSize;
     };
 }
 

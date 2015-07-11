@@ -5,6 +5,8 @@ namespace te
 {
     EntityManager::EntityManager(unsigned size)
         : mEntities()
+        , mAvailableIndices()
+        , mAllocationSize(size)
     {
         mEntities.reserve(size);
     }
@@ -13,6 +15,10 @@ namespace te
     {
         if (mEntities.size() < mEntities.capacity() || mAvailableIndices.empty())
         {
+            if (mEntities.size() == mEntities.capacity())
+            {
+                mEntities.reserve(mEntities.capacity() + mAllocationSize);
+            }
             Entity entity;
             entity.index = mEntities.size();
             entity.generation = 0;
