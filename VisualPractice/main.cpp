@@ -10,7 +10,6 @@
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
-#include "entity.h"
 #include "commands.h"
 #include "player.h"
 
