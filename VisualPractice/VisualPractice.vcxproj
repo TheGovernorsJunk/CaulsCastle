@@ -76,6 +76,7 @@
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="transform_component.cpp" />
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +85,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="transform_component.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
   </ItemGroup>
