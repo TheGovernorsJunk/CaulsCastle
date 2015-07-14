@@ -17,8 +17,6 @@ namespace te
         void setLocalTransform(const Entity& entity, const Transform3<float>& transform);
         Transform3<float> getWorldTransform(const Entity& entity) const;
 
-        void reserve(std::size_t capacity);
-
     private:
         struct Instance
         {

@@ -9,11 +9,6 @@ namespace te
         mData.reserve(capacity);
     }
 
-    //TransformComponent::~TransformComponent()
-    //{
-    //    std::free(mData.buffer);
-    //}
-
     unsigned TransformComponent::createInstance(const Entity& entity)
     {
         if (mData.size() == mData.capacity())
