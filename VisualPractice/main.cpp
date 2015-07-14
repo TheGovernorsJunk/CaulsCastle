@@ -10,8 +10,8 @@
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
-#include "commands.h"
 #include "player.h"
+#include "transform_component.h"
 
 using namespace te;
 

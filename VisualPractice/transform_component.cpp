@@ -6,49 +6,106 @@ namespace te
         : mData()
         , mMap()
     {
-        mData = {0,0,nullptr,nullptr,nullptr,nullptr};
-        reserve(capacity);
+        mData.reserve(capacity);
     }
 
-    TransformComponent::~TransformComponent()
-    {
-        ::operator delete(mData.buffer);
-    }
+    //TransformComponent::~TransformComponent()
+    //{
+    //    std::free(mData.buffer);
+    //}
 
-    Instance TransformComponent::createInstance()
+    unsigned TransformComponent::createInstance(const Entity& entity)
     {
-        if (mData.size == mData.capacity)
+        if (mData.size() == mData.capacity())
         {
-            reserve(mData.capacity + 1024);
+            mData.reserve(mData.capacity() + 1024);
         }
-        return Instance(mData.size++);
+        Instance instance;
+
+        instance.entity = entity;
+        instance.local = Transform3<float>();
+        instance.parent = entity;
+        instance.firstChild = entity;
+        instance.nextSibling = entity;
+        instance.prevSibling = entity;
+
+        unsigned i = mData.size();
+        mData.push_back(std::move(instance));
+        mMap.insert(std::make_pair(entity, i));
+
+        return i;
     }
 
-    void TransformComponent::destroyInstance(Instance instance)
+    void TransformComponent::setParent(const Entity& child, const Entity& parent)
     {
-
+        unsigned i = getEntityIndex(child);
+        mData[i].parent = parent;
+        Transform3<float> parentTransform = mData[getEntityIndex(parent)].world;
+        transformTree(i, parentTransform);
     }
 
-    void TransformComponent::reserve(std::size_t capacity)
+    void TransformComponent::setLocalTransform(const Entity& entity, const Transform3<float>& transform)
     {
-        if (capacity <= mData.capacity) return;
+        unsigned i = getEntityIndex(entity);
+        mData[i].local = transform;
+        Transform3<float> parentTransform =
+            mData[i].parent != mData[i].entity ?
+            mData[getEntityIndex(mData[i].parent)].local :
+            Transform3<float>();
+        transformTree(i, parentTransform);
+    }
 
-        InstanceData data;
+    Transform3<float> TransformComponent::getWorldTransform(const Entity& entity) const
+    {
+        auto it = mMap.find(entity);
+        if (it != mMap.end())
+        {
+            return mData[it->second].world;
+        }
+        return Transform3<float>();
+    }
 
-        const std::size_t bytes = capacity * (sizeof(Entity) + 2 * sizeof(Transform3<float>));
-        data.buffer = static_cast<void*>(::operator new(bytes));
-        data.size = mData.size;
-        data.capacity = capacity;
+    void TransformComponent::transformTree(unsigned i, Transform3<float> parentTransform)
+    {
+        mData[i].world = parentTransform.combine(mData[i].local);
 
-        data.entity = (Entity*)(data.buffer);
-        data.local = (Transform3<float>*)(data.entity + capacity);
-        data.world = (Transform3<float>*)(data.local + capacity);
+        unsigned childIndex = getEntityIndex(mData[i].firstChild);
+        while (childIndex != i)
+        {
+            transformTree(childIndex, mData[i].local);
+            if (mData[childIndex].nextSibling != mData[childIndex].entity)
+            {
+                childIndex = getEntityIndex(mData[childIndex].nextSibling);
+            }
+            else
+            {
+                childIndex = i;
+            }
+        }
+    }
 
-        std::memcpy(data.entity, mData.entity, mData.size * sizeof(Entity));
-        std::memcpy(data.local, mData.local, mData.size * sizeof(Transform3<float>));
-        std::memcpy(data.world, mData.world, mData.size * sizeof(Transform3<float>));
+    unsigned TransformComponent::getEntityIndex(const Entity& entity)
+    {
+        auto it = mMap.find(entity);
+        if (it != mMap.end())
+        {
+            return it->second;
+        }
+        return createInstance(entity);
+    }
 
-        ::operator delete(mData.buffer);
-        mData = data;
+    void TransformComponent::destroyInstance(unsigned i)
+    {
+        unsigned lastI = mData.size() - 1;
+        Entity lastEntity = mData[lastI].entity;
+        Entity entity = mData[i].entity;
+
+        mData[i] = mData[lastI];
+
+        mMap[lastEntity] = i;
+        auto it = mMap.find(entity);
+        mMap.erase(it);
+
+        mData.pop_back();
     }
 }

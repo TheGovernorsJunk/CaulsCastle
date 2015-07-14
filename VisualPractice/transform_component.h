@@ -7,38 +7,38 @@
 
 namespace te
 {
-    class Instance
-    {
-    private:
-        friend class TransformComponent;
-        Instance(unsigned i);
-        unsigned i;
-    };
 
     class TransformComponent
     {
     public:
         TransformComponent(std::size_t capacity = 1024);
-        ~TransformComponent();
+
+        void setParent(const Entity& child, const Entity& parent);
+        void setLocalTransform(const Entity& entity, const Transform3<float>& transform);
+        Transform3<float> getWorldTransform(const Entity& entity) const;
 
         void reserve(std::size_t capacity);
 
-        Instance createInstance();
-        void destroyInstance(Instance instance);
     private:
-        struct InstanceData
+        struct Instance
         {
-            std::size_t size;
-            std::size_t capacity;
-            void* buffer;
-
-            Entity* entity;
-            Transform3<float>* local;
-            Transform3<float>* world;
+            Entity entity;
+            Transform3<float> local;
+            Transform3<float> world;
+            Entity parent;
+            Entity firstChild;
+            Entity nextSibling;
+            Entity prevSibling;
         };
         typedef std::map<Entity, unsigned> InstanceMap;
 
-        InstanceData mData;
+        unsigned createInstance(const Entity& entity);
+        unsigned getEntityIndex(const Entity& entity);
+        void destroyInstance(unsigned instance);
+
+        void transformTree(unsigned index, Transform3<float> parentTransform);
+
+        std::vector<Instance> mData;
         InstanceMap mMap;
     };
 }

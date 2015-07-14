@@ -7,18 +7,18 @@
 
 namespace te
 {
-    class Rectangle;
+    //class Rectangle;
 
-    class Player
-    {
-    public:
-        Player(std::shared_ptr<Rectangle> pPaddle, unsigned int configN = 1);
+    //class Player
+    //{
+    //public:
+    //    Player(std::shared_ptr<Rectangle> pPaddle, unsigned int configN = 1);
 
-        Command issueCommand(SDL_Keycode key, Uint32 type) const;
-    private:
-        const CommandMap mCommandMap;
-        KeyMap mKeyMap;
-    };
+    //    Command issueCommand(SDL_Keycode key, Uint32 type) const;
+    //private:
+    //    const CommandMap mCommandMap;
+    //    KeyMap mKeyMap;
+    //};
 }
 
 #endif /* TE_PLAYER_H */

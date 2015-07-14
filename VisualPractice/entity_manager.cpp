@@ -3,6 +3,23 @@
 
 namespace te
 {
+    bool Entity::operator<(const Entity& o) const
+    {
+        return index == o.index ?
+            generation < o.generation :
+            index < o.index;
+    }
+
+    bool Entity::operator==(const Entity& o) const
+    {
+        return ((index == o.index) && (generation == o.generation));
+    }
+
+    bool Entity::operator!=(const Entity& o) const
+    {
+        return !(*this == o);
+    }
+
     EntityManager::EntityManager(unsigned size)
         : mEntities()
         , mAvailableIndices()
