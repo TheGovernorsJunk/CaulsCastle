@@ -2,6 +2,7 @@
 #define TE_AUXILIARY_H
 
 #include <map>
+#include <glm/glm.hpp>
 #include "types.h"
 
 struct SDL_Rect;
@@ -12,6 +13,7 @@ namespace te
     class Rectangle;
 
     bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);
+    //bool checkCollision(const glm::vec2 a[4] , const glm::vec2 b[4]);
 
     SDL_Rect getIntersection(const SDL_Rect& a, const SDL_Rect& b);
 

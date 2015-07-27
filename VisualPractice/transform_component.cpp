@@ -1,106 +1,84 @@
 #include "transform_component.h"
+#include <algorithm>
 
 namespace te
 {
     TransformComponent::TransformComponent(std::size_t capacity)
-        : mData()
-        , mMap()
+        : Component(capacity) {}
+
+    TransformInstance createTransformInstance(const Entity& entity)
     {
-        mData.reserve(capacity);
-    }
-
-    unsigned TransformComponent::createInstance(const Entity& entity)
-    {
-        if (mData.size() == mData.capacity())
-        {
-            mData.reserve(mData.capacity() + 1024);
-        }
-        Instance instance;
-
-        instance.entity = entity;
-        instance.local = Transform3<float>();
-        instance.parent = entity;
-        instance.firstChild = entity;
-        instance.nextSibling = entity;
-        instance.prevSibling = entity;
-
-        unsigned i = mData.size();
-        mData.push_back(std::move(instance));
-        mMap.insert(std::make_pair(entity, i));
-
-        return i;
+        return TransformInstance{
+            glm::mat4(),
+            glm::mat4(),
+            entity,
+            entity,
+            entity,
+            entity
+        };
     }
 
     void TransformComponent::setParent(const Entity& child, const Entity& parent)
     {
-        unsigned i = getEntityIndex(child);
-        mData[i].parent = parent;
-        Transform3<float> parentTransform = mData[getEntityIndex(parent)].world;
-        transformTree(i, parentTransform);
+        if (!hasInstance(child)) { createInstance(child, createTransformInstance(child)); }
+        TransformInstance& childInstance = at(child);
+        childInstance.parent = parent;
+        glm::mat4 parentTransform = at(parent).world;
+        transformTree(childInstance, parentTransform);
     }
 
-    void TransformComponent::setLocalTransform(const Entity& entity, const Transform3<float>& transform)
+    void TransformComponent::setLocalTransform(const Entity& entity, const glm::mat4& transform)
     {
-        unsigned i = getEntityIndex(entity);
-        mData[i].local = transform;
-        Transform3<float> parentTransform =
-            mData[i].parent != mData[i].entity ?
-            mData[getEntityIndex(mData[i].parent)].local :
-            Transform3<float>();
-        transformTree(i, parentTransform);
+        if (!hasInstance(entity)) { createInstance(entity, createTransformInstance(entity)); }
+        TransformInstance& instance = at(entity);
+        instance.local = transform;
+        glm::mat4 parentTransform =
+            instance.parent != entity ?
+            at(instance.parent).world :
+            glm::mat4();
+        transformTree(instance, parentTransform);
     }
 
-    Transform3<float> TransformComponent::getWorldTransform(const Entity& entity) const
+    glm::mat4 TransformComponent::getWorldTransform(const Entity& entity) const
     {
-        auto it = mMap.find(entity);
-        if (it != mMap.end())
+        if (hasInstance(entity))
         {
-            return mData[it->second].world;
+            return at(entity).world;
         }
-        return Transform3<float>();
+        else
+        {
+            return glm::mat4();
+        }
     }
 
-    void TransformComponent::transformTree(unsigned i, Transform3<float> parentTransform)
+    glm::mat4 TransformComponent::getLocalTransform(const Entity& entity) const
     {
-        mData[i].world = parentTransform.combine(mData[i].local);
-
-        unsigned childIndex = getEntityIndex(mData[i].firstChild);
-        while (childIndex != i)
+        if (hasInstance(entity))
         {
-            transformTree(childIndex, mData[i].local);
-            if (mData[childIndex].nextSibling != mData[childIndex].entity)
+            return at(entity).local;
+        }
+        else
+        {
+            return glm::mat4();
+        }
+    }
+
+    void TransformComponent::transformTree(TransformInstance& instance, const glm::mat4& parentTransform)
+    {
+        instance.world = parentTransform * instance.local;
+
+        TransformInstance& childInstance = at(instance.firstChild);
+        while (&instance != &childInstance)
+        {
+            transformTree(childInstance, instance.world);
+            if (&at(childInstance.nextSibling) != &childInstance)
             {
-                childIndex = getEntityIndex(mData[childIndex].nextSibling);
+                childInstance = at(childInstance.nextSibling);
             }
             else
             {
-                childIndex = i;
+                childInstance = instance;
             }
         }
-    }
-
-    unsigned TransformComponent::getEntityIndex(const Entity& entity)
-    {
-        auto it = mMap.find(entity);
-        if (it != mMap.end())
-        {
-            return it->second;
-        }
-        return createInstance(entity);
-    }
-
-    void TransformComponent::destroyInstance(unsigned i)
-    {
-        unsigned lastI = mData.size() - 1;
-        Entity lastEntity = mData[lastI].entity;
-        Entity entity = mData[i].entity;
-
-        mData[i] = mData[lastI];
-
-        mMap[lastEntity] = i;
-        auto it = mMap.find(entity);
-        mMap.erase(it);
-
-        mData.pop_back();
     }
 }

@@ -24,6 +24,7 @@ namespace te
 
     typedef std::shared_ptr<SDL_Window> WindowPtr;
     WindowPtr wrapWindow(SDL_Window*);
+    WindowPtr createWindowOpenGL(const char* title, int x, int y, int w, int h, Uint32 flags);
 
     typedef std::shared_ptr<SDL_Surface> SurfacePtr;
     SurfacePtr loadSurface(const std::string& path, const SDL_PixelFormat* format);
@@ -38,6 +39,12 @@ namespace te
     FontPtr loadFont(const std::string& path, int ptSize);
 
     SurfacePtr loadTextSurface(const std::string& text, FontPtr pFont, const SDL_Color& fontColor, int width);
+
+    struct WindowContext
+    {
+        WindowPtr pWindow;
+        SDL_GLContext context;
+    };
 }
 
 #endif /* TE_WRAPPERS_H */
