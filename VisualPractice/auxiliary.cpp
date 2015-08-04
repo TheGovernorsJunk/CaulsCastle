@@ -1,6 +1,5 @@
 #include "auxiliary.h"
 #include <SDL_rect.h>
-#include "entity.h"
 #include "types.h"
 
 namespace te
@@ -29,11 +28,6 @@ namespace te
         return isColliding;
     }
 
-    bool checkCollision(const Rectangle& a, const Rectangle& b)
-    {
-        return checkCollision(a.getBoundingBox(), b.getBoundingBox());
-    }
-
     SDL_Rect getIntersection(const SDL_Rect& a, const SDL_Rect& b)
     {
         int x = (a.x > b.x) ? a.x : b.x;
@@ -42,10 +36,6 @@ namespace te
         int h = (a.y + a.h) < (b.y + b.h) ? (a.y + a.h) - y : (b.y + b.h) - y;
         SDL_Rect intersection = { x, y, w, h };
         return intersection;
-    }
-    SDL_Rect getIntersection(const Rectangle& a, const Rectangle& b)
-    {
-        return getIntersection(a.getBoundingBox(), b.getBoundingBox());
     }
     
     Vector2i getCenter(const SDL_Rect& rect)
@@ -56,47 +46,43 @@ namespace te
         };
         return center;
     }
-    Vector2i getCenter(const Rectangle& rect)
-    {
-        return getCenter(rect.getBoundingBox());
-    }
 
-    void handlePaddleCollision(Rectangle& ball, const Rectangle& paddle, float dt, float velocityScalar)
-    {
-        if (checkCollision(ball, paddle))
-        {
-            Vector2i paddleCenter = getCenter(paddle);
-            Vector2i ballCenter = getCenter(ball);
-            Vector2f paddleToBall = {
-                (float)ballCenter.x - paddleCenter.x,
-                (float)ballCenter.y - paddleCenter.y
-            };
-            float length = std::sqrt((paddleToBall.x * paddleToBall.x) + (paddleToBall.y * paddleToBall.y));
-            Vector2f velocity = {
-                velocityScalar * paddleToBall.x / length,
-                velocityScalar * paddleToBall.y / length
-            };
-            ball.setVelocity(velocity);
-            ball.update(dt);
-        }
-    }
+    //void handlePaddleCollision(Rectangle& ball, const Rectangle& paddle, float dt, float velocityScalar)
+    //{
+    //    if (checkCollision(ball, paddle))
+    //    {
+    //        Vector2i paddleCenter = getCenter(paddle);
+    //        Vector2i ballCenter = getCenter(ball);
+    //        Vector2f paddleToBall = {
+    //            (float)ballCenter.x - paddleCenter.x,
+    //            (float)ballCenter.y - paddleCenter.y
+    //        };
+    //        float length = std::sqrt((paddleToBall.x * paddleToBall.x) + (paddleToBall.y * paddleToBall.y));
+    //        Vector2f velocity = {
+    //            velocityScalar * paddleToBall.x / length,
+    //            velocityScalar * paddleToBall.y / length
+    //        };
+    //        ball.setVelocity(velocity);
+    //        ball.update(dt);
+    //    }
+    //}
 
-    void handleWallCollision(Rectangle& ball, const Rectangle& wall, float dt)
-    {
-        if (checkCollision(ball, wall))
-        {
-            Vector2f vel = ball.getVelocity();
-            SDL_Rect intersection = getIntersection(ball, wall);
-            if (intersection.w > intersection.h)
-            {
-                vel.y = -vel.y;
-                ball.setVelocity(vel);
-            }
-            else
-            {
-                vel.x = -vel.x;
-                ball.setVelocity(vel);
-            }
-        }
-    }
+    //void handleWallCollision(Rectangle& ball, const Rectangle& wall, float dt)
+    //{
+    //    if (checkCollision(ball, wall))
+    //    {
+    //        Vector2f vel = ball.getVelocity();
+    //        SDL_Rect intersection = getIntersection(ball, wall);
+    //        if (intersection.w > intersection.h)
+    //        {
+    //            vel.y = -vel.y;
+    //            ball.setVelocity(vel);
+    //        }
+    //        else
+    //        {
+    //            vel.x = -vel.x;
+    //            ball.setVelocity(vel);
+    //        }
+    //    }
+    //}
 }

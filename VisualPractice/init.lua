@@ -21,7 +21,7 @@ end
 
 local function handleGoalCollision(ball, goal, scores, font)
     scores[goal].score = scores[goal].score + 1
-    game:setTextSprite(scores[goal].entity, font, scores[goal].score, 0xFFFFFF, 25)
+    -- game:setTextSprite(scores[goal].entity, font, scores[goal].score, 0xFFFFFF, 25)
     game:setPosition(ball, Vector:new(320, 240))
     local ballVel = game:getVelocity(ball)
     ballVel.x = -ballVel.x
@@ -93,7 +93,7 @@ function main()
     local goals = {leftPaddleGoal, rightPaddleGoal}
     for i, goal in ipairs(goals) do
         game:setBoundingBox(goal, Vector:new(2, 480))
-        game:setTextSprite(scores[goal].entity, font, scores[goal].score, 0xFFFFFF, 25)
+        -- game:setTextSprite(scores[goal].entity, font, scores[goal].score, 0xFFFFFF, 25)
         game:handleCollision(ball, goal, function()
             handleGoalCollision(ball, goal, scores, font)
         end)

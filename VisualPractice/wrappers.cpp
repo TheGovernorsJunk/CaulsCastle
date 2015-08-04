@@ -1,5 +1,8 @@
 #include "wrappers.h"
 #include <SDL.h>
+#include <GL/glew.h>
+#include <SDL_opengl.h>
+#include <gl/GLU.h>
 #include <SDL_image.h>
 #include <iostream>
 #include <exception>
@@ -22,6 +25,10 @@ namespace te
         {
             throw std::runtime_error(TTF_GetError());
         }
+
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     }
 
     Initialization::~Initialization()
@@ -36,6 +43,24 @@ namespace te
     {
         static auto deleter = [](SDL_Window* w) { SDL_DestroyWindow(w); };
         return WindowPtr(w, deleter);
+    }
+
+    WindowPtr createWindowOpenGL(const char* title, int x, int y, int w, int h, Uint32 flags)
+    {
+        WindowPtr pW(
+            SDL_CreateWindow(title, x, y, w, h, flags | SDL_WINDOW_OPENGL),
+            [](SDL_Window* w){ SDL_DestroyWindow(w); });
+
+        SDL_GLContext context(SDL_GL_CreateContext(pW.get()));
+
+        glewExperimental = GL_TRUE;
+        GLenum glewError = glewInit();
+        if (glewError != GLEW_OK)
+        {
+            throw std::runtime_error(std::string((const char*)glewGetErrorString(glewError)));
+        }
+
+        return pW;
     }
 
     auto surfaceDeleter = [](SDL_Surface* s) { SDL_FreeSurface(s); };

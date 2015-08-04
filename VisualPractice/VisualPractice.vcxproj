@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)..\Lua;$(ProjectDir)..\LuaBridge\Source\LuaBridge;$(ProjectDir)..\SDL2-2.0.3\include;$(ProjectDir)..\SDL2_image-2.0.0\include;$(ProjectDir)..\SDL2_ttf-2.0.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\SDL2-2.0.3\lib\x86;$(ProjectDir)..\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\Debug;$(ProjectDir)..\SDL2_ttf-2.0.12\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\Lua;$(ProjectDir)..\LuaBridge\Source\LuaBridge;$(ProjectDir)..\SDL2-2.0.3\include;$(ProjectDir)..\SDL2_image-2.0.0\include;$(ProjectDir)..\SDL2_ttf-2.0.12\include;$(ProjectDir)..\glew-1.12.0\include;$(ProjectDir)..\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDL2-2.0.3\lib\x86;$(ProjectDir)..\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\Debug;$(ProjectDir)..\SDL2_ttf-2.0.12\lib\x86;$(ProjectDir)..\glew-1.12.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_image.lib;Lua.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;SDL2main.lib;SDL2.lib;SDL2_image.lib;Lua.lib;SDL2_ttf.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -71,19 +71,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="auxiliary.cpp" />
-    <ClCompile Include="commands.cpp" />
-    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="bounding_box_component.cpp" />
+    <ClCompile Include="collision_system.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="physics_component.cpp" />
+    <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="render_system.cpp" />
+    <ClCompile Include="simple_render_component.cpp" />
+    <ClCompile Include="transform_component.cpp" />
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="auxiliary.h" />
-    <ClInclude Include="commands.h" />
-    <ClInclude Include="entity.h" />
+    <ClInclude Include="bounding_box_component.h" />
+    <ClInclude Include="collision_system.h" />
+    <ClInclude Include="component.h" />
     <ClInclude Include="entity_manager.h" />
+    <ClInclude Include="gl.h" />
+    <ClInclude Include="physics_component.h" />
+    <ClInclude Include="physics_system.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="render_system.h" />
+    <ClInclude Include="simple_render_component.h" />
+    <ClInclude Include="transform_component.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
   </ItemGroup>
@@ -96,8 +108,10 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
+    <None Include="fragment.glfs" />
     <None Include="init.lua" />
     <None Include="types.lua" />
+    <None Include="vertex.glvs" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\Minecraftia-Regular.ttf" />

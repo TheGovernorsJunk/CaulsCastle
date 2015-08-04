@@ -8,6 +8,10 @@ namespace te
 {
     class Entity
     {
+    public:
+        bool operator<(const Entity&) const;
+        bool operator==(const Entity&) const;
+        bool operator!=(const Entity&) const;
     private:
         friend class EntityManager;
         unsigned index;
