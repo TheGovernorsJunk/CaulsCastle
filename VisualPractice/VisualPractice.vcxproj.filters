@@ -95,6 +95,9 @@
     <ClInclude Include="render_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="texture.png">

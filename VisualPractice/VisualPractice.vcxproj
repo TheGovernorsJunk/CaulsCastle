@@ -90,6 +90,7 @@
     <ClInclude Include="component.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="gl.h" />
+    <ClInclude Include="observer.h" />
     <ClInclude Include="physics_component.h" />
     <ClInclude Include="physics_system.h" />
     <ClInclude Include="player.h" />

@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "entity_manager.h"
+#include "observer.h"
 
 namespace te
 {
@@ -16,14 +17,6 @@ namespace te
         Entity b;
         float dt;
     };
-
-	template <class EventType>
-	class Observer
-	{
-	public:
-        virtual ~Observer();
-        virtual void onNotify(const EventType& evt) = 0;
-	};
 
 	class CollisionSystem
 	{
