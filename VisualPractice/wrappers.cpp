@@ -4,6 +4,7 @@
 #include <SDL_opengl.h>
 #include <gl/GLU.h>
 #include <SDL_image.h>
+#include <bass.h>
 #include <iostream>
 #include <exception>
 
@@ -29,10 +30,13 @@ namespace te
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+        BASS_Init(-1, 44100, 0, NULL, NULL);
     }
 
     Initialization::~Initialization()
     {
+        BASS_Free();
         TTF_Quit();
         IMG_Quit();
         SDL_Quit();
