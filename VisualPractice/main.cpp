@@ -63,11 +63,11 @@ namespace te
     public:
         LuaGameState(const TransformationData& tData, const std::string& filename = "init.lua")
             : mEntities()
-            , mEntityManager()
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
             , mpRenderComponent(new SimpleRenderComponent())
+            , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
             , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent)
             , mCollisionSystem(mpBoundingBoxComponent, {&mCollisionHandler})
             , mTransformationData(tData)
@@ -95,6 +95,11 @@ namespace te
                 glm::translate(glm::vec3(position.x, position.y, 0.f)));
             mpPhysicsComponent->setPhysics(entity, velocity);
             return entity;
+        }
+
+        void destroyEntity(Entity entity)
+        {
+            mEntityManager.destroy(entity);
         }
 
         void setPosition(Entity entity, glm::vec2 position)
@@ -262,12 +267,13 @@ namespace te
 
     private:
         std::vector<Entity> mEntities;
-        EntityManager mEntityManager;
 
         TransformPtr mpTransformComponent;
         PhysicsPtr mpPhysicsComponent;
         BoundingBoxPtr mpBoundingBoxComponent;
         SimpleRenderPtr mpRenderComponent;
+
+        EntityManager mEntityManager;
 
         PhysicsSystem mPhysicsSystem;
         CollisionSystem mCollisionSystem;

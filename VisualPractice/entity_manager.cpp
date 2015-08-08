@@ -1,5 +1,6 @@
 #include "entity_manager.h"
 #include <cassert>
+#include <algorithm>
 
 namespace te
 {
@@ -20,10 +21,11 @@ namespace te
         return !(*this == o);
     }
 
-    EntityManager::EntityManager(unsigned size)
+    EntityManager::EntityManager(ObserverVector&& observers, unsigned size)
         : mEntities()
         , mAvailableIndices()
         , mAllocationSize(size)
+        , mObservers(std::move(observers))
     {
         mEntities.reserve(size);
     }
@@ -59,5 +61,14 @@ namespace te
     {
         ++mEntities[entity.index].generation;
         mAvailableIndices.push_back(entity.index);
+
+        DestroyEvent evt{ entity };
+        std::for_each(
+            std::begin(mObservers),
+            std::end(mObservers),
+            [evt](std::shared_ptr<Observer<DestroyEvent>>& observer)
+        {
+            observer->onNotify(evt);
+        });
     }
 }

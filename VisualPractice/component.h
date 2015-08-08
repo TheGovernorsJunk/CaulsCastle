@@ -6,11 +6,12 @@
 #include <map>
 #include <algorithm>
 #include "entity_manager.h"
+#include "observer.h"
 
 namespace te
 {
     template <class Instance>
-    class Component
+    class Component : public Observer<DestroyEvent>
     {
     protected:
         struct Entry
@@ -26,6 +27,11 @@ namespace te
             mData.reserve(capacity);
         }
         virtual ~Component() {}
+
+        virtual void onNotify(const DestroyEvent& evt)
+        {
+            destroyInstance(evt.entity);
+        }
 
         Instance& createInstance(const Entity& entity, Instance&& instance)
         {

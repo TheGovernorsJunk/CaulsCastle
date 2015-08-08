@@ -1,8 +1,10 @@
 #ifndef TE_ENTITY_MANAGER_H
 #define TE_ENTITY_MANAGER_H
 
+#include "observer.h"
 #include <vector>
 #include <deque>
+#include <memory>
 
 namespace te
 {
@@ -18,10 +20,17 @@ namespace te
         unsigned generation;
     };
 
+    struct DestroyEvent
+    {
+        Entity entity;
+    };
+
     class EntityManager
     {
     public:
-        EntityManager(unsigned size = 1024);
+        typedef std::vector<std::shared_ptr<Observer<DestroyEvent>>> ObserverVector;
+
+        EntityManager(ObserverVector&& observers = {}, unsigned size = 1024);
         Entity create();
         bool isAlive(Entity e) const;
         void destroy(Entity e);
@@ -32,6 +41,8 @@ namespace te
         EntityContainer mEntities;
         IndexQueue mAvailableIndices;
         unsigned mAllocationSize;
+
+        ObserverVector mObservers;
     };
 }
 
