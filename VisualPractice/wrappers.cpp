@@ -4,6 +4,8 @@
 #include <SDL_opengl.h>
 #include <gl/GLU.h>
 #include <SDL_image.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
 #include <bass.h>
 #include <iostream>
 #include <exception>
@@ -30,6 +32,16 @@ namespace te
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+        ilInit();
+        iluInit();
+        ilClearColour(255, 255, 255, 000);
+
+        ILenum ilError = ilGetError();
+        if (ilError != IL_NO_ERROR)
+        {
+            throw std::runtime_error("Unable to initialize DevIL.");
+        }
 
         BASS_Init(-1, 44100, 0, NULL, NULL);
     }
