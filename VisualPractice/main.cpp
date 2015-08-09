@@ -78,7 +78,13 @@ namespace te
             , mCollisionHandler()
             , mFontCount(0)
             , mFontMap()
-        {}
+            , mChannel(0)
+        {
+            if (!(mChannel = BASS_StreamCreateFile(false, "sounds/arcade-beep-1.mp3", 0, 0, 0)))
+            {
+                throw std::runtime_error("Could not load sound.");
+            }
+        }
 
         typedef unsigned int EntityHandle;
         typedef std::pair<Entity, Entity> EntityPair;
@@ -86,6 +92,11 @@ namespace te
         typedef luabridge::LuaRef LuaFunction;
         typedef unsigned int FontHandle;
         typedef unsigned int TextHandle;
+
+        void playSound()
+        {
+            BASS_ChannelPlay(mChannel, true);
+        }
 
         Entity createEntity(glm::vec2 position, glm::vec2 velocity = glm::vec2(0, 0))
         {
@@ -291,6 +302,8 @@ namespace te
         FontHandle mFontCount;
         std::map<FontHandle, FontPtr> mFontMap;
 
+        unsigned long mChannel;
+
         //std::map<Entity, GLuint> mVBOMap;
         //std::map<Entity, GLuint> mIBOMap;
     };
@@ -474,6 +487,7 @@ int main(int argc, char** argv)
             glm::vec2 ballVel = state.getVelocity(ball);
             glm::vec2 velocity = glm::length(ballVel) * glm::normalize(paddleToBall);
             state.setVelocity(ball, velocity);
+            state.playSound();
         };
         state.handleCollision(ball, leftPaddle, handlePaddleCollision);
         state.handleCollision(ball, rightPaddle, handlePaddleCollision);
