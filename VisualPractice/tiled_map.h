@@ -2,6 +2,7 @@
 #define TE_TILED_MAP_H
 
 #include "gl.h"
+#include <glm/glm.hpp>
 
 #include <string>
 #include <memory>
@@ -21,7 +22,7 @@ namespace te
 
         ~TiledMap();
 
-        void draw() const;
+        void draw(const glm::mat4& viewTransform = glm::mat4()) const;
 
     private:
         TiledMap(const TiledMap&) = delete;

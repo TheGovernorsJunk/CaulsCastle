@@ -194,9 +194,14 @@ namespace te
         destroy();
     }
 
-    void TiledMap::draw() const
+    void TiledMap::draw(const glm::mat4& viewTransform) const
     {
         glUseProgram(mShaderProgram);
+        glUniformMatrix4fv(
+            glGetUniformLocation(mShaderProgram, "te_ModelViewMatrix"),
+            1,
+            GL_FALSE,
+            glm::value_ptr(viewTransform));
 
         for (auto it = mTilesets.begin(); it != mTilesets.end(); ++it)
         {

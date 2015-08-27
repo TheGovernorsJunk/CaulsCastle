@@ -340,8 +340,8 @@ int main(int argc, char** argv)
     {
         te::Initialization init;
 
-        const int WIDTH = 640;
-        const int HEIGHT = 480;
+        const int WIDTH = 1024;
+        const int HEIGHT = 576;
 
 
         te::WindowPtr pGLWindow = te::createWindowOpenGL("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -447,6 +447,7 @@ int main(int argc, char** argv)
 
         Uint64 t0 = SDL_GetPerformanceCounter();
 
+        glm::vec3 translation;
         while (running)
         {
             while (SDL_PollEvent(&e) != 0)
@@ -462,19 +463,38 @@ int main(int argc, char** argv)
                         adjustViewport(e.window.data1, e.window.data2);
                     }
                 }
+                else if (e.type == SDL_KEYDOWN)
+                {
+                    if (e.key.keysym.sym == SDLK_w)
+                    {
+                        translation.y += .1f;
+                    }
+                    else if (e.key.keysym.sym == SDLK_s)
+                    {
+                        translation.y -= .1f;
+                    }
+                    else if (e.key.keysym.sym == SDLK_a)
+                    {
+                        translation.x += .1f;
+                    }
+                    else if (e.key.keysym.sym == SDLK_d)
+                    {
+                        translation.x -= .1f;
+                    }
+                }
                 state.processInput(e);
             }
 
             Uint64 now = SDL_GetPerformanceCounter();
             float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
 
-            state.update(dt);
+            //state.update(dt);
 
             glClear(GL_COLOR_BUFFER_BIT);
 
-            myMap.draw();
-            glUseProgram(programID);
-            state.draw();
+            myMap.draw(glm::translate(glm::mat4(), translation));
+            //glUseProgram(programID);
+            //state.draw();
 
             SDL_GL_SwapWindow(pGLWindow.get());
             t0 = now;
