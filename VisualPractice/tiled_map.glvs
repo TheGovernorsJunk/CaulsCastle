@@ -1,0 +1,19 @@
+#version 330 core
+
+uniform mat4 te_ProjectionMatrix;
+uniform mat4 te_ModelViewMatrix;
+
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 texCoords;
+layout (location = 2) in int sampler;
+
+out vec4 gl_Position;
+out vec2 TexCoords;
+flat out int SamplerID;
+
+void main()
+{
+    gl_Position = te_ProjectionMatrix * te_ModelViewMatrix * vec4(position, 1.0);
+	TexCoords = texCoords;
+	SamplerID = sampler;
+}

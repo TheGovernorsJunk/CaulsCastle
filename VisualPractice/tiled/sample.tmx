@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="generica" tilewidth="32" tileheight="32">
+  <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJwN0lciEAAAAFDKLDsX0LQJF0AaGkYukDKzwgXKzijjAmmSWV0AkZURF2jv3QF6H+8GLzAgIGAPewkimBBCCSOcfewngkiiiCaGWOI4QDwJHOQQhznCUY6RSBLJpJBKGulkkMlxssgmh1zyyOcEBZzkFKc5QyFnOcd5LlBEMSWUcpEyLlHOZa5QQSVVVFNDLVepo54GGmniGs200Mp1btBGOx100kU3Pdyklz76GeAWtxlkiGFGuMMod7nHfR7wkEeMMc5jJphkimlmmOUJT3nGHPMs8JxFlnjBMiusssY6L9lgky22ecUOu7zmDW95x3s+8JFPfOYLX/nGd37wk1/85g9/+UdgoH/sJYhgQggljHD2sZ8IIokimhhiieMA8SRwkEMc5ghHOUYiSSSTQipppJNBJsfJIpsccskjnxMUcJJTnOYMhZzlHOe5QBHFlFDKRcq4RDmXuUIFlVRRTQ21XKWOehpopIlrNNNCK9e5QRvtdNBJF930cJNe+uhngFvcZpAhhhnhDqPc5R73ecBDHjHGOI+ZYJIppplhlic85RlzzLPAcxZZ4gXLrLDKGuu8ZINNttjmFTvs8h9S64db
+  </data>
+ </layer>
+</map>

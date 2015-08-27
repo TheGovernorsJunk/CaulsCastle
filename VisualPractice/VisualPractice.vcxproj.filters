@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\tiled">
+      <UniqueIdentifier>{6432ef6b-5bd6-40d6-9866-d95bc5ac9141}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -109,6 +112,9 @@
     <Image Include="texture.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="tiled\generic_platformer_tiles.png">
+      <Filter>Resource Files\tiled</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="entities\steve\info.xml">
@@ -126,6 +132,18 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="fragment.glfs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tiled\sample.lua">
+      <Filter>Resource Files\tiled</Filter>
+    </None>
+    <None Include="tiled\sample.tmx">
+      <Filter>Resource Files\tiled</Filter>
+    </None>
+    <None Include="tiled_map.glvs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tiled_map.glfs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

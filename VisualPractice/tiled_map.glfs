@@ -1,0 +1,14 @@
+#version 330 core
+
+in vec2 TexCoords;
+flat in int SamplerID;
+
+out vec4 color;
+
+uniform sampler2D[16] samplers;
+
+void main()
+{
+    color = texture(samplers[SamplerID], TexCoords);
+    //color = vec4(1, 0, 0, 1);
+}

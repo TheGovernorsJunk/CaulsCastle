@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="texture.png" />
+    <Image Include="tiled\generic_platformer_tiles.png" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="entities\steve\info.xml">
@@ -113,6 +114,10 @@
   <ItemGroup>
     <None Include="fragment.glfs" />
     <None Include="init.lua" />
+    <None Include="tiled\sample.lua" />
+    <None Include="tiled\sample.tmx" />
+    <None Include="tiled_map.glfs" />
+    <None Include="tiled_map.glvs" />
     <None Include="types.lua" />
     <None Include="vertex.glvs" />
   </ItemGroup>
