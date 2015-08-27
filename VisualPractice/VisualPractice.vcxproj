@@ -80,6 +80,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="simple_render_component.cpp" />
+    <ClCompile Include="texture.cpp" />
     <ClCompile Include="transform_component.cpp" />
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
@@ -96,6 +97,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="render_system.h" />
     <ClInclude Include="simple_render_component.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="transform_component.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />

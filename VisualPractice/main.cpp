@@ -431,6 +431,27 @@ GLuint loadProgram(const std::string& vertexShaderPath, const std::string& fragm
     return program;
 }
 
+void adjustViewport(int screen_width, int screen_height)
+{
+    const float VIRTUAL_WIDTH = 16.0f;
+    const float VIRTUAL_HEIGHT = 9.0f;
+
+    float targetAspectRatio = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
+    int width = screen_width;
+    int height = (int)(width / targetAspectRatio + 0.5f);
+
+    if (height > screen_height)
+    {
+        height = screen_height;
+        width = (int)(height * targetAspectRatio + 0.5);
+    }
+
+    int vp_x = (screen_width / 2) - (width / 2);
+    int vp_y = (screen_height / 2) - (height / 2);
+
+    glViewport(vp_x, vp_y, width, height);
+}
+
 int main(int argc, char** argv)
 {
     try
@@ -440,14 +461,19 @@ int main(int argc, char** argv)
         const int WIDTH = 640;
         const int HEIGHT = 480;
 
+
         te::WindowPtr pGLWindow = te::createWindowOpenGL("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-        glClearColor(0.f, 0.5f, 1.f, 1.f);
+
+        adjustViewport(WIDTH, HEIGHT);
+
+        glClearColor(0.f, 0.f, 0.f, 1.f);
+
         GLuint programID = loadProgram("vertex.glvs", "fragment.glfs");
         glUseProgram(programID);
 
         GLint projectionMatrixLocation = glGetUniformLocation(programID, "te_ProjectionMatrix");
         if (projectionMatrixLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
-        glm::mat4 projectionMatrix = glm::ortho<GLfloat>(0.0, (GLfloat)WIDTH, (GLfloat)HEIGHT, 0.0, 1.0, -1.0);
+        glm::mat4 projectionMatrix = glm::ortho<GLfloat>(0.0, 100, 100, 0.0, 1.0, -1.0);
         glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
         GLint modelViewMatrixLocation = glGetUniformLocation(programID, "te_ModelViewMatrix");
@@ -462,22 +488,22 @@ int main(int argc, char** argv)
 
         // State initialization
 
-        Entity ball = state.createEntity({ 320, 240 }, { 350, 0 });
-        state.setSprite(ball, { 25, 25 });
-        state.setBoundingBox(ball, { 25, 25 });
+        Entity ball = state.createEntity({ 50, 50 }, { 50, 0 });
+        state.setSprite(ball, { 5, 5 });
+        state.setBoundingBox(ball, { 5, 5 });
 
         //Entity follower = state.createEntity({ 0, 30 }, { 0, 0 });
         //state.setSprite(follower, { 25, 25 });
         //state.setParent(follower, ball);
         //state.scale(ball, { 0.5, 2, 0 });
 
-        Entity leftPaddle = state.createEntity({ 10, 240 });
-        state.setSprite(leftPaddle, { 20, 100 });
-        state.setBoundingBox(leftPaddle, { 20, 100 });
+        Entity leftPaddle = state.createEntity({ 1, 50 });
+        state.setSprite(leftPaddle, { 2, 20 });
+        state.setBoundingBox(leftPaddle, { 2, 20 });
 
-        Entity rightPaddle = state.createEntity({ 630, 240 });
-        state.setSprite(rightPaddle, { 20, 100 });
-        state.setBoundingBox(rightPaddle, { 20, 100 });
+        Entity rightPaddle = state.createEntity({ 99, 50 });
+        state.setSprite(rightPaddle, { 2, 20 });
+        state.setBoundingBox(rightPaddle, { 2, 20 });
 
         auto handlePaddleCollision = [&state](Entity ball, Entity paddle, float dt)
         {
@@ -502,10 +528,10 @@ int main(int argc, char** argv)
         state.registerKeyRelease('p', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
         state.registerKeyRelease('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
 
-        Entity topWall = state.createEntity({ 320, -1 });
-        state.setBoundingBox(topWall, { 640, 2 });
-        Entity bottomWall = state.createEntity({ 320, 481 });
-        state.setBoundingBox(bottomWall, { 640, 2 });
+        Entity topWall = state.createEntity({ 50, -1 });
+        state.setBoundingBox(topWall, { 100, 2 });
+        Entity bottomWall = state.createEntity({ 50, 101 });
+        state.setBoundingBox(bottomWall, { 100, 2 });
 
         auto handleWallCollision = [&state](Entity ball, Entity wall, float dt)
         {
@@ -542,6 +568,13 @@ int main(int argc, char** argv)
                 if (e.type == SDL_QUIT)
                 {
                     running = false;
+                }
+                else if (e.type == SDL_WINDOWEVENT)
+                {
+                    if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+                    {
+                        adjustViewport(e.window.data1, e.window.data2);
+                    }
                 }
                 state.processInput(e);
             }
