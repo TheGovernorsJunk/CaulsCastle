@@ -14,6 +14,6 @@ flat out int SamplerID;
 void main()
 {
     gl_Position = te_ProjectionMatrix * te_ModelViewMatrix * vec4(position, 1.0);
-	TexCoords = texCoords;
-	SamplerID = sampler;
+    TexCoords = texCoords;
+    SamplerID = sampler;
 }
