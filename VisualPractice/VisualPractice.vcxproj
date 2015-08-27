@@ -82,6 +82,7 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="simple_render_component.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="tiled_map.cpp" />
     <ClCompile Include="transform_component.cpp" />
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
@@ -100,6 +101,7 @@
     <ClInclude Include="shader.h" />
     <ClInclude Include="simple_render_component.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="tiled_map.h" />
     <ClInclude Include="transform_component.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
