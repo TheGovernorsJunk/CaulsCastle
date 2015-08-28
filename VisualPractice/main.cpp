@@ -368,7 +368,7 @@ int main(int argc, char** argv)
 
         LuaGameState state({projectionMatrix, modelViewMatrix, projectionMatrixLocation, modelViewMatrixLocation, vertex2DPositionLocation});
 
-        te::TiledMap myMap("tiled", "sample.lua");
+        te::TiledMap myMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4());
         te::TiledMap yourMap = std::move(myMap);
         myMap = std::move(yourMap);
 

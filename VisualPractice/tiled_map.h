@@ -15,7 +15,11 @@ namespace te
     class TiledMap
     {
     public:
-        TiledMap(const std::string& path, const std::string& filename);
+        TiledMap(
+            const std::string& path,
+            const std::string& filename,
+            const glm::mat4& projection,
+            const glm::mat4& model);
 
         TiledMap(TiledMap&& tm);
         TiledMap& operator=(TiledMap&& tm);

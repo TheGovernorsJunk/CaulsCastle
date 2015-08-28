@@ -14,20 +14,22 @@
 
 namespace te
 {
-    TiledMap::TiledMap(const std::string& path, const std::string& filename)
+    TiledMap::TiledMap(
+        const std::string& path,
+        const std::string& filename,
+        const glm::mat4& projection,
+        const glm::mat4& model)
         : mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs")), mTilesets(), mBuffers()
     {
         glUseProgram(mShaderProgram);
 
         GLint projectionMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ProjectionMatrix");
         if (projectionMatrixLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
-        glm::mat4 projectionMatrix = glm::ortho<GLfloat>(0.0, 16, 9, 0.0, 1.0, -1.0);
-        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
-        GLint modelViewMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ModelViewMatrix");
-        if (modelViewMatrixLocation == -1) { throw std::runtime_error("te_ModelViewMatrix: not a valid program variable."); }
-        glm::mat4 modelViewMatrix;
-        glUniformMatrix4fv(modelViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelViewMatrix));
+        GLint modelMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ModelMatrix");
+        if (modelMatrixLocation == -1) { throw std::runtime_error("te_ModelMatrix: not a valid program variable."); }
+        glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(model));
 
         std::unique_ptr<lua_State, std::function<void(lua_State*)>> L(
             luaL_newstate(),
@@ -197,11 +199,10 @@ namespace te
     void TiledMap::draw(const glm::mat4& viewTransform) const
     {
         glUseProgram(mShaderProgram);
-        glUniformMatrix4fv(
-            glGetUniformLocation(mShaderProgram, "te_ModelViewMatrix"),
-            1,
-            GL_FALSE,
-            glm::value_ptr(viewTransform));
+
+        GLint viewMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ViewMatrix");
+        if (viewMatrixLocation == -1) { throw std::runtime_error("te_ViewMatrix: not a valid program variable."); }
+        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewTransform));
 
         for (auto it = mTilesets.begin(); it != mTilesets.end(); ++it)
         {
