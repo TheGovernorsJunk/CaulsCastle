@@ -2,6 +2,21 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="generica" tilewidth="32" tileheight="32">
   <image source="generic_platformer_tiles.png" width="1024" height="768"/>
+  <terraintypes>
+   <terrain name="ground" tile="-1"/>
+  </terraintypes>
+  <tile id="384" terrain="0,0,0,0"/>
+  <tile id="385" terrain="0,0,0,0"/>
+  <tile id="386" terrain="0,0,0,0"/>
+  <tile id="387" terrain="0,0,0,0"/>
+  <tile id="388" terrain="0,0,0,0"/>
+  <tile id="389" terrain="0,0,0,0"/>
+  <tile id="416" terrain="0,0,0,0"/>
+  <tile id="417" terrain="0,0,0,0"/>
+  <tile id="418" terrain="0,0,0,0"/>
+  <tile id="419" terrain="0,0,0,0"/>
+  <tile id="448" terrain="0,0,0,0"/>
+  <tile id="449" terrain="0,0,0,0"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="15">
   <data encoding="base64" compression="zlib">

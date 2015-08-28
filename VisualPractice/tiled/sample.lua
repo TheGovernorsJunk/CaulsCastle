@@ -1,4 +1,4 @@
-tiledData = {
+return {
   version = "1.1",
   luaversion = "5.1",
   tiledversion = "0.12.3",
@@ -25,8 +25,63 @@ tiledData = {
         y = 0
       },
       properties = {},
-      terrains = {},
-      tiles = {}
+      terrains = {
+        {
+          name = "ground",
+          tile = -1,
+          properties = {}
+        }
+      },
+      tiles = {
+        {
+          id = 384,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 385,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 386,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 387,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 388,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 389,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 416,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 417,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 418,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 419,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 448,
+          terrain = { 0, 0, 0, 0 }
+        },
+        {
+          id = 449,
+          terrain = { 0, 0, 0, 0 }
+        }
+      }
     }
   },
   layers = {

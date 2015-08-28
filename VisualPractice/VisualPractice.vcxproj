@@ -118,6 +118,7 @@
   <ItemGroup>
     <None Include="fragment.glfs" />
     <None Include="init.lua" />
+    <None Include="map_loader.lua" />
     <None Include="tiled\sample.lua" />
     <None Include="tiled\sample.tmx" />
     <None Include="tiled_map.glfs" />

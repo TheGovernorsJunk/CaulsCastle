@@ -158,6 +158,9 @@
     <None Include="tiled_map.glfs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="map_loader.lua">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\Minecraftia-Regular.ttf">

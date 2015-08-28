@@ -33,11 +33,11 @@ namespace te
             luaL_newstate(),
             [](lua_State* L){lua_close(L); });
         luaL_openlibs(L.get());
-        int status = luaL_dofile(L.get(), std::string{ path + "/" + filename }.c_str());
+        int status = luaL_dofile(L.get(), "map_loader.lua");
 
         if (status) { throw std::runtime_error("Could not load script."); }
 
-        luabridge::LuaRef tiledData(luabridge::getGlobal(L.get(), "tiledData"));
+        luabridge::LuaRef tiledData(luabridge::getGlobal(L.get(), "loadMap")(std::string{ path + "/" + filename }.c_str()));
 
         luabridge::LuaRef tilesets = tiledData["tilesets"];
         for (int i = 1; !tilesets[i].isNil(); ++i)
