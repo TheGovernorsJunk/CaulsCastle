@@ -66,17 +66,16 @@ namespace te
     class LuaGameState
     {
     public:
-        LuaGameState(const TransformationData& tData, const std::string& filename = "init.lua")
+        LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : mEntities()
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
-            , mpRenderComponent(new SimpleRenderComponent())
+            , mpRenderComponent(new SimpleRenderComponent(projection))
             , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
             , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent)
             , mCollisionSystem(mpBoundingBoxComponent, {&mCollisionHandler})
-            , mTransformationData(tData)
-            , mRenderSystem(mpRenderComponent, mpTransformComponent, mTransformationData)
+            , mRenderSystem(mpRenderComponent, mpTransformComponent)
             , mKeyPressTable()
             , mKeyReleaseTable()
             , mCollisionHandler()
@@ -271,9 +270,9 @@ namespace te
             return te::getIntersection(aRect, bRect);
         }
 
-        void draw()
+        void draw(const glm::mat4& view)
         {
-            mRenderSystem.draw();
+            mRenderSystem.draw(view);
         }
 
         void forEachEntity(const std::function<void(const Entity&)>& func)
@@ -293,8 +292,6 @@ namespace te
 
         PhysicsSystem mPhysicsSystem;
         CollisionSystem mCollisionSystem;
-
-        TransformationData mTransformationData;
 
         RenderSystem mRenderSystem;
 
@@ -350,23 +347,7 @@ int main(int argc, char** argv)
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
 
-        GLuint programID = loadProgram("vertex.glvs", "fragment.glfs");
-        glUseProgram(programID);
-
-        GLint projectionMatrixLocation = glGetUniformLocation(programID, "te_ProjectionMatrix");
-        if (projectionMatrixLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
-        glm::mat4 projectionMatrix = glm::ortho<GLfloat>(0.0, 100, 100, 0.0, 1.0, -1.0);
-        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-
-        GLint modelViewMatrixLocation = glGetUniformLocation(programID, "te_ModelViewMatrix");
-        if (modelViewMatrixLocation == -1) { throw std::runtime_error("te_ModelViewMatrix: not a valid program variable."); }
-        glm::mat4 modelViewMatrix;
-        glUniformMatrix4fv(modelViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(modelViewMatrix));
-
-        GLint vertex2DPositionLocation = glGetAttribLocation(programID, "te_VertexPos2D");
-        if (vertex2DPositionLocation == -1) { throw std::runtime_error("te_Vertex2DPos2D: not a valid program variable."); }
-
-        LuaGameState state({projectionMatrix, modelViewMatrix, projectionMatrixLocation, modelViewMatrixLocation, vertex2DPositionLocation});
+        LuaGameState state(glm::ortho<GLfloat>(0.0, 100, 100, 0.0, 1.0, -1.0));
 
         te::TiledMap myMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4());
         te::TiledMap yourMap = std::move(myMap);
@@ -377,11 +358,6 @@ int main(int argc, char** argv)
         Entity ball = state.createEntity({ 50, 50 }, { 50, 0 });
         state.setSprite(ball, { 5, 5 });
         state.setBoundingBox(ball, { 5, 5 });
-
-        //Entity follower = state.createEntity({ 0, 30 }, { 0, 0 });
-        //state.setSprite(follower, { 25, 25 });
-        //state.setParent(follower, ball);
-        //state.scale(ball, { 0.5, 2, 0 });
 
         Entity leftPaddle = state.createEntity({ 1, 50 });
         state.setSprite(leftPaddle, { 2, 20 });
@@ -439,6 +415,10 @@ int main(int argc, char** argv)
 
         // End state initialization
 
+        // Begin state for TiledMap
+
+        // End state initialization
+
         SDL_Event e;
         bool running = true;
 
@@ -488,13 +468,12 @@ int main(int argc, char** argv)
             Uint64 now = SDL_GetPerformanceCounter();
             float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
 
-            //state.update(dt);
+            state.update(dt);
 
             glClear(GL_COLOR_BUFFER_BIT);
 
             myMap.draw(glm::translate(glm::mat4(), translation));
-            //glUseProgram(programID);
-            //state.draw();
+            state.draw(glm::translate(glm::mat4(), translation));
 
             SDL_GL_SwapWindow(pGLWindow.get());
             t0 = now;

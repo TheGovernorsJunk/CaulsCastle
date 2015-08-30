@@ -116,15 +116,15 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.glfs" />
     <None Include="init.lua" />
     <None Include="map_loader.lua" />
+    <None Include="simple_render_component.glfs" />
+    <None Include="simple_render_component.glvs" />
     <None Include="tiled\sample.lua" />
     <None Include="tiled\sample.tmx" />
     <None Include="tiled_map.glfs" />
     <None Include="tiled_map.glvs" />
     <None Include="types.lua" />
-    <None Include="vertex.glvs" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\Minecraftia-Regular.ttf" />

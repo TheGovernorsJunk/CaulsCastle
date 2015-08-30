@@ -7,36 +7,28 @@ namespace te
 {
     RenderSystem::RenderSystem(
         std::shared_ptr<SimpleRenderComponent> pRender,
-        std::shared_ptr<TransformComponent> pTransform,
-        const TransformationData& data)
+        std::shared_ptr<TransformComponent> pTransform)
         : mpRender(pRender)
         , mpTransform(pTransform)
-        , mData(data)
     {}
 
-    void RenderSystem::draw() const
+    void RenderSystem::draw(const glm::mat4& viewTransform) const
     {
+        glUseProgram(mpRender->mShader);
+
+        glUniformMatrix4fv(mpRender->mViewLocation, 1, GL_FALSE, glm::value_ptr(viewTransform));
+
+        GLuint modelLocation = mpRender->mModelLocation;
         TransformPtr pTransform = mpTransform;
-        const TransformationData& data = mData;
-        mpRender->forEach([&data, pTransform](const Entity& entity, SimpleRenderInstance& instance)
+        mpRender->forEach([modelLocation, pTransform](const Entity& entity, SimpleRenderInstance& instance)
         {
-            glm::mat4 modelViewMatrix = data.modelView * pTransform->getWorldTransform(entity);
-            glUniformMatrix4fv(
-                data.modelViewLocation,
-                1,
-                GL_FALSE,
-                glm::value_ptr(modelViewMatrix));
+            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(pTransform->getWorldTransform(entity)));
 
-            glEnableVertexAttribArray(data.vertex2DLocation);
-
-            glBindBuffer(GL_ARRAY_BUFFER, instance.vbo);
-            glVertexAttribPointer(data.vertex2DLocation, 2, GL_FLOAT, GL_FALSE, 0, NULL);
-
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, instance.ibo);
-
-            glDrawElements(GL_TRIANGLE_FAN, 4, GL_UNSIGNED_INT, NULL);
-
-            glDisableVertexAttribArray(data.vertex2DLocation);
+            glBindVertexArray(instance.vao);
+            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+            glBindVertexArray(0);
         });
+
+        glUseProgram(0);
     }
 }

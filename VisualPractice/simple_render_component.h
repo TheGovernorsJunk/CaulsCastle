@@ -10,13 +10,14 @@ namespace te
 {
     struct SimpleRenderInstance
     {
+        GLuint vao;
         GLuint vbo;
-        GLuint ibo;
     };
 
     class SimpleRenderComponent : public Component<SimpleRenderInstance>
     {
     public:
+        SimpleRenderComponent(const glm::mat4& projection);
         ~SimpleRenderComponent();
 
         void setSprite(const Entity& entity, const glm::vec2& dimensions, const glm::vec2& offset);
@@ -24,6 +25,11 @@ namespace te
         virtual void destroyInstance(const Entity& entity);
     private:
         friend class RenderSystem;
+
+        GLint mShader;
+        GLuint mProjectionLocation;
+        GLuint mViewLocation;
+        GLuint mModelLocation;
     };
 
     typedef std::shared_ptr<SimpleRenderComponent> SimpleRenderPtr;

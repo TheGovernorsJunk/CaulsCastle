@@ -1,13 +1,26 @@
 #include "simple_render_component.h"
+#include "shader.h"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace te
 {
     void destroyGLMemory(SimpleRenderInstance& instance)
     {
+        glDeleteVertexArrays(1, &instance.vao);
         glDeleteBuffers(1, &instance.vbo);
-        glDeleteBuffers(1, &instance.ibo);
+        instance.vao = 0;
         instance.vbo = 0;
-        instance.ibo = 0;
+    }
+
+    SimpleRenderComponent::SimpleRenderComponent(const glm::mat4& projection)
+        : mShader(loadProgram("simple_render_component.glvs", "simple_render_component.glfs"))
+        , mProjectionLocation(glGetUniformLocation(mShader, "te_ProjectionMatrix"))
+        , mViewLocation(glGetUniformLocation(mShader, "te_ViewMatrix"))
+        , mModelLocation(glGetUniformLocation(mShader, "te_ModelMatrix"))
+    {
+        glUseProgram(mShader);
+        glUniformMatrix4fv(mProjectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        glUseProgram(0);
     }
 
     SimpleRenderComponent::~SimpleRenderComponent()
@@ -25,24 +38,27 @@ namespace te
 
         if (!exists)
         {
+            glGenVertexArrays(1, &instance.vao);
             glGenBuffers(1, &instance.vbo);
-            glGenBuffers(1, &instance.ibo);
         }
 
-        glm::vec2 vertices[4] = {
-            { -dimensions.x / 2, -dimensions.y / 2 },
-            { dimensions.x / 2, -dimensions.y / 2 },
-            { dimensions.x / 2, dimensions.y / 2 },
-            { -dimensions.x / 2, dimensions.y / 2 }
+        glBindVertexArray(instance.vao);
+
+        glm::vec3 vertices[4] = {
+            { -dimensions.x / 2, -dimensions.y / 2, 0 },
+            { dimensions.x / 2, -dimensions.y / 2, 0 },
+            { dimensions.x / 2, dimensions.y / 2, 0 },
+            { -dimensions.x / 2, dimensions.y / 2, 0 }
         };
 
         glBindBuffer(GL_ARRAY_BUFFER, instance.vbo);
-        glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec2), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec3), vertices, GL_STATIC_DRAW);
 
-        GLuint indices[4]{0, 1, 2, 3};
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+        glEnableVertexAttribArray(0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, instance.ibo);
-        glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(GLuint), indices, GL_STATIC_DRAW);
+        glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     void SimpleRenderComponent::destroyInstance(const Entity& entity)

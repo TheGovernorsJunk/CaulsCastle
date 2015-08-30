@@ -140,12 +140,6 @@
     <None Include="types.lua">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="vertex.glvs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="fragment.glfs">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="tiled\sample.lua">
       <Filter>Resource Files\tiled</Filter>
     </None>
@@ -159,6 +153,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="map_loader.lua">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="simple_render_component.glfs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="simple_render_component.glvs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

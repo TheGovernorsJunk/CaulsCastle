@@ -10,31 +10,18 @@ namespace te
     class SimpleRenderComponent;
     class TransformComponent;
 
-    struct TransformationData
-    {
-        glm::mat4 projection;
-        glm::mat4 modelView;
-
-        GLint projectionLocation;
-        GLint modelViewLocation;
-
-        GLint vertex2DLocation;
-    };
-
     class RenderSystem
     {
     public:
         RenderSystem(
             std::shared_ptr<SimpleRenderComponent> pRender,
-            std::shared_ptr<TransformComponent> pTransform,
-            const TransformationData& data);
+            std::shared_ptr<TransformComponent> pTransform);
 
-        void draw() const;
+        void draw(const glm::mat4& viewTransform) const;
 
     private:
         std::shared_ptr<SimpleRenderComponent> mpRender;
         std::shared_ptr<TransformComponent> mpTransform;
-        TransformationData mData;
     };
 }
 
