@@ -1,5 +1,4 @@
 #include "bounding_box_component.h"
-#include <SDL_rect.h>
 #include "transform_component.h"
 
 namespace te
@@ -23,7 +22,7 @@ namespace te
         }
     }
 
-	SDL_Rect BoundingBoxComponent::getBoundingBox(const Entity& entity) const
+	BoundingBox BoundingBoxComponent::getBoundingBox(const Entity& entity) const
 	{
         if (!hasInstance(entity)) { throw std::out_of_range("No bounding box instance for entity."); }
 
@@ -48,11 +47,11 @@ namespace te
             if (vertices[i].y > max.y) { max.y = vertices[i].y; }
         }
 
-        return SDL_Rect{
-            (int)min.x,
-            (int)min.y,
-            (int)(max.x - min.x),
-            (int)(max.y - min.y)
+        return {
+            min.x,
+            min.y,
+            max.x - min.x,
+            max.y - min.y
         };
 	}
 

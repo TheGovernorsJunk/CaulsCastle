@@ -5,39 +5,6 @@
 namespace te
 {
 
-    bool checkCollision(const SDL_Rect& a, const SDL_Rect& b)
-    {
-        int topA = a.y;
-        int leftA = a.x;
-        int bottomA = a.y + a.h;
-        int rightA = a.x + a.w;
-
-        int topB = b.y;
-        int leftB = b.x;
-        int bottomB = b.y + b.h;
-        int rightB = b.x + b.w;
-
-        bool isColliding = true;
-        if (topA >= bottomB ||
-            topB >= bottomA ||
-            leftA >= rightB ||
-            leftB >= rightA)
-        {
-            isColliding = false;
-        }
-        return isColliding;
-    }
-
-    SDL_Rect getIntersection(const SDL_Rect& a, const SDL_Rect& b)
-    {
-        int x = (a.x > b.x) ? a.x : b.x;
-        int y = (a.y > b.y) ? a.y : b.y;
-        int w = (a.x + a.w) < (b.x + b.w) ? (a.x + a.w) - x : (b.x + b.w) - x;
-        int h = (a.y + a.h) < (b.y + b.h) ? (a.y + a.h) - y : (b.y + b.h) - y;
-        SDL_Rect intersection = { x, y, w, h };
-        return intersection;
-    }
-    
     Vector2i getCenter(const SDL_Rect& rect)
     {
         Vector2i center = {

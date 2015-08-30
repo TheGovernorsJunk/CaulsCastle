@@ -17,13 +17,21 @@ namespace te
         glm::vec2 offset;
     };
 
+    struct BoundingBox
+    {
+        float x;
+        float y;
+        float w;
+        float h;
+    };
+
     class BoundingBoxComponent : public Component<BBInstance>
     {
     public:
         BoundingBoxComponent(std::shared_ptr<TransformComponent> pTransform, std::size_t capacity = 1024);
 
         void setBoundingBox(const Entity& entity, const glm::vec2& dimensions, const glm::vec2& offset);
-        SDL_Rect getBoundingBox(const Entity& entity) const;
+        BoundingBox getBoundingBox(const Entity& entity) const;
 	private:
 		friend class CollisionSystem;
 

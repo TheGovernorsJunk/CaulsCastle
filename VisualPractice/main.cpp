@@ -258,15 +258,15 @@ namespace te
             mCollisionSystem.update(dt);
         }
 
-        SDL_Rect getBoundingBox(Entity entity)
+        BoundingBox getBoundingBox(Entity entity)
         {
             return mpBoundingBoxComponent->getBoundingBox(entity);
         }
 
-        SDL_Rect getIntersection(Entity a, Entity b)
+        BoundingBox getIntersection(Entity a, Entity b)
         {
-            SDL_Rect aRect = getBoundingBox(a);
-            SDL_Rect bRect = getBoundingBox(b);
+            BoundingBox aRect = getBoundingBox(a);
+            BoundingBox bRect = getBoundingBox(b);
             return te::getIntersection(aRect, bRect);
         }
 
@@ -398,7 +398,7 @@ int main(int argc, char** argv)
         auto handleWallCollision = [&state](Entity ball, Entity wall, float dt)
         {
             glm::vec2 velocity = state.getVelocity(ball);
-            SDL_Rect intersection = state.getIntersection(ball, wall);
+            BoundingBox intersection = state.getIntersection(ball, wall);
             if (intersection.w > intersection.h)
             {
                 velocity.y = -velocity.y;
