@@ -24,6 +24,7 @@
 #include "transform_component.h"
 #include "physics_component.h"
 #include "physics_system.h"
+#include "platformer_physics_system.h"
 #include "bounding_box_component.h"
 #include "collision_system.h"
 #include "simple_render_component.h"
@@ -67,13 +68,12 @@ namespace te
     {
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
-            : mEntities()
-            , mpTransformComponent(new TransformComponent())
+            : mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
             , mpRenderComponent(new SimpleRenderComponent(projection))
             , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
-            , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent)
+            , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent, 4)
             , mCollisionSystem(mpBoundingBoxComponent, {&mCollisionHandler})
             , mRenderSystem(mpRenderComponent, mpTransformComponent)
             , mKeyPressTable()
@@ -104,11 +104,13 @@ namespace te
         Entity createEntity(glm::vec2 position, glm::vec2 velocity = glm::vec2(0, 0))
         {
             Entity entity = mEntityManager.create();
-            mEntities.push_back(entity);
             mpTransformComponent->setLocalTransform(
                 entity,
                 glm::translate(glm::vec3(position.x, position.y, 0.f)));
-            mpPhysicsComponent->setPhysics(entity, velocity);
+            if (velocity != glm::vec2(0, 0))
+            {
+                mpPhysicsComponent->setPhysics(entity, velocity);
+            }
             return entity;
         }
 
@@ -275,14 +277,7 @@ namespace te
             mRenderSystem.draw(view);
         }
 
-        void forEachEntity(const std::function<void(const Entity&)>& func)
-        {
-            std::for_each(mEntities.begin(), mEntities.end(), func);
-        }
-
     private:
-        std::vector<Entity> mEntities;
-
         TransformPtr mpTransformComponent;
         PhysicsPtr mpPhysicsComponent;
         BoundingBoxPtr mpBoundingBoxComponent;
@@ -290,7 +285,7 @@ namespace te
 
         EntityManager mEntityManager;
 
-        PhysicsSystem mPhysicsSystem;
+        PlatformerPhysicsSystem mPhysicsSystem;
         CollisionSystem mCollisionSystem;
 
         RenderSystem mRenderSystem;
@@ -347,7 +342,8 @@ int main(int argc, char** argv)
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
 
-        LuaGameState state(glm::ortho<GLfloat>(0.0, 100, 100, 0.0, 1.0, -1.0));
+        glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1);
+        LuaGameState state(projection);
 
         te::TiledMap myMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4());
         te::TiledMap yourMap = std::move(myMap);
@@ -355,17 +351,17 @@ int main(int argc, char** argv)
 
         // State initialization
 
-        Entity ball = state.createEntity({ 50, 50 }, { 50, 0 });
-        state.setSprite(ball, { 5, 5 });
-        state.setBoundingBox(ball, { 5, 5 });
+        Entity ball = state.createEntity({ 8, 4.5 }, { 0, -1 });
+        state.setSprite(ball, { 1, 1 });
+        state.setBoundingBox(ball, { 1, 1 });
 
-        Entity leftPaddle = state.createEntity({ 1, 50 });
-        state.setSprite(leftPaddle, { 2, 20 });
-        state.setBoundingBox(leftPaddle, { 2, 20 });
+        Entity leftPaddle = state.createEntity({ 0.5, 4.5 });
+        state.setSprite(leftPaddle, { 1, 3 });
+        state.setBoundingBox(leftPaddle, { 1, 3 });
 
-        Entity rightPaddle = state.createEntity({ 99, 50 });
-        state.setSprite(rightPaddle, { 2, 20 });
-        state.setBoundingBox(rightPaddle, { 2, 20 });
+        Entity rightPaddle = state.createEntity({ 15.5, 4.5 });
+        state.setSprite(rightPaddle, { 1, 3 });
+        state.setBoundingBox(rightPaddle, { 1, 3 });
 
         auto handlePaddleCollision = [&state](Entity ball, Entity paddle, float dt)
         {
@@ -380,10 +376,10 @@ int main(int argc, char** argv)
         state.handleCollision(ball, leftPaddle, handlePaddleCollision);
         state.handleCollision(ball, rightPaddle, handlePaddleCollision);
 
-        state.registerKeyPress('w', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, -100)); });
-        state.registerKeyPress('s', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 100)); });
-        state.registerKeyPress('p', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, -100)); });
-        state.registerKeyPress('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 100)); });
+        state.registerKeyPress('w', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, -8)); });
+        state.registerKeyPress('s', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 8)); });
+        state.registerKeyPress('p', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, -8)); });
+        state.registerKeyPress('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 8)); });
 
         state.registerKeyRelease('w', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 0)); });
         state.registerKeyRelease('s', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 0)); });
@@ -392,7 +388,7 @@ int main(int argc, char** argv)
 
         Entity topWall = state.createEntity({ 50, -1 });
         state.setBoundingBox(topWall, { 100, 2 });
-        Entity bottomWall = state.createEntity({ 50, 101 });
+        Entity bottomWall = state.createEntity({ 8, 10 });
         state.setBoundingBox(bottomWall, { 100, 2 });
 
         auto handleWallCollision = [&state](Entity ball, Entity wall, float dt)
