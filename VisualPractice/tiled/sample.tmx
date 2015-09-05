@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" nextobjectid="4">
  <tileset firstgid="1" name="generica" tilewidth="32" tileheight="32">
   <image source="generic_platformer_tiles.png" width="1024" height="768"/>
   <terraintypes>
    <terrain name="ground" tile="-1"/>
   </terraintypes>
+  <tile id="24">
+   <objectgroup draworder="index">
+    <object id="0" x="14" y="12" width="15" height="15"/>
+   </objectgroup>
+   <animation>
+    <frame tileid="452" duration="100"/>
+    <frame tileid="453" duration="100"/>
+   </animation>
+  </tile>
   <tile id="384" terrain="0,0,0,0"/>
   <tile id="385" terrain="0,0,0,0"/>
   <tile id="386" terrain="0,0,0,0"/>
-  <tile id="387" terrain="0,0,0,0"/>
+  <tile id="387" terrain="0,0,0,0">
+   <properties>
+    <property name="Collidable" value="True"/>
+   </properties>
+  </tile>
   <tile id="388" terrain="0,0,0,0"/>
   <tile id="389" terrain="0,0,0,0"/>
   <tile id="416" terrain="0,0,0,0"/>
@@ -20,7 +33,10 @@
  </tileset>
  <layer name="Tile Layer 1" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwN0lciEAAAAFDKLDsX0LQJF0AaGkYukDKzwgXKzijjAmmSWV0AkZURF2jv3QF6H+8GLzAgIGAPewkimBBCCSOcfewngkiiiCaGWOI4QDwJHOQQhznCUY6RSBLJpJBKGulkkMlxssgmh1zyyOcEBZzkFKc5QyFnOcd5LlBEMSWUcpEyLlHOZa5QQSVVVFNDLVepo54GGmniGs200Mp1btBGOx100kU3Pdyklz76GeAWtxlkiGFGuMMod7nHfR7wkEeMMc5jJphkimlmmOUJT3nGHPMs8JxFlnjBMiusssY6L9lgky22ecUOu7zmDW95x3s+8JFPfOYLX/nGd37wk1/85g9/+UdgoH/sJYhgQggljHD2sZ8IIokimhhiieMA8SRwkEMc5ghHOUYiSSSTQipppJNBJsfJIpsccskjnxMUcJJTnOYMhZzlHOe5QBHFlFDKRcq4RDmXuUIFlVRRTQ21XKWOehpopIlrNNNCK9e5QRvtdNBJF930cJNe+uhngFvcZpAhhhnhDqPc5R73ecBDHjHGOI+ZYJIppplhlic85RlzzLPAcxZZ4gXLrLDKGuu8ZINNttjmFTvs8h9S64db
+   eJzTYmRg0BrFo3gUj2IcWJIBgSnRSw0MADHtMMc=
   </data>
  </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="1" name="mario" x="288" y="384" width="32" height="32"/>
+ </objectgroup>
 </map>

@@ -73,6 +73,11 @@ namespace te
         for (int l = 1; !layers[l].isNil(); ++l)
         {
             luabridge::LuaRef layer = layers[l];
+            // Following code only works on tile layers.
+            if (layer["type"].cast<std::string>() != "tilelayer")
+            {
+                continue;
+            }
             int layerWidth = layer["width"].cast<int>();
             int layerHeight = layer["height"].cast<int>();
 
