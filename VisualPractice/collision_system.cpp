@@ -16,13 +16,13 @@ namespace te
         , mObservers(std::move(observers))
     {}
 
-	void CollisionSystem::update(float dt) const
-	{
+    void CollisionSystem::update(float dt) const
+    {
         BoundingBoxComponent& bbcomponent = *mpBoundingBox;
         const ObserverList& observers = mObservers;
 
-		bbcomponent.forEach([&bbcomponent, &observers, dt](const Entity& entityA, BBInstance instanceA)
-		{
+        bbcomponent.forEach([&bbcomponent, &observers, dt](const Entity& entityA, BBInstance instanceA)
+        {
             bbcomponent.forEach([&entityA, &bbcomponent, &observers, dt](const Entity& entityB, BBInstance& instanceB)
             {
                 if (entityA != entityB &&
@@ -35,8 +35,8 @@ namespace te
                     });
                 }
             });
-		});
-	}
+        });
+    }
 
     MapCollisionSystem::MapCollisionSystem(
         std::shared_ptr<BoundingBoxComponent> pBoundingBox,

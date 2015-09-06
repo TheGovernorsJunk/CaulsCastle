@@ -8,32 +8,32 @@
 
 namespace te
 {
-	class BoundingBoxComponent;
-	class TransformComponent;
+    class BoundingBoxComponent;
+    class TransformComponent;
     class TiledMap;
 
-	struct CollisionEvent
-	{
+    struct CollisionEvent
+    {
         Entity a;
         Entity b;
         float dt;
     };
 
-	class CollisionSystem
-	{
-	public:
+    class CollisionSystem
+    {
+    public:
         typedef std::vector<std::shared_ptr<Observer<CollisionEvent>>> ObserverList;
 
         CollisionSystem(
             std::shared_ptr<BoundingBoxComponent> pBoundingBox,
             ObserverList&& observers);
 
-		void update(float dt) const;
+        void update(float dt) const;
 
     private:
         std::shared_ptr<BoundingBoxComponent> mpBoundingBox;
         ObserverList mObservers;
-	};
+    };
 
     struct MapCollisionEvent
     {
