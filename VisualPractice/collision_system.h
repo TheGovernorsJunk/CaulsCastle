@@ -10,6 +10,7 @@ namespace te
 {
 	class BoundingBoxComponent;
 	class TransformComponent;
+    class TiledMap;
 
 	struct CollisionEvent
 	{
@@ -33,6 +34,31 @@ namespace te
         std::shared_ptr<BoundingBoxComponent> mpBoundingBox;
         ObserverList mObservers;
 	};
+
+    struct MapCollisionEvent
+    {
+        Entity entity;
+        TiledMap& map;
+        float dt;
+    };
+
+    class MapCollisionSystem
+    {
+    public:
+        typedef std::vector<std::shared_ptr<Observer<MapCollisionEvent>>> ObserverList;
+
+        MapCollisionSystem(
+            std::shared_ptr<BoundingBoxComponent> pBoundingBox,
+            std::shared_ptr<TiledMap> pTiledMap,
+            ObserverList&& observers);
+
+        void update(float dt) const;
+
+    private:
+        std::shared_ptr<BoundingBoxComponent> mpBoundingBox;
+        std::shared_ptr<TiledMap> mpTiledMap;
+        ObserverList mObservers;
+    };
 }
 
 #endif
