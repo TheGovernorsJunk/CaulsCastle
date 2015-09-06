@@ -1,8 +1,22 @@
 #include "bounding_box_component.h"
 #include "transform_component.h"
+#include <array>
 
 namespace te
 {
+    BoundingBox operator*(const glm::mat4& matrix, const BoundingBox& bb)
+    {
+        glm::vec4 topLeftVertex = matrix * glm::vec4(bb.x, bb.y, 0, 1);
+        glm::vec4 topRightVertex = matrix * glm::vec4(bb.x + bb.w, bb.y, 0, 1);
+        glm::vec4 bottomLeftVertex = matrix * glm::vec4(bb.x, bb.y + bb.h, 0, 1);
+        return {
+            topLeftVertex.x,
+            topLeftVertex.y,
+            topRightVertex.x - topLeftVertex.x,
+            bottomLeftVertex.y - topLeftVertex.y
+        };
+    }
+
     BoundingBoxComponent::BoundingBoxComponent(
         std::shared_ptr<TransformComponent> pTransform,
         std::size_t capacity)

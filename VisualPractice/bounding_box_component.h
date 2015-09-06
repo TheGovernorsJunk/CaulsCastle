@@ -25,6 +25,8 @@ namespace te
         float h;
     };
 
+    BoundingBox operator*(const glm::mat4&, const BoundingBox&);
+
     class BoundingBoxComponent : public Component<BBInstance>
     {
     public:
