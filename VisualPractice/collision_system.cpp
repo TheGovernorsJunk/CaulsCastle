@@ -28,7 +28,7 @@ namespace te
                     checkCollision(bbcomponent.getBoundingBox(entityA),
                                    bbcomponent.getBoundingBox(entityB)))
                 {
-                    std::for_each(std::begin(observers), std::end(observers), [&entityA, &entityB, dt](Observer<CollisionEvent>* pObserver)
+                    std::for_each(std::begin(observers), std::end(observers), [&entityA, &entityB, dt](std::shared_ptr<Observer<CollisionEvent>> pObserver)
                     {
                         pObserver->onNotify({entityA, entityB, dt});
                     });

@@ -21,7 +21,7 @@ namespace te
 	class CollisionSystem
 	{
 	public:
-        typedef std::vector<Observer<CollisionEvent>*> ObserverList;
+        typedef std::vector<std::shared_ptr<Observer<CollisionEvent>>> ObserverList;
 
         CollisionSystem(
             std::shared_ptr<BoundingBoxComponent> pBoundingBox,
