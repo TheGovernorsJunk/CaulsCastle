@@ -2,6 +2,8 @@
 
 #include "shader.h"
 #include "texture.h"
+#include "bounding_box_component.h"
+#include "auxiliary.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -19,7 +21,11 @@ namespace te
         const std::string& filename,
         const glm::mat4& projection,
         const glm::mat4& model)
-        : mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs")), mTilesets(), mBuffers()
+        : mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs"))
+        , mTilesets()
+        , mLayers()
+        , mCollisionRects()
+        , mModelMatrix(model)
     {
         glUseProgram(mShaderProgram);
 
@@ -53,6 +59,34 @@ namespace te
                 tileset["imageheight"].cast<GLint>(),
                 tileset["firstgid"].cast<int>()
             });
+            Tileset& currTileset = mTilesets.back();
+
+            luabridge::LuaRef tiles = tileset["tiles"];
+            if (!tiles.isNil())
+            {
+                for (int i = 1; !tiles[i].isNil(); ++i)
+                {
+                    luabridge::LuaRef tile = tiles[i];
+                    luabridge::LuaRef objectGroup = tile["objectGroup"];
+                    if (!objectGroup.isNil())
+                    {
+                        luabridge::LuaRef objects = objectGroup["objects"];
+                        for (int i = 1; !objects[i].isNil(); ++i)
+                        {
+                            luabridge::LuaRef object = objects[i];
+                            mCollisionRects.insert({
+                                tile["id"].cast<unsigned>() + currTileset.firstGID,
+                                {
+                                    object["x"].cast<float>() / currTileset.tileWidth,
+                                    object["y"].cast<float>() / currTileset.tileHeight,
+                                    object["width"].cast<float>() / currTileset.tileWidth,
+                                    object["height"].cast<float>() / currTileset.tileHeight
+                                }
+                            });
+                        }
+                    }
+                }
+            }
         }
 
         struct Vertex
@@ -78,6 +112,9 @@ namespace te
             {
                 continue;
             }
+
+            std::vector<unsigned> layerTileIDs;
+
             int layerWidth = layer["width"].cast<int>();
             int layerHeight = layer["height"].cast<int>();
 
@@ -100,6 +137,7 @@ namespace te
                 vertex[3].position = { x, y + 1, (GLfloat)((l - 1) * 100) };
 
                 unsigned tileIndex = data[t + 1].cast<unsigned>();
+                layerTileIDs.push_back(tileIndex);
                 Tileset* pTileset = 0;
                 for (auto it = mTilesets.begin(); it != mTilesets.end(); ++it)
                 {
@@ -171,14 +209,16 @@ namespace te
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, 0);
 
-            mBuffers.push_back({ vao, vbo, ebo });
+            mLayers.push_back({ vao, vbo, ebo, layerTileIDs, layer["width"], layer["height"] });
         }
     }
 
     TiledMap::TiledMap(TiledMap&& tm)
         : mShaderProgram(tm.mShaderProgram)
         , mTilesets(std::move(tm.mTilesets))
-        , mBuffers(std::move(tm.mBuffers))
+        , mLayers(std::move(tm.mLayers))
+        , mCollisionRects(std::move(tm.mCollisionRects))
+        , mModelMatrix(std::move(tm.mModelMatrix))
     {
         tm.mShaderProgram = 0;
     }
@@ -189,7 +229,9 @@ namespace te
 
         mShaderProgram = tm.mShaderProgram;
         mTilesets = std::move(tm.mTilesets);
-        mBuffers = std::move(tm.mBuffers);
+        mLayers = std::move(tm.mLayers);
+        mCollisionRects = std::move(tm.mCollisionRects);
+        mModelMatrix = std::move(tm.mModelMatrix);
 
         tm.mShaderProgram = 0;
 
@@ -220,7 +262,7 @@ namespace te
             ss >> textureIndexStr;
             glUniform1i(glGetUniformLocation(mShaderProgram, std::string("samplers[" + textureIndexStr + "]").c_str()), textureIndex);
         }
-        std::for_each(std::begin(mBuffers), std::end(mBuffers), [](const Buffers& buffers)
+        std::for_each(std::begin(mLayers), std::end(mLayers), [](const Layer& buffers)
         {
             glBindVertexArray(buffers.vao);
             glDrawElements(GL_TRIANGLES, 1800, GL_UNSIGNED_INT, 0);
@@ -228,9 +270,33 @@ namespace te
         });
     }
 
+    bool TiledMap::checkCollision(const BoundingBox& worldBB) const
+    {
+        BoundingBox localBB(glm::inverse(mModelMatrix) * worldBB);
+        const std::map<unsigned, BoundingBox>& collisionRects(mCollisionRects);
+
+        for (auto it = mLayers.begin(); it != mLayers.end(); ++it)
+        {
+            const Layer& layer = *it;
+            for (unsigned x = (unsigned)localBB.x; x < (unsigned)(localBB.x + localBB.w + 1) && x >= 0 && x < layer.width; ++x)
+            {
+                for (unsigned y = (unsigned)localBB.y; y < (unsigned)(localBB.y + localBB.h + 1) && y >= 0 && y < layer.height; ++y)
+                {
+                    unsigned index = x + (y * layer.width);
+                    auto it = collisionRects.find(layer.IDs[index]);
+                    if (it != collisionRects.end())
+                    {
+                        return te::checkCollision(glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, 0)) * it->second, localBB);
+                    }
+                }
+            }
+        };
+        return false;
+    }
+
     void TiledMap::destroy()
     {
-        std::for_each(std::begin(mBuffers), std::end(mBuffers), [](Buffers& buffers)
+        std::for_each(std::begin(mLayers), std::end(mLayers), [](Layer& buffers)
         {
             glDeleteBuffers(1, &buffers.vbo);
             glDeleteBuffers(1, &buffers.ebo);
@@ -240,6 +306,6 @@ namespace te
 
         mShaderProgram = 0;
         mTilesets.clear();
-        mBuffers.clear();
+        mLayers.clear();
     }
 }

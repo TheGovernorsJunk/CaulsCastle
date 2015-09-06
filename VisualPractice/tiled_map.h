@@ -7,10 +7,12 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <map>
 
 namespace te
 {
     class Texture;
+    struct BoundingBox;
 
     class TiledMap
     {
@@ -27,6 +29,7 @@ namespace te
         ~TiledMap();
 
         void draw(const glm::mat4& viewTransform = glm::mat4()) const;
+        bool checkCollision(const BoundingBox&) const;
 
     private:
         TiledMap(const TiledMap&) = delete;
@@ -42,16 +45,22 @@ namespace te
             unsigned firstGID;
         };
 
-        struct Buffers
+        struct Layer
         {
             GLuint vao;
             GLuint vbo;
             GLuint ebo;
+
+            std::vector<unsigned> IDs;
+            unsigned width;
+            unsigned height;
         };
 
         GLuint mShaderProgram;
         std::vector<Tileset> mTilesets;
-        std::vector<Buffers> mBuffers;
+        std::vector<Layer> mLayers;
+        std::map<unsigned, BoundingBox> mCollisionRects;
+        glm::mat4 mModelMatrix;
 
         void destroy();
     };
