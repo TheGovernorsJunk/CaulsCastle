@@ -46,7 +46,7 @@ namespace te
             : pTexture(pTexture), w(w), h(h) {}
     };
 
-    class CollisionHandler : public Observer<CollisionEvent>
+    class CollisionHandler : public Observer<CollisionEvent>, public Observer<MapCollisionEvent>
     {
     public:
         typedef std::pair<Entity, Entity> EntityPair;
@@ -62,23 +62,30 @@ namespace te
                 it->second(evt.a, evt.b, evt.dt);
             }
         }
+
+        virtual void onNotify(const MapCollisionEvent& evt)
+        {
+            std::cout << "yup" << std::endl;
+        }
     };
 
     class LuaGameState
     {
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
-            : mpTransformComponent(new TransformComponent())
+            : mpMap(new TiledMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
+            , mCollisionHandler(new CollisionHandler())
+            , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
             , mpRenderComponent(new SimpleRenderComponent(projection))
             , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
             , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent, 4)
-            , mCollisionSystem(mpBoundingBoxComponent, {&mCollisionHandler})
+            , mCollisionSystem(mpBoundingBoxComponent, {mCollisionHandler})
+            , mMapCollisionSystem(mpBoundingBoxComponent, mpMap, {mCollisionHandler})
             , mRenderSystem(mpRenderComponent, mpTransformComponent)
             , mKeyPressTable()
             , mKeyReleaseTable()
-            , mCollisionHandler()
             , mFontCount(0)
             , mFontMap()
             , mChannel(0)
@@ -179,10 +186,10 @@ namespace te
             if (!exists(e1) || !exists(e2)) return;
 
             auto key = std::make_pair(e1, e2);
-            auto it = mCollisionHandler.map.find(key);
-            if (it == mCollisionHandler.map.end())
+            auto it = mCollisionHandler->map.find(key);
+            if (it == mCollisionHandler->map.end())
             {
-                mCollisionHandler.map.insert(std::make_pair(
+                mCollisionHandler->map.insert(std::make_pair(
                     key,
                     handler));
             }
@@ -258,6 +265,7 @@ namespace te
         {
             mPhysicsSystem.update(dt);
             mCollisionSystem.update(dt);
+            mMapCollisionSystem.update(dt);
         }
 
         BoundingBox getBoundingBox(Entity entity)
@@ -278,6 +286,9 @@ namespace te
         }
 
     private:
+        std::shared_ptr<TiledMap> mpMap;
+        std::shared_ptr<CollisionHandler> mCollisionHandler;
+
         TransformPtr mpTransformComponent;
         PhysicsPtr mpPhysicsComponent;
         BoundingBoxPtr mpBoundingBoxComponent;
@@ -287,13 +298,12 @@ namespace te
 
         PlatformerPhysicsSystem mPhysicsSystem;
         CollisionSystem mCollisionSystem;
+        MapCollisionSystem mMapCollisionSystem;
 
         RenderSystem mRenderSystem;
 
         std::map<char, std::function<void(void)>> mKeyPressTable;
         std::map<char, std::function<void(void)>> mKeyReleaseTable;
-
-        CollisionHandler mCollisionHandler;
 
         FontHandle mFontCount;
         std::map<FontHandle, FontPtr> mFontMap;
@@ -441,19 +451,19 @@ int main(int argc, char** argv)
                 }
                 else if (e.type == SDL_KEYDOWN)
                 {
-                    if (e.key.keysym.sym == SDLK_w)
+                    if (e.key.keysym.sym == SDLK_UP)
                     {
                         translation.y += .1f;
                     }
-                    else if (e.key.keysym.sym == SDLK_s)
+                    else if (e.key.keysym.sym == SDLK_DOWN)
                     {
                         translation.y -= .1f;
                     }
-                    else if (e.key.keysym.sym == SDLK_a)
+                    else if (e.key.keysym.sym == SDLK_LEFT)
                     {
                         translation.x += .1f;
                     }
-                    else if (e.key.keysym.sym == SDLK_d)
+                    else if (e.key.keysym.sym == SDLK_RIGHT)
                     {
                         translation.x -= .1f;
                     }
