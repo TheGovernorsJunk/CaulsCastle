@@ -50,8 +50,10 @@ namespace te
     {
     public:
         typedef std::pair<Entity, Entity> EntityPair;
+        typedef std::pair<Entity, TiledMap*> EntityMapPair;
 
         std::map<EntityPair, std::function<void(Entity, Entity, float)>> map;
+        std::map<EntityMapPair, std::function<void(Entity, TiledMap&, float)>> tiledCollisionMap;
 
         virtual void onNotify(const CollisionEvent& evt)
         {
@@ -65,7 +67,12 @@ namespace te
 
         virtual void onNotify(const MapCollisionEvent& evt)
         {
-            std::cout << "yup" << std::endl;
+            EntityMapPair pair = { evt.entity, &evt.map };
+            auto it = tiledCollisionMap.find(pair);
+            if (it != tiledCollisionMap.end())
+            {
+                it->second(evt.entity, evt.map, evt.dt);
+            }
         }
     };
 
@@ -80,7 +87,7 @@ namespace te
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
             , mpRenderComponent(new SimpleRenderComponent(projection))
             , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
-            , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent, 4)
+            , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent, mpBoundingBoxComponent, mpMap, 4)
             , mCollisionSystem(mpBoundingBoxComponent, {mCollisionHandler})
             , mMapCollisionSystem(mpBoundingBoxComponent, mpMap, {mCollisionHandler})
             , mRenderSystem(mpRenderComponent, mpTransformComponent)
@@ -199,6 +206,24 @@ namespace te
             }
         }
 
+        void handleMapCollision(Entity e, std::function<void(Entity, TiledMap&, float)> handler)
+        {
+            if (!exists(e)) return;
+
+            auto key = std::make_pair(e, mpMap.get());
+            auto it = mCollisionHandler->tiledCollisionMap.find(key);
+            if (it == mCollisionHandler->tiledCollisionMap.end())
+            {
+                mCollisionHandler->tiledCollisionMap.insert(std::make_pair(
+                    key,
+                    handler));
+            }
+            else
+            {
+                it->second = handler;
+            }
+        }
+
         void registerKeyPress(char character, std::function<void(void)> func)
         {
             auto it = mKeyPressTable.find(character);
@@ -265,7 +290,7 @@ namespace te
         {
             mPhysicsSystem.update(dt);
             mCollisionSystem.update(dt);
-            mMapCollisionSystem.update(dt);
+            //mMapCollisionSystem.update(dt);
         }
 
         BoundingBox getBoundingBox(Entity entity)
@@ -386,13 +411,28 @@ int main(int argc, char** argv)
         state.handleCollision(ball, leftPaddle, handlePaddleCollision);
         state.handleCollision(ball, rightPaddle, handlePaddleCollision);
 
+        auto handleGroundCollision = [&state](Entity paddle, TiledMap& map, float dt)
+        {
+            glm::vec2 paddleVel = state.getVelocity(paddle);
+            if (paddleVel.y > 0)
+            {
+                paddleVel.y = 0;
+                state.setVelocity(paddle, paddleVel);
+            }
+        };
+        state.handleMapCollision(leftPaddle, handleGroundCollision);
+
         state.registerKeyPress('w', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, -8)); });
         state.registerKeyPress('s', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 8)); });
+        state.registerKeyPress('a', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(-8, 0)); });
+        state.registerKeyPress('d', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(8, 0)); });
         state.registerKeyPress('p', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, -8)); });
         state.registerKeyPress('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 8)); });
 
         state.registerKeyRelease('w', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 0)); });
         state.registerKeyRelease('s', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 0)); });
+        state.registerKeyRelease('a', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 0)); });
+        state.registerKeyRelease('d', [leftPaddle, &state]() { state.setVelocity(leftPaddle, glm::vec2(0, 0)); });
         state.registerKeyRelease('p', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
         state.registerKeyRelease('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
 
