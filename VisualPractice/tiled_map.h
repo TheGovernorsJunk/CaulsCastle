@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <functional>
 
 namespace te
 {
@@ -30,6 +31,7 @@ namespace te
 
         void draw(const glm::mat4& viewTransform = glm::mat4()) const;
         bool checkCollision(const BoundingBox&) const;
+        std::vector<BoundingBox> getIntersections(const BoundingBox&) const;
 
     private:
         TiledMap(const TiledMap&) = delete;
@@ -63,6 +65,7 @@ namespace te
         glm::mat4 mModelMatrix;
 
         void destroy();
+        void applyToOverlaps(const BoundingBox&, std::function<bool(const BoundingBox&, const Layer&, unsigned tileIndex, unsigned x, unsigned y)>) const;
     };
 }
 

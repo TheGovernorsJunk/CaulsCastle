@@ -272,9 +272,46 @@ namespace te
 
     bool TiledMap::checkCollision(const BoundingBox& worldBB) const
     {
-        BoundingBox localBB(glm::inverse(mModelMatrix) * worldBB);
+        bool isColliding = false;
         const std::map<unsigned, BoundingBox>& collisionRects(mCollisionRects);
 
+        applyToOverlaps(worldBB, [&isColliding, &collisionRects](const BoundingBox& localBB, const Layer& layer, unsigned tileIndex, unsigned x, unsigned y)
+        {
+            auto it = collisionRects.find(layer.IDs[tileIndex]);
+            isColliding = it != collisionRects.end() ?
+                te::checkCollision(glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, 0)) * it->second, localBB) :
+                false;
+            return isColliding;
+        });
+        return isColliding;
+    }
+
+    std::vector<BoundingBox> TiledMap::getIntersections(const BoundingBox& worldBB) const
+    {
+        std::vector<BoundingBox> intersections;
+        const std::map<unsigned, BoundingBox>& collisionRects(mCollisionRects);
+        const glm::mat4& modelTransform = mModelMatrix;
+
+        applyToOverlaps(worldBB, [&intersections, &collisionRects, &modelTransform](const BoundingBox& localBB, const Layer& layer, unsigned tileIndex, unsigned x, unsigned y)
+        {
+            auto it = collisionRects.find(layer.IDs[tileIndex]);
+            if (it != collisionRects.end())
+            {
+                BoundingBox transformedCollisionRect = glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, 0)) * it->second;
+                if (te::checkCollision(transformedCollisionRect, localBB))
+                {
+                    intersections.push_back(modelTransform * getIntersection(localBB, transformedCollisionRect));
+                }
+            }
+            return false;
+        });
+
+        return intersections;
+    }
+
+    void TiledMap::applyToOverlaps(const BoundingBox& worldBB, std::function<bool(const BoundingBox& localBB, const Layer&, unsigned tileIndex, unsigned x, unsigned y)> fn) const
+    {
+        BoundingBox localBB(glm::inverse(mModelMatrix) * worldBB);
         for (auto it = mLayers.begin(); it != mLayers.end(); ++it)
         {
             const Layer& layer = *it;
@@ -282,16 +319,12 @@ namespace te
             {
                 for (unsigned y = (unsigned)localBB.y; y < (unsigned)(localBB.y + localBB.h + 1) && y >= 0 && y < layer.height; ++y)
                 {
-                    unsigned index = x + (y * layer.width);
-                    auto it = collisionRects.find(layer.IDs[index]);
-                    if (it != collisionRects.end())
-                    {
-                        return te::checkCollision(glm::translate(glm::mat4(), glm::vec3((float)x, (float)y, 0)) * it->second, localBB);
-                    }
+                    unsigned tileIndex = x + (y * layer.width);
+                    bool result = fn(localBB, layer, tileIndex, x, y);
+                    if (result) { return; }
                 }
             }
-        };
-        return false;
+        }
     }
 
     void TiledMap::destroy()
