@@ -74,6 +74,7 @@
     <ClCompile Include="bounding_box_component.cpp" />
     <ClCompile Include="collision_system.cpp" />
     <ClCompile Include="entity_manager.cpp" />
+    <ClCompile Include="game_state.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="physics_component.cpp" />
     <ClCompile Include="physics_system.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="collision_system.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="entity_manager.h" />
+    <ClInclude Include="game_state.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="physics_component.h" />

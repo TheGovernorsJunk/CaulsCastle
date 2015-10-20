@@ -16,6 +16,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <bass.h>
+#include <queue>
 #include "types.h"
 #include "wrappers.h"
 #include "auxiliary.h"
@@ -32,6 +33,7 @@
 #include "texture.h"
 #include "shader.h"
 #include "tiled_map.h"
+#include "game_state.h"
 
 using namespace te;
 
