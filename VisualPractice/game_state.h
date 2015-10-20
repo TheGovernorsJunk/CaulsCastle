@@ -14,6 +14,7 @@ public:
 	virtual ~GameState();
 
 	virtual bool update(float) = 0;
+	virtual bool draw() = 0;
 
 protected:
 	void queuePop();
@@ -43,7 +44,8 @@ public:
 	void popAt(GameState* pState);
 	void clear();
 
-	void update(float dt);
+	void update(float dt) const;
+	void draw() const;
 
 private:
 	std::vector<std::shared_ptr<GameState>> mStack;

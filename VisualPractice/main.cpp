@@ -78,11 +78,12 @@ namespace te
         }
     };
 
-    class LuaGameState
+    class LuaGameState : public GameState
     {
     public:
-        LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
-            : mpMap(new TiledMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
+        LuaGameState(std::shared_ptr<StateStack> pStack, const glm::mat4& projection, const std::string& filename = "init.lua")
+            : GameState(pStack)
+			, mpMap(new TiledMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -288,11 +289,13 @@ namespace te
             }
         }
 
-        void update(float dt)
+        bool update(float dt)
         {
             mPhysicsSystem.update(dt);
             mCollisionSystem.update(dt);
             //mMapCollisionSystem.update(dt);
+
+			return false;
         }
 
         BoundingBox getBoundingBox(Entity entity)
@@ -307,9 +310,16 @@ namespace te
             return te::getIntersection(aRect, bRect);
         }
 
-        void draw(const glm::mat4& view)
+		// HACKY! Only for test driver project
+		void setView(const glm::mat4& view)
+		{
+			mView = view;
+		}
+
+        bool draw()
         {
-            mRenderSystem.draw(view);
+            mRenderSystem.draw(mView);
+			return true;
         }
 
     private:
@@ -339,6 +349,7 @@ namespace te
 
         //std::map<Entity, GLuint> mVBOMap;
         //std::map<Entity, GLuint> mIBOMap;
+		glm::mat4 mView;
     };
 }
 
@@ -379,8 +390,12 @@ int main(int argc, char** argv)
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
 
+		std::shared_ptr<StateStack> pStateStack(new StateStack());
+
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1);
-        LuaGameState state(projection);
+        std::shared_ptr<LuaGameState> pState(new LuaGameState(pStateStack, projection));
+		pStateStack->push(pState);
+		LuaGameState& state = *pState;
 
         te::TiledMap myMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4());
         te::TiledMap yourMap = std::move(myMap);
@@ -516,12 +531,14 @@ int main(int argc, char** argv)
             Uint64 now = SDL_GetPerformanceCounter();
             float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
 
-            state.update(dt);
+            pStateStack->update(dt);
 
             glClear(GL_COLOR_BUFFER_BIT);
 
             myMap.draw(glm::translate(glm::mat4(), translation));
-            state.draw(glm::translate(glm::mat4(), translation));
+            //pStateStack->draw(glm::translate(glm::mat4(), translation));
+			state.setView(glm::translate(glm::mat4(), translation));
+			pStateStack->draw();
 
             SDL_GL_SwapWindow(pGLWindow.get());
             t0 = now;

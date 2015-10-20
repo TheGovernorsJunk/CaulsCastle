@@ -74,10 +74,19 @@ void StateStack::clear()
 	mStack.clear();
 }
 
-void StateStack::update(float dt)
+void StateStack::update(float dt) const
 {
 	for (auto it = mStack.begin(); it != mStack.end(); ++it) {
 		if (!it->get()->update(dt)) {
+			continue;
+		}
+	}
+}
+
+void StateStack::draw() const
+{
+	for (auto it = mStack.begin(); it != mStack.end(); ++it) {
+		if (!it->get()->draw()) {
 			continue;
 		}
 	}
