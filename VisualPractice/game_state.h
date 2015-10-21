@@ -10,11 +10,8 @@ class StateStack;
 class GameState
 {
 public:
-    GameState(std::shared_ptr<StateStack> pStack);
+    GameState();
     virtual ~GameState();
-
-    virtual bool update(float) = 0;
-    virtual bool draw() = 0;
 
 protected:
     void queuePop();
@@ -23,6 +20,14 @@ protected:
     void applyPendingChanges();
 
 private:
+    friend class StateStack;
+
+    virtual bool update(float) = 0;
+    virtual bool draw() = 0;
+
+    GameState(const GameState&) = delete;
+    GameState& operator=(const GameState&) = delete;
+
     enum class StackOp {
         PUSH,
         POP,
@@ -33,21 +38,28 @@ private:
         std::shared_ptr<GameState> state;
     };
 
-    std::shared_ptr<StateStack> mpStack;
+    StateStack *mpStack;
     std::deque<Change> mPendingChanges;
 };
 
 class StateStack
 {
 public:
-    void push(std::shared_ptr<GameState> pState);
-    void popAt(GameState* pState);
-    void clear();
+    StateStack(std::shared_ptr<GameState> pInitialState);
 
     void update(float dt) const;
     void draw() const;
 
 private:
+    friend class GameState;
+
+    void push(std::shared_ptr<GameState> pState);
+    void popAt(GameState* pState);
+    void clear();
+
+    StateStack(const StateStack&) = delete;
+    StateStack& operator=(const StateStack&) = delete;
+
     std::vector<std::shared_ptr<GameState>> mStack;
 };
 

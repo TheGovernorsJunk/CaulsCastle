@@ -1,8 +1,9 @@
 #include "game_state.h"
 #include <algorithm>
 
-GameState::GameState(std::shared_ptr<StateStack> pStack)
-    : mpStack(pStack)
+GameState::GameState()
+    : mpStack(nullptr)
+    , mPendingChanges()
 {}
 GameState::~GameState() {}
 
@@ -32,29 +33,50 @@ void GameState::queueClear()
 
 void GameState::applyPendingChanges()
 {
-    StateStack& stack = *mpStack;
-    std::for_each(std::begin(mPendingChanges), std::end(mPendingChanges), [&stack, this](Change& change)
-    {
-        switch (change.op) {
-        case StackOp::PUSH:
-            stack.push(change.state);
-            break;
-        case StackOp::POP:
-            stack.popAt(this);
-            break;
-        case StackOp::CLEAR:
-            stack.clear();
-            break;
-        default:
-            throw std::runtime_error("Unsupported stack operation.");
-        }
-    });
-    mPendingChanges.clear();
+    if (mpStack) {
+        StateStack& stack = *mpStack;
+        std::for_each(std::begin(mPendingChanges), std::end(mPendingChanges), [&stack, this](Change& change)
+        {
+            switch (change.op) {
+            case StackOp::PUSH:
+                stack.push(change.state);
+                break;
+            case StackOp::POP:
+                stack.popAt(this);
+                break;
+            case StackOp::CLEAR:
+                stack.clear();
+                break;
+            default:
+                throw std::runtime_error("Unsupported stack operation.");
+            }
+        });
+        mPendingChanges.clear();
+    } else {
+        throw std::runtime_error("State not associated with stack.");
+    }
+}
+
+StateStack::StateStack(std::shared_ptr<GameState> pInitialState)
+    : mStack()
+{
+    push(pInitialState);
 }
 
 void StateStack::push(std::shared_ptr<GameState> pState)
 {
-    mStack.push_back(pState);
+    if (pState) {
+        if (!pState->mpStack) {
+            pState->mpStack = this;
+            mStack.push_back(pState);
+        }
+        else {
+            throw std::runtime_error("State already in a stack.");
+        }
+    }
+    else {
+        throw std::runtime_error("Must supply state to stack.");
+    }
 }
 
 void StateStack::popAt(GameState* pState)

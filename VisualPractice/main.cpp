@@ -81,8 +81,8 @@ namespace te
     class LuaGameState : public GameState
     {
     public:
-        LuaGameState(std::shared_ptr<StateStack> pStack, const glm::mat4& projection, const std::string& filename = "init.lua")
-            : GameState(pStack)
+        LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
+            : GameState()
             , mpMap(new TiledMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
@@ -390,11 +390,11 @@ int main(int argc, char** argv)
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
 
-        std::shared_ptr<StateStack> pStateStack(new StateStack());
 
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1);
-        std::shared_ptr<LuaGameState> pState(new LuaGameState(pStateStack, projection));
-        pStateStack->push(pState);
+
+        std::shared_ptr<LuaGameState> pState(new LuaGameState(projection));
+        std::shared_ptr<StateStack> pStateStack(new StateStack(pState));
         LuaGameState& state = *pState;
 
         te::TiledMap myMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4());
