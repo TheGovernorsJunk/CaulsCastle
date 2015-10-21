@@ -89,6 +89,10 @@ namespace te
                 {
                     queuePop();
                 }
+                else if (evt.key.keysym.sym == SDLK_q)
+                {
+                    queueClear();
+                }
             }
             return false;
         }
@@ -100,8 +104,8 @@ namespace te
 
         void draw()
         {
-            glClearColor(0.f, 1.f, 0.f, 0.5f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            //glClearColor(0.f, 1.f, 0.f, 0.5f);
+            //glClear(GL_COLOR_BUFFER_BIT);
         }
     };
 
