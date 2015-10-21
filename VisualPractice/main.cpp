@@ -531,14 +531,16 @@ int main(int argc, char** argv)
             Uint64 now = SDL_GetPerformanceCounter();
             float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
 
-            pStateStack->update(dt);
+            //pStateStack->update(dt);
 
             glClear(GL_COLOR_BUFFER_BIT);
 
             myMap.draw(glm::translate(glm::mat4(), translation));
             //pStateStack->draw(glm::translate(glm::mat4(), translation));
             state.setView(glm::translate(glm::mat4(), translation));
-            pStateStack->draw();
+            //pStateStack->draw();
+
+            executeStack(*pStateStack, dt);
 
             SDL_GL_SwapWindow(pGLWindow.get());
             t0 = now;
