@@ -85,7 +85,7 @@ namespace te
         {
             if (evt.type == SDL_KEYDOWN)
             {
-                if (evt.key.keysym.sym == SDLK_p)
+                if (evt.key.keysym.sym == SDLK_SPACE)
                 {
                     queuePop();
                 }
@@ -100,6 +100,7 @@ namespace te
 
         void draw()
         {
+            glClearColor(0.f, 1.f, 0.f, 0.5f);
             glClear(GL_COLOR_BUFFER_BIT);
         }
     };
@@ -125,6 +126,8 @@ namespace te
             , mFontCount(0)
             , mFontMap()
             , mChannel(0)
+            , mView()
+            , mMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4())
         {
             if (!(mChannel = BASS_StreamCreateFile(false, "sounds/arcade-beep-1.mp3", 0, 0, 0)))
             {
@@ -348,8 +351,14 @@ namespace te
             mView = view;
         }
 
+        glm::mat4 getView() const
+        {
+            return mView;
+        }
+
         void draw()
         {
+            mMap.draw(mView);
             mRenderSystem.draw(mView);
         }
 
@@ -381,6 +390,8 @@ namespace te
         //std::map<Entity, GLuint> mVBOMap;
         //std::map<Entity, GLuint> mIBOMap;
         glm::mat4 mView;
+
+        TiledMap mMap;
     };
 }
 
@@ -425,12 +436,8 @@ int main(int argc, char** argv)
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1);
 
         std::shared_ptr<LuaGameState> pState(new LuaGameState(projection));
-        std::shared_ptr<StateStack> pStateStack(new StateStack(pState));
+        StateStack stateStack(pState);
         LuaGameState& state = *pState;
-
-        te::TiledMap myMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4());
-        te::TiledMap yourMap = std::move(myMap);
-        myMap = std::move(yourMap);
 
         // State initialization
 
@@ -484,6 +491,12 @@ int main(int argc, char** argv)
         state.registerKeyRelease('p', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
         state.registerKeyRelease('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
 
+        state.registerKeyPress(' ', [&state]() { state.pause(); });
+        state.registerKeyPress((char)SDLK_UP, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, 0.1f, 0.f))); });
+        state.registerKeyPress((char)SDLK_DOWN, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, -0.1f, 0.f))); });
+        state.registerKeyPress((char)SDLK_RIGHT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(-0.1f, 0.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_LEFT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.1f, 0.f, 0.f))); });
+
         Entity topWall = state.createEntity({ 50, -1 });
         state.setBoundingBox(topWall, { 100, 2 });
         Entity bottomWall = state.createEntity({ 8, 10 });
@@ -509,81 +522,7 @@ int main(int argc, char** argv)
 
         // End state initialization
 
-        // Begin state for TiledMap
-
-        // End state initialization
-
-        SDL_Event e;
-        bool running = true;
-
-        Uint32 FPS = 60;
-        Uint32 TIME_PER_FRAME = 1000 / FPS;
-
-        Uint64 t0 = SDL_GetPerformanceCounter();
-
-        glm::vec3 translation;
-        std::vector<const SDL_Event> events;
-
-        while (running)
-        {
-            while (SDL_PollEvent(&e) != 0)
-            {
-                if (e.type == SDL_QUIT)
-                {
-                    running = false;
-                }
-                else if (e.type == SDL_WINDOWEVENT)
-                {
-                    if (e.window.event == SDL_WINDOWEVENT_RESIZED)
-                    {
-                        adjustViewport(e.window.data1, e.window.data2);
-                    }
-                }
-                else if (e.type == SDL_KEYDOWN)
-                {
-                    if (e.key.keysym.sym == SDLK_UP)
-                    {
-                        translation.y += .1f;
-                    }
-                    else if (e.key.keysym.sym == SDLK_DOWN)
-                    {
-                        translation.y -= .1f;
-                    }
-                    else if (e.key.keysym.sym == SDLK_LEFT)
-                    {
-                        translation.x += .1f;
-                    }
-                    else if (e.key.keysym.sym == SDLK_RIGHT)
-                    {
-                        translation.x -= .1f;
-                    }
-                    else if (e.key.keysym.sym == SDLK_p)
-                    {
-                        state.pause();
-                    }
-                }
-                //pStateStack->processInput(e);
-                events.push_back(e);
-            }
-
-            Uint64 now = SDL_GetPerformanceCounter();
-            float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
-
-            //pStateStack->update(dt);
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            myMap.draw(glm::translate(glm::mat4(), translation));
-            //pStateStack->draw(glm::translate(glm::mat4(), translation));
-            state.setView(glm::translate(glm::mat4(), translation));
-            //pStateStack->draw();
-
-            executeStack(*pStateStack, events, dt);
-            events.clear();
-
-            SDL_GL_SwapWindow(pGLWindow.get());
-            t0 = now;
-        }
+        executeStack(stateStack, *pGLWindow);
     }
     catch (std::exception e)
     {

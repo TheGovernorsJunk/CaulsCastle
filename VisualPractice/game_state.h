@@ -6,6 +6,7 @@
 #include <vector>
 
 union SDL_Event;
+struct SDL_Window;
 
 namespace te
 {
@@ -55,6 +56,8 @@ namespace te
         void update(float dt);
         void draw() const;
 
+        bool empty() const;
+
     private:
         friend class GameState;
 
@@ -71,7 +74,8 @@ namespace te
         std::deque<GameState::Change> mPendingChanges;
     };
 
-    void executeStack(StateStack&, const std::vector<const SDL_Event>& events, float dt);
+    void tickStack(StateStack&, const std::vector<const SDL_Event>& events, float dt);
+    void executeStack(StateStack&, SDL_Window&);
 }
 
 #endif

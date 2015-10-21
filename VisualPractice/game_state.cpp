@@ -1,6 +1,7 @@
 #include "game_state.h"
 #include <algorithm>
-#include <SDL_events.h>
+#include <SDL.h>
+#include "gl.h"
 
 namespace te
 {
@@ -139,7 +140,12 @@ namespace te
         }
     }
 
-    void executeStack(StateStack& stack, const std::vector<const SDL_Event>& events, float dt)
+    bool StateStack::empty() const
+    {
+        return mStack.empty();
+    }
+
+    void tickStack(StateStack& stack, const std::vector<const SDL_Event>& events, float dt)
     {
         std::for_each(std::begin(events), std::end(events), [&stack](const SDL_Event& evt)
         {
@@ -147,5 +153,38 @@ namespace te
         });
         stack.update(dt);
         stack.draw();
+    }
+
+    void executeStack(StateStack& stack, SDL_Window& window)
+    {
+        std::vector<const SDL_Event> events;
+        SDL_Event e;
+
+        bool running = true;
+
+        Uint64 t0 = SDL_GetPerformanceCounter();
+
+        while (!stack.empty() && running == true)
+        {
+            while (SDL_PollEvent(&e) != 0)
+            {
+                if (e.type == SDL_QUIT)
+                {
+                    running = false;
+                }
+                events.push_back(e);
+            }
+
+            Uint64 now = SDL_GetPerformanceCounter();
+            float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
+
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            tickStack(stack, events, dt);
+            events.clear();
+
+            SDL_GL_SwapWindow(&window);
+            t0 = now;
+        }
     }
 }
