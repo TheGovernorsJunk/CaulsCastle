@@ -1,63 +1,77 @@
 #include "game_state.h"
 #include <algorithm>
+#include <SDL_events.h>
 
 namespace te
 {
+    static void throwNoStackException()
+    {
+        throw std::runtime_error("State not associated with stack.");
+    }
+
     GameState::GameState()
         : mpStack(nullptr)
-        , mPendingChanges()
     {}
     GameState::~GameState() {}
 
     void GameState::queuePop()
     {
-        mPendingChanges.push_back({
-            StackOp::POP,
-            nullptr
-        });
+        if (mpStack) {
+            mpStack->mPendingChanges.push_back({
+                StackOp::POP,
+                nullptr,
+                *this
+            });
+        } else {
+            throwNoStackException();
+        }
     }
 
     void GameState::queuePush(std::shared_ptr<GameState> newState)
     {
-        mPendingChanges.push_back({
-            StackOp::PUSH,
-            newState
-        });
+        if (mpStack) {
+            mpStack->mPendingChanges.push_back({
+                StackOp::PUSH,
+                newState,
+                *this
+            });
+        } else {
+            throwNoStackException();
+        }
     }
 
     void GameState::queueClear()
     {
-        mPendingChanges.push_back({
-            StackOp::CLEAR,
-            nullptr
-        });
+        if (mpStack) {
+            mpStack->mPendingChanges.push_back({
+                StackOp::CLEAR,
+                nullptr,
+                *this
+            });
+        } else {
+            throwNoStackException();
+        }
     }
 
-    void GameState::applyPendingChanges()
+    void StateStack::applyPendingChanges()
     {
-        if (mpStack) {
-            StateStack& stack = *mpStack;
-            std::for_each(std::begin(mPendingChanges), std::end(mPendingChanges), [&stack, this](Change& change)
-            {
-                switch (change.op) {
-                case StackOp::PUSH:
-                    stack.push(change.state);
-                    break;
-                case StackOp::POP:
-                    stack.popAt(this);
-                    break;
-                case StackOp::CLEAR:
-                    stack.clear();
-                    break;
-                default:
-                    throw std::runtime_error("Unsupported stack operation.");
-                }
-            });
-            mPendingChanges.clear();
-        }
-        else {
-            throw std::runtime_error("State not associated with stack.");
-        }
+        std::for_each(std::begin(mPendingChanges), std::end(mPendingChanges), [this](GameState::Change& change)
+        {
+            switch (change.op) {
+            case GameState::StackOp::PUSH:
+                this->push(change.state);
+                break;
+            case GameState::StackOp::POP:
+                this->popAt(change.issuer);
+                break;
+            case GameState::StackOp::CLEAR:
+                this->clear();
+                break;
+            default:
+                throw std::runtime_error("Unsupported stack operation.");
+            }
+        });
+        mPendingChanges.clear();
     }
 
     StateStack::StateStack(std::shared_ptr<GameState> pInitialState)
@@ -82,16 +96,16 @@ namespace te
         }
     }
 
-    void StateStack::popAt(GameState* pState)
+    void StateStack::popAt(GameState& state)
     {
-        auto last = mStack.begin();
+        auto stateIt = mStack.end();
         for (auto it = mStack.begin(); it != mStack.end(); ++it) {
-            if (it->get() == pState) {
-                last = it + 1;
-                continue;
+            if (it->get() == &state) {
+                stateIt = it;
+                break;
             }
         }
-        mStack.erase(mStack.begin(), last);
+        mStack.erase(stateIt, mStack.end());
     }
 
     void StateStack::clear()
@@ -99,26 +113,38 @@ namespace te
         mStack.clear();
     }
 
-    void StateStack::update(float dt) const
+    void StateStack::processInput(const SDL_Event& e)
     {
-        for (auto it = mStack.begin(); it != mStack.end(); ++it) {
-            if (!it->get()->update(dt)) {
-                continue;
+        for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
+            if (!it->get()->processInput(e)) {
+                break;
             }
         }
+    }
+
+    void StateStack::update(float dt)
+    {
+        for (auto it = mStack.rbegin(); it != mStack.rend(); ++it) {
+            if (!it->get()->update(dt)) {
+                break;
+            }
+        }
+        applyPendingChanges();
     }
 
     void StateStack::draw() const
     {
         for (auto it = mStack.begin(); it != mStack.end(); ++it) {
-            if (!it->get()->draw()) {
-                continue;
-            }
+            it->get()->draw();
         }
     }
 
-    void executeStack(const StateStack& stack, float dt)
+    void executeStack(StateStack& stack, const std::vector<const SDL_Event>& events, float dt)
     {
+        std::for_each(std::begin(events), std::end(events), [&stack](const SDL_Event& evt)
+        {
+            stack.processInput(evt);
+        });
         stack.update(dt);
         stack.draw();
     }

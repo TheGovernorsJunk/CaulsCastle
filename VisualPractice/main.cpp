@@ -78,6 +78,32 @@ namespace te
         }
     };
 
+    class PauseState : public GameState
+    {
+    public:
+        bool processInput(const SDL_Event& evt)
+        {
+            if (evt.type == SDL_KEYDOWN)
+            {
+                if (evt.key.keysym.sym == SDLK_p)
+                {
+                    queuePop();
+                }
+            }
+            return false;
+        }
+
+        bool update(float dt)
+        {
+            return false;
+        }
+
+        void draw()
+        {
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
+    };
+
     class LuaGameState : public GameState
     {
     public:
@@ -112,6 +138,11 @@ namespace te
         typedef luabridge::LuaRef LuaFunction;
         typedef unsigned int FontHandle;
         typedef unsigned int TextHandle;
+
+        void pause()
+        {
+            queuePush(std::shared_ptr<PauseState>(new PauseState()));
+        }
 
         void playSound()
         {
@@ -269,7 +300,7 @@ namespace te
             return mEntityManager.isAlive(entity);
         }
 
-        void processInput(const SDL_Event& evt)
+        bool processInput(const SDL_Event& evt)
         {
             if (evt.type == SDL_KEYDOWN)
             {
@@ -287,6 +318,7 @@ namespace te
                     it->second();
                 }
             }
+            return false;
         }
 
         bool update(float dt)
@@ -316,10 +348,9 @@ namespace te
             mView = view;
         }
 
-        bool draw()
+        void draw()
         {
             mRenderSystem.draw(mView);
-            return true;
         }
 
     private:
@@ -491,6 +522,8 @@ int main(int argc, char** argv)
         Uint64 t0 = SDL_GetPerformanceCounter();
 
         glm::vec3 translation;
+        std::vector<const SDL_Event> events;
+
         while (running)
         {
             while (SDL_PollEvent(&e) != 0)
@@ -524,8 +557,13 @@ int main(int argc, char** argv)
                     {
                         translation.x -= .1f;
                     }
+                    else if (e.key.keysym.sym == SDLK_p)
+                    {
+                        state.pause();
+                    }
                 }
-                state.processInput(e);
+                //pStateStack->processInput(e);
+                events.push_back(e);
             }
 
             Uint64 now = SDL_GetPerformanceCounter();
@@ -540,7 +578,8 @@ int main(int argc, char** argv)
             state.setView(glm::translate(glm::mat4(), translation));
             //pStateStack->draw();
 
-            executeStack(*pStateStack, dt);
+            executeStack(*pStateStack, events, dt);
+            events.clear();
 
             SDL_GL_SwapWindow(pGLWindow.get());
             t0 = now;

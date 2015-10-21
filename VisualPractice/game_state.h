@@ -5,6 +5,8 @@
 #include <deque>
 #include <vector>
 
+union SDL_Event;
+
 namespace te
 {
     class StateStack;
@@ -19,13 +21,13 @@ namespace te
         void queuePop();
         void queuePush(std::shared_ptr<GameState> newState);
         void queueClear();
-        void applyPendingChanges();
 
     private:
         friend class StateStack;
 
+        virtual bool processInput(const SDL_Event&) = 0;
         virtual bool update(float) = 0;
-        virtual bool draw() = 0;
+        virtual void draw() = 0;
 
         GameState(const GameState&) = delete;
         GameState& operator=(const GameState&) = delete;
@@ -38,10 +40,10 @@ namespace te
         struct Change {
             StackOp op;
             std::shared_ptr<GameState> state;
+            GameState& issuer;
         };
 
         StateStack *mpStack;
-        std::deque<Change> mPendingChanges;
     };
 
     class StateStack
@@ -49,23 +51,27 @@ namespace te
     public:
         StateStack(std::shared_ptr<GameState> pInitialState);
 
-        void update(float dt) const;
+        void processInput(const SDL_Event&);
+        void update(float dt);
         void draw() const;
 
     private:
         friend class GameState;
 
         void push(std::shared_ptr<GameState> pState);
-        void popAt(GameState* pState);
+        void popAt(GameState& pState);
         void clear();
+
+        void applyPendingChanges();
 
         StateStack(const StateStack&) = delete;
         StateStack& operator=(const StateStack&) = delete;
 
         std::vector<std::shared_ptr<GameState>> mStack;
+        std::deque<GameState::Change> mPendingChanges;
     };
 
-    void executeStack(const StateStack&, float dt);
+    void executeStack(StateStack&, const std::vector<const SDL_Event>& events, float dt);
 }
 
 #endif
