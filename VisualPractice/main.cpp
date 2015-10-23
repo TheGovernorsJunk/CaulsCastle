@@ -114,7 +114,7 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
-            , mpMap(new TiledMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
+            , mpMap(new TiledMap("tiled", "sample_indoor.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -131,7 +131,6 @@ namespace te
             , mFontMap()
             , mChannel(0)
             , mView()
-            , mMap("tiled", "sample.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4())
         {
             if (!(mChannel = BASS_StreamCreateFile(false, "sounds/arcade-beep-1.mp3", 0, 0, 0)))
             {
@@ -362,7 +361,8 @@ namespace te
 
         void draw()
         {
-            mMap.draw(mView);
+            //mMap.draw(mView);
+            mpMap->draw(mView);
             mRenderSystem.draw(mView);
         }
 
@@ -394,8 +394,27 @@ namespace te
         //std::map<Entity, GLuint> mVBOMap;
         //std::map<Entity, GLuint> mIBOMap;
         glm::mat4 mView;
+    };
 
-        TiledMap mMap;
+    class TopdownState : public GameState
+    {
+    public:
+        TopdownState()
+            : GameState()
+        {
+            //Texture spritesheet("tiled/roguelike-indoor-pack/Spritesheet/roguelikeindoor_transparent.png");
+        }
+
+    private:
+        bool processInput(const SDL_Event& e)
+        {
+            return false;
+        }
+        bool update(float dt)
+        {
+            return false;
+        }
+        void draw() {}
     };
 }
 
@@ -440,6 +459,7 @@ int main(int argc, char** argv)
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1);
 
         std::shared_ptr<LuaGameState> pState(new LuaGameState(projection));
+        std::shared_ptr<TopdownState> pTopdown(new TopdownState());
         StateStack stateStack(pState);
         LuaGameState& state = *pState;
 
@@ -525,6 +545,8 @@ int main(int argc, char** argv)
         state.handleCollision(ball, bottomWall, handleWallCollision);
 
         // End state initialization
+
+        te::Map m{"tiled", "sample_indoor.lua"};
 
         executeStack(stateStack, *pGLWindow);
     }
