@@ -1,8 +1,9 @@
 return {
   version = "1.1",
   luaversion = "5.1",
-  tiledversion = "0.12.3",
+  tiledversion = "0.14.2",
   orientation = "orthogonal",
+  renderorder = "right-down",
   width = 20,
   height = 15,
   tilewidth = 32,
@@ -32,6 +33,7 @@ return {
           properties = {}
         }
       },
+      tilecount = 768,
       tiles = {
         {
           id = 24,
@@ -40,6 +42,8 @@ return {
             name = "",
             visible = true,
             opacity = 1,
+            offsetx = 0,
+            offsety = 0,
             properties = {},
             objects = {
               {
@@ -132,6 +136,8 @@ return {
       height = 15,
       visible = true,
       opacity = 1,
+      offsetx = 0,
+      offsety = 0,
       properties = {},
       encoding = "lua",
       data = {
@@ -157,6 +163,8 @@ return {
       name = "Object Layer 1",
       visible = true,
       opacity = 1,
+      offsetx = 0,
+      offsety = 0,
       properties = {},
       objects = {
         {
