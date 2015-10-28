@@ -33,10 +33,6 @@ namespace te
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDisable(GL_DEPTH_TEST);
-
         ilInit();
         iluInit();
         ilClearColour(255, 255, 255, 000);
@@ -72,6 +68,10 @@ namespace te
             [](SDL_Window* w){ SDL_DestroyWindow(w); });
 
         SDL_GLContext context(SDL_GL_CreateContext(pW.get()));
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
 
         glewExperimental = GL_TRUE;
         GLenum glewError = glewInit();
