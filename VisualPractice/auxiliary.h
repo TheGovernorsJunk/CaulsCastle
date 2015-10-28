@@ -2,6 +2,7 @@
 #define TE_AUXILIARY_H
 
 #include <map>
+#include "gl.h"
 #include <glm/glm.hpp>
 #include "types.h"
 
@@ -80,6 +81,8 @@ namespace te
             it->second = kvPair.second;
         }
     }
+
+    void adjustViewport(int screenWidth, int screenHeight, float targetAspectRatio, void(__stdcall* viewportFn)(GLint, GLint, GLsizei, GLsizei));
 }
 
 #endif

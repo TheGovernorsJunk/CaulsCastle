@@ -114,7 +114,7 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
-            , mpMap(new TiledMap("tiled", "sample_indoor.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
+            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -324,6 +324,13 @@ namespace te
                     it->second();
                 }
             }
+            else if (evt.type == SDL_WINDOWEVENT)
+            {
+                if (evt.window.event == SDL_WINDOWEVENT_RESIZED)
+                {
+                    adjustViewport(evt.window.data1, evt.window.data2, 16.f / 9.f, glViewport);
+                }
+            }
             return false;
         }
 
@@ -418,27 +425,6 @@ namespace te
     };
 }
 
-void adjustViewport(int screen_width, int screen_height)
-{
-    const float VIRTUAL_WIDTH = 16.0f;
-    const float VIRTUAL_HEIGHT = 9.0f;
-
-    float targetAspectRatio = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
-    int width = screen_width;
-    int height = (int)(width / targetAspectRatio + 0.5f);
-
-    if (height > screen_height)
-    {
-        height = screen_height;
-        width = (int)(height * targetAspectRatio + 0.5);
-    }
-
-    int vp_x = (screen_width / 2) - (width / 2);
-    int vp_y = (screen_height / 2) - (height / 2);
-
-    glViewport(vp_x, vp_y, width, height);
-}
-
 int main(int argc, char** argv)
 {
     try
@@ -451,7 +437,7 @@ int main(int argc, char** argv)
 
         te::WindowPtr pGLWindow = te::createWindowOpenGL("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
-        adjustViewport(WIDTH, HEIGHT);
+        adjustViewport(WIDTH, HEIGHT, 16.f/9.f, glViewport);
 
         glClearColor(0.f, 0.f, 0.f, 1.f);
 

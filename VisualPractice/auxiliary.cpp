@@ -14,6 +14,23 @@ namespace te
         return center;
     }
 
+    void adjustViewport(int screenWidth, int screenHeight, float targetAspectRatio, void(__stdcall* viewportFn)(GLint, GLint, GLsizei, GLsizei))
+    {
+        int width = screenWidth;
+        int height = (int)(width / targetAspectRatio + 0.5f);
+
+        if (height > screenHeight)
+        {
+            height = screenHeight;
+            width = (int)(height * targetAspectRatio + 0.5);
+        }
+
+        int vp_x = (screenWidth / 2) - (width / 2);
+        int vp_y = (screenHeight / 2) - (height / 2);
+
+        viewportFn(vp_x, vp_y, width, height);
+    }
+
     //void handlePaddleCollision(Rectangle& ball, const Rectangle& paddle, float dt, float velocityScalar)
     //{
     //    if (checkCollision(ball, paddle))
