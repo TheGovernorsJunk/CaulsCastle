@@ -546,8 +546,6 @@ int main(int argc, char** argv)
 
         // End state initialization
 
-        te::Map m{"tiled", "sample_indoor.lua"};
-
         executeStack(stateStack, *pGLWindow);
     }
     catch (std::exception e)
