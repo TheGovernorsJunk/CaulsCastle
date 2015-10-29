@@ -127,6 +127,7 @@ namespace te
     class TiledMap {
     public:
         TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model);
+        TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model);
         ~TiledMap();
         TiledMap(TiledMap&&);
         TiledMap& operator=(TiledMap&&);
@@ -143,10 +144,10 @@ namespace te
             std::vector<std::shared_ptr<Mesh>> meshes;
         };
 
-        int getTilesetTextureIndex(unsigned tileID) const;
+        void init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model);
+        int getTilesetTextureIndex(const TMX& tmx, unsigned tileID) const;
         void destroy();
 
-        TMX mTMX;
         GLuint mShaderProgram;
         glm::mat4 mModelMatrix;
         std::vector<Layer> mLayers;

@@ -271,10 +271,19 @@ namespace te
     } // end TMX constructor
 
     TiledMap::TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model)
-        : mTMX(path, file)
-        , mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs"))
+        : mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs"))
         , mModelMatrix(model)
         , mLayers()
+    {
+        init(path, TMX{ path, file }, projection, model);
+    }
+
+    TiledMap::TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model)
+    {
+        init(path, tmx, projection, model);
+    }
+
+    void TiledMap::init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model)
     {
         glUseProgram(mShaderProgram);
 
@@ -288,7 +297,7 @@ namespace te
 
         // TODO: Get from an asset manager
         std::vector<std::shared_ptr<const Texture>> textures;
-        std::for_each(std::begin(mTMX.tilesets), std::end(mTMX.tilesets), [&textures, &path](TMX::Tileset& tileset) {
+        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&textures, &path](const TMX::Tileset& tileset) {
             textures.push_back(std::shared_ptr<const Texture>(new Texture{ path + "/" + tileset.image }));
         });
 
@@ -299,11 +308,11 @@ namespace te
             unsigned elementIndex;
             ProtoMesh() : vertices(), indices(), textures(), elementIndex(0) {}
         };
-        std::vector<ProtoMesh> protoMeshes(mTMX.tilesets.size());
+        std::vector<ProtoMesh> protoMeshes(tmx.tilesets.size());
 
-        for (auto it = mTMX.layers.begin(); it != mTMX.layers.end(); ++it) {
-            TMX::Layer& layer = *it;
-            unsigned layerIndex = it - mTMX.layers.begin();
+        for (auto it = tmx.layers.begin(); it != tmx.layers.end(); ++it) {
+            const TMX::Layer& layer = *it;
+            unsigned layerIndex = it - tmx.layers.begin();
 
             for (auto it = layer.data.begin(); it != layer.data.end(); ++it) {
 
@@ -320,8 +329,8 @@ namespace te
                 corners[2].position = { x + 1, y + 1, (float)layerIndex };
                 corners[3].position = { x, y + 1, (float)layerIndex };
 
-                int tilesetTextureIndex = getTilesetTextureIndex(tileID);
-                const TMX::Tileset& tileset = mTMX.tilesets.at(tilesetTextureIndex);
+                int tilesetTextureIndex = getTilesetTextureIndex(tmx, tileID);
+                const TMX::Tileset& tileset = tmx.tilesets.at(tilesetTextureIndex);
 
                 unsigned localIndex = tileID - tileset.firstgid;
 
@@ -369,14 +378,13 @@ namespace te
             mLayers.push_back(Layer{ std::move(meshes) });
 
             protoMeshes.clear();
-            protoMeshes = std::vector<ProtoMesh>(mTMX.tilesets.size());
+            protoMeshes = std::vector<ProtoMesh>(tmx.tilesets.size());
         }
 
     }
 
     TiledMap::TiledMap(TiledMap&& o)
-        : mTMX(std::move(o.mTMX))
-        , mShaderProgram(std::move(o.mShaderProgram))
+        : mShaderProgram(std::move(o.mShaderProgram))
         , mModelMatrix(o.mModelMatrix)
         , mLayers(std::move(o.mLayers))
     {
@@ -387,7 +395,6 @@ namespace te
     {
         destroy();
 
-        mTMX = std::move(o.mTMX);
         mShaderProgram = std::move(o.mShaderProgram);
         mModelMatrix = std::move(o.mModelMatrix);
         mLayers = std::move(o.mLayers);
@@ -410,14 +417,14 @@ namespace te
     }
 
     // TODO: Robust implementation
-    int TiledMap::getTilesetTextureIndex(unsigned tileID) const
+    int TiledMap::getTilesetTextureIndex(const TMX& tmx, unsigned tileID) const
     {
-        for (auto it = mTMX.tilesets.begin(); it != mTMX.tilesets.end(); ++it) {
+        for (auto it = tmx.tilesets.begin(); it != tmx.tilesets.end(); ++it) {
             unsigned firstInclusive = it->firstgid;
             unsigned lastExclusive = it->firstgid + it->tilecount;
 
             if ((tileID >= firstInclusive) && (tileID < lastExclusive)) {
-                return it - mTMX.tilesets.begin();
+                return it - tmx.tilesets.begin();
             }
         }
         throw std::out_of_range("No tileset for given tile ID.");
