@@ -1,6 +1,8 @@
 #ifndef TE_TMX_H
 #define TE_TMX_H
 
+#include <glm/glm.hpp>
+
 #include <string>
 #include <vector>
 
@@ -116,6 +118,10 @@ namespace te
         };
         std::vector<Layer> layers;
     };
+
+    class EntityManager;
+    class TransformComponent;
+    void loadObjects(const TMX& tmx, EntityManager& em, const glm::mat4& modelTransform = glm::mat4(), TransformComponent* tc = nullptr);
 }
 
 #endif

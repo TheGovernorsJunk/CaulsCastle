@@ -1,7 +1,10 @@
 #include "tmx.h"
+#include "entity_manager.h"
+#include "transform_component.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
+#include <glm/gtx/transform.hpp>
 
 #include <map>
 #include <memory>
@@ -271,4 +274,21 @@ namespace te
             }
         } // end layers initialization
     } // end TMX constructor
+
+    void loadObjects(const TMX& tmx, EntityManager& em, const glm::mat4& modelTransform, TransformComponent* tc)
+    {
+        for (auto it = tmx.layers.begin(); it != tmx.layers.end(); ++it) {
+            const TMX::Layer& layer = *it;
+            if (layer.type != TMX::Layer::Type::OBJECTGROUP) { continue; }
+
+            unsigned layerIndex = it - tmx.layers.begin();
+            std::for_each(std::begin(layer.objects), std::end(layer.objects), [&, layerIndex](const TMX::Tileset::Tile::ObjectGroup::Object& object) {
+
+                Entity entity = em.create();
+                if (tc) {
+                    tc->setLocalTransform(entity, modelTransform * glm::translate(glm::mat4(), glm::vec3(object.x, object.y, layerIndex)));
+                }
+            });
+        }
+    }
 }
