@@ -178,7 +178,7 @@ namespace te
             Uint64 now = SDL_GetPerformanceCounter();
             float dt = (float)(now - t0) / SDL_GetPerformanceFrequency();
 
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             tickStack(stack, events, dt);
             events.clear();
