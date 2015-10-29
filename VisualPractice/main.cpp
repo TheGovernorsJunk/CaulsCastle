@@ -114,7 +114,7 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
-            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1), glm::mat4()))
+            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 32, 18, 0, -100, 100), glm::mat4()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -442,7 +442,7 @@ int main(int argc, char** argv)
         glClearColor(0.f, 0.f, 0.f, 1.f);
 
 
-        glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, 1, -1);
+        glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, -1, 100);
 
         std::shared_ptr<LuaGameState> pState(new LuaGameState(projection));
         std::shared_ptr<TopdownState> pTopdown(new TopdownState());
