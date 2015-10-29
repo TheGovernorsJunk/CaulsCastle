@@ -154,6 +154,7 @@ namespace te
                                 for (int i = 1; !objectsRef[i].isNil(); ++i) {
                                     luabridge::LuaRef objectRef = objectsRef[i];
 
+                                    luabridge::LuaRef gidRef = objectRef["gid"];
                                     TMX::Tileset::Tile::ObjectGroup::Object object{
                                         objectRef["id"],
                                         objectRef["name"],
@@ -164,6 +165,7 @@ namespace te
                                         objectRef["width"],
                                         objectRef["height"],
                                         objectRef["rotation"],
+                                        gidRef.isNil() ? 0 : gidRef.cast<unsigned>(),
                                         objectRef["visible"]
                                     };
 
