@@ -35,6 +35,8 @@ namespace te
         GLuint mTexWidth;
         GLuint mTexHeight;
     };
+
+    GLuint powerOfTwo(GLuint n);
 }
 
 #endif /* TE_TEXTURE_H */
