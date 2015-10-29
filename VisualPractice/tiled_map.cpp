@@ -4,6 +4,7 @@
 #include "bounding_box_component.h"
 #include "mesh.h"
 #include "texture.h"
+#include "texture_manager.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -12,20 +13,20 @@
 
 namespace te
 {
-    TiledMap::TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model)
+    TiledMap::TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm)
         : mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs"))
         , mModelMatrix(model)
         , mLayers()
     {
-        init(path, TMX{ path, file }, projection, model);
+        init(path, TMX{ path, file }, projection, model, tm);
     }
 
-    TiledMap::TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model)
+    TiledMap::TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm)
     {
-        init(path, tmx, projection, model);
+        init(path, tmx, projection, model, tm);
     }
 
-    void TiledMap::init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model)
+    void TiledMap::init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm)
     {
         glUseProgram(mShaderProgram);
 
@@ -37,10 +38,13 @@ namespace te
         if (modelMatrixLocation == -1) { throw std::runtime_error("te_ModelMatrix: not a valid program variable."); }
         glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(model));
 
-        // TODO: Get from an asset manager
         std::vector<std::shared_ptr<const Texture>> textures;
-        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&textures, &path](const TMX::Tileset& tileset) {
-            textures.push_back(std::shared_ptr<const Texture>(new Texture{ path + "/" + tileset.image }));
+        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&textures, &path, &tm](const TMX::Tileset& tileset) {
+            if (tm) {
+                textures.push_back((*tm)[path + "/" + tileset.image]);
+            } else {
+                textures.push_back(std::shared_ptr<Texture>(new Texture{ path + "/" + tileset.image }));
+            }
         });
 
         struct ProtoMesh {

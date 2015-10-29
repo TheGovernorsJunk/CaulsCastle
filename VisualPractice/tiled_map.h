@@ -10,14 +10,15 @@
 
 namespace te
 {
+    class TextureManager;
     struct TMX;
     struct BoundingBox;
     class Mesh;
 
     class TiledMap {
     public:
-        TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model);
-        TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model);
+        TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm = nullptr);
+        TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm = nullptr);
         ~TiledMap();
         TiledMap(TiledMap&&);
         TiledMap& operator=(TiledMap&&);
@@ -34,7 +35,7 @@ namespace te
             std::vector<std::shared_ptr<Mesh>> meshes;
         };
 
-        void init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model);
+        void init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm);
         int getTilesetTextureIndex(const TMX& tmx, unsigned tileID) const;
         void destroy();
 
