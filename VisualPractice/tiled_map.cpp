@@ -1,9 +1,9 @@
 #include "tiled_map.h"
 #include "shader.h"
 #include "bounding_box_component.h"
+#include "mesh.h"
 
 #include <glm/gtc/type_ptr.hpp>
-//#include <glm/gtx/transform.hpp>
 #include <lua.hpp>
 #include <LuaBridge.h>
 
@@ -274,7 +274,6 @@ namespace te
         : mTMX(path, file)
         , mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs"))
         , mModelMatrix(model)
-        , mTilesetTextures()
         , mLayers()
     {
         glUseProgram(mShaderProgram);
@@ -287,28 +286,24 @@ namespace te
         if (modelMatrixLocation == -1) { throw std::runtime_error("te_ModelMatrix: not a valid program variable."); }
         glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(model));
 
-        std::for_each(std::begin(mTMX.tilesets), std::end(mTMX.tilesets), [this](TMX::Tileset& tileset) {
-            mTilesetTextures.push_back(std::shared_ptr<Texture>{new Texture{ mTMX.meta.path + "/" + tileset.image }});
+        // TODO: Get from an asset manager
+        std::vector<std::shared_ptr<const Texture>> textures;
+        std::for_each(std::begin(mTMX.tilesets), std::end(mTMX.tilesets), [&textures, &path](TMX::Tileset& tileset) {
+            textures.push_back(std::shared_ptr<const Texture>(new Texture{ path + "/" + tileset.image }));
         });
 
-        struct Vertex {
-            struct Position {
-                GLfloat x;
-                GLfloat y;
-                GLfloat z;
-            } position;
-            struct TexCoords {
-                GLfloat s;
-                GLfloat t;
-            } texCoords;
-            GLint sampler;
+        struct ProtoMesh {
+            std::vector<Vertex> vertices;
+            std::vector<GLuint> indices;
+            std::vector<std::shared_ptr<const Texture>> textures;
+            unsigned elementIndex;
+            ProtoMesh() : vertices(), indices(), textures(), elementIndex(0) {}
         };
-        std::vector<Vertex> vertices;
+        std::vector<ProtoMesh> protoMeshes(mTMX.tilesets.size());
 
-        std::vector<GLuint> indices;
-
-        unsigned elementIndex = 0;
-        std::for_each(std::begin(mTMX.layers), std::end(mTMX.layers), [&vertices, &indices, &elementIndex, this](TMX::Layer& layer) {
+        for (auto it = mTMX.layers.begin(); it != mTMX.layers.end(); ++it) {
+            TMX::Layer& layer = *it;
+            unsigned layerIndex = it - mTMX.layers.begin();
 
             for (auto it = layer.data.begin(); it != layer.data.end(); ++it) {
 
@@ -320,26 +315,25 @@ namespace te
                 unsigned i = it - layer.data.begin();
                 float x = (float)(i % layer.width);
                 float y = (float)(i / layer.width);
-                corners[0].position = { x, y, 0 };
-                corners[1].position = { x + 1, y, 0 };
-                corners[2].position = { x + 1, y + 1, 0 };
-                corners[3].position = { x, y + 1, 0 };
+                corners[0].position = { x, y, (float)layerIndex };
+                corners[1].position = { x + 1, y, (float)layerIndex };
+                corners[2].position = { x + 1, y + 1, (float)layerIndex };
+                corners[3].position = { x, y + 1, (float)layerIndex };
 
                 int tilesetTextureIndex = getTilesetTextureIndex(tileID);
                 const TMX::Tileset& tileset = mTMX.tilesets.at(tilesetTextureIndex);
-                const Texture& texture = *mTilesetTextures.at(tilesetTextureIndex);
 
                 unsigned localIndex = tileID - tileset.firstgid;
 
                 unsigned sUnits = localIndex % ((tileset.imagewidth + tileset.spacing) / (tileset.tilewidth + tileset.spacing));
                 unsigned sPixels = sUnits * (tileset.tilewidth + tileset.spacing);
-                GLfloat s1 = (GLfloat)sPixels / (GLfloat)texture.getTexWidth();
-                GLfloat s2 = (GLfloat)(sPixels + tileset.tilewidth) / (GLfloat)texture.getTexWidth();
+                GLfloat s1 = (GLfloat)sPixels / (GLfloat)powerOfTwo(tileset.imagewidth);
+                GLfloat s2 = (GLfloat)(sPixels + tileset.tilewidth) / (GLfloat)powerOfTwo(tileset.imagewidth);
 
                 unsigned tUnits = localIndex / ((tileset.imagewidth + tileset.spacing) / (tileset.tilewidth + tileset.spacing));
                 unsigned tPixels = tUnits * (tileset.tileheight + tileset.spacing);
-                GLfloat t1 = (GLfloat)tPixels / (GLfloat)texture.getTexHeight();
-                GLfloat t2 = (GLfloat)(tPixels + tileset.tileheight) / (GLfloat)texture.getTexHeight();
+                GLfloat t1 = (GLfloat)tPixels / (GLfloat)powerOfTwo(tileset.imageheight);
+                GLfloat t2 = (GLfloat)(tPixels + tileset.tileheight) / (GLfloat)powerOfTwo(tileset.imageheight);
 
                 corners[0].texCoords = { s1, t1 };
                 corners[1].texCoords = { s2, t1 };
@@ -348,63 +342,35 @@ namespace te
 
                 assert(s1 < 1.f && t1 < 1.f);
 
-                std::for_each(std::begin(corners), std::end(corners), [tilesetTextureIndex](Vertex& corner) {
-                    corner.sampler = tilesetTextureIndex;
+                ProtoMesh& currMesh = protoMeshes.at(tilesetTextureIndex);
+                std::for_each(std::begin(corners), std::end(corners), [&currMesh](Vertex& vertex) {
+                    currMesh.vertices.push_back(std::move(vertex));
                 });
 
-                std::for_each(std::begin(corners), std::end(corners), [&vertices](Vertex& vertex) {
-                    vertices.push_back(std::move(vertex));
-                });
-
-                indices.push_back(elementIndex * 4);
-                indices.push_back(elementIndex * 4 + 1);
-                indices.push_back(elementIndex * 4 + 2);
-                indices.push_back(elementIndex * 4);
-                indices.push_back(elementIndex * 4 + 2);
-                indices.push_back(elementIndex * 4 + 3);
-                ++elementIndex;
+                currMesh.indices.push_back(currMesh.elementIndex * 4);
+                currMesh.indices.push_back(currMesh.elementIndex * 4 + 1);
+                currMesh.indices.push_back(currMesh.elementIndex * 4 + 2);
+                currMesh.indices.push_back(currMesh.elementIndex * 4);
+                currMesh.indices.push_back(currMesh.elementIndex * 4 + 2);
+                currMesh.indices.push_back(currMesh.elementIndex * 4 + 3);
+                ++currMesh.elementIndex;
             }
 
-            GLuint vao = 0, vbo = 0, ebo = 0;
-            glGenVertexArrays(1, &vao);
-            glBindVertexArray(vao);
-
-            glGenBuffers(1, &vbo);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-            glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoords));
-            glEnableVertexAttribArray(1);
-            glVertexAttribPointer(2, 1, GL_INT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, sampler));
-            glEnableVertexAttribArray(2);
-
-            for (auto it = mTilesetTextures.begin(); it != mTilesetTextures.end(); ++it)
-            {
-                unsigned textureIndex = it - mTilesetTextures.begin();
-                glActiveTexture(GL_TEXTURE0 + textureIndex);
-                glBindTexture(GL_TEXTURE_2D, it->get()->getID());
+            for (auto it = protoMeshes.begin(); it != protoMeshes.end(); ++it) {
+                it->textures.push_back(textures.at(it - protoMeshes.begin()));
             }
 
-            glGenBuffers(1, &ebo);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), indices.data(), GL_STATIC_DRAW);
+            std::vector<std::shared_ptr<Mesh>> meshes;
+            std::for_each(std::begin(protoMeshes), std::end(protoMeshes), [&meshes](ProtoMesh& proto) {
+                if (proto.indices.size() > 0) {
+                    meshes.push_back(std::shared_ptr<Mesh>(new Mesh{ proto.vertices, proto.indices, proto.textures }));
+                }
+            });
+            mLayers.push_back(Layer{ std::move(meshes) });
 
-            glBindVertexArray(0);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-
-            mLayers.push_back({ vao, vbo, ebo, indices.size() });
-
-            vertices.clear();
-            indices.clear();
-            elementIndex = 0;
-        });
+            protoMeshes.clear();
+            protoMeshes = std::vector<ProtoMesh>(mTMX.tilesets.size());
+        }
 
     }
 
@@ -412,7 +378,6 @@ namespace te
         : mTMX(std::move(o.mTMX))
         , mShaderProgram(std::move(o.mShaderProgram))
         , mModelMatrix(o.mModelMatrix)
-        , mTilesetTextures(std::move(o.mTilesetTextures))
         , mLayers(std::move(o.mLayers))
     {
         o.mShaderProgram = 0;
@@ -425,7 +390,6 @@ namespace te
         mTMX = std::move(o.mTMX);
         mShaderProgram = std::move(o.mShaderProgram);
         mModelMatrix = std::move(o.mModelMatrix);
-        mTilesetTextures = std::move(o.mTilesetTextures);
         mLayers = std::move(o.mLayers);
 
         o.mShaderProgram = 0;
@@ -440,16 +404,8 @@ namespace te
 
     void TiledMap::destroy()
     {
-        std::for_each(std::begin(mLayers), std::end(mLayers), [](Layer& buffers)
-        {
-            glDeleteBuffers(1, &buffers.vbo);
-            glDeleteBuffers(1, &buffers.ebo);
-            glDeleteVertexArrays(1, &buffers.vao);
-        });
         glDeleteProgram(mShaderProgram);
-
         mShaderProgram = 0;
-        mTilesetTextures.clear();
         mLayers.clear();
     }
 
@@ -475,20 +431,18 @@ namespace te
         if (viewMatrixLocation == -1) { throw std::runtime_error("te_ViewMatrix: not a valid program variable."); }
         glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewTransform));
 
-        for (auto it = mTilesetTextures.begin(); it != mTilesetTextures.end(); ++it) {
-            unsigned textureIndex = it - mTilesetTextures.begin();
-            glActiveTexture(GL_TEXTURE0 + textureIndex);
-            glBindTexture(GL_TEXTURE_2D, it->get()->getID());
-            std::stringstream ss;
-            ss << textureIndex;
-            std::string textureIndexStr;
-            ss >> textureIndexStr;
-            glUniform1i(glGetUniformLocation(mShaderProgram, std::string("samplers[" + textureIndexStr + "]").c_str()), textureIndex);
-        }
-        std::for_each(std::begin(mLayers), std::end(mLayers), [](const Layer& layer) {
-            glBindVertexArray(layer.vao);
-            glDrawElements(GL_TRIANGLES, layer.elementCount, GL_UNSIGNED_INT, 0);
-            glBindVertexArray(0);
+        std::for_each(std::begin(mLayers), std::end(mLayers), [this](const Layer& layer) {
+            std::for_each(std::begin(layer.meshes), std::end(layer.meshes), [this](std::shared_ptr<Mesh> mesh) {
+
+                // Currently only one usable texture
+                glActiveTexture(GL_TEXTURE0);
+                glUniform1i(glGetUniformLocation(mShaderProgram, "base"), 0);
+                glBindTexture(GL_TEXTURE_2D, mesh->getTexture(0)->getID());
+
+                glBindVertexArray(mesh->getVAO());
+                glDrawElements(GL_TRIANGLES, mesh->getElementCount(), GL_UNSIGNED_INT, 0);
+                glBindVertexArray(0);
+            });
         });
     }
 

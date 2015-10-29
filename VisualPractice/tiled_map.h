@@ -12,6 +12,7 @@
 namespace te
 {
     struct BoundingBox;
+    class Mesh;
 
     struct TMX {
         TMX(const std::string& path, const std::string& file);
@@ -139,10 +140,7 @@ namespace te
         TiledMap& operator=(const TiledMap&) = delete;
 
         struct Layer {
-            GLuint vao;
-            GLuint vbo;
-            GLuint ebo;
-            GLsizei elementCount;
+            std::vector<std::shared_ptr<Mesh>> meshes;
         };
 
         int getTilesetTextureIndex(unsigned tileID) const;
@@ -151,7 +149,6 @@ namespace te
         TMX mTMX;
         GLuint mShaderProgram;
         glm::mat4 mModelMatrix;
-        std::vector<std::shared_ptr<Texture>> mTilesetTextures;
         std::vector<Layer> mLayers;
     };
 }

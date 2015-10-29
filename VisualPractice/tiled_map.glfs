@@ -5,10 +5,10 @@ flat in int SamplerID;
 
 out vec4 color;
 
-uniform sampler2D[16] samplers;
+uniform sampler2D base;
 
 void main()
 {
-    color = texture(samplers[SamplerID], TexCoords);
+    color = texture(base, TexCoords);
     //color = vec4(1, 0, 0, 1);
 }
