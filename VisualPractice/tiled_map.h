@@ -82,11 +82,12 @@ namespace te
                         enum class Shape {
                             RECTANGLE
                         } shape;
-                        int x;
-                        int y;
-                        unsigned width;
-                        unsigned height;
+                        float x;
+                        float y;
+                        float width;
+                        float height;
                         float rotation;
+                        unsigned gid;
                         bool visible;
                     };
                     std::vector<Object> objects;
