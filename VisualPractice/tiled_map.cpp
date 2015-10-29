@@ -63,16 +63,21 @@ namespace te
 
                 std::array<Vertex, 4> corners{};
 
-                unsigned i = it - layer.data.begin();
-                float x = (float)(i % layer.width);
-                float y = (float)(i / layer.width);
-                corners[0].position = { x, y, (float)layerIndex };
-                corners[1].position = { x + 1, y, (float)layerIndex };
-                corners[2].position = { x + 1, y + 1, (float)layerIndex };
-                corners[3].position = { x, y + 1, (float)layerIndex };
-
                 int tilesetTextureIndex = getTilesetTextureIndex(tmx, tileID);
                 const TMX::Tileset& tileset = tmx.tilesets.at(tilesetTextureIndex);
+
+                unsigned i = it - layer.data.begin();
+
+                unsigned xUnit = tileset.tilewidth;
+                float x = (float)((i % layer.width) * xUnit);
+
+                unsigned yUnit = tileset.tileheight;
+                float y = (float)((i / layer.width) * yUnit);
+
+                corners[0].position = { x, y, (float)layerIndex };
+                corners[1].position = { x + xUnit, y, (float)layerIndex };
+                corners[2].position = { x + xUnit, y + yUnit, (float)layerIndex };
+                corners[3].position = { x, y + yUnit, (float)layerIndex };
 
                 unsigned localIndex = tileID - tileset.firstgid;
 
