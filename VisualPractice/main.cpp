@@ -34,6 +34,8 @@
 #include "shader.h"
 #include "tiled_map.h"
 #include "game_state.h"
+#include "tmx.h"
+#include "texture_manager.h"
 
 using namespace te;
 
@@ -114,7 +116,8 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
-            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 32, 18, 0, -100, 100), glm::mat4()))
+            , mTextureManager()
+            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4(), &mTextureManager))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -136,6 +139,8 @@ namespace te
             {
                 throw std::runtime_error("Could not load sound.");
             }
+            TMX tmx{"tiled", "sample_map.lua"};
+            loadObjects(tmx, mEntityManager, glm::mat4(), mpTransformComponent.get());
         }
 
         typedef unsigned int EntityHandle;
@@ -374,6 +379,8 @@ namespace te
         }
 
     private:
+        TextureManager mTextureManager;
+
         std::shared_ptr<TiledMap> mpMap;
         std::shared_ptr<CollisionHandler> mCollisionHandler;
 
@@ -502,10 +509,10 @@ int main(int argc, char** argv)
         state.registerKeyRelease('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
 
         state.registerKeyPress(' ', [&state]() { state.pause(); });
-        state.registerKeyPress((char)SDLK_UP, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, 0.1f, 0.f))); });
-        state.registerKeyPress((char)SDLK_DOWN, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, -0.1f, 0.f))); });
-        state.registerKeyPress((char)SDLK_RIGHT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(-0.1f, 0.f, 0.f))); });
-        state.registerKeyPress((char)SDLK_LEFT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.1f, 0.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_UP, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, 16.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_DOWN, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, -16.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_RIGHT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(-16.f, 0.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_LEFT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(16.f, 0.f, 0.f))); });
 
         Entity topWall = state.createEntity({ 50, -1 });
         state.setBoundingBox(topWall, { 100, 2 });
