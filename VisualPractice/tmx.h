@@ -1,6 +1,7 @@
 #ifndef TE_TMX_H
 #define TE_TMX_H
 
+#include "gl.h"
 #include <glm/glm.hpp>
 
 #include <string>
@@ -118,6 +119,8 @@ namespace te
         };
         std::vector<Layer> layers;
     };
+
+    unsigned getTilesetIndex(const TMX& tmx, unsigned gid);
 
     class EntityManager;
     class TransformComponent;

@@ -275,6 +275,19 @@ namespace te
         } // end layers initialization
     } // end TMX constructor
 
+    unsigned getTilesetIndex(const TMX& tmx, unsigned gid)
+    {
+        for (auto it = tmx.tilesets.begin(); it != tmx.tilesets.end(); ++it) {
+            unsigned firstInclusive = it->firstgid;
+            unsigned lastExclusive = it->firstgid + it->tilecount;
+
+            if ((gid >= firstInclusive) && (gid < lastExclusive)) {
+                return it - tmx.tilesets.begin();
+            }
+        }
+        throw std::out_of_range("No tileset for given tile ID.");
+    }
+
     void loadObjects(const TMX& tmx, EntityManager& em, const glm::mat4& modelTransform, TransformComponent* tc)
     {
         for (auto it = tmx.layers.begin(); it != tmx.layers.end(); ++it) {

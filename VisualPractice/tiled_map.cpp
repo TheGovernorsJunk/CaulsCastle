@@ -67,7 +67,7 @@ namespace te
 
                 std::array<Vertex, 4> corners{};
 
-                int tilesetTextureIndex = getTilesetTextureIndex(tmx, tileID);
+                int tilesetTextureIndex = getTilesetIndex(tmx, tileID);
                 const TMX::Tileset& tileset = tmx.tilesets.at(tilesetTextureIndex);
 
                 unsigned i = it - layer.data.begin();
@@ -165,20 +165,6 @@ namespace te
         glDeleteProgram(mShaderProgram);
         mShaderProgram = 0;
         mLayers.clear();
-    }
-
-    // TODO: Robust implementation
-    int TiledMap::getTilesetTextureIndex(const TMX& tmx, unsigned tileID) const
-    {
-        for (auto it = tmx.tilesets.begin(); it != tmx.tilesets.end(); ++it) {
-            unsigned firstInclusive = it->firstgid;
-            unsigned lastExclusive = it->firstgid + it->tilecount;
-
-            if ((tileID >= firstInclusive) && (tileID < lastExclusive)) {
-                return it - tmx.tilesets.begin();
-            }
-        }
-        throw std::out_of_range("No tileset for given tile ID.");
     }
 
     void TiledMap::draw(const glm::mat4& viewTransform) const
