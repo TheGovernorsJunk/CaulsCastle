@@ -19,6 +19,9 @@ namespace te
         std::shared_ptr<const TMX> mpTMX;
         std::shared_ptr<TextureManager> mpTextureManager;
         std::map<unsigned, std::shared_ptr<Mesh>> mMeshes;
+
+        MeshManager(const MeshManager&) = delete;
+        MeshManager& operator=(const MeshManager&) = delete;
     };
 }
 

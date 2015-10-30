@@ -29,6 +29,10 @@ namespace te
             const TMX& tmx,
             const TMX::Tileset::Tile::ObjectGroup::Object& object,
             MeshManager& meshManager);
+
+    private:
+        AnimationComponent(const AnimationComponent&) = delete;
+        AnimationComponent& operator=(const AnimationComponent&) = delete;
     };
 }
 
