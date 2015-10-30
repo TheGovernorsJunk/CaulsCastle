@@ -36,6 +36,8 @@
 #include "game_state.h"
 #include "tmx.h"
 #include "texture_manager.h"
+#include "mesh_manager.h"
+#include "animation_component.h"
 
 using namespace te;
 
@@ -116,8 +118,8 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
-            , mTextureManager()
-            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4(), &mTextureManager))
+            , mpTextureManager(new TextureManager())
+            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4(), mpTextureManager.get()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -139,8 +141,12 @@ namespace te
             {
                 throw std::runtime_error("Could not load sound.");
             }
-            TMX tmx{"tiled", "sample_map.lua"};
-            loadObjects(tmx, mEntityManager, glm::mat4(), mpTransformComponent.get());
+            std::shared_ptr<const TMX> pTMX(new TMX{"tiled", "sample_map.lua"});
+            loadObjects(*pTMX, mEntityManager, glm::mat4(), mpTransformComponent.get());
+            MeshManager meshManager(pTMX, mpTextureManager);
+            Entity e = createEntity({ 0,0 });
+            AnimationComponent ac;
+            ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], meshManager);
         }
 
         typedef unsigned int EntityHandle;
@@ -379,7 +385,7 @@ namespace te
         }
 
     private:
-        TextureManager mTextureManager;
+        std::shared_ptr<TextureManager> mpTextureManager;
 
         std::shared_ptr<TiledMap> mpMap;
         std::shared_ptr<CollisionHandler> mCollisionHandler;
