@@ -70,6 +70,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation_component.cpp" />
     <ClCompile Include="auxiliary.cpp" />
     <ClCompile Include="bounding_box_component.cpp" />
     <ClCompile Include="collision_system.cpp" />
@@ -77,6 +78,7 @@
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="mesh_manager.cpp" />
     <ClCompile Include="physics_component.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="platformer_physics_system.cpp" />
@@ -92,6 +94,7 @@
     <ClCompile Include="wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation_component.h" />
     <ClInclude Include="auxiliary.h" />
     <ClInclude Include="bounding_box_component.h" />
     <ClInclude Include="collision_system.h" />
@@ -100,6 +103,7 @@
     <ClInclude Include="game_state.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="mesh_manager.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="physics_component.h" />
     <ClInclude Include="physics_system.h" />
