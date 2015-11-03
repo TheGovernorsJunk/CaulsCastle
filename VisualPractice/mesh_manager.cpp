@@ -85,10 +85,10 @@ namespace te
             std::shared_ptr<Texture> pTexture(textureManager[tmx.meta.path + "/" + tileset.image]);
 
             std::vector<Vertex> vertices(4);
-            vertices[0].position = { 0, -(float)tileset.tileheight, 0 };
-            vertices[1].position = { (float)tileset.tilewidth, -(float)tileset.tileheight, 0 };
-            vertices[2].position = { (float)tileset.tilewidth, 0, 0 };
-            vertices[3].position = { 0, 0, 0 };
+            vertices[0].position = { 0, 0, 0 };
+            vertices[1].position = { (float)tileset.tilewidth, 0, 0 };
+            vertices[2].position = { (float)tileset.tilewidth, (float)tileset.tileheight, 0 };
+            vertices[3].position = { 0, (float)tileset.tileheight, 0 };
 
             unsigned localIndex = gid - tileset.firstgid;
 
