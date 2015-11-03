@@ -38,6 +38,7 @@
 #include "texture_manager.h"
 #include "mesh_manager.h"
 #include "animation_component.h"
+#include "animation_factory.h"
 
 using namespace te;
 
@@ -118,6 +119,7 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
+            , mpShader(new Shader(glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4()))
             , mpTextureManager(new TextureManager())
             , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4(), mpTextureManager.get()))
             , mCollisionHandler(new CollisionHandler())
@@ -125,11 +127,12 @@ namespace te
             , mpPhysicsComponent(new PhysicsComponent())
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
             , mpRenderComponent(new SimpleRenderComponent(projection))
+            , mpAnimationComponent(new AnimationComponent())
             , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
             , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent, mpBoundingBoxComponent, mpMap, 4)
             , mCollisionSystem(mpBoundingBoxComponent, {mCollisionHandler})
             , mMapCollisionSystem(mpBoundingBoxComponent, mpMap, {mCollisionHandler})
-            , mRenderSystem(mpRenderComponent, mpTransformComponent)
+            , mRenderSystem(mpShader, mpRenderComponent, mpAnimationComponent, mpTransformComponent)
             , mKeyPressTable()
             , mKeyReleaseTable()
             , mFontCount(0)
@@ -143,10 +146,17 @@ namespace te
             }
             std::shared_ptr<const TMX> pTMX(new TMX{"tiled", "sample_map.lua"});
             loadObjects(*pTMX, mEntityManager, glm::mat4(), mpTransformComponent.get());
-            MeshManager meshManager(pTMX, mpTextureManager);
+            std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ pTMX, mpTextureManager });
             Entity e = createEntity({ 0,0 });
-            AnimationComponent ac;
-            ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], meshManager);
+            setPosition(e, glm::vec3(10 * 0, 10 * 0, 10));
+            //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
+            std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ pTMX, pMeshManager });
+            std::vector<Frame> frames = pAnimationFactory->create({
+                {"animation", "walking"},
+                {"character", "amygdala"}
+            });
+
+            mpAnimationComponent->setAnimations(e, std::move(frames));
         }
 
         typedef unsigned int EntityHandle;
@@ -191,6 +201,15 @@ namespace te
             mpTransformComponent->setLocalTransform(
                 entity,
                 glm::translate(glm::vec3(position.x, position.y, 0)));
+        }
+
+        void setPosition(Entity entity, glm::vec3 position)
+        {
+            if (!exists(entity)) return;
+
+            mpTransformComponent->setLocalTransform(
+                entity,
+                glm::translate(glm::mat4(), glm::vec3(position.x, position.y, position.z)));
         }
 
         glm::vec2 getPosition(Entity entity)
@@ -349,6 +368,7 @@ namespace te
         {
             mPhysicsSystem.update(dt);
             mCollisionSystem.update(dt);
+            mRenderSystem.update(dt);
             //mMapCollisionSystem.update(dt);
 
             return false;
@@ -385,6 +405,7 @@ namespace te
         }
 
     private:
+        std::shared_ptr<Shader> mpShader;
         std::shared_ptr<TextureManager> mpTextureManager;
 
         std::shared_ptr<TiledMap> mpMap;
@@ -394,6 +415,7 @@ namespace te
         PhysicsPtr mpPhysicsComponent;
         BoundingBoxPtr mpBoundingBoxComponent;
         SimpleRenderPtr mpRenderComponent;
+        AnimationPtr mpAnimationComponent;
 
         EntityManager mEntityManager;
 
