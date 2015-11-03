@@ -36,7 +36,6 @@ namespace te
         };
 
         void init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm);
-        int getTilesetTextureIndex(const TMX& tmx, unsigned tileID) const;
         void destroy();
 
         GLuint mShaderProgram;
