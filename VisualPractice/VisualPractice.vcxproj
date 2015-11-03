@@ -136,6 +136,7 @@
     <None Include="simple_render_component.glvs" />
     <None Include="tiled\sample.lua" />
     <None Include="tiled\sample.tmx" />
+    <None Include="tiled\sample_map.lua" />
     <None Include="tiled_map.glfs" />
     <None Include="tiled_map.glvs" />
     <None Include="types.lua" />

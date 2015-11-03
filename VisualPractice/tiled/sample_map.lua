@@ -8,7 +8,7 @@ return {
   height = 100,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 24,
+  nextobjectid = 35,
   properties = {},
   tilesets = {
     {
@@ -49,7 +49,25 @@ return {
       tilecount = 648,
       tiles = {
         {
+          id = 540,
+          animation = {
+            {
+              tileid = "540",
+              duration = "100"
+            },
+            {
+              tileid = "541",
+              duration = "100"
+            }
+          }
+        },
+        {
           id = 594,
+          properties = {
+            ["animation"] = "walking",
+            ["character"] = "amygdala",
+            ["delete me"] = "two words"
+          },
           animation = {
             {
               tileid = "594",
@@ -429,6 +447,20 @@ return {
           shape = "rectangle",
           x = 384,
           y = 544,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          gid = 2362,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 26,
+          name = "Frank",
+          type = "Human",
+          shape = "rectangle",
+          x = 0,
+          y = 16,
           width = 16,
           height = 16,
           rotation = 0,

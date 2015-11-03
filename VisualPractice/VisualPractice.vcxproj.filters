@@ -203,6 +203,9 @@
     <None Include="simple_render_component.glvs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="tiled\sample_map.lua">
+      <Filter>Resource Files\tiled</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\Minecraftia-Regular.ttf">
