@@ -49,7 +49,16 @@ return {
       tilecount = 648,
       tiles = {
         {
+          id = 432,
+          properties = {
+            ["animation"] = "error"
+          }
+        },
+        {
           id = 540,
+          properties = {
+            ["animation"] = "walking"
+          },
           animation = {
             {
               tileid = "540",
