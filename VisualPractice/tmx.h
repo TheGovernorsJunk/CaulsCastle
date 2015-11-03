@@ -127,7 +127,6 @@ namespace te
 
     class EntityManager;
     class TransformComponent;
-    void loadObjects(const TMX& tmx, EntityManager& em, const glm::mat4& modelTransform = glm::mat4(), TransformComponent* tc = nullptr);
 }
 
 #endif

@@ -145,7 +145,6 @@ namespace te
                 throw std::runtime_error("Could not load sound.");
             }
             std::shared_ptr<const TMX> pTMX(new TMX{"tiled", "sample_map.lua"});
-            loadObjects(*pTMX, mEntityManager, glm::mat4(), mpTransformComponent.get());
             std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ pTMX, mpTextureManager });
             Entity e = createEntity({ 0,0 });
             setPosition(e, glm::vec3(10 * 0, 10 * 0, 10));

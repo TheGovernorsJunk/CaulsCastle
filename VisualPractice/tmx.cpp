@@ -303,21 +303,4 @@ namespace te
         }
         throw std::out_of_range("No tileset for given tile ID.");
     }
-
-    void loadObjects(const TMX& tmx, EntityManager& em, const glm::mat4& modelTransform, TransformComponent* tc)
-    {
-        for (auto it = tmx.layers.begin(); it != tmx.layers.end(); ++it) {
-            const TMX::Layer& layer = *it;
-            if (layer.type != TMX::Layer::Type::OBJECTGROUP) { continue; }
-
-            unsigned layerIndex = it - tmx.layers.begin();
-            std::for_each(std::begin(layer.objects), std::end(layer.objects), [&, layerIndex](const TMX::Tileset::Tile::ObjectGroup::Object& object) {
-
-                Entity entity = em.create();
-                if (tc) {
-                    tc->setLocalTransform(entity, modelTransform * glm::translate(glm::mat4(), glm::vec3(object.x, object.y, layerIndex)));
-                }
-            });
-        }
-    }
 }
