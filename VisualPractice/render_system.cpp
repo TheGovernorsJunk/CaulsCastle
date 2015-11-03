@@ -1,34 +1,68 @@
 #include "render_system.h"
 #include "simple_render_component.h"
 #include "transform_component.h"
+#include "animation_component.h"
+#include "shader.h"
+#include "texture.h"
+
 #include <glm/gtc/type_ptr.hpp>
 
 namespace te
 {
     RenderSystem::RenderSystem(
+        std::shared_ptr<Shader> pShader,
         std::shared_ptr<SimpleRenderComponent> pRender,
+        std::shared_ptr<AnimationComponent> pAnimation,
         std::shared_ptr<TransformComponent> pTransform)
-        : mpRender(pRender)
+        : mpShader(pShader)
+        , mpRender(pRender)
+        , mpAnimation(pAnimation)
         , mpTransform(pTransform)
-    {}
+    {
+        if (!mpTransform) {
+            throw std::runtime_error{ "RenderSystem ctor: requires transform component." };
+        }
+    }
+
+    void RenderSystem::update(float dt) const
+    {
+        if (mpAnimation) {
+            mpAnimation->forEach([dt](const Entity& entity, AnimationInstance& instance) {
+                instance.currDuration += dt * 1000;
+                if ((unsigned)instance.currDuration > instance.frames[instance.currFrameIndex].duration) {
+                    instance.currDuration = 0;
+                    ++instance.currFrameIndex;
+                    if (instance.currFrameIndex >= instance.frames.size()) {
+                        instance.currFrameIndex = 0;
+                    }
+                }
+            });
+        }
+    }
 
     void RenderSystem::draw(const glm::mat4& viewTransform) const
     {
-        glUseProgram(mpRender->mShader);
+        if (mpRender) {
+            glUseProgram(mpRender->mShader);
 
-        glUniformMatrix4fv(mpRender->mViewLocation, 1, GL_FALSE, glm::value_ptr(viewTransform));
+            glUniformMatrix4fv(mpRender->mViewLocation, 1, GL_FALSE, glm::value_ptr(viewTransform));
 
-        GLuint modelLocation = mpRender->mModelLocation;
-        TransformPtr pTransform = mpTransform;
-        mpRender->forEach([modelLocation, pTransform](const Entity& entity, SimpleRenderInstance& instance)
-        {
-            glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(pTransform->getWorldTransform(entity)));
+            GLuint modelLocation = mpRender->mModelLocation;
+            TransformPtr pTransform = mpTransform;
+            mpRender->forEach([modelLocation, pTransform](const Entity& entity, SimpleRenderInstance& instance)
+            {
+                glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(pTransform->getWorldTransform(entity)));
 
-            glBindVertexArray(instance.vao);
-            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-            glBindVertexArray(0);
-        });
+                glBindVertexArray(instance.vao);
+                glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+                glBindVertexArray(0);
+            });
+        }
 
-        glUseProgram(0);
+        if (mpAnimation) {
+            mpAnimation->forEach([&, this](const Entity& entity, AnimationInstance& instance) {
+                mpShader->draw(viewTransform * mpTransform->getWorldTransform(entity), *instance.frames[instance.currFrameIndex].mesh);
+            });
+        }
     }
 }
