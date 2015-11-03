@@ -71,6 +71,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animation_component.cpp" />
+    <ClCompile Include="animation_factory.cpp" />
     <ClCompile Include="auxiliary.cpp" />
     <ClCompile Include="bounding_box_component.cpp" />
     <ClCompile Include="collision_system.cpp" />
@@ -95,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation_component.h" />
+    <ClInclude Include="animation_factory.h" />
     <ClInclude Include="auxiliary.h" />
     <ClInclude Include="bounding_box_component.h" />
     <ClInclude Include="collision_system.h" />
