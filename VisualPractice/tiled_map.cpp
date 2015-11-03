@@ -13,37 +13,32 @@
 
 namespace te
 {
-    TiledMap::TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm)
-        : mShaderProgram(loadProgram("tiled_map.glvs", "tiled_map.glfs"))
-        , mModelMatrix(model)
+    TiledMap::TiledMap(const std::string& path, const std::string& file, std::shared_ptr<Shader> pShader, TextureManager* tm)
+        : mpShader(pShader)
         , mLayers()
     {
-        init(path, TMX{ path, file }, projection, model, tm);
+        init(TMX{ path, file }, tm);
     }
 
-    TiledMap::TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm)
+    TiledMap::TiledMap(const TMX& tmx, std::shared_ptr<Shader> pShader, TextureManager* tm)
+        : mpShader(pShader)
+        , mLayers()
     {
-        init(path, tmx, projection, model, tm);
+        init(tmx, tm);
     }
 
-    void TiledMap::init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm)
+    void TiledMap::init(const TMX& tmx, TextureManager* tm)
     {
-        glUseProgram(mShaderProgram);
-
-        GLint projectionMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ProjectionMatrix");
-        if (projectionMatrixLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
-        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projection));
-
-        GLint modelMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ModelMatrix");
-        if (modelMatrixLocation == -1) { throw std::runtime_error("te_ModelMatrix: not a valid program variable."); }
-        glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(model));
+        if (!mpShader) {
+            throw std::runtime_error{ "TiledMap ctor: requires Shader." };
+        }
 
         std::vector<std::shared_ptr<const Texture>> textures;
-        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&textures, &path, &tm](const TMX::Tileset& tileset) {
+        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&](const TMX::Tileset& tileset) {
             if (tm) {
-                textures.push_back((*tm)[path + "/" + tileset.image]);
+                textures.push_back((*tm)[tmx.meta.path + "/" + tileset.image]);
             } else {
-                textures.push_back(std::shared_ptr<Texture>(new Texture{ path + "/" + tileset.image }));
+                textures.push_back(std::shared_ptr<Texture>(new Texture{ tmx.meta.path + "/" + tileset.image }));
             }
         });
 
@@ -135,22 +130,16 @@ namespace te
     }
 
     TiledMap::TiledMap(TiledMap&& o)
-        : mShaderProgram(std::move(o.mShaderProgram))
-        , mModelMatrix(o.mModelMatrix)
+        : mpShader(std::move(o.mpShader))
         , mLayers(std::move(o.mLayers))
-    {
-        o.mShaderProgram = 0;
-    }
+    {}
 
     TiledMap& TiledMap::operator=(TiledMap&& o)
     {
         destroy();
 
-        mShaderProgram = std::move(o.mShaderProgram);
-        mModelMatrix = std::move(o.mModelMatrix);
+        mpShader = std::move(o.mpShader);
         mLayers = std::move(o.mLayers);
-
-        o.mShaderProgram = 0;
 
         return *this;
     }
@@ -162,30 +151,15 @@ namespace te
 
     void TiledMap::destroy()
     {
-        glDeleteProgram(mShaderProgram);
-        mShaderProgram = 0;
         mLayers.clear();
     }
 
     void TiledMap::draw(const glm::mat4& viewTransform) const
     {
-        glUseProgram(mShaderProgram);
+        std::for_each(std::begin(mLayers), std::end(mLayers), [&, this](const Layer& layer) {
+            std::for_each(std::begin(layer.meshes), std::end(layer.meshes), [&, this](std::shared_ptr<Mesh> mesh) {
 
-        GLint viewMatrixLocation = glGetUniformLocation(mShaderProgram, "te_ViewMatrix");
-        if (viewMatrixLocation == -1) { throw std::runtime_error("te_ViewMatrix: not a valid program variable."); }
-        glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(viewTransform));
-
-        std::for_each(std::begin(mLayers), std::end(mLayers), [this](const Layer& layer) {
-            std::for_each(std::begin(layer.meshes), std::end(layer.meshes), [this](std::shared_ptr<Mesh> mesh) {
-
-                // Currently only one usable texture
-                glActiveTexture(GL_TEXTURE0);
-                glUniform1i(glGetUniformLocation(mShaderProgram, "base"), 0);
-                glBindTexture(GL_TEXTURE_2D, mesh->getTexture(0)->getID());
-
-                glBindVertexArray(mesh->getVAO());
-                glDrawElements(GL_TRIANGLES, mesh->getElementCount(), GL_UNSIGNED_INT, 0);
-                glBindVertexArray(0);
+                mpShader->draw(viewTransform, *mesh);
             });
         });
     }

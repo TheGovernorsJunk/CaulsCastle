@@ -14,11 +14,12 @@ namespace te
     struct TMX;
     struct BoundingBox;
     class Mesh;
+    class Shader;
 
     class TiledMap {
     public:
-        TiledMap(const std::string& path, const std::string& file, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm = nullptr);
-        TiledMap(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm = nullptr);
+        TiledMap(const std::string& path, const std::string& file, std::shared_ptr<Shader> pShader, TextureManager* tm = nullptr);
+        TiledMap(const TMX& tmx, std::shared_ptr<Shader> pShader, TextureManager* tm = nullptr);
         ~TiledMap();
         TiledMap(TiledMap&&);
         TiledMap& operator=(TiledMap&&);
@@ -35,11 +36,10 @@ namespace te
             std::vector<std::shared_ptr<Mesh>> meshes;
         };
 
-        void init(const std::string& path, const TMX& tmx, const glm::mat4& projection, const glm::mat4& model, TextureManager* tm);
+        void init(const TMX& tmx, TextureManager* tm);
         void destroy();
 
-        GLuint mShaderProgram;
-        glm::mat4 mModelMatrix;
+        std::shared_ptr<Shader> mpShader;
         std::vector<Layer> mLayers;
     };
 }

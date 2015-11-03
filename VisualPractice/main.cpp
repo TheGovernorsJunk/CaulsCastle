@@ -121,7 +121,7 @@ namespace te
             : GameState()
             , mpShader(new Shader(glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4()))
             , mpTextureManager(new TextureManager())
-            , mpMap(new TiledMap("tiled", "sample_map.lua", glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4(), mpTextureManager.get()))
+            , mpMap(new TiledMap("tiled", "sample_map.lua", mpShader, mpTextureManager.get()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
