@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace te
 {
@@ -57,6 +58,8 @@ namespace te
 
             struct Tile {
                 unsigned id;
+
+                std::map<std::string, std::string> properties;
 
                 struct ObjectGroup {
 

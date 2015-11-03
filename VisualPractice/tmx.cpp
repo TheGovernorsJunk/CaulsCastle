@@ -180,10 +180,26 @@ namespace te
 
                         TMX::Tileset::Tile tile{
                             tileRef["id"],
+                            std::map<std::string, std::string>{},
                             std::move(objectGroup),
                             std::vector<TMX::Tileset::Tile::Frame>{},
                             std::vector<unsigned>{},
                         };
+
+                        // properties initialization
+                        {
+                            luabridge::LuaRef propertiesRef = tileRef["properties"];
+                            if (!propertiesRef.isNil()) {
+                                for (luabridge::Iterator it(propertiesRef); !it.isNil(); ++it) {
+                                    luabridge::LuaRef key = it.key();
+                                    luabridge::LuaRef val = *it;
+                                    tile.properties.insert(std::pair<std::string, std::string>{
+                                        key,
+                                        val
+                                    });
+                                }
+                            }
+                        } // end properties initialization
 
                         // animation initialization
                         {
