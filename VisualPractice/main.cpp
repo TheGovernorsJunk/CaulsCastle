@@ -117,9 +117,9 @@ namespace te
     class LuaGameState : public GameState
     {
     public:
-        LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
+        LuaGameState(const glm::mat4& projection, const glm::mat4& model, const std::string& filename = "init.lua")
             : GameState()
-            , mpShader(new Shader(glm::ortho<GLfloat>(0, 16 * 16, 9 * 16, 0, -100, 100), glm::mat4()))
+            , mpShader(new Shader(projection, model))
             , mpTextureManager(new TextureManager())
             , mpTMX(new TMX("tiled", "sample_map.lua"))
             , mpMap(new TiledMap(*mpTMX, mpShader, mpTextureManager.get()))
@@ -146,8 +146,8 @@ namespace te
                 throw std::runtime_error("Could not load sound.");
             }
             std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ mpTMX, mpTextureManager });
-            Entity e = createEntity({ 0,0 });
-            setPosition(e, glm::vec3(16 * 3, 16 * 3, 10));
+            Entity e = createEntity({ 3, 3, 10 });
+            //setPosition(e, glm::vec3(3, 3, 10));
             //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
             std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ mpTMX, pMeshManager });
 
@@ -180,7 +180,7 @@ namespace te
                 mpAnimationComponent->setAnimation(e, 3);
             });
 
-            loadObjects(mpTMX, pMeshManager, mEntityManager, *mpTransformComponent, *mpAnimationComponent);
+            loadObjects(mpTMX, *mpShader, pMeshManager, mEntityManager, *mpTransformComponent, *mpAnimationComponent);
         }
 
         typedef unsigned int EntityHandle;
@@ -200,12 +200,12 @@ namespace te
             BASS_ChannelPlay(mChannel, true);
         }
 
-        Entity createEntity(glm::vec2 position, glm::vec2 velocity = glm::vec2(0, 0))
+        Entity createEntity(glm::vec3 position, glm::vec2 velocity = glm::vec2(0, 0))
         {
             Entity entity = mEntityManager.create();
             mpTransformComponent->setLocalTransform(
                 entity,
-                glm::translate(glm::vec3(position.x, position.y, 0.f)));
+                glm::translate(position));
             if (velocity != glm::vec2(0, 0))
             {
                 mpPhysicsComponent->setPhysics(entity, velocity);
@@ -502,24 +502,25 @@ int main(int argc, char** argv)
         glClearColor(0.f, 0.f, 0.f, 1.f);
 
 
-        glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, -1, 100);
+        glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100);
+        glm::mat4 model = glm::scale(glm::vec3(1.f / 16, 1.f / 16, 1));
 
-        std::shared_ptr<LuaGameState> pState(new LuaGameState(projection));
+        std::shared_ptr<LuaGameState> pState(new LuaGameState(projection, model));
         std::shared_ptr<TopdownState> pTopdown(new TopdownState());
         StateStack stateStack(pState);
         LuaGameState& state = *pState;
 
         // State initialization
 
-        Entity ball = state.createEntity({ 8, 4.5 }, { 0, -1 });
+        Entity ball = state.createEntity({ 8, 4.5, 5 }, { 0, -1 });
         state.setSprite(ball, { 1, 1 });
         state.setBoundingBox(ball, { 1, 1 });
 
-        Entity leftPaddle = state.createEntity({ 0.5, 4.5 });
+        Entity leftPaddle = state.createEntity({ 0.5, 4.5, 5 });
         state.setSprite(leftPaddle, { 1, 3 });
         state.setBoundingBox(leftPaddle, { 1, 3 });
 
-        Entity rightPaddle = state.createEntity({ 15.5, 4.5 });
+        Entity rightPaddle = state.createEntity({ 15.5, 4.5, 5 });
         state.setSprite(rightPaddle, { 1, 3 });
         state.setBoundingBox(rightPaddle, { 1, 3 });
 
@@ -562,14 +563,14 @@ int main(int argc, char** argv)
         state.registerKeyRelease('l', [rightPaddle, &state]() { state.setVelocity(rightPaddle, glm::vec2(0, 0)); });
 
         state.registerKeyPress(' ', [&state]() { state.pause(); });
-        state.registerKeyPress((char)SDLK_UP, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, 16.f, 0.f))); });
-        state.registerKeyPress((char)SDLK_DOWN, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, -16.f, 0.f))); });
-        state.registerKeyPress((char)SDLK_RIGHT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(-16.f, 0.f, 0.f))); });
-        state.registerKeyPress((char)SDLK_LEFT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(16.f, 0.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_UP, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, 1.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_DOWN, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(0.f, -1.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_RIGHT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(-1.f, 0.f, 0.f))); });
+        state.registerKeyPress((char)SDLK_LEFT, [&state]() { state.setView(glm::translate(state.getView(), glm::vec3(1.f, 0.f, 0.f))); });
 
-        Entity topWall = state.createEntity({ 50, -1 });
+        Entity topWall = state.createEntity({ 50, -1, 5 });
         state.setBoundingBox(topWall, { 100, 2 });
-        Entity bottomWall = state.createEntity({ 8, 10 });
+        Entity bottomWall = state.createEntity({ 8, 10, 5 });
         state.setBoundingBox(bottomWall, { 100, 2 });
 
         auto handleWallCollision = [&state](Entity ball, Entity wall, float dt)
