@@ -119,9 +119,10 @@ namespace te
     public:
         LuaGameState(const glm::mat4& projection, const std::string& filename = "init.lua")
             : GameState()
-            , mpShader(new Shader(glm::ortho<GLfloat>(0, 512, 288, 0, -100, 100), glm::mat4()))
+            , mpShader(new Shader(glm::ortho<GLfloat>(0, 16 * 16, 9 * 16, 0, -100, 100), glm::mat4()))
             , mpTextureManager(new TextureManager())
-            , mpMap(new TiledMap("tiled", "sample_map.lua", mpShader, mpTextureManager.get()))
+            , mpTMX(new TMX("tiled", "sample_map.lua"))
+            , mpMap(new TiledMap(*mpTMX, mpShader, mpTextureManager.get()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -144,12 +145,11 @@ namespace te
             {
                 throw std::runtime_error("Could not load sound.");
             }
-            std::shared_ptr<const TMX> pTMX(new TMX{"tiled", "sample_map.lua"});
-            std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ pTMX, mpTextureManager });
+            std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ mpTMX, mpTextureManager });
             Entity e = createEntity({ 0,0 });
-            setPosition(e, glm::vec3(10 * 0, 10 * 0, 10));
+            setPosition(e, glm::vec3(16 * 3, 16 * 3, 10));
             //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
-            std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ pTMX, pMeshManager });
+            std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ mpTMX, pMeshManager });
 
             std::shared_ptr<const Animation> pAnimation(new Animation(pAnimationFactory->create({
                 {"animation", "walking"},
@@ -179,6 +179,8 @@ namespace te
             registerKeyPress('3', [=] {
                 mpAnimationComponent->setAnimation(e, 3);
             });
+
+            loadObjects(mpTMX, pMeshManager, mEntityManager, *mpTransformComponent, *mpAnimationComponent);
         }
 
         typedef unsigned int EntityHandle;
@@ -430,6 +432,7 @@ namespace te
         std::shared_ptr<Shader> mpShader;
         std::shared_ptr<TextureManager> mpTextureManager;
 
+        std::shared_ptr<const TMX> mpTMX;
         std::shared_ptr<TiledMap> mpMap;
         std::shared_ptr<CollisionHandler> mCollisionHandler;
 
