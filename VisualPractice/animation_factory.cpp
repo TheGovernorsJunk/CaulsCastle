@@ -9,6 +9,34 @@ namespace te
     AnimationFactory::AnimationFactory(std::shared_ptr<const TMX> pTMX, std::shared_ptr<MeshManager> pMeshManager)
         : mpTMX(pTMX), mpMeshManager(pMeshManager) {}
 
+    Animation AnimationFactory::create(unsigned gid, bool frozen) const
+    {
+        const TMX::Tileset::Tile* pMatch = nullptr;
+        const TMX::Tileset* pTileset = nullptr;
+
+        std::for_each(std::begin(mpTMX->tilesets), std::end(mpTMX->tilesets), [&](const TMX::Tileset& tileset) {
+            std::for_each(std::begin(tileset.tiles), std::end(tileset.tiles), [&](const TMX::Tileset::Tile& tile) {
+                if (tile.id + tileset.firstgid == gid) {
+                    pMatch = &tile;
+                    pTileset = &tileset;
+                }
+            });
+        });
+
+        if (pMatch && pMatch->animation.size() > 0) {
+            std::vector<Frame> frames;
+            std::for_each(std::begin(pMatch->animation), std::end(pMatch->animation), [&, this](const TMX::Tileset::Tile::Frame& frame) {
+                frames.push_back({ (*mpMeshManager)[frame.tileid + pTileset->firstgid], frame.duration });
+            });
+            return { frames, frozen };
+        } else {
+            return {
+                { { (*mpMeshManager)[gid], 0 } },
+                true
+            };
+        }
+    }
+
     Animation AnimationFactory::create(const std::map<std::string, std::string>& propertyMap, bool frozen) const
     {
         const TMX::Tileset::Tile* pMatch = nullptr;
