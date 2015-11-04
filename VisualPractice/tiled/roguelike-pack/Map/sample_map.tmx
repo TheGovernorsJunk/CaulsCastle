@@ -13,6 +13,7 @@
   <tile id="540">
    <properties>
     <property name="animation" value="walking"/>
+    <property name="type" value="jester"/>
    </properties>
    <animation>
     <frame tileid="540" duration="100"/>

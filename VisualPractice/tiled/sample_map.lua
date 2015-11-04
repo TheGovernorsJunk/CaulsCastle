@@ -57,7 +57,8 @@ return {
         {
           id = 540,
           properties = {
-            ["animation"] = "walking"
+            ["animation"] = "walking",
+            ["type"] = "jester"
           },
           animation = {
             {
