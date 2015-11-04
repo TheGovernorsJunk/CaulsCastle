@@ -28,6 +28,9 @@ namespace te
     {
         if (mpAnimation) {
             mpAnimation->forEach([dt](const Entity& entity, AnimationInstance& instance) {
+                // Frozen animations require no update
+                if (instance.currAnimation->frozen) { return; }
+
                 instance.currDuration += dt * 1000;
                 if ((unsigned)instance.currDuration > instance.currAnimation->frames[instance.currFrameIndex].duration) {
                     instance.currDuration = 0;
