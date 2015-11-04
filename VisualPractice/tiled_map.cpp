@@ -5,8 +5,10 @@
 #include "mesh.h"
 #include "texture.h"
 #include "texture_manager.h"
+#include "auxiliary.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include <algorithm>
 #include <array>
@@ -15,16 +17,20 @@ namespace te
 {
     TiledMap::TiledMap(const std::string& path, const std::string& file, std::shared_ptr<Shader> pShader, TextureManager* tm)
         : mpShader(pShader)
+        , mpTMX(new TMX{path, file})
         , mLayers()
+        , mCollisionRects()
     {
-        init(TMX{ path, file }, tm);
+        init(*mpTMX, tm);
     }
 
-    TiledMap::TiledMap(const TMX& tmx, std::shared_ptr<Shader> pShader, TextureManager* tm)
+    TiledMap::TiledMap(std::shared_ptr<const TMX> pTMX, std::shared_ptr<Shader> pShader, TextureManager* tm)
         : mpShader(pShader)
+        , mpTMX(pTMX)
         , mLayers()
+        , mCollisionRects()
     {
-        init(tmx, tm);
+        init(*mpTMX, tm);
     }
 
     void TiledMap::init(const TMX& tmx, TextureManager* tm)
@@ -34,12 +40,28 @@ namespace te
         }
 
         std::vector<std::shared_ptr<const Texture>> textures;
-        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&](const TMX::Tileset& tileset) {
+        std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&, this](const TMX::Tileset& tileset) {
             if (tm) {
                 textures.push_back((*tm)[tmx.meta.path + "/" + tileset.image]);
             } else {
                 textures.push_back(std::shared_ptr<Texture>(new Texture{ tmx.meta.path + "/" + tileset.image }));
             }
+
+            std::for_each(std::begin(tileset.tiles), std::end(tileset.tiles), [&, this](const TMX::Tileset::Tile& tile) {
+                std::for_each(std::begin(tile.objectGroup.objects), std::end(tile.objectGroup.objects), [&, this](const TMX::Tileset::Tile::ObjectGroup::Object& object) {
+                    if (object.shape == TMX::Tileset::Tile::ObjectGroup::Object::Shape::RECTANGLE) {
+                        mCollisionRects.insert(std::pair<unsigned, const BoundingBox>{
+                            tileset.firstgid + tile.id,
+                            {
+                                object.x / tileset.tilewidth,
+                                object.y / tileset.tileheight,
+                                object.width / tileset.tilewidth,
+                                object.height / tileset.tileheight
+                            }
+                        });
+                    }
+                });
+            });
         });
 
         struct ProtoMesh {
@@ -164,9 +186,64 @@ namespace te
         });
     }
 
+    static unsigned getTileData(const TMX::Layer layer, int x, int y)
+    {
+        int index = y * layer.width + x;
+        if (index < 0 || (unsigned)index >= layer.data.size()) {
+            return 0;
+        }
+        return layer.data[index];
+    }
+
+    bool TiledMap::checkUnitCollision(const BoundingBox& unitBB, const TMX::Layer& layer) const
+    {
+        bool collision = false;
+        for (int x = (int)unitBB.x; x < (int)(unitBB.x + unitBB.w) + 1; ++x) {
+            for (int y = (int)unitBB.y; y < (int)(unitBB.y + unitBB.h) + 1; ++y) {
+                unsigned gid = getTileData(layer, x, y);
+
+                if (gid == 0) { return 0; }
+
+                auto collisionRectIt = mCollisionRects.find(gid);
+                if (collisionRectIt != mCollisionRects.end()) {
+                    collision = te::checkCollision(
+                        unitBB,
+                        glm::translate(glm::vec3(x, y, 0)) * collisionRectIt->second);
+                }
+            }
+        }
+        return collision;
+    }
+
     bool TiledMap::checkCollision(const BoundingBox& worldBB) const
     {
-        return false;
+        BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
+            glm::inverse(mpShader->getModel()) * worldBB;
+
+        bool collision = false;
+        for (auto it = mpTMX->layers.begin(); it != mpTMX->layers.end(); ++it) {
+            if (it->type != TMX::Layer::Type::TILELAYER) {
+                continue;
+            }
+            collision = checkUnitCollision(unitBB, *it);
+            if (collision) {
+                break;
+            }
+        };
+        return collision;
+    }
+
+    bool TiledMap::checkCollision(const BoundingBox& worldBB, unsigned layerIndex) const
+    {
+        BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
+            glm::inverse(mpShader->getModel()) * worldBB;
+
+        const TMX::Layer& layer = mpTMX->layers.at(layerIndex);
+        if (layer.type != TMX::Layer::Type::TILELAYER) {
+            throw std::runtime_error{ "getTileData: layer is not a tile data." };
+        }
+
+        return checkUnitCollision(unitBB, layer);
     }
 
     std::vector<BoundingBox> TiledMap::getIntersections(const BoundingBox&) const
