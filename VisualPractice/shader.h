@@ -21,10 +21,13 @@ namespace te
         Shader(Shader&&);
         Shader& operator=(Shader&&);
 
-        void draw(const glm::mat4& modelview, const Mesh&);
+        glm::mat4 getModel() const;
+        void draw(const glm::mat4& view, const Mesh&);
     private:
         GLuint mProgram;
+        GLint mViewLocation;
         glm::mat4 mLastView;
+        glm::mat4 mModel;
 
         void destroy();
 
