@@ -126,6 +126,7 @@ namespace te
 
     unsigned getTilesetIndex(const TMX& tmx, unsigned gid);
 
+    class Shader;
     class MeshManager;
     class EntityManager;
     class TransformComponent;
@@ -133,6 +134,7 @@ namespace te
 
     void loadObjects(
         std::shared_ptr<const TMX>,
+        const Shader& shader,
         std::shared_ptr<MeshManager>,
         EntityManager&,
         TransformComponent&,
