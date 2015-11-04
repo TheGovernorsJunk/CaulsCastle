@@ -122,7 +122,7 @@ namespace te
             , mpShader(new Shader(projection, model))
             , mpTextureManager(new TextureManager())
             , mpTMX(new TMX("tiled", "sample_map.lua"))
-            , mpMap(new TiledMap(*mpTMX, mpShader, mpTextureManager.get()))
+            , mpMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
             , mpPhysicsComponent(new PhysicsComponent())
@@ -146,7 +146,7 @@ namespace te
                 throw std::runtime_error("Could not load sound.");
             }
             std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ mpTMX, mpTextureManager });
-            Entity e = createEntity({ 3, 3, 10 });
+            Entity e = createEntity({ 4, 2, 2 });
             //setPosition(e, glm::vec3(3, 3, 10));
             //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
             std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ mpTMX, pMeshManager });
