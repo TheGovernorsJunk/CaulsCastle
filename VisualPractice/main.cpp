@@ -150,12 +150,27 @@ namespace te
             setPosition(e, glm::vec3(10 * 0, 10 * 0, 10));
             //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
             std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ pTMX, pMeshManager });
-            std::vector<Frame> frames = pAnimationFactory->create({
+
+            std::shared_ptr<const Animation> pAnimation(new Animation(pAnimationFactory->create({
                 {"animation", "walking"},
                 {"character", "amygdala"}
-            });
+            })));
+            std::shared_ptr<const Animation> pJesterAnimation(new Animation(pAnimationFactory->create({
+                {"animation", "walking"},
+                {"type", "jester"}
+            })));
 
-            mpAnimationComponent->setAnimations(e, std::move(frames));
+            mpAnimationComponent->setAnimations(e, {
+                {1, pAnimation},
+                {2, pJesterAnimation}
+            }, 1);
+
+            registerKeyPress('1', [=] {
+                mpAnimationComponent->setAnimation(e, 1);
+            });
+            registerKeyPress('2', [=] {
+                mpAnimationComponent->setAnimation(e, 2);
+            });
         }
 
         typedef unsigned int EntityHandle;
