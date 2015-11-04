@@ -1,6 +1,8 @@
 #include "tmx.h"
 #include "entity_manager.h"
 #include "transform_component.h"
+#include "animation_component.h"
+#include "animation_factory.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -302,5 +304,39 @@ namespace te
             }
         }
         throw std::out_of_range("No tileset for given tile ID.");
+    }
+
+    void loadObjects(
+        std::shared_ptr<const TMX> pTMX,
+        std::shared_ptr<MeshManager> pMeshManager,
+        EntityManager& entityManager,
+        TransformComponent& transformComponent,
+        AnimationComponent& animationComponent)
+    {
+        AnimationFactory animationFactory(pTMX, pMeshManager);
+
+        unsigned layerIndex = -1;
+        std::for_each(std::begin(pTMX->layers), std::end(pTMX->layers), [&](const TMX::Layer& layer) {
+
+            ++layerIndex;
+            if (layer.type != TMX::Layer::Type::OBJECTGROUP) { return; }
+
+            std::for_each(std::begin(layer.objects), std::end(layer.objects), [&](const TMX::Tileset::Tile::ObjectGroup::Object& object) {
+                Entity entity = entityManager.create();
+
+                transformComponent.setLocalTransform(
+                    entity,
+                    // Subtract by height to compensate for TMX odd positions
+                    glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)));
+
+                std::shared_ptr<const Animation> pAnimation(new Animation{
+                    animationFactory.create(object.gid)
+                });
+                animationComponent.setAnimations(entity, {
+                    {0, pAnimation}
+                }, 0);
+            });
+
+        });
     }
 }

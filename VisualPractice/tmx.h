@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 namespace te
 {
@@ -125,8 +126,17 @@ namespace te
 
     unsigned getTilesetIndex(const TMX& tmx, unsigned gid);
 
+    class MeshManager;
     class EntityManager;
     class TransformComponent;
+    class AnimationComponent;
+
+    void loadObjects(
+        std::shared_ptr<const TMX>,
+        std::shared_ptr<MeshManager>,
+        EntityManager&,
+        TransformComponent&,
+        AnimationComponent&);
 }
 
 #endif
