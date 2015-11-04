@@ -16,12 +16,16 @@ namespace te
         unsigned duration;
     };
 
+    struct Animation {
+        std::vector<Frame> frames;
+    };
+
     class AnimationFactory
     {
     public:
         AnimationFactory(std::shared_ptr<const TMX> pTMX, std::shared_ptr<MeshManager> pMeshManager);
 
-        std::vector<Frame> create(const std::map<std::string, std::string>& propertyMap) const;
+        Animation create(const std::map<std::string, std::string>& propertyMap) const;
     private:
         std::shared_ptr<const TMX> mpTMX;
         std::shared_ptr<MeshManager> mpMeshManager;
