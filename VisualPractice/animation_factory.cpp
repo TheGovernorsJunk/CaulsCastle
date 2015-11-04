@@ -9,7 +9,7 @@ namespace te
     AnimationFactory::AnimationFactory(std::shared_ptr<const TMX> pTMX, std::shared_ptr<MeshManager> pMeshManager)
         : mpTMX(pTMX), mpMeshManager(pMeshManager) {}
 
-    Animation AnimationFactory::create(const std::map<std::string, std::string>& propertyMap) const
+    Animation AnimationFactory::create(const std::map<std::string, std::string>& propertyMap, bool frozen) const
     {
         const TMX::Tileset::Tile* pMatch = nullptr;
         const TMX::Tileset* pTileset = nullptr;
@@ -41,9 +41,11 @@ namespace te
                 frames.push_back({(*mpMeshManager)[frame.tileid + pTileset->firstgid], frame.duration});
             });
             if (frames.size() > 0) {
-                return { frames };
+                return { frames, frozen };
             } else {
-                throw std::runtime_error{ "AnimationFactory::create: No animation for matching tile." };
+                // If no animation data, use tile itself and mark as frozen
+                frames.push_back({ (*mpMeshManager)[pMatch->id + pTileset->firstgid], 0 });
+                return { frames, true };
             }
         } else {
             throw std::runtime_error{ "AnimationFactory::create: No tile matches given property map." };

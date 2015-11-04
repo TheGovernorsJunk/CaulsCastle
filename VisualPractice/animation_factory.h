@@ -18,6 +18,7 @@ namespace te
 
     struct Animation {
         std::vector<Frame> frames;
+        bool frozen;
     };
 
     class AnimationFactory
@@ -25,7 +26,7 @@ namespace te
     public:
         AnimationFactory(std::shared_ptr<const TMX> pTMX, std::shared_ptr<MeshManager> pMeshManager);
 
-        Animation create(const std::map<std::string, std::string>& propertyMap) const;
+        Animation create(const std::map<std::string, std::string>& propertyMap, bool frozen = false) const;
     private:
         std::shared_ptr<const TMX> mpTMX;
         std::shared_ptr<MeshManager> mpMeshManager;
