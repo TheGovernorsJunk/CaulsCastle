@@ -12,7 +12,8 @@
 namespace te
 {
     struct AnimationInstance {
-        std::vector<Frame> frames;
+        std::map<int, std::shared_ptr<const Animation>> animations;
+        const Animation* currAnimation;
         float currDuration;
         unsigned currFrameIndex;
     };
@@ -21,13 +22,9 @@ namespace te
     public:
         AnimationComponent(size_t capacity = 1024);
 
-        void setAnimations(const Entity& entity, const std::vector<Frame>& frames);
-        void setAnimations(const Entity& entity, std::vector<Frame>&& frames);
-        //void setAnimations(
-        //    const Entity& entity,
-        //    const TMX& tmx,
-        //    const TMX::Tileset::Tile::ObjectGroup::Object& object,
-        //    MeshManager& meshManager);
+        void setAnimations(const Entity& entity, const std::map<int, std::shared_ptr<const Animation>>& animations, int initialKey);
+        void setAnimations(const Entity& entity, std::map<int, std::shared_ptr<const Animation>>&& animations, int initialKey);
+        void setAnimation(const Entity& entity, int key);
 
     private:
         friend class RenderSystem;

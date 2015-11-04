@@ -29,10 +29,10 @@ namespace te
         if (mpAnimation) {
             mpAnimation->forEach([dt](const Entity& entity, AnimationInstance& instance) {
                 instance.currDuration += dt * 1000;
-                if ((unsigned)instance.currDuration > instance.frames[instance.currFrameIndex].duration) {
+                if ((unsigned)instance.currDuration > instance.currAnimation->frames[instance.currFrameIndex].duration) {
                     instance.currDuration = 0;
                     ++instance.currFrameIndex;
-                    if (instance.currFrameIndex >= instance.frames.size()) {
+                    if (instance.currFrameIndex >= instance.currAnimation->frames.size()) {
                         instance.currFrameIndex = 0;
                     }
                 }
@@ -61,7 +61,7 @@ namespace te
 
         if (mpAnimation) {
             mpAnimation->forEach([&, this](const Entity& entity, AnimationInstance& instance) {
-                mpShader->draw(viewTransform * mpTransform->getWorldTransform(entity), *instance.frames[instance.currFrameIndex].mesh);
+                mpShader->draw(viewTransform * mpTransform->getWorldTransform(entity), *instance.currAnimation->frames[instance.currFrameIndex].mesh);
             });
         }
     }

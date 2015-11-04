@@ -6,70 +6,72 @@ namespace te
     AnimationComponent::AnimationComponent(size_t capacity)
         : Component(capacity) {}
 
-    void AnimationComponent::setAnimations(const Entity& entity, const std::vector<Frame>& frames)
+    static void checkExistingKey(const std::map<int, std::shared_ptr<const Animation>> animations, int key)
     {
-        if (frames.size() == 0) { throw std::runtime_error{ "AnimationComponent::setAnimations: must have at least one frame." }; }
-        if (!hasInstance(entity)) {
-            createInstance(entity, { frames, 0, 0 });
-        } else {
-            at(entity) = { frames, 0, 0 };
+        auto it = animations.find(key);
+        if (it == animations.end()) {
+            throw std::runtime_error{ "AnimationComponent::setAnimations: no animation for given initial key." };
         }
     }
 
-    void AnimationComponent::setAnimations(const Entity& entity, std::vector<Frame>&& frames)
+    static void checkErrors(const std::map<int, std::shared_ptr<const Animation>> animations, int initialKey)
     {
-        if (frames.size() == 0) { throw std::runtime_error{ "AnimationComponent::setAnimations: must have at least one frame." }; }
-        if (!hasInstance(entity)) {
-            createInstance(entity, { std::move(frames), 0, 0 });
-        } else {
-            at(entity) = { std::move(frames), 0, 0 };
+        if (animations.size() == 0) {
+            throw std::runtime_error{ "AnimationComponent::setAnimations: must have at least one animation." };
         }
+        for (auto it = animations.begin(); it != animations.end(); ++it) {
+            if (it->second->frames.size() == 0) {
+                throw std::runtime_error{ "AnimationComponent::setAnimations: must have at least one frame." };
+            }
+        }
+
+        checkExistingKey(animations, initialKey);
     }
 
-    //void AnimationComponent::setAnimations(
-    //    const Entity& entity,
-    //    const TMX& tmx,
-    //    const TMX::Tileset::Tile::ObjectGroup::Object& object,
-    //    MeshManager& meshManager)
-    //{
-    //    AnimationInstance instance;
+    void AnimationComponent::setAnimations(const Entity& entity, const std::map<int, std::shared_ptr<const Animation>>& animations, int initialKey)
+    {
+        checkErrors(animations, initialKey);
 
-    //    unsigned tilesetIndex = getTilesetIndex(tmx, object.gid);
-    //    const TMX::Tileset& tileset = tmx.tilesets.at(tilesetIndex);
+        // Create instance
+        if (!hasInstance(entity)) {
+            createInstance(entity, { animations, nullptr, 0, 0 });
+        } else {
+            at(entity) = { animations, nullptr, 0, 0 };
+        }
 
-    //    const TMX::Tileset::Tile* pObjectTile = nullptr;
-    //    std::for_each(
-    //        std::begin(tileset.tiles),
-    //        std::end(tileset.tiles),
-    //        [&pObjectTile, &object, &tileset](const TMX::Tileset::Tile& tile) {
+        // Correct pointer
+        AnimationInstance& instance = at(entity);
+        instance.currAnimation = instance.animations.find(initialKey)->second.get();
+    }
 
-    //        if (tile.id == object.gid - tileset.firstgid && tile.animation.size() > 0) {
-    //            pObjectTile = &tile;
-    //        }
-    //    });
+    void AnimationComponent::setAnimations(const Entity& entity, std::map<int, std::shared_ptr<const Animation>>&& animations, int initialKey)
+    {
+        checkErrors(animations, initialKey);
 
-    //    if (pObjectTile) {
-    //        std::for_each(
-    //            std::begin(pObjectTile->animation),
-    //            std::end(pObjectTile->animation),
-    //            [&](const TMX::Tileset::Tile::Frame& frame) {
+        // Create instance
+        if (!hasInstance(entity)) {
+            createInstance(entity, { std::move(animations), nullptr, 0, 0 });
+        } else {
+            at(entity) = { std::move(animations), nullptr, 0, 0 };
+        }
 
-    //            instance.frames.push_back(AnimationInstance::Frame{
-    //                meshManager[frame.tileid + tileset.firstgid],
-    //                frame.duration
-    //            });
-    //        });
-    //    } else {
-    //        instance.frames.push_back(AnimationInstance::Frame{
-    //            meshManager[object.gid],
-    //            0
-    //        });
-    //    }
+        // Correct pointer
+        AnimationInstance& instance = at(entity);
+        instance.currAnimation = instance.animations.find(initialKey)->second.get();
+    }
 
-    //    if (!hasInstance(entity)) {
-    //        createInstance(entity, std::move(instance));
-    //    } else {
-    //        at(entity) = std::move(instance);
-    //    }
-    //}
+    void AnimationComponent::setAnimation(const Entity& entity, int key)
+    {
+        AnimationInstance* pInstance = nullptr;
+        if (hasInstance(entity)) {
+            pInstance = &at(entity);
+        } else {
+            throw std::runtime_error{ "AnimationComponent::setAnimation: entity has no animations." };
+        }
+
+        checkExistingKey(pInstance->animations, key);
+        pInstance->currAnimation = pInstance->animations.find(key)->second.get();
+        pInstance->currDuration = 0;
+        pInstance->currFrameIndex = 0;
+    }
 }
