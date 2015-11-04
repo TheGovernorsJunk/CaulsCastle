@@ -8,7 +8,7 @@ return {
   height = 100,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 37,
+  nextobjectid = 38,
   properties = {},
   tilesets = {
     {
@@ -476,9 +476,9 @@ return {
           type = "Human",
           shape = "rectangle",
           x = 0,
-          y = 16,
-          width = 16,
-          height = 16,
+          y = 32,
+          width = 32,
+          height = 32,
           rotation = 0,
           gid = 2362,
           visible = true,
