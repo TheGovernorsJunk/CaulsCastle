@@ -324,10 +324,13 @@ namespace te
             std::for_each(std::begin(layer.objects), std::end(layer.objects), [&](const TMX::Tileset::Tile::ObjectGroup::Object& object) {
                 Entity entity = entityManager.create();
 
+                const TMX::Tileset& tileset = pTMX->tilesets.at(getTilesetIndex(*pTMX, object.gid));
                 transformComponent.setLocalTransform(
                     entity,
-                    // Subtract by height to compensate for TMX odd positions
-                    glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)));
+                    glm::scale(
+                        // Subtract by height to compensate for TMX odd positions
+                        glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)),
+                        glm::vec3(object.width / tileset.tilewidth, object.height / tileset.tileheight, 1)));
 
                 std::shared_ptr<const Animation> pAnimation(new Animation{
                     animationFactory.create(object.gid)
