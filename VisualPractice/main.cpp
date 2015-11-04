@@ -154,15 +154,20 @@ namespace te
             std::shared_ptr<const Animation> pAnimation(new Animation(pAnimationFactory->create({
                 {"animation", "walking"},
                 {"character", "amygdala"}
-            })));
+            }, true)));
             std::shared_ptr<const Animation> pJesterAnimation(new Animation(pAnimationFactory->create({
                 {"animation", "walking"},
                 {"type", "jester"}
             })));
+            // Should be frozen using default tile mesh
+            std::shared_ptr<const Animation> pMonsterStill(new Animation(pAnimationFactory->create({
+                {"type", "monster"}
+            })));
 
             mpAnimationComponent->setAnimations(e, {
                 {1, pAnimation},
-                {2, pJesterAnimation}
+                {2, pJesterAnimation},
+                {3, pMonsterStill}
             }, 1);
 
             registerKeyPress('1', [=] {
@@ -170,6 +175,9 @@ namespace te
             });
             registerKeyPress('2', [=] {
                 mpAnimationComponent->setAnimation(e, 2);
+            });
+            registerKeyPress('3', [=] {
+                mpAnimationComponent->setAnimation(e, 3);
             });
         }
 
