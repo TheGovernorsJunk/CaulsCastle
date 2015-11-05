@@ -20,25 +20,20 @@ namespace te
         , mGravityAcceleration(0, gravityAcceleration)
     {}
 
-    void PlatformerPhysicsSystem::update(float dt) const
+    void PlatformerPhysicsSystem::update(float dt)
     {
-        TransformComponent& transformComponent = *mpTransform;
-        const BoundingBoxComponent& boundingBox = *mpBoundingBox;
-        const glm::vec2& gravityAcceleration = mGravityAcceleration;
-        const TiledMap& tiledMap = *mpTiledMap;
-
-        mpPhysics->forEach([&transformComponent, &boundingBox, &gravityAcceleration, &tiledMap, dt](const Entity& entity, PhysicsInstance& instance)
+        mpPhysics->forEach([dt, this](const Entity& entity, PhysicsInstance& instance)
         {
-            instance.velocity += dt * gravityAcceleration;
+            instance.velocity += dt * mGravityAcceleration;
             glm::vec3 directionVector(dt * glm::vec3(instance.velocity.x, instance.velocity.y, 0));
-            transformComponent.setLocalTransform(
+            mpTransform->setLocalTransform(
                 entity,
-                glm::translate(transformComponent.getLocalTransform(entity), directionVector));
+                glm::translate(mpTransform->getLocalTransform(entity), directionVector));
 
-            while (tiledMap.checkCollision(boundingBox.getBoundingBox(entity)))
+            while (mpTiledMap->getIntersections(mpBoundingBox->getBoundingBox(entity), mIntersections).size() > 0)
             {
                 instance.velocity.y = 0;
-                BoundingBox intersection = tiledMap.getIntersections(boundingBox.getBoundingBox(entity))[0];
+                BoundingBox& intersection = mIntersections[0];
                 float translateX = 0, translateY = 0;
                 if (intersection.w < intersection.h)
                 {
@@ -52,9 +47,10 @@ namespace te
                         -intersection.h :
                         intersection.h;
                 }
-                transformComponent.setLocalTransform(
+                mpTransform->setLocalTransform(
                     entity,
-                    glm::translate(transformComponent.getLocalTransform(entity), glm::vec3(translateX, translateY, 0)));
+                    glm::translate(mpTransform->getLocalTransform(entity), glm::vec3(translateX, translateY, 0)));
+                mIntersections.clear();
             }
         });
     }

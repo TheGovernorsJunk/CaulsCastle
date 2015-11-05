@@ -1,6 +1,8 @@
 #ifndef TE_PLATFORMER_PHYSICS_H
 #define TE_PLATFORMER_PHYSICS_H
 
+#include "bounding_box_component.h"
+
 #include <memory>
 #include <glm/glm.hpp>
 
@@ -8,7 +10,6 @@ namespace te
 {
     class PhysicsComponent;
     class TransformComponent;
-    class BoundingBoxComponent;
     class TiledMap;
 
     class PlatformerPhysicsSystem
@@ -21,7 +22,7 @@ namespace te
             std::shared_ptr<TiledMap> pTiledMap,
             float gravityAcceleration);
 
-        void update(float dt) const;
+        void update(float dt);
 
     private:
         std::shared_ptr<PhysicsComponent> mpPhysics;
@@ -29,6 +30,7 @@ namespace te
         std::shared_ptr<BoundingBoxComponent> mpBoundingBox;
         std::shared_ptr<TiledMap> mpTiledMap;
         glm::vec2 mGravityAcceleration;
+        std::vector<BoundingBox> mIntersections;
     };
 }
 
