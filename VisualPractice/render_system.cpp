@@ -4,6 +4,7 @@
 #include "animation_component.h"
 #include "shader.h"
 #include "texture.h"
+#include "model.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -64,7 +65,7 @@ namespace te
 
         if (mpAnimation) {
             mpAnimation->forEach([&, this](const Entity& entity, AnimationInstance& instance) {
-                mpShader->draw(viewTransform * mpTransform->getWorldTransform(entity), *instance.currAnimation->frames[instance.currFrameIndex].mesh);
+                instance.currAnimation->frames[instance.currFrameIndex].model->draw(*mpShader, viewTransform * mpTransform->getWorldTransform(entity));
             });
         }
     }

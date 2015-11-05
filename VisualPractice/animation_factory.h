@@ -8,11 +8,11 @@
 namespace te
 {
     struct TMX;
-    class Mesh;
+    class Model;
     class MeshManager;
 
     struct Frame {
-        std::shared_ptr<Mesh> mesh;
+        std::shared_ptr<const Model> model;
         unsigned duration;
     };
 

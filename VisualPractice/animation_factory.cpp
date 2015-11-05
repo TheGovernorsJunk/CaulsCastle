@@ -1,6 +1,7 @@
 #include "animation_factory.h"
 #include "tmx.h"
 #include "mesh_manager.h"
+#include "model.h"
 
 #include <algorithm>
 
@@ -26,14 +27,25 @@ namespace te
         if (pMatch && pMatch->animation.size() > 0) {
             std::vector<Frame> frames;
             std::for_each(std::begin(pMatch->animation), std::end(pMatch->animation), [&, this](const TMX::Tileset::Tile::Frame& frame) {
-                frames.push_back({ (*mpMeshManager)[frame.tileid + pTileset->firstgid], frame.duration });
+                frames.push_back({ std::shared_ptr<const Model>(new Model{
+                    std::vector<std::shared_ptr<const Mesh>>{
+                        std::shared_ptr<const Mesh>{ (*mpMeshManager)[frame.tileid + pTileset->firstgid] }
+                    }
+                }), frame.duration });
             });
             return { frames, frozen };
         } else {
-            return {
-                { { (*mpMeshManager)[gid], 0 } },
-                true
-            };
+            return{ std::vector<Frame>{
+                Frame{
+                    std::shared_ptr<const Model>{
+                        new Model{
+                            std::vector<std::shared_ptr<const Mesh>>{
+                                { (*mpMeshManager)[gid] }
+                            }
+                        }
+                    }, 0
+                }
+            }, true };
         }
     }
 
@@ -66,13 +78,29 @@ namespace te
         if (pMatch) {
             std::vector<Frame> frames;
             std::for_each(std::begin(pMatch->animation), std::end(pMatch->animation), [&, this](const TMX::Tileset::Tile::Frame& frame) {
-                frames.push_back({(*mpMeshManager)[frame.tileid + pTileset->firstgid], frame.duration});
+                frames.push_back(Frame{
+                    std::shared_ptr<const Model>{
+                        new Model{
+                            std::vector<std::shared_ptr<const Mesh>>{
+                                { (*mpMeshManager)[frame.tileid + pTileset->firstgid] }
+                            }
+                        }
+                    }, frame.duration
+                });
             });
             if (frames.size() > 0) {
                 return { frames, frozen };
             } else {
                 // If no animation data, use tile itself and mark as frozen
-                frames.push_back({ (*mpMeshManager)[pMatch->id + pTileset->firstgid], 0 });
+                frames.push_back(Frame{
+                    std::shared_ptr<const Model>{
+                        new Model{
+                            std::vector<std::shared_ptr<const Mesh>>{
+                                {(*mpMeshManager)[pMatch->id + pTileset->firstgid]}
+                            }
+                        }
+                    }, 0
+                });
                 return { frames, true };
             }
         } else {
