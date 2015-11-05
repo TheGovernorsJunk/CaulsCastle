@@ -14,11 +14,11 @@ namespace te
     public:
         MeshManager(std::shared_ptr<const TMX>, std::shared_ptr<TextureManager>);
 
-        std::shared_ptr<Mesh> operator[](unsigned);
+        std::shared_ptr<const Mesh> operator[](unsigned);
     private:
         std::shared_ptr<const TMX> mpTMX;
         std::shared_ptr<TextureManager> mpTextureManager;
-        std::map<unsigned, std::shared_ptr<Mesh>> mMeshes;
+        std::map<unsigned, std::shared_ptr<const Mesh>> mMeshes;
 
         MeshManager(const MeshManager&) = delete;
         MeshManager& operator=(const MeshManager&) = delete;

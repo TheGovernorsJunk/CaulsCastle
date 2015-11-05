@@ -16,7 +16,7 @@ namespace te
         , mMeshes()
     {}
 
-    std::shared_ptr<Mesh> MeshManager::operator[](unsigned gid)
+    std::shared_ptr<const Mesh> MeshManager::operator[](unsigned gid)
     {
         auto it = mMeshes.find(gid);
         if (it != mMeshes.end()) {
@@ -64,8 +64,8 @@ namespace te
             std::vector<std::shared_ptr<const Texture>> textures;
             textures.push_back(pTexture);
 
-            std::shared_ptr<Mesh> pMesh(new Mesh(vertices, indices, textures));
-            mMeshes.insert(std::pair<unsigned, std::shared_ptr<Mesh>>{
+            std::shared_ptr<const Mesh> pMesh(new Mesh(vertices, indices, textures));
+            mMeshes.insert(std::pair<unsigned, std::shared_ptr<const Mesh>>{
                 gid,
                 pMesh
             });
