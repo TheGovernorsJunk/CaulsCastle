@@ -80,6 +80,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_manager.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="physics_component.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="platformer_physics_system.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="gl.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="mesh_manager.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="physics_component.h" />
     <ClInclude Include="physics_system.h" />
