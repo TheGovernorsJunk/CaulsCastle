@@ -3,6 +3,7 @@
 #include "shader.h"
 #include "bounding_box_component.h"
 #include "mesh.h"
+#include "model.h"
 #include "texture.h"
 #include "texture_manager.h"
 #include "auxiliary.h"
@@ -137,13 +138,13 @@ namespace te
                 it->textures.push_back(textures.at(it - protoMeshes.begin()));
             }
 
-            std::vector<std::shared_ptr<Mesh>> meshes;
+            std::vector<std::shared_ptr<const Mesh>> meshes;
             std::for_each(std::begin(protoMeshes), std::end(protoMeshes), [&meshes](ProtoMesh& proto) {
                 if (proto.indices.size() > 0) {
-                    meshes.push_back(std::shared_ptr<Mesh>(new Mesh{ proto.vertices, proto.indices, proto.textures }));
+                    meshes.push_back(std::shared_ptr<const Mesh>(new Mesh{ proto.vertices, proto.indices, proto.textures }));
                 }
             });
-            mLayers.push_back(Layer{ std::move(meshes) });
+            mLayers.push_back(Model{ std::move(meshes) });
 
             protoMeshes.clear();
             protoMeshes = std::vector<ProtoMesh>(tmx.tilesets.size());
@@ -178,11 +179,8 @@ namespace te
 
     void TiledMap::draw(const glm::mat4& viewTransform) const
     {
-        std::for_each(std::begin(mLayers), std::end(mLayers), [&, this](const Layer& layer) {
-            std::for_each(std::begin(layer.meshes), std::end(layer.meshes), [&, this](std::shared_ptr<Mesh> mesh) {
-
-                mpShader->draw(viewTransform, *mesh);
-            });
+        std::for_each(std::begin(mLayers), std::end(mLayers), [&, this](const Model& layer) {
+            layer.draw(*mpShader, viewTransform);
         });
     }
 

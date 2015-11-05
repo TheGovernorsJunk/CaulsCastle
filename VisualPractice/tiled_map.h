@@ -16,6 +16,7 @@ namespace te
     class TextureManager;
     struct BoundingBox;
     class Mesh;
+    class Model;
     class Shader;
 
     class TiledMap {
@@ -37,10 +38,6 @@ namespace te
         TiledMap(const TiledMap&) = delete;
         TiledMap& operator=(const TiledMap&) = delete;
 
-        struct Layer {
-            std::vector<std::shared_ptr<Mesh>> meshes;
-        };
-
         void init(const TMX& tmx, TextureManager* tm);
         void destroy();
         bool checkUnitCollision(const BoundingBox& unitBB, const TMX::Layer& layer) const;
@@ -48,7 +45,7 @@ namespace te
 
         std::shared_ptr<Shader> mpShader;
         std::shared_ptr<const TMX> mpTMX;
-        std::vector<Layer> mLayers;
+        std::vector<Model> mLayers;
         std::map<unsigned, const BoundingBox> mCollisionRects;
     };
 }
