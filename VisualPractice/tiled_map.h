@@ -27,10 +27,11 @@ namespace te
         TiledMap& operator=(TiledMap&&);
 
         void draw(const glm::mat4& viewTransform = glm::mat4()) const;
+
         bool checkCollision(const BoundingBox&) const;
         bool checkCollision(const BoundingBox&, unsigned layerIndex) const;
-        std::vector<BoundingBox> getIntersections(const BoundingBox&) const;
-        std::vector<BoundingBox> getIntersections(const BoundingBox&, unsigned layerIndex) const;
+        std::vector<BoundingBox>& getIntersections(const BoundingBox&, std::vector<BoundingBox>& intersections) const;
+        std::vector<BoundingBox>& getIntersections(const BoundingBox&, unsigned layerIndex, std::vector<BoundingBox>& intersections) const;
 
     private:
         TiledMap(const TiledMap&) = delete;
@@ -43,7 +44,7 @@ namespace te
         void init(const TMX& tmx, TextureManager* tm);
         void destroy();
         bool checkUnitCollision(const BoundingBox& unitBB, const TMX::Layer& layer) const;
-        std::vector<BoundingBox> getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer) const;
+        void getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer, std::vector<BoundingBox>& intersections) const;
 
         std::shared_ptr<Shader> mpShader;
         std::shared_ptr<const TMX> mpTMX;

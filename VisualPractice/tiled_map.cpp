@@ -248,23 +248,22 @@ namespace te
         return checkUnitCollision(unitBB, layer);
     }
 
-    std::vector<BoundingBox> TiledMap::getIntersections(const BoundingBox& worldBB) const
+    std::vector<BoundingBox>& TiledMap::getIntersections(const BoundingBox& worldBB, std::vector<BoundingBox>& bbs) const
     {
         BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
             glm::inverse(mpShader->getModel()) * worldBB;
 
-        std::vector<BoundingBox> bbs;
         for (auto it = mpTMX->layers.begin(); it != mpTMX->layers.end(); ++it) {
             if (it->type != TMX::Layer::Type::TILELAYER) {
                 continue;
             }
-            std::vector<BoundingBox> layerBBs = getUnitIntersections(unitBB, *it);
-            bbs.insert(bbs.end(), layerBBs.begin(), layerBBs.end());
+            getUnitIntersections(unitBB, *it, bbs);
         };
+
         return bbs;
     }
 
-    std::vector<BoundingBox> TiledMap::getIntersections(const BoundingBox& worldBB, unsigned layerIndex) const
+    std::vector<BoundingBox>& TiledMap::getIntersections(const BoundingBox& worldBB, unsigned layerIndex, std::vector<BoundingBox>& bbs) const
     {
         BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
             glm::inverse(mpShader->getModel()) * worldBB;
@@ -274,12 +273,12 @@ namespace te
             throw std::runtime_error{ "getTileData: layer is not a tile data." };
         }
 
-        return getUnitIntersections(unitBB, layer);
+        getUnitIntersections(unitBB, layer, bbs);
+        return bbs;
     }
 
-    std::vector<BoundingBox> TiledMap::getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer) const
+    void TiledMap::getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer, std::vector<BoundingBox>& bbs) const
     {
-        std::vector<BoundingBox> bbs;
         for (int x = (int)unitBB.x; x < (int)(unitBB.x + unitBB.w) + 1; ++x) {
             for (int y = (int)unitBB.y; y < (int)(unitBB.y + unitBB.h) + 1; ++y) {
                 unsigned gid = getTileData(layer, x, y);
@@ -295,6 +294,5 @@ namespace te
                 }
             }
         }
-        return bbs;
     }
 }
