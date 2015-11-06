@@ -104,12 +104,12 @@ namespace te
                 unsigned localIndex = tileID - tileset.firstgid;
 
                 unsigned sUnits = localIndex % ((tileset.imagewidth + tileset.spacing) / (tileset.tilewidth + tileset.spacing));
-                unsigned sPixels = sUnits * (tileset.tilewidth + tileset.spacing);
+                unsigned sPixels = sUnits * (tileset.tilewidth + tileset.spacing) + tileset.margin;
                 GLfloat s1 = (GLfloat)sPixels / (GLfloat)powerOfTwo(tileset.imagewidth);
                 GLfloat s2 = (GLfloat)(sPixels + tileset.tilewidth) / (GLfloat)powerOfTwo(tileset.imagewidth);
 
                 unsigned tUnits = localIndex / ((tileset.imagewidth + tileset.spacing) / (tileset.tilewidth + tileset.spacing));
-                unsigned tPixels = tUnits * (tileset.tileheight + tileset.spacing);
+                unsigned tPixels = tUnits * (tileset.tileheight + tileset.spacing) + tileset.margin;
                 GLfloat t1 = (GLfloat)tPixels / (GLfloat)powerOfTwo(tileset.imageheight);
                 GLfloat t2 = (GLfloat)(tPixels + tileset.tileheight) / (GLfloat)powerOfTwo(tileset.imageheight);
 
@@ -187,7 +187,7 @@ namespace te
     static unsigned getTileData(const TMX::Layer layer, int x, int y)
     {
         int index = y * layer.width + x;
-        if (index < 0 || (unsigned)index >= layer.data.size()) {
+        if (x < 0 || (unsigned)x >= layer.width || y < 0 || (unsigned)y >= layer.height || index < 0 || (unsigned)index >= layer.data.size()) {
             return 0;
         }
         return layer.data[index];
