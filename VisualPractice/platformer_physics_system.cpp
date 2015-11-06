@@ -38,14 +38,14 @@ namespace te
                 if (intersection.w < intersection.h)
                 {
                     translateX = directionVector.x > 0 ?
-                        -intersection.w :
-                        intersection.w;
+                        -intersection.w - 0.001f: // padding prevents floating point errors
+                        intersection.w + 0.001f;
                 }
                 else
                 {
                     translateY = directionVector.y > 0 ?
-                        -intersection.h :
-                        intersection.h;
+                        -intersection.h - 0.001f :
+                        intersection.h + 0.001f;
                 }
                 mpTransform->setLocalTransform(
                     entity,
