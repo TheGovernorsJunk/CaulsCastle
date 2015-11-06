@@ -20,9 +20,9 @@ namespace te
         , mGravityAcceleration(0, gravityAcceleration)
     {}
 
-    void PlatformerPhysicsSystem::update(float dt)
+    void PlatformerPhysicsSystem::update(float dt, float padding)
     {
-        mpPhysics->forEach([dt, this](const Entity& entity, PhysicsInstance& instance)
+        mpPhysics->forEach([dt, padding, this](const Entity& entity, PhysicsInstance& instance)
         {
             instance.velocity += dt * mGravityAcceleration;
             glm::vec3 directionVector(dt * glm::vec3(instance.velocity.x, instance.velocity.y, 0));
@@ -38,14 +38,14 @@ namespace te
                 if (intersection.w < intersection.h)
                 {
                     translateX = directionVector.x > 0 ?
-                        -intersection.w - 0.001f: // padding prevents floating point errors
-                        intersection.w + 0.001f;
+                        -intersection.w - padding: // padding prevents floating point errors
+                        intersection.w + padding;
                 }
                 else
                 {
                     translateY = directionVector.y > 0 ?
-                        -intersection.h - 0.001f :
-                        intersection.h + 0.001f;
+                        -intersection.h - padding :
+                        intersection.h + padding;
                 }
                 mpTransform->setLocalTransform(
                     entity,

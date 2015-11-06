@@ -22,7 +22,7 @@ namespace te
             std::shared_ptr<TiledMap> pTiledMap,
             float gravityAcceleration);
 
-        void update(float dt);
+        void update(float dt, float padding = 0.001);
 
     private:
         std::shared_ptr<PhysicsComponent> mpPhysics;
