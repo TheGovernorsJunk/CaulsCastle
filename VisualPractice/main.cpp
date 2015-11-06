@@ -123,7 +123,7 @@ namespace te
             : GameState()
             , mpShader(new Shader(projection, model))
             , mpTextureManager(new TextureManager())
-            , mpTMX(new TMX("tiled", "sample_map.lua"))
+            , mpTMX(new TMX("tiled", "platformer.lua"))
             , mpMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
             , mCollisionHandler(new CollisionHandler())
             , mpTransformComponent(new TransformComponent())
@@ -155,24 +155,24 @@ namespace te
             //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
             std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ mpTMX, pMeshManager });
 
-            std::shared_ptr<const Animation> pAnimation(new Animation(pAnimationFactory->create({
-                {"animation", "walking"},
-                {"character", "amygdala"}
-            }, true)));
-            std::shared_ptr<const Animation> pJesterAnimation(new Animation(pAnimationFactory->create({
-                {"animation", "walking"},
-                {"type", "jester"}
-            })));
-            // Should be frozen using default tile mesh
-            std::shared_ptr<const Animation> pMonsterStill(new Animation(pAnimationFactory->create({
-                {"type", "monster"}
-            })));
+            //std::shared_ptr<const Animation> pAnimation(new Animation(pAnimationFactory->create({
+            //    {"animation", "walking"},
+            //    {"character", "amygdala"}
+            //}, true)));
+            //std::shared_ptr<const Animation> pJesterAnimation(new Animation(pAnimationFactory->create({
+            //    {"animation", "walking"},
+            //    {"type", "jester"}
+            //})));
+            //// Should be frozen using default tile mesh
+            //std::shared_ptr<const Animation> pMonsterStill(new Animation(pAnimationFactory->create({
+            //    {"type", "monster"}
+            //})));
 
-            mpAnimationComponent->setAnimations(e, {
-                {1, pAnimation},
-                {2, pJesterAnimation},
-                {3, pMonsterStill}
-            }, 1);
+            //mpAnimationComponent->setAnimations(e, {
+            //    {1, pAnimation},
+            //    {2, pJesterAnimation},
+            //    {3, pMonsterStill}
+            //}, 1);
 
             registerKeyPress('1', [=] {
                 mpAnimationComponent->setAnimation(e, 1);
@@ -523,7 +523,7 @@ int main(int argc, char** argv)
 
 
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100);
-        glm::mat4 model = glm::scale(glm::vec3(1.f / 16, 1.f / 16, 1));
+        glm::mat4 model = glm::scale(glm::vec3(1.f / 21, 1.f / 21, 1));
 
         std::shared_ptr<LuaGameState> pState(new LuaGameState(projection, model));
         std::shared_ptr<TopdownState> pTopdown(new TopdownState());
