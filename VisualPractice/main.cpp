@@ -39,6 +39,8 @@
 #include "mesh_manager.h"
 #include "animation_component.h"
 #include "animation_factory.h"
+#include "command_component.h"
+#include "command_system.h"
 
 using namespace te;
 
@@ -129,7 +131,9 @@ namespace te
             , mpBoundingBoxComponent(new BoundingBoxComponent(mpTransformComponent))
             , mpRenderComponent(new SimpleRenderComponent(projection))
             , mpAnimationComponent(new AnimationComponent())
+            , mpCommandComponent(new CommandComponent())
             , mEntityManager({mpTransformComponent, mpPhysicsComponent, mpBoundingBoxComponent, mpRenderComponent})
+            , mCommandSystem(mpCommandComponent)
             , mPhysicsSystem(mpPhysicsComponent, mpTransformComponent, mpBoundingBoxComponent, mpMap, 4)
             , mCollisionSystem(mpBoundingBoxComponent, {mCollisionHandler})
             , mMapCollisionSystem(mpBoundingBoxComponent, mpMap, {mCollisionHandler})
@@ -146,7 +150,7 @@ namespace te
                 throw std::runtime_error("Could not load sound.");
             }
             std::shared_ptr<MeshManager> pMeshManager(new MeshManager{ mpTMX, mpTextureManager });
-            Entity e = createEntity({ 4, 2, 2 });
+            Entity e = createEntity({ 7, 2, 2 });
             //setPosition(e, glm::vec3(3, 3, 10));
             //ac.setAnimations(e, *pTMX, pTMX->layers[3].objects[0], *pMeshManager);
             std::shared_ptr<AnimationFactory> pAnimationFactory(new AnimationFactory{ mpTMX, pMeshManager });
@@ -178,6 +182,19 @@ namespace te
             });
             registerKeyPress('3', [=] {
                 mpAnimationComponent->setAnimation(e, 3);
+            });
+
+            mpCommandComponent->setTypeMask(e, EntityType::HUMAN|EntityType::MONSTER);
+            mpBoundingBoxComponent->setBoundingBox(e, { 1, 1 }, { 0.5, 0.5 });
+            registerKeyPress('k', [=] {
+                mCommandSystem.queueCommand(Command(EntityType::HUMAN, [=](const Entity& e, float dt) {
+                    setVelocity(e, glm::vec2(0, 0.5f));
+                }));
+            });
+            registerKeyRelease('k', [=] {
+                mCommandSystem.queueCommand(Command(EntityType::HUMAN, [=](const Entity& e, float dt) {
+                    setVelocity(e, glm::vec2(0, 0));
+                }));
             });
 
             loadObjects(mpTMX, *mpShader, pMeshManager, mEntityManager, *mpTransformComponent, *mpAnimationComponent);
@@ -390,6 +407,7 @@ namespace te
 
         bool update(float dt)
         {
+            mCommandSystem.update(dt);
             mPhysicsSystem.update(dt);
             mCollisionSystem.update(dt);
             mRenderSystem.update(dt);
@@ -441,9 +459,11 @@ namespace te
         BoundingBoxPtr mpBoundingBoxComponent;
         SimpleRenderPtr mpRenderComponent;
         AnimationPtr mpAnimationComponent;
+        CommandPtr mpCommandComponent;
 
         EntityManager mEntityManager;
 
+        CommandSystem mCommandSystem;
         PlatformerPhysicsSystem mPhysicsSystem;
         CollisionSystem mCollisionSystem;
         MapCollisionSystem mMapCollisionSystem;
