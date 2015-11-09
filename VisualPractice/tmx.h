@@ -2,7 +2,6 @@
 #define TE_TMX_H
 
 #include "gl.h"
-#include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
@@ -43,7 +42,12 @@ namespace te
             std::string image;
             unsigned imagewidth;
             unsigned imageheight;
-            glm::vec4 transparentcolor;
+            struct TransparentColor {
+                GLubyte r;
+                GLubyte g;
+                GLubyte b;
+                bool a;
+            } transparentcolor;
 
             struct Tileoffset {
                 int x;

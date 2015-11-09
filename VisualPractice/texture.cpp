@@ -221,9 +221,9 @@ namespace te
         if (tileset.transparentcolor.a) {
             loadWithColorMask(
                 tileset.image,
-                (GLubyte)tileset.transparentcolor.r,
-                (GLubyte)tileset.transparentcolor.g,
-                (GLubyte)tileset.transparentcolor.b);
+                tileset.transparentcolor.r,
+                tileset.transparentcolor.g,
+                tileset.transparentcolor.b);
         } else {
             std::vector<GLuint> pixels(loadPixels32(tileset.image, mImgWidth, mImgHeight, mTexWidth, mTexHeight));
             mID = loadTexture32(pixels.data(), mTexWidth, mTexHeight);

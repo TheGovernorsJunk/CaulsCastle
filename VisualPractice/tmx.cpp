@@ -104,18 +104,18 @@ namespace te
                 luabridge::LuaRef tilesetRef = tilesetsRef[i];
                 luabridge::LuaRef tileoffsetRef = tilesetRef["tileoffset"];
 
-                glm::vec4 transparentcolor{ 0,0,0,0 };
+                TMX::Tileset::TransparentColor transparentcolor{ 0, 0, 0, false };
                 luabridge::LuaRef transparentcolorRef = tilesetRef["transparentcolor"];
                 if (!transparentcolorRef.isNil()) {
                     std::string originalHex = transparentcolorRef;
                     std::string colorHexStr = "0x" + std::string(originalHex.begin() + 1, originalHex.end());
                     unsigned long colorHex = std::stoul(colorHexStr, nullptr, 16);
-                    transparentcolor.r = (float)((0xff0000 & colorHex) >> 16);
-                    transparentcolor.g = (float)((0x00ff00 & colorHex) >> 8);
-                    transparentcolor.b = (float)(0x0000ff & colorHex);
+                    transparentcolor.r = (GLubyte)((0xff0000 & colorHex) >> 16);
+                    transparentcolor.g = (GLubyte)((0x00ff00 & colorHex) >> 8);
+                    transparentcolor.b = (GLubyte)(0x0000ff & colorHex);
 
                     // `A' value indicates relevant value
-                    transparentcolor.a = 1.f;
+                    transparentcolor.a = true;
                 }
 
                 TMX::Tileset tileset{
