@@ -1,6 +1,7 @@
 #ifndef TE_COMMAND_COMPONENT_H
 #define TE_COMMAND_COMPONENT_H
 
+#include "typedefs.h"
 #include "component.h"
 
 #include <memory>
@@ -13,14 +14,14 @@ namespace te
     };
 
     struct CommandInstance {
-        int typeMask;
+        CommandMask commandMask;
     };
 
     class CommandComponent : public Component<CommandInstance> {
     public:
         CommandComponent(std::size_t capacity = 1024);
 
-        void setTypeMask(const Entity& entity, int typeMask);
+        void setTypeMask(const Entity& entity, CommandMask commandMask);
     };
 
     typedef std::shared_ptr<CommandComponent> CommandPtr;

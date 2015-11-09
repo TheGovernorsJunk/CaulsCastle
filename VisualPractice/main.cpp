@@ -187,12 +187,12 @@ namespace te
             mpCommandComponent->setTypeMask(e, EntityType::HUMAN|EntityType::MONSTER);
             mpBoundingBoxComponent->setBoundingBox(e, { 1, 1 }, { 0.5, 0.5 });
             registerKeyPress('k', [=] {
-                mCommandSystem.queueCommand(Command(EntityType::HUMAN, [=](const Entity& e, float dt) {
+                mCommandSystem.queueCommand(Command(EntityType::HUMAN, 0, [=](const Entity& e, float dt) {
                     setVelocity(e, glm::vec2(0, 0.5f));
                 }));
             });
             registerKeyRelease('k', [=] {
-                mCommandSystem.queueCommand(Command(EntityType::HUMAN, [=](const Entity& e, float dt) {
+                mCommandSystem.queueCommand(Command(EntityType::HUMAN, 0, [=](const Entity& e, float dt) {
                     setVelocity(e, glm::vec2(0, 0));
                 }));
             });

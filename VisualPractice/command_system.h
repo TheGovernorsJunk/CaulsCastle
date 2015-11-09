@@ -1,6 +1,8 @@
 #ifndef TE_COMMAND_SYSTEM_H
 #define TE_COMMAND_SYSTEM_H
 
+#include "typedefs.h"
+
 #include <functional>
 #include <memory>
 #include <vector>
@@ -12,7 +14,7 @@ namespace te
 
     class Command {
     public:
-        Command(int dispatchMask, std::function<void(const Entity&, float)> = [](const Entity&, float){});
+        Command(CommandMask dispatchMask, CommandMask forbidMask, std::function<void(const Entity&, float)> = [](const Entity&, float){});
         virtual ~Command();
 
     private:
@@ -21,7 +23,8 @@ namespace te
         virtual void execute(const Entity& e, float dt) const;
 
         std::function<void(const Entity&, float)> mFn;
-        int mDispatchMask;
+        CommandMask mDispatchMask;
+        CommandMask mForbidMask;
     };
 
     class CommandSystem

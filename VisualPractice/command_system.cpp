@@ -3,8 +3,9 @@
 
 namespace te
 {
-    Command::Command(int dispatchMask, std::function<void(const Entity&, float)> fn)
+    Command::Command(CommandMask dispatchMask, CommandMask forbidMask, std::function<void(const Entity&, float)> fn)
         : mDispatchMask(dispatchMask)
+        , mForbidMask(forbidMask)
         , mFn(fn)
     {}
 
@@ -33,7 +34,8 @@ namespace te
     {
         mpCommandComponent->forEach([this, dt](const te::Entity& e, CommandInstance inst) {
             std::for_each(std::begin(mCommands), std::end(mCommands), [&](const Command& command){
-                if ((command.mDispatchMask & inst.typeMask) == command.mDispatchMask) {
+                if (((command.mDispatchMask & inst.commandMask) == command.mDispatchMask) &&
+                    ((command.mForbidMask & inst.commandMask) == 0)) {
                     command.execute(e, dt);
                 }
             });
