@@ -115,7 +115,7 @@ namespace te
                     transparentcolor.b = (GLubyte)(0x0000ff & colorHex);
 
                     // `A' value indicates relevant value
-                    transparentcolor.a = true;
+                    transparentcolor.inUse = true;
                 }
 
                 TMX::Tileset tileset{

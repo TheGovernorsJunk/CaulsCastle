@@ -46,7 +46,7 @@ namespace te
                 GLubyte r;
                 GLubyte g;
                 GLubyte b;
-                bool a;
+                bool inUse;
             } transparentcolor;
 
             struct Tileoffset {

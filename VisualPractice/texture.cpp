@@ -218,7 +218,7 @@ namespace te
     Texture::Texture(const TMX::Tileset& tileset)
         : mID(0), mImgWidth(0), mImgHeight(0), mTexWidth(0), mTexHeight(0)
     {
-        if (tileset.transparentcolor.a) {
+        if (tileset.transparentcolor.inUse) {
             loadWithColorMask(
                 tileset.image,
                 tileset.transparentcolor.r,
