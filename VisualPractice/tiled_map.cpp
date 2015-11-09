@@ -43,9 +43,9 @@ namespace te
         std::vector<std::shared_ptr<const Texture>> textures;
         std::for_each(std::begin(tmx.tilesets), std::end(tmx.tilesets), [&, this](const TMX::Tileset& tileset) {
             if (tm) {
-                textures.push_back((*tm)[tmx.meta.path + "/" + tileset.image]);
+                textures.push_back((*tm)[tileset]);
             } else {
-                textures.push_back(std::shared_ptr<Texture>(new Texture{ tmx.meta.path + "/" + tileset.image }));
+                textures.push_back(std::shared_ptr<Texture>(new Texture{ tileset }));
             }
 
             std::for_each(std::begin(tileset.tiles), std::end(tileset.tiles), [&, this](const TMX::Tileset::Tile& tile) {
