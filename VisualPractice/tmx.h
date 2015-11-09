@@ -43,6 +43,7 @@ namespace te
             std::string image;
             unsigned imagewidth;
             unsigned imageheight;
+            glm::vec4 transparentcolor;
 
             struct Tileoffset {
                 int x;
