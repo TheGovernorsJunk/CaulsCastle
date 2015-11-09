@@ -142,6 +142,7 @@
     <None Include="map_loader.lua" />
     <None Include="simple_render_component.glfs" />
     <None Include="simple_render_component.glvs" />
+    <None Include="tiled\platformer.lua" />
     <None Include="tiled\sample.lua" />
     <None Include="tiled\sample.tmx" />
     <None Include="tiled\sample_map.lua" />

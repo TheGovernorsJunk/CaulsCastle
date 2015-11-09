@@ -230,6 +230,9 @@
     <None Include="tiled\sample_map.lua">
       <Filter>Resource Files\tiled</Filter>
     </None>
+    <None Include="tiled\platformer.lua">
+      <Filter>Resource Files\tiled</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Font Include="fonts\Minecraftia-Regular.ttf">
