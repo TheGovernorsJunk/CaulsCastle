@@ -4,6 +4,8 @@
 #include <string>
 #include "gl.h"
 
+#include "tmx.h"
+
 namespace te
 {
     class Texture
@@ -13,6 +15,7 @@ namespace te
         Texture::Texture(GLuint* pixels, GLuint width, GLuint height);
         Texture(const std::string& path, GLuint format = GL_RGBA);
         Texture(const std::string& path, GLubyte r, GLubyte g, GLubyte b, GLubyte a = 0);
+        Texture(const TMX::Tileset& tileset);
 
         Texture(Texture&&);
         Texture& operator=(Texture&&);
@@ -28,6 +31,8 @@ namespace te
     private:
         Texture(const Texture&) = delete;
         Texture& operator=(const Texture&) = delete;
+
+        void loadWithColorMask(const std::string& path, GLubyte r, GLubyte g, GLubyte b, GLubyte a = 0);
 
         GLuint mID;
         GLuint mImgWidth;

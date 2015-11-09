@@ -190,8 +190,7 @@ namespace te
         }
     }
 
-    Texture::Texture(const std::string& path, GLubyte r, GLubyte g, GLubyte b, GLubyte a)
-        : mID(0), mImgWidth(0), mImgHeight(0), mTexWidth(0), mTexHeight(0)
+    void Texture::loadWithColorMask(const std::string& path, GLubyte r, GLubyte g, GLubyte b, GLubyte a)
     {
         std::vector<GLuint> pixels(loadPixels32(path, mImgWidth, mImgHeight, mTexWidth, mTexHeight));
 
@@ -208,6 +207,27 @@ namespace te
         });
 
         mID = loadTexture32(pixels.data(), mTexWidth, mTexHeight);
+    }
+
+    Texture::Texture(const std::string& path, GLubyte r, GLubyte g, GLubyte b, GLubyte a)
+        : mID(0), mImgWidth(0), mImgHeight(0), mTexWidth(0), mTexHeight(0)
+    {
+        loadWithColorMask(path, r, g, b, a);
+    }
+
+    Texture::Texture(const TMX::Tileset& tileset)
+        : mID(0), mImgWidth(0), mImgHeight(0), mTexWidth(0), mTexHeight(0)
+    {
+        if (tileset.transparentcolor.a) {
+            loadWithColorMask(
+                tileset.image,
+                (GLubyte)tileset.transparentcolor.r,
+                (GLubyte)tileset.transparentcolor.g,
+                (GLubyte)tileset.transparentcolor.b);
+        } else {
+            std::vector<GLuint> pixels(loadPixels32(tileset.image, mImgWidth, mImgHeight, mTexWidth, mTexHeight));
+            mID = loadTexture32(pixels.data(), mTexWidth, mTexHeight);
+        }
     }
 
     GLuint Texture::getID() const
