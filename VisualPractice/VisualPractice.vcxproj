@@ -125,6 +125,7 @@
     <ClInclude Include="tiled_map.h" />
     <ClInclude Include="tmx.h" />
     <ClInclude Include="transform_component.h" />
+    <ClInclude Include="typedefs.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
   </ItemGroup>
