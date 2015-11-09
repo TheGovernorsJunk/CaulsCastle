@@ -114,7 +114,6 @@ namespace te
                     transparentcolor.g = (GLubyte)((0x00ff00 & colorHex) >> 8);
                     transparentcolor.b = (GLubyte)(0x0000ff & colorHex);
 
-                    // `A' value indicates relevant value
                     transparentcolor.inUse = true;
                 }
 
