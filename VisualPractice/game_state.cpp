@@ -104,12 +104,18 @@ namespace te
     void StateStack::popAt(GameState& state)
     {
         auto stateIt = mStack.end();
+
         for (auto it = mStack.begin(); it != mStack.end(); ++it) {
             if (it->get() == &state) {
                 stateIt = it;
                 break;
             }
         }
+
+        for (auto nullifyIt = stateIt; nullifyIt != mStack.end(); ++nullifyIt) {
+            (*nullifyIt)->mpStack = nullptr;
+        }
+
         mStack.erase(stateIt, mStack.end());
     }
 
