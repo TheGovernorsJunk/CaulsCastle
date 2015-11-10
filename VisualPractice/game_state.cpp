@@ -17,6 +17,11 @@ namespace te
     {}
     GameState::~GameState() {}
 
+    bool GameState::inStack()
+    {
+        return mpStack != nullptr;
+    }
+
     void GameState::queuePop()
     {
         if (mpStack) {

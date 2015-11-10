@@ -18,6 +18,8 @@ namespace te
         GameState();
         virtual ~GameState();
 
+        bool inStack();
+
     protected:
         void queuePop();
         void queuePush(std::shared_ptr<GameState> newState);
