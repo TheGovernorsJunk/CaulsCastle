@@ -74,6 +74,19 @@ namespace te
         std::deque<GameState::Change> mPendingChanges;
     };
 
+    class NoStackException : public std::runtime_error {
+    public:
+        NoStackException();
+    };
+    class NullptrStateException : public std::runtime_error {
+    public:
+        NullptrStateException();
+    };
+    class BusyStateException : public std::runtime_error {
+    public:
+        BusyStateException();
+    };
+
     void tickStack(StateStack&, const std::vector<const SDL_Event>& events, float dt);
     void executeStack(StateStack&, SDL_Window&);
 }

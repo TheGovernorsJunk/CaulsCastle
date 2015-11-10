@@ -5,10 +5,12 @@
 
 namespace te
 {
-    static void throwNoStackException()
-    {
-        throw std::runtime_error("State not associated with stack.");
-    }
+    NoStackException::NoStackException()
+        : std::runtime_error("State not associated with stack.") {}
+    NullptrStateException::NullptrStateException()
+        : std::runtime_error("Must supply state to stack.") {}
+    BusyStateException::BusyStateException()
+        : std::runtime_error("State already in a stack.") {}
 
     GameState::GameState()
         : mpStack(nullptr)
@@ -24,7 +26,7 @@ namespace te
                 *this
             });
         } else {
-            throwNoStackException();
+            throw NoStackException();
         }
     }
 
@@ -37,7 +39,7 @@ namespace te
                 *this
             });
         } else {
-            throwNoStackException();
+            throw NoStackException();
         }
     }
 
@@ -50,7 +52,7 @@ namespace te
                 *this
             });
         } else {
-            throwNoStackException();
+            throw NoStackException();
         }
     }
 
@@ -84,16 +86,18 @@ namespace te
     void StateStack::push(std::shared_ptr<GameState> pState)
     {
         if (pState) {
-            if (!pState->mpStack) {
+            if (pState->mpStack == nullptr) {
                 pState->mpStack = this;
                 mStack.push_back(pState);
             }
             else {
-                throw std::runtime_error("State already in a stack.");
+                mPendingChanges.clear();
+                throw BusyStateException();
             }
         }
         else {
-            throw std::runtime_error("Must supply state to stack.");
+            mPendingChanges.clear();
+            throw NullptrStateException();
         }
     }
 
