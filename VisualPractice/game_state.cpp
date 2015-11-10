@@ -126,6 +126,9 @@ namespace te
 
     void StateStack::clear()
     {
+        std::for_each(std::begin(mStack), std::end(mStack), [](std::shared_ptr<GameState>& pState) {
+            pState->mpStack = nullptr;
+        });
         mStack.clear();
     }
 
