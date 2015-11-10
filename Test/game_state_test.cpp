@@ -43,6 +43,9 @@ namespace te
         EXPECT_THROW(ss.update(0), NullptrStateException);
         pState->pushState(pState);
         EXPECT_THROW(ss.update(0), BusyStateException);
+        // Ensure clearing on throw
+        pState->pushState(nullptr);
+        EXPECT_THROW(ss.update(0), NullptrStateException);
     }
 
     TEST_F(StateStackTest, Ops) {
