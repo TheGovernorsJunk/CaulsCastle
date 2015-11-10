@@ -79,7 +79,6 @@
     <ClCompile Include="command_system.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game_state.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_manager.cpp" />
     <ClCompile Include="model.cpp" />
@@ -128,31 +127,6 @@
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="wrappers.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="texture.png" />
-    <Image Include="tiled\generic_platformer_tiles.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="entities\steve\info.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="init.lua" />
-    <None Include="map_loader.lua" />
-    <None Include="simple_render_component.glfs" />
-    <None Include="simple_render_component.glvs" />
-    <None Include="tiled\platformer.lua" />
-    <None Include="tiled\sample.lua" />
-    <None Include="tiled\sample.tmx" />
-    <None Include="tiled\sample_map.lua" />
-    <None Include="tiled_map.glfs" />
-    <None Include="tiled_map.glvs" />
-    <None Include="types.lua" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="fonts\Minecraftia-Regular.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
