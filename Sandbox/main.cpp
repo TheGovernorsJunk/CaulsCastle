@@ -85,7 +85,7 @@ namespace te
         }
     };
 
-    class PauseState : public GameState
+    class PauseGameState : public GameState
     {
     public:
         bool processInput(const SDL_Event& evt)
@@ -116,11 +116,46 @@ namespace te
         }
     };
 
-    class LuaGameState : public GameState
+    std::shared_ptr<GameState> gpSandboxState;
+    std::shared_ptr<GameState> gpOtherState;
+
+    class SwitchState : public GameState {
+    public:
+        virtual bool processInput(const SDL_Event& evt)
+        {
+            if (evt.type != SDL_KEYDOWN) { return false; }
+            switch (evt.key.keysym.sym) {
+            case SDLK_1:
+                if (this != gpSandboxState.get()) {
+                    queuePop();
+                    queuePush(gpSandboxState);
+                }
+                break;
+            case SDLK_2:
+                if (this != gpOtherState.get()) {
+                    queuePop();
+                    queuePush(gpOtherState);
+                }
+            }
+            return false;
+        }
+    };
+
+    class OtherGameState : public SwitchState {
+    public:
+        //bool processInput(const SDL_Event& evt)
+        //{
+        //    return SwitchState::processInput(evt);
+        //}
+        bool update(float) { return true; }
+        void draw() {}
+    };
+
+    class LuaGameState : public SwitchState
     {
     public:
         LuaGameState(const glm::mat4& projection, const glm::mat4& model, const std::string& filename = "init.lua")
-            : GameState()
+            : SwitchState()
             , mpShader(new Shader(projection, model))
             , mpTextureManager(new TextureManager())
             , mpTMX(new TMX("tiled", "platformer.lua"))
@@ -174,15 +209,15 @@ namespace te
             //    {3, pMonsterStill}
             //}, 1);
 
-            registerKeyPress('1', [=] {
-                mpAnimationComponent->setAnimation(e, 1);
-            });
-            registerKeyPress('2', [=] {
-                mpAnimationComponent->setAnimation(e, 2);
-            });
-            registerKeyPress('3', [=] {
-                mpAnimationComponent->setAnimation(e, 3);
-            });
+            //registerKeyPress('1', [=] {
+            //    mpAnimationComponent->setAnimation(e, 1);
+            //});
+            //registerKeyPress('2', [=] {
+            //    mpAnimationComponent->setAnimation(e, 2);
+            //});
+            //registerKeyPress('3', [=] {
+            //    mpAnimationComponent->setAnimation(e, 3);
+            //});
 
             mpCommandComponent->setTypeMask(e, EntityType::HUMAN|EntityType::MONSTER);
             mpBoundingBoxComponent->setBoundingBox(e, { 1, 1 }, { 0.5, 0.5 });
@@ -209,7 +244,7 @@ namespace te
 
         void pause()
         {
-            queuePush(std::shared_ptr<PauseState>(new PauseState()));
+            queuePush(std::shared_ptr<PauseGameState>(new PauseGameState()));
         }
 
         void playSound()
@@ -379,11 +414,11 @@ namespace te
 
         bool processInput(const SDL_Event& evt)
         {
+            SwitchState::processInput(evt);
             if (evt.type == SDL_KEYDOWN)
             {
                 auto it = mKeyPressTable.find(evt.key.keysym.sym);
-                if (it != mKeyPressTable.end())
-                {
+                if (it != mKeyPressTable.end()) {
                     it->second();
                 }
             }
@@ -482,27 +517,6 @@ namespace te
         //std::map<Entity, GLuint> mIBOMap;
         glm::mat4 mView;
     };
-
-    class TopdownState : public GameState
-    {
-    public:
-        TopdownState()
-            : GameState()
-        {
-            //Texture spritesheet("tiled/roguelike-indoor-pack/Spritesheet/roguelikeindoor_transparent.png");
-        }
-
-    private:
-        bool processInput(const SDL_Event& e)
-        {
-            return false;
-        }
-        bool update(float dt)
-        {
-            return false;
-        }
-        void draw() {}
-    };
 }
 
 int main(int argc, char** argv)
@@ -525,10 +539,11 @@ int main(int argc, char** argv)
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100);
         glm::mat4 model = glm::scale(glm::vec3(1.f / 21, 1.f / 21, 1));
 
-        std::shared_ptr<LuaGameState> pState(new LuaGameState(projection, model));
-        std::shared_ptr<TopdownState> pTopdown(new TopdownState());
-        StateStack stateStack(pState);
-        LuaGameState& state = *pState;
+        gpSandboxState = std::shared_ptr<GameState>{ new LuaGameState{projection, model} };
+        gpOtherState = std::shared_ptr<OtherGameState>{ new OtherGameState{} };
+
+        StateStack stateStack(gpSandboxState);
+        LuaGameState& state = (LuaGameState&)*gpSandboxState;
 
         // State initialization
 
