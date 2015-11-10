@@ -143,12 +143,27 @@ namespace te
 
     class OtherGameState : public SwitchState {
     public:
+        OtherGameState(const glm::mat4& projection, const glm::mat4& model)
+            : SwitchState()
+            , mpShader(new Shader(projection, model))
+            , mpTMX(new TMX("tiled", "sample_map.lua"))
+            , mpTextureManager(new TextureManager())
+            , mpMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
+        {}
         //bool processInput(const SDL_Event& evt)
         //{
         //    return SwitchState::processInput(evt);
         //}
         bool update(float) { return true; }
-        void draw() {}
+        void draw()
+        {
+            mpMap->draw();
+        }
+    private:
+        std::shared_ptr<Shader> mpShader;
+        std::shared_ptr<TMX> mpTMX;
+        std::shared_ptr<TextureManager> mpTextureManager;
+        std::shared_ptr<TiledMap> mpMap;
     };
 
     class LuaGameState : public SwitchState
@@ -540,7 +555,7 @@ int main(int argc, char** argv)
         glm::mat4 model = glm::scale(glm::vec3(1.f / 21, 1.f / 21, 1));
 
         gpSandboxState = std::shared_ptr<GameState>{ new LuaGameState{projection, model} };
-        gpOtherState = std::shared_ptr<OtherGameState>{ new OtherGameState{} };
+        gpOtherState = std::shared_ptr<OtherGameState>{ new OtherGameState{projection, model} };
 
         StateStack stateStack(gpSandboxState);
         LuaGameState& state = (LuaGameState&)*gpSandboxState;
