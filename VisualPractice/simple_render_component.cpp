@@ -13,7 +13,7 @@ namespace te
     }
 
     SimpleRenderComponent::SimpleRenderComponent(const glm::mat4& projection)
-        : mShader(loadProgram("simple_render_component.glvs", "simple_render_component.glfs"))
+        : mShader(loadProgram("shaders/simple_render_component.glvs", "shaders/simple_render_component.glfs"))
         , mProjectionLocation(glGetUniformLocation(mShader, "te_ProjectionMatrix"))
         , mViewLocation(glGetUniformLocation(mShader, "te_ViewMatrix"))
         , mModelLocation(glGetUniformLocation(mShader, "te_ModelMatrix"))

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{f1526a7b-295e-438f-bdbb-c494fb367b19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wrappers.cpp">
@@ -182,5 +185,19 @@
     <ClInclude Include="typedefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\shaders\simple_render_component.glfs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="..\Assets\shaders\simple_render_component.glvs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="..\Assets\shaders\basic.glfs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="..\Assets\shaders\basic.glvs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
