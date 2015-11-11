@@ -143,9 +143,9 @@ namespace te
 
     class OtherGameState : public SwitchState {
     public:
-        OtherGameState(const glm::mat4& projection, const glm::mat4& model)
+        OtherGameState(std::shared_ptr<Shader> pShader)
             : SwitchState()
-            , mpShader(new Shader(projection, model))
+            , mpShader(pShader)
             , mpTMX(new TMX("tiled", "sample_map.lua"))
             , mpTextureManager(new TextureManager())
             , mpMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
@@ -169,9 +169,9 @@ namespace te
     class LuaGameState : public SwitchState
     {
     public:
-        LuaGameState(const glm::mat4& projection, const glm::mat4& model, const std::string& filename = "init.lua")
+        LuaGameState(std::shared_ptr<Shader> pShader, const glm::mat4& projection)
             : SwitchState()
-            , mpShader(new Shader(projection, model))
+            , mpShader(pShader)
             , mpTextureManager(new TextureManager())
             , mpTMX(new TMX("tiled", "platformer.lua"))
             , mpMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
@@ -554,8 +554,9 @@ int main(int argc, char** argv)
         glm::mat4 projection = glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100);
         glm::mat4 model = glm::scale(glm::vec3(1.f / 21, 1.f / 21, 1));
 
-        gpSandboxState = std::shared_ptr<GameState>{ new LuaGameState{projection, model} };
-        gpOtherState = std::shared_ptr<OtherGameState>{ new OtherGameState{projection, model} };
+        std::shared_ptr<Shader> pShader{ new Shader{ projection, model } };
+        gpSandboxState = std::shared_ptr<GameState>{ new LuaGameState{ pShader, projection } };
+        gpOtherState = std::shared_ptr<OtherGameState>{ new OtherGameState{ pShader } };
 
         StateStack stateStack(gpSandboxState);
         LuaGameState& state = (LuaGameState&)*gpSandboxState;
