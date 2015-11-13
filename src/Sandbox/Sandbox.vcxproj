@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F7CD55E7-0391-46B7-9799-EDBB065E6F42}</ProjectGuid>
     <RootNamespace>Sandbox</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -24,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -39,8 +40,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)..\VisualPractice;$(ProjectDir)..\SDL2-2.0.3\include;$(ProjectDir)..\SDL2_ttf-2.0.12\include;$(ProjectDir)..\glew-1.12.0\include;$(ProjectDir)..\Lua;$(ProjectDir)..\LuaBridge\Source\LuaBridge;$(ProjectDir)..\bass24\c;$(ProjectDir)..\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\Debug;$(ProjectDir)..\SDL2-2.0.3\lib\x86;$(ProjectDir)..\SDL2_ttf-2.0.12\lib\x86;$(ProjectDir)..\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\DevIL\lib;$(ProjectDir)..\bass24\c;$(ProjectDir)..\glew-1.12.0\lib\Release\Win32;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\TantechEngine;$(ProjectDir)..\..\lib\SDL2-2.0.3\include;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\include;$(ProjectDir)..\..\lib\glew-1.12.0\include;$(ProjectDir)..\..\lib\Lua;$(ProjectDir)..\..\lib\LuaBridge\Source\LuaBridge;$(ProjectDir)..\..\lib\bass24\c;$(ProjectDir)..\..\lib\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\Debug;$(ProjectDir)..\..\lib\SDL2-2.0.3\lib\x86;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\lib\x86;$(ProjectDir)..\..\lib\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\..\lib\DevIL\lib;$(ProjectDir)..\..\lib\bass24\c;$(ProjectDir)..\..\lib\glew-1.12.0\lib\Release\Win32;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -52,7 +53,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>VisualPractice.lib;SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;glew32.lib;DevIL.lib;ILU.lib;bass.lib;Lua.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>TantechEngine.lib;SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;glew32.lib;DevIL.lib;ILU.lib;bass.lib;Lua.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
