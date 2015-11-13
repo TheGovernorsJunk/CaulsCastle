@@ -14,11 +14,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.
 		{66F7B5D9-7C74-4863-942B-EF6B869F1232} = {66F7B5D9-7C74-4863-942B-EF6B869F1232}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TantechEngine", "TantechEngine\VisualPractice.vcxproj", "{66F7B5D9-7C74-4863-942B-EF6B869F1232}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "..\lib\Lua\Lua.vcxproj", "{2522113F-5F6B-4D97-8A8C-C993E55A65A6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTest", "..\lib\GoogleTest\GoogleTest.vcxproj", "{7104E69C-38C2-4CF5-8DA1-359A273511EC}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TantechEngine", "TantechEngine\TantechEngine.vcxproj", "{66F7B5D9-7C74-4863-942B-EF6B869F1232}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +56,20 @@ Global
 		{F7CD55E7-0391-46B7-9799-EDBB065E6F42}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{F7CD55E7-0391-46B7-9799-EDBB065E6F42}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{F7CD55E7-0391-46B7-9799-EDBB065E6F42}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Debug|Win32.ActiveCfg = Debug|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Debug|Win32.Build.0 = Debug|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Debug|x64.ActiveCfg = Debug|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|x64.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|x64.Build.0 = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Release|Win32.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Release|Win32.Build.0 = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Release|x64.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|x64.Build.0 = Release|Win32
 		{2522113F-5F6B-4D97-8A8C-C993E55A65A6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2522113F-5F6B-4D97-8A8C-C993E55A65A6}.Debug|Win32.Build.0 = Debug|Win32
 		{2522113F-5F6B-4D97-8A8C-C993E55A65A6}.Debug|x64.ActiveCfg = Debug|Win32
@@ -84,20 +98,6 @@ Global
 		{7104E69C-38C2-4CF5-8DA1-359A273511EC}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{7104E69C-38C2-4CF5-8DA1-359A273511EC}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
 		{7104E69C-38C2-4CF5-8DA1-359A273511EC}.RelWithDebInfo|x64.Build.0 = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Debug|Win32.ActiveCfg = Debug|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Debug|Win32.Build.0 = Debug|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Debug|x64.ActiveCfg = Debug|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|Win32.ActiveCfg = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|Win32.Build.0 = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|x64.ActiveCfg = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.MinSizeRel|x64.Build.0 = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Release|Win32.ActiveCfg = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Release|Win32.Build.0 = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.Release|x64.ActiveCfg = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|Win32.Build.0 = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
-		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|x64.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
