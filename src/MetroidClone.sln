@@ -15,6 +15,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTest", "..\lib\Google
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TantechEngine", "TantechEngine\TantechEngine.vcxproj", "{66F7B5D9-7C74-4863-942B-EF6B869F1232}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MetroidClone", "MetroidClone\MetroidClone.vcxproj", "{38C81498-FC2C-442F-8A34-67FD7EC1156E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232} = {66F7B5D9-7C74-4863-942B-EF6B869F1232}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -81,6 +86,18 @@ Global
 		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
 		{66F7B5D9-7C74-4863-942B-EF6B869F1232}.RelWithDebInfo|x64.Build.0 = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.Debug|Win32.Build.0 = Debug|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.Debug|x64.ActiveCfg = Debug|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.MinSizeRel|x64.ActiveCfg = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.Release|Win32.ActiveCfg = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.Release|Win32.Build.0 = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.Release|x64.ActiveCfg = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
