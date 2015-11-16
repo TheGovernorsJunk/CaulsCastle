@@ -5,7 +5,7 @@ build:
   project: src\MetroidClone.sln
   verbosity: minimal
 after_build:
-- ps: Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_"))} | Copy-Item -Destination "src\Debug"
+- ps: Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_") -or (Test-Path "*mp3-free\$_") -or (Test-Path "*x64\$_") -or (Test-Path "*unicode\$_"))} | Copy-Item -Destination "src\Debug"
 artifacts:
 - path: src\Debug
   name: metroid_clone
