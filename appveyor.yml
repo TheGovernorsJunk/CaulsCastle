@@ -1,0 +1,10 @@
+version: 0.1.{build}
+os: Visual Studio 2015
+build:
+  project: src/MetroidClone.sln
+  verbosity: minimal
+after_build:
+- ps: Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_"))} | Copy-Item -Destination "src\Debug"
+artifacts:
+- path: src/Debug
+  name: metroid_clone
