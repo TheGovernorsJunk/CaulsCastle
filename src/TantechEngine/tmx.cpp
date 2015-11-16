@@ -71,7 +71,7 @@ namespace te
     static luabridge::LuaRef getTMXRef(lua_State *L, const std::string& path, const std::string& filename)
     {
         luaL_openlibs(L);
-        int status = luaL_dofile(L, "map_loader.lua");
+        int status = luaL_dofile(L, "tiled/map_loader.lua");
 
         if (status) { throw std::runtime_error("Could not load script."); }
 
