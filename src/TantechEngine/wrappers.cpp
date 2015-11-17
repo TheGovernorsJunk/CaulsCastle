@@ -1,4 +1,5 @@
 #include "wrappers.h"
+
 #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_opengl.h>
@@ -7,13 +8,14 @@
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include <bass.h>
+
 #include <iostream>
 #include <exception>
 
 namespace te
 {
 
-    Initialization::Initialization()
+    Initialization::Initialization(FT_Library* ftLib)
     {
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
@@ -44,6 +46,14 @@ namespace te
         }
 
         BASS_Init(-1, 44100, 0, NULL, NULL);
+
+        if (ftLib)
+        {
+            if (FT_Init_FreeType(ftLib))
+            {
+                throw std::runtime_error("Unable to initialize FreeType.");
+            }
+        }
     }
 
     Initialization::~Initialization()

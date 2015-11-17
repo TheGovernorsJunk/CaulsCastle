@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)..\..\lib\Lua;$(ProjectDir)..\..\lib\LuaBridge\Source\LuaBridge;$(ProjectDir)..\..\lib\SDL2-2.0.3\include;$(ProjectDir)..\..\lib\SDL2_image-2.0.0\include;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\include;$(ProjectDir)..\..\lib\glew-1.12.0\include;$(ProjectDir)..\..\lib\glm;$(ProjectDir)..\..\lib\bass24\c;$(ProjectDir)..\..\lib\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\lib\Lua;$(ProjectDir)..\..\lib\LuaBridge\Source\LuaBridge;$(ProjectDir)..\..\lib\SDL2-2.0.3\include;$(ProjectDir)..\..\lib\SDL2_image-2.0.0\include;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\include;$(ProjectDir)..\..\lib\glew-1.12.0\include;$(ProjectDir)..\..\lib\glm;$(ProjectDir)..\..\lib\bass24\c;$(ProjectDir)..\..\lib\DevIL\include;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\include\freetype2;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -79,6 +79,7 @@
     <ClCompile Include="command_component.cpp" />
     <ClCompile Include="command_system.cpp" />
     <ClCompile Include="entity_manager.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_manager.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="command_system.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="entity_manager.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="mesh.h" />

@@ -5,6 +5,8 @@
 #include <string>
 #include <SDL_render.h>
 #include <SDL_ttf.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 struct SDL_Window;
 struct SDL_Surface;
@@ -18,7 +20,7 @@ namespace te
     class Initialization
     {
     public:
-        Initialization();
+        Initialization(FT_Library* ftLib = nullptr);
         ~Initialization();
     };
 
