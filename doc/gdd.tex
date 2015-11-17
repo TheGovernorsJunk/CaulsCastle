@@ -81,6 +81,13 @@ Github is a collaboration website for storing code repositories. It's an excelle
 You'll need to create an account in order to contribute. The repository home is currently at \url{https://github.com/evinstk/MetroidClone}. Notify me of your account name and I'll mark you as a collaborator. From there, you can click on the ``Issues'' tab in the right column. This is a user (evinstk---me) repository; we may want to switch to an organization repository if we want to be stricter on modification control, but for now, we'll keep it simple.
 
 \subsection*{Tiled}
+Tiled is an open-source map editor that creates data files to be consumed by game engines. It works by loading image files (e.g, JPEG, PNG, etc.) as tilesets---that is, an image divided evenly into cells/tiles of a certain width and height. The user arranges the tiles into a map of their liking, then exports their work into a data file to be read by an engine. Tantech engine currently supports the Lua data format.
+
+Tiled also contains a basic animation editor. The user can specify a sequence of loaded tiles and assign a duration for each one to be displayed. The effect may be a character walking animation, tree leaves rustling in the wind, or anything that can be represented by a series of two-dimensional sprites.
+
+Finally, Tiled can also define collision geometry. Say you have a tile of a boulder. The user can specify an area on the boulder that an avatar would collide with. Currently Tantech engine only supports rectangle geometry, but this is sufficient for most needs.
+
+Level designers will use Tiled as their primary tool. Artists may also wish to use it for its simple animation editor, though there is likely a better tool for that purpose.\footnote{Tantech only supports animations defined in Tiled currently. If an artist intends to use a different tool, inform the programmers as soon as possible so they may support it.} You can download Tiled at \url{http://www.mapeditor.com}.
 
 \subsection*{Git (for the brave)}
 Git is not the same thing as Github. Github is a collaboration website that hosts Git repositories. Git is a version control tool; it records the change history of a project through manipulation of ``branches.'' I will be using Git to store engine code as well as to integrate your changes.
