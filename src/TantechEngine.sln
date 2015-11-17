@@ -19,6 +19,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GoogleTest", "..\lib\GoogleTest\GoogleTest.vcxproj", "{7104E69C-38C2-4CF5-8DA1-359A273511EC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TantechEngine", "TantechEngine\TantechEngine.vcxproj", "{66F7B5D9-7C74-4863-942B-EF6B869F1232}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2522113F-5F6B-4D97-8A8C-C993E55A65A6} = {2522113F-5F6B-4D97-8A8C-C993E55A65A6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
