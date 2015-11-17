@@ -532,13 +532,27 @@ namespace te
         //std::map<Entity, GLuint> mIBOMap;
         glm::mat4 mView;
     };
+
+    void fontExperiment(const FT_Library& ftLib)
+    {
+        FT_Face face;
+        FT_Error error = FT_New_Face(ftLib, "fonts/Minecraftia-Regular.ttf", 0, &face);
+        if (error == FT_Err_Unknown_File_Format) {
+            throw std::runtime_error("Unsupported font format.");
+        } else if (error) {
+            throw std::runtime_error("Error loading font.");
+        }
+    }
 }
 
 int main(int argc, char** argv)
 {
     try
     {
-        te::Initialization init;
+        FT_Library ftLib;
+        te::Initialization init(&ftLib);
+
+        te::fontExperiment(ftLib);
 
         const int WIDTH = 1024;
         const int HEIGHT = 576;
