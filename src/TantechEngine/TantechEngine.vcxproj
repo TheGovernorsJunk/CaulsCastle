@@ -79,7 +79,6 @@
     <ClCompile Include="command_component.cpp" />
     <ClCompile Include="command_system.cpp" />
     <ClCompile Include="entity_manager.cpp" />
-    <ClCompile Include="font.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_manager.cpp" />
@@ -108,7 +107,6 @@
     <ClInclude Include="command_system.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="entity_manager.h" />
-    <ClInclude Include="font.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="mesh.h" />
