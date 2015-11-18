@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 
         std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
             te::TMX(argv[1]),
-            te::Shader(glm::ortho<GLfloat>(0, (GLfloat)WINDOW_WIDTH, (GLfloat)WINDOW_HEIGHT, 0, 1, -1), glm::mat4())));
+            te::Shader(glm::ortho<GLfloat>(0, (GLfloat)WINDOW_WIDTH, (GLfloat)WINDOW_HEIGHT, 0, -100, 100), glm::mat4())));
         te::StateStack stateStack(pState);
         te::executeStack(stateStack, *pWindow);
 
