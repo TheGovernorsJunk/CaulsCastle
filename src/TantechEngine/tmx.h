@@ -12,11 +12,13 @@ namespace te
 {
     struct TMX {
         TMX(const std::string& path, const std::string& file);
+        TMX(const std::string& pathfile);
 
         struct Meta {
             std::string path;
             std::string file;
-            Meta(std::string p, std::string f);
+            Meta(const std::string& p, const std::string& f);
+            Meta(const std::string& pf);
         } meta;
 
         enum class Orientation {
@@ -130,6 +132,11 @@ namespace te
     };
 
     unsigned getTilesetIndex(const TMX& tmx, unsigned gid);
+
+    class BadFilename : public std::runtime_error {
+    public:
+        BadFilename(const char* message);
+    };
 
     class Shader;
     class MeshManager;
