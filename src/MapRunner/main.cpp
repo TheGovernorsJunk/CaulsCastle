@@ -17,9 +17,11 @@ namespace te
     class LuaGameState : public GameState
     {
     public:
-        LuaGameState(TMX&& tmx, Shader&& shader)
+        LuaGameState(TMX&& tmx)
             : mpTMX(new TMX(std::move(tmx)))
-            , mpShader(new Shader(std::move(shader)))
+            , mpShader(new Shader(
+                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100),
+                glm::scale(glm::vec3(1.f / mpTMX->tilewidth, 1.f / mpTMX->tileheight, 1.f))))
             , mpTiledMap(new TiledMap(mpTMX, mpShader))
             , mpL(
                 luaL_newstate(),
@@ -27,9 +29,11 @@ namespace te
         {
             init();
         }
-        LuaGameState(std::shared_ptr<TMX> pTMX, std::shared_ptr<Shader> pShader)
+        LuaGameState(std::shared_ptr<TMX> pTMX)
             : mpTMX(pTMX)
-            , mpShader(pShader)
+            , mpShader(new Shader(
+                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100),
+                glm::scale(glm::vec3(1.f / mpTMX->tilewidth, 1.f / mpTMX->tileheight, 1.f))))
             , mpTiledMap(new TiledMap(mpTMX, mpShader))
             , mpL(
                 luaL_newstate(),
@@ -97,8 +101,7 @@ int main(int argc, char* argv[])
             SDL_WINDOW_SHOWN);
 
         std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
-            te::TMX(argv[1]),
-            te::Shader(glm::ortho<GLfloat>(0, (GLfloat)WINDOW_WIDTH, (GLfloat)WINDOW_HEIGHT, 0, -100, 100), glm::mat4())));
+            te::TMX(argv[1])));
         te::StateStack stateStack(pState);
         te::executeStack(stateStack, *pWindow);
 
