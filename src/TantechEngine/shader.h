@@ -23,6 +23,9 @@ namespace te
 
         glm::mat4 getModel() const;
         void draw(const glm::mat4& view, const Mesh&);
+
+        static void* operator new(std::size_t);
+        static void operator delete(void*);
     private:
         GLuint mProgram;
         GLint mViewLocation;

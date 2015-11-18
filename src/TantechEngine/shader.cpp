@@ -201,4 +201,14 @@ namespace te
 
         glUseProgram(0);
     }
+
+    void* Shader::operator new(std::size_t sz)
+    {
+        return _aligned_malloc(sz, 16);
+    }
+
+    void Shader::operator delete(void* ptr)
+    {
+        _aligned_free(ptr);
+    }
 }
