@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{CA500590-4646-4B80-8DAB-88488EE86BE8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -19,6 +19,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TantechEngine", "TantechEng
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MetroidClone", "MetroidClone\MetroidClone.vcxproj", "{38C81498-FC2C-442F-8A34-67FD7EC1156E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{66F7B5D9-7C74-4863-942B-EF6B869F1232} = {66F7B5D9-7C74-4863-942B-EF6B869F1232}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapRunner", "MapRunner\MapRunner.vcxproj", "{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{66F7B5D9-7C74-4863-942B-EF6B869F1232} = {66F7B5D9-7C74-4863-942B-EF6B869F1232}
 	EndProjectSection
@@ -101,6 +106,22 @@ Global
 		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
 		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{38C81498-FC2C-442F-8A34-67FD7EC1156E}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Debug|Win32.Build.0 = Debug|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Debug|x64.ActiveCfg = Debug|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Debug|x64.Build.0 = Debug|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.MinSizeRel|x64.ActiveCfg = Release|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.MinSizeRel|x64.Build.0 = Release|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Release|Win32.ActiveCfg = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Release|Win32.Build.0 = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Release|x64.ActiveCfg = Release|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.Release|x64.Build.0 = Release|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.RelWithDebInfo|x64.ActiveCfg = Release|x64
+		{FCA5C266-FF1C-46A7-9E8F-DE0BBCA43D7B}.RelWithDebInfo|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
