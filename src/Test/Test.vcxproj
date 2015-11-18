@@ -42,7 +42,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\lib\googletest-release-1.7.0\include;$(ProjectDir)..\TantechEngine;$(ProjectDir)..\..\lib\SDL2-2.0.3\include;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\include;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\include;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\include\freetype2;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\lib\googletest-release-1.7.0\include;$(ProjectDir)..\TantechEngine;$(ProjectDir)..\..\lib\SDL2-2.0.3\include;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\include;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\include;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\include\freetype2;$(ProjectDir)..\..\lib\glew-1.12.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\Debug;$(ProjectDir)..\..\lib\SDL2-2.0.3\lib\x86;$(ProjectDir)..\..\lib\SDL2_ttf-2.0.12\lib\x86;$(ProjectDir)..\..\lib\SDL2_image-2.0.0\lib\x86;$(ProjectDir)..\..\lib\DevIL\lib;$(ProjectDir)..\..\lib\bass24\c;$(ProjectDir)..\..\lib\glew-1.12.0\lib\Release\Win32;$(ProjectDir)..\..\lib\freetype-2.3.5-1-bin\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -61,7 +61,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GoogleTest.lib;TantechEngine.lib;SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;opengl32.lib;glew32.lib;DevIL.lib;ILU.lib;bass.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GoogleTest.lib;TantechEngine.lib;SDL2.lib;SDL2_ttf.lib;SDL2_image.lib;opengl32.lib;glew32.lib;DevIL.lib;ILU.lib;bass.lib;freetype.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -85,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="game_state_test.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="tmx_test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

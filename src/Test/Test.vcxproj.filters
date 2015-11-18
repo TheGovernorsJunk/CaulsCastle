@@ -21,5 +21,8 @@
     <ClCompile Include="game_state_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tmx_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
