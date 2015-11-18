@@ -1,8 +1,13 @@
 #include <wrappers.h>
 #include <tmx.h>
 #include <game_state.h>
+#include <tiled_map.h>
+#include <shader.h>
 
-#include <string.h>
+#include <lua.hpp>
+#include <glm/gtx/transform.hpp>
+
+#include <functional>
 #include <iostream>
 #include <algorithm>
 
@@ -11,9 +16,43 @@ namespace te
     class LuaGameState : public GameState
     {
     public:
+        LuaGameState(TMX&& tmx, Shader&& shader)
+            : mpTMX(new TMX(std::move(tmx)))
+            , mpShader(new Shader(std::move(shader)))
+            , mpTiledMap(new TiledMap(mpTMX, mpShader))
+            , mpL(
+                luaL_newstate(),
+                [](lua_State* L) { lua_close(L); })
+        {
+            init();
+        }
+        LuaGameState(std::shared_ptr<TMX> pTMX, std::shared_ptr<Shader> pShader)
+            : mpTMX(pTMX)
+            , mpShader(pShader)
+            , mpTiledMap(new TiledMap(mpTMX, mpShader))
+            , mpL(
+                luaL_newstate(),
+                [](lua_State* L) { lua_close(L); })
+        {
+            init();
+        }
+
         bool processInput(const SDL_Event&) { return false; }
         bool update(float dt) { return false; }
-        void draw() {}
+        void draw()
+        {
+            mpTiledMap->draw();
+        }
+
+    private:
+        void init()
+        {
+        }
+
+        std::shared_ptr<TMX> mpTMX;
+        std::shared_ptr<Shader> mpShader;
+        std::shared_ptr<TiledMap> mpTiledMap;
+        std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
     };
 }
 
@@ -31,8 +70,6 @@ int main(int argc, char* argv[])
 
         const te::Initialization init;
 
-        const te::TMX tmx(argv[1]);
-
         te::WindowPtr pWindow = te::createWindowOpenGL(
             "Map Runner",
             SDL_WINDOWPOS_UNDEFINED,
@@ -41,7 +78,9 @@ int main(int argc, char* argv[])
             WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN);
 
-        std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState());
+        std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
+            te::TMX(argv[1]),
+            te::Shader(glm::ortho<GLfloat>(0, (GLfloat)WINDOW_WIDTH, (GLfloat)WINDOW_HEIGHT, 0, 1, -1), glm::mat4())));
         te::StateStack stateStack(pState);
         te::executeStack(stateStack, *pWindow);
 
