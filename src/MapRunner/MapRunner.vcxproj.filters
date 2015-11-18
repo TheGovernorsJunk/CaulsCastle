@@ -13,10 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\samples">
+      <UniqueIdentifier>{085d5d57-7b0d-4ba2-930b-56564b7acb81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\samples\map01">
+      <UniqueIdentifier>{add39b6c-f9f8-4dd1-b222-2372dfe67486}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\samples\map01\map.lua">
+      <Filter>Resource Files\samples\map01</Filter>
+    </None>
+    <None Include="..\..\samples\map01\map.tmx">
+      <Filter>Resource Files\samples\map01</Filter>
+    </None>
+    <None Include="..\..\samples\map01\main.lua">
+      <Filter>Resource Files\samples\map01</Filter>
+    </None>
   </ItemGroup>
 </Project>

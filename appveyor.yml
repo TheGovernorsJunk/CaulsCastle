@@ -9,6 +9,10 @@ after_build:
     Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_"))} | Copy-Item -Destination "src\Debug"
 
     Copy-Item assets src\Debug -recurse
+
+    Copy-Item samples src\Debug -recurse
+
+    Move-Item src\Debug .
 artifacts:
-- path: src\Debug
+- path: Debug
   name: metroid_clone

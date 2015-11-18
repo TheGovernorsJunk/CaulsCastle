@@ -5,6 +5,7 @@
 #include <shader.h>
 
 #include <lua.hpp>
+#include <LuaBridge.h>
 #include <glm/gtx/transform.hpp>
 
 #include <functional>
@@ -47,6 +48,23 @@ namespace te
     private:
         void init()
         {
+            lua_State* L = mpL.get();
+
+            luaL_openlibs(L);
+
+            int status = luaL_dofile(L, (mpTMX->meta.path + "/main.lua").c_str());
+            if (status) {
+                throw std::runtime_error("LuaGameState::init: Could not load main.lua.");
+            }
+
+            luabridge::LuaRef mainRef(luabridge::getGlobal(L, "main"));
+            if (mainRef.isNil()) {
+                throw std::runtime_error("LuaGameState::init: Could not find main function.");
+            }
+
+            luabridge::getGlobalNamespace(L)
+                .beginNamespace("te")
+                .endNamespace();
         }
 
         std::shared_ptr<TMX> mpTMX;
