@@ -132,7 +132,7 @@ namespace te
     }
 
     Shader::Shader(const glm::mat4& projection, const glm::mat4& model)
-        : mProgram(loadProgram("shaders/basic.glvs", "shaders/basic.glfs"))
+        : mProgram(loadProgram("assets/shaders/basic.glvs", "assets/shaders/basic.glfs"))
         , mViewLocation(glGetUniformLocation(mProgram, "te_ViewMatrix"))
         , mLastView()
         , mModel(model)
