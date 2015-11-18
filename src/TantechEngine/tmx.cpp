@@ -78,28 +78,19 @@ namespace te
         return luabridge::LuaRef(luabridge::getGlobal(L, "loadMap")(std::string{ path + "/" + filename }.c_str()));
     }
 
-    TMX::Meta::Meta(std::string path, std::string file)
-        : path(path), file(file) {}
-
-    TMX::TMX(const std::string& path, const std::string& file)
-        : meta(path, file)
+    static void initTMX(TMX& tmx, luabridge::LuaRef& tmxRef)
     {
-        std::unique_ptr<lua_State, std::function<void(lua_State*)>> L(
-            luaL_newstate(),
-            [](lua_State* L) {lua_close(L); });
-        luabridge::LuaRef tmx = getTMXRef(L.get(), path, file);
-
-        orientation = getOrientation(tmx["orientation"]);
-        renderorder = getRenderOrder(tmx["renderorder"]);
-        width = tmx["width"];
-        height = tmx["height"];
-        tilewidth = tmx["tilewidth"];
-        tileheight = tmx["tileheight"];
-        nextobjectid = tmx["nextobjectid"];
+        tmx.orientation = getOrientation(tmxRef["orientation"]);
+        tmx.renderorder = getRenderOrder(tmxRef["renderorder"]);
+        tmx.width = tmxRef["width"];
+        tmx.height = tmxRef["height"];
+        tmx.tilewidth = tmxRef["tilewidth"];
+        tmx.tileheight = tmxRef["tileheight"];
+        tmx.nextobjectid = tmxRef["nextobjectid"];
 
         // tilesets initialization
         {
-            luabridge::LuaRef tilesetsRef = tmx["tilesets"];
+            luabridge::LuaRef tilesetsRef = tmxRef["tilesets"];
             for (int i = 1; !tilesetsRef[i].isNil(); ++i) {
                 luabridge::LuaRef tilesetRef = tilesetsRef[i];
                 luabridge::LuaRef tileoffsetRef = tilesetRef["tileoffset"];
@@ -124,7 +115,7 @@ namespace te
                     tilesetRef["tileheight"],
                     tilesetRef["spacing"],
                     tilesetRef["margin"],
-                    path + "/" + tilesetRef["image"].cast<std::string>(),
+                    tmx.meta.path + "/" + tilesetRef["image"].cast<std::string>(),
                     tilesetRef["imagewidth"],
                     tilesetRef["imageheight"],
                     transparentcolor,
@@ -245,13 +236,13 @@ namespace te
                     }
                 } // end tiles initialization
 
-                tilesets.push_back(std::move(tileset));
+                tmx.tilesets.push_back(std::move(tileset));
             }
         } // end tilesets initialization
 
         // layers initialization
         {
-            luabridge::LuaRef layersRef = tmx["layers"];
+            luabridge::LuaRef layersRef = tmxRef["layers"];
             for (int i = 1; !layersRef.isNil() && !layersRef[i].isNil(); ++i) {
                 luabridge::LuaRef layerRef = layersRef[i];
 
@@ -303,10 +294,53 @@ namespace te
                     }
                 }
 
-                layers.push_back(std::move(layer));
+                tmx.layers.push_back(std::move(layer));
             }
         } // end layers initialization
-    } // end TMX constructor
+    }
+
+    BadFilename::BadFilename(const char* message)
+        : std::runtime_error(message) {}
+
+    TMX::Meta::Meta(const std::string& path, const std::string& file)
+        : path(path), file(file) {}
+    TMX::Meta::Meta(const std::string& pathfile)
+        : path(), file()
+    {
+        // Guarantees end of string
+        file = pathfile.substr(pathfile.find_last_of("\\/") + 1, pathfile.length());
+        if (file.compare("") == 0) {
+            throw BadFilename("TMX::Meta: Argument must contain file.");
+        }
+        path = pathfile.substr(0, pathfile.find_last_of("\\/"));
+        if (path.compare(file) == 0) {
+            path = "./";
+        } else std::for_each(std::begin(path), std::end(path), [](char& ch) {
+            if (ch == '\\') ch = '/';
+        });
+    }
+
+    TMX::TMX(const std::string& path, const std::string& file)
+        : meta(path, file)
+    {
+        std::unique_ptr<lua_State, std::function<void(lua_State*)>> L(
+            luaL_newstate(),
+            [](lua_State* L) {lua_close(L); });
+        luabridge::LuaRef tmxRef = getTMXRef(L.get(), meta.path, meta.file);
+
+        initTMX(*this, tmxRef);
+    }
+
+    TMX::TMX(const std::string& pathfile)
+        : meta(pathfile)
+    {
+        std::unique_ptr<lua_State, std::function<void(lua_State*)>> L(
+            luaL_newstate(),
+            [](lua_State* L) {lua_close(L); });
+        luabridge::LuaRef tmxRef = getTMXRef(L.get(), meta.path, meta.file);
+
+        initTMX(*this, tmxRef);
+    }
 
     unsigned getTilesetIndex(const TMX& tmx, unsigned gid)
     {
