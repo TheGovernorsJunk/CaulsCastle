@@ -28,7 +28,7 @@ namespace te
 
             unsigned tilesetIndex = getTilesetIndex(tmx, gid);
             const TMX::Tileset& tileset = tmx.tilesets.at(tilesetIndex);
-            std::shared_ptr<Texture> pTexture(textureManager[tmx.meta.path + "/" + tileset.image]);
+            std::shared_ptr<Texture> pTexture(textureManager[tileset.image]);
 
             std::vector<Vertex> vertices(4);
             vertices[0].position = { 0, 0, 0 };
