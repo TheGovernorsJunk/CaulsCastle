@@ -1,0 +1,7 @@
+nana.png
+========
+tilewidth=300
+tileheight=300
+spacing=0
+margin=0
+
