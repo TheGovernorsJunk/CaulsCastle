@@ -22,7 +22,7 @@ namespace te
             std::shared_ptr<TransformComponent> pTransform);
 
         void update(float dt) const;
-        void draw(const glm::mat4& viewTransform) const;
+        void draw(const glm::mat4& viewTransform = glm::mat4()) const;
 
     private:
         std::shared_ptr<Shader> mpShader;
