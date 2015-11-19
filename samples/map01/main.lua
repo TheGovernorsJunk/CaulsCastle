@@ -1,6 +1,13 @@
 function main()
-    local entity = te.entityManager:create()
 
-    local myMatrix = te.mat4()
-    te.transform:set(entity, te.translateMatrix(myMatrix, te.vec3(3, 3, 3)))
+    -- Prints entities loaded from Tiled
+    te_state:printEntities();
+
+    -- Gets entity according to Tiled ID
+    local stereo = te_data:getEntity(3)
+
+    -- Place stereo one unit to the right
+    local stereoTransform = te_transform:get(stereo)
+    te_transform:set(stereo, te.translateMatrix(stereoTransform, te.vec3(1, 0, 0)))
+
 end

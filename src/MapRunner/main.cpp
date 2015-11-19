@@ -9,6 +9,7 @@
 #include <entity_manager.h>
 #include <transform_component.h>
 #include <animation_component.h>
+#include <data_component.h>
 #include <render_system.h>
 
 #include <lua.hpp>
@@ -40,9 +41,10 @@ namespace te
                 luaL_newstate(),
                 [](lua_State* L) { lua_close(L); })
 
-            , mpEntityManager(new EntityManager())
             , mpTransformComponent(new TransformComponent())
             , mpAnimationComponent(new AnimationComponent())
+            , mpDataComponent(new DataComponent())
+            , mpEntityManager(new EntityManager(std::vector<std::shared_ptr<Observer<DestroyEvent>>>{ mpTransformComponent, mpAnimationComponent, mpDataComponent }))
 
             , mpRenderSystem(new RenderSystem(mpShader, nullptr, mpAnimationComponent, mpTransformComponent))
         {
@@ -64,9 +66,10 @@ namespace te
                 luaL_newstate(),
                 [](lua_State* L) { lua_close(L); })
 
-            , mpEntityManager(new EntityManager())
             , mpTransformComponent(new TransformComponent())
             , mpAnimationComponent(new AnimationComponent())
+            , mpDataComponent(new DataComponent())
+            , mpEntityManager(new EntityManager(std::vector<std::shared_ptr<Observer<DestroyEvent>>>{ mpTransformComponent, mpAnimationComponent, mpDataComponent }))
 
             , mpRenderSystem(new RenderSystem(mpShader, nullptr, mpAnimationComponent, mpTransformComponent))
         {
@@ -85,9 +88,16 @@ namespace te
         }
 
     private:
+        void printEntities()
+        {
+            mpDataComponent->forEach([](const Entity& entity, const DataInstance& instance) {
+                std::cout << instance.id << ": " << instance.name << std::endl;
+            });
+        }
+
         void init()
         {
-            te::loadObjects(mpTMX, *mpShader, mpMeshManager, *mpEntityManager, *mpTransformComponent, *mpAnimationComponent);
+            te::loadObjects(mpTMX, *mpShader, mpMeshManager, *mpEntityManager, *mpTransformComponent, *mpAnimationComponent, mpDataComponent.get());
 
             lua_State* L = mpL.get();
 
@@ -95,6 +105,10 @@ namespace te
 
             luabridge::getGlobalNamespace(L)
                 .beginNamespace("te")
+
+                    .beginClass<LuaGameState>("LuaGameState")
+                        .addFunction("printEntities", &LuaGameState::printEntities)
+                    .endClass()
 
                     .beginClass<EntityManager>("EntityManager")
                         .addFunction("create", &EntityManager::create)
@@ -104,7 +118,12 @@ namespace te
                     .endClass()
 
                     .beginClass<TransformComponent>("TransformComponent")
+                        .addFunction("get", &TransformComponent::getLocalTransform)
                         .addFunction("set", &TransformComponent::setLocalTransform)
+                    .endClass()
+
+                    .beginClass<DataComponent>("DataComponent")
+                        .addFunction("getEntity", &DataComponent::getEntity)
                     .endClass()
 
                     .beginClass<glm::mat4>("mat4")
@@ -118,11 +137,16 @@ namespace te
                     .addFunction("translateMatrix", static_cast<glm::mat4 (*)(const glm::mat4&, const glm::vec3&)>(&glm::translate))
                     .addFunction("translate", static_cast<glm::mat4 (*)(const glm::vec3&)>(&glm::translate))
 
-                    // Global components configured by script
-                    .addVariable("entityManager", mpEntityManager.get())
-                    .addVariable("transform", mpTransformComponent.get())
-
                 .endNamespace();
+
+            luabridge::push(L, this);
+            lua_setglobal(L, "te_state");
+            luabridge::push(L, mpEntityManager.get());
+            lua_setglobal(L, "te_entityManager");
+            luabridge::push(L, mpTransformComponent.get());
+            lua_setglobal(L, "te_transform");
+            luabridge::push(L, mpDataComponent.get());
+            lua_setglobal(L, "te_data");
 
             int status = luaL_dofile(L, (mpTMX->meta.path + "/main.lua").c_str());
             if (status) {
@@ -149,9 +173,10 @@ namespace te
         std::shared_ptr<TiledMap> mpTiledMap;
         std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 
-        std::shared_ptr<EntityManager> mpEntityManager;
         std::shared_ptr<TransformComponent> mpTransformComponent;
         std::shared_ptr<AnimationComponent> mpAnimationComponent;
+        std::shared_ptr<DataComponent> mpDataComponent;
+        std::shared_ptr<EntityManager> mpEntityManager;
 
         std::shared_ptr<RenderSystem> mpRenderSystem;
     };
