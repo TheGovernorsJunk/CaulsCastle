@@ -35,6 +35,9 @@ namespace te
         bool isAlive(Entity e) const;
         void destroy(Entity e);
     private:
+        EntityManager(const EntityManager&) = delete;
+        EntityManager& operator=(const EntityManager&) = delete;
+
         typedef std::vector<Entity> EntityContainer;
         typedef std::deque<unsigned> IndexQueue;
 
