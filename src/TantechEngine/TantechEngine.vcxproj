@@ -78,6 +78,7 @@
     <ClCompile Include="collision_system.cpp" />
     <ClCompile Include="command_component.cpp" />
     <ClCompile Include="command_system.cpp" />
+    <ClCompile Include="data_component.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="command_component.h" />
     <ClInclude Include="command_system.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="data_component.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="gl.h" />

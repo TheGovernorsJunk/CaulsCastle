@@ -14,11 +14,13 @@ namespace te
         bool operator<(const Entity&) const;
         bool operator==(const Entity&) const;
         bool operator!=(const Entity&) const;
+        friend std::ostream& operator<<(std::ostream&, const Entity&);
     private:
         friend class EntityManager;
         unsigned index;
         unsigned generation;
     };
+    std::ostream& operator<<(std::ostream&, const Entity&);
 
     struct DestroyEvent
     {
@@ -35,6 +37,9 @@ namespace te
         bool isAlive(Entity e) const;
         void destroy(Entity e);
     private:
+        EntityManager(const EntityManager&) = delete;
+        EntityManager& operator=(const EntityManager&) = delete;
+
         typedef std::vector<Entity> EntityContainer;
         typedef std::deque<unsigned> IndexQueue;
 

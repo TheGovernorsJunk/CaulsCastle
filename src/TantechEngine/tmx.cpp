@@ -4,6 +4,7 @@
 #include "animation_component.h"
 #include "animation_factory.h"
 #include "shader.h"
+#include "data_component.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -361,7 +362,8 @@ namespace te
         std::shared_ptr<MeshManager> pMeshManager,
         EntityManager& entityManager,
         TransformComponent& transformComponent,
-        AnimationComponent& animationComponent)
+        AnimationComponent& animationComponent,
+        DataComponent* dataComponent)
     {
         glm::mat4 model = shader.getModel();
         AnimationFactory animationFactory(pTMX, pMeshManager);
@@ -389,6 +391,11 @@ namespace te
                 animationComponent.setAnimations(entity, {
                     {0, pAnimation}
                 }, 0);
+
+                if (dataComponent) {
+                    dataComponent->create(entity, object.id);
+                    dataComponent->setData(entity, { "name", object.name });
+                }
             });
 
         });

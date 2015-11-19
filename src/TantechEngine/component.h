@@ -94,6 +94,9 @@ namespace te
             });
         }
     private:
+        Component(const Component&) = delete;
+        Component& operator=(const Component&) = delete;
+
         std::vector<Entry> mData;
         std::map<Entity, unsigned> mMap;
     };

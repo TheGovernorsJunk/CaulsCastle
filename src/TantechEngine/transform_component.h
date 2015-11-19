@@ -31,6 +31,9 @@ namespace te
         glm::mat4 getLocalTransform(const Entity& entity) const;
 
     private:
+        TransformComponent(const TransformComponent&) = delete;
+        TransformComponent& operator=(const TransformComponent&) = delete;
+
         void transformTree(TransformInstance& instance, const glm::mat4& parentTransform);
     };
 
