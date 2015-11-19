@@ -143,6 +143,7 @@ namespace te
     class EntityManager;
     class TransformComponent;
     class AnimationComponent;
+    class DataComponent;
 
     void loadObjects(
         std::shared_ptr<const TMX>,
@@ -150,7 +151,8 @@ namespace te
         std::shared_ptr<MeshManager>,
         EntityManager&,
         TransformComponent&,
-        AnimationComponent&);
+        AnimationComponent&,
+        DataComponent* = nullptr);
 }
 
 #endif
