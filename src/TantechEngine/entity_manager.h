@@ -14,11 +14,13 @@ namespace te
         bool operator<(const Entity&) const;
         bool operator==(const Entity&) const;
         bool operator!=(const Entity&) const;
+        friend std::ostream& operator<<(std::ostream&, const Entity&);
     private:
         friend class EntityManager;
         unsigned index;
         unsigned generation;
     };
+    std::ostream& operator<<(std::ostream&, const Entity&);
 
     struct DestroyEvent
     {

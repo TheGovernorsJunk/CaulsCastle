@@ -1,6 +1,7 @@
 #include "entity_manager.h"
 #include <cassert>
 #include <algorithm>
+#include <iostream>
 
 namespace te
 {
@@ -19,6 +20,12 @@ namespace te
     bool Entity::operator!=(const Entity& o) const
     {
         return !(*this == o);
+    }
+
+    std::ostream& operator<<(std::ostream& out, const Entity& e)
+    {
+        out << e.index << ":" << e.generation;
+        return out;
     }
 
     EntityManager::EntityManager(ObserverVector&& observers, unsigned size)
