@@ -19,6 +19,7 @@
 #include <functional>
 #include <iostream>
 #include <algorithm>
+#include <thread>
 
 namespace te
 {
@@ -151,7 +152,7 @@ namespace te
             int status = luaL_dofile(L, (mpTMX->meta.path + "/main.lua").c_str());
             if (status) {
                 // throw std::runtime_error("LuaGameState::init: Could not load main.lua.");
-                std::cerr << "Warning: LuaGameState::init: Could not load main.lua." << std::endl;
+                std::clog << "Warning: LuaGameState::init: Could not load main.lua." << std::endl;
             } else {
 
                 luabridge::LuaRef mainRef(luabridge::getGlobal(L, "main"));
@@ -208,7 +209,19 @@ int main(int argc, char* argv[])
             te::TMX(argv[1])));
         te::StateStack stateStack(pState);
 
+        std::thread prompt([] {
+            std::string line;
+            do {
+                if (line == "quit") {
+                    std::cout << "See ya!" << std::endl;
+                    break;
+                }
+                std::cout << "> ";
+            } while (std::getline(std::cin, line));
+        });
+
         te::executeStack(stateStack, *pWindow);
+        prompt.join();
 
     } catch (const std::exception& ex) {
         std::cerr << ex.what() << std::endl;
