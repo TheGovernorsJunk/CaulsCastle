@@ -2,6 +2,7 @@
 #define TE_TMX_H
 
 #include "gl.h"
+#include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
@@ -147,7 +148,7 @@ namespace te
 
     void loadObjects(
         std::shared_ptr<const TMX>,
-        const Shader& shader,
+        const glm::mat4& model,
         std::shared_ptr<MeshManager>,
         EntityManager&,
         TransformComponent&,
