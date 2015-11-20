@@ -230,18 +230,13 @@ int main(int argc, char* argv[])
             te::TMX(argv[1])));
         te::StateStack stateStack(pState);
 
-        std::thread prompt([] {
-            std::string line;
-            do {
-                if (line == "quit") {
-                    std::cout << "See ya!" << std::endl;
-                    break;
-                }
-                std::cout << "> ";
-            } while (std::getline(std::cin, line));
+        bool running = true;
+
+        std::thread prompt([&running, pState] {
+            pState->runConsole();
         });
 
-        te::executeStack(stateStack, *pWindow);
+        te::executeStack(stateStack, *pWindow, &running);
         prompt.join();
 
     } catch (const std::exception& ex) {
