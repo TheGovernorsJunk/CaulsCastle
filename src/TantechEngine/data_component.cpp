@@ -65,7 +65,7 @@ namespace te
     {
         auto it = mEntityIDs.find(id);
         if (it == mEntityIDs.end()) {
-            throw NoDataException(":DataComponent::getEntity: Entity not found.");
+            throw NoDataException("DataComponent::getEntity: Entity not found.");
         }
         return it->second;
     }
