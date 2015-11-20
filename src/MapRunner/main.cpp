@@ -29,14 +29,13 @@ namespace te
         LuaGameState(TMX&& tmx)
             : mpTMX(new TMX(std::move(tmx)))
             , mpShader(new Shader(
-                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100),
-                glm::scale(glm::vec3(1.f / mpTMX->tilewidth, 1.f / mpTMX->tileheight, 1.f))))
+                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100)))
 
             , mpTextureManager(new TextureManager())
             , mpMeshManager(new MeshManager(mpTMX, mpTextureManager))
             , mpAnimationFactory(new AnimationFactory(mpTMX, mpMeshManager))
 
-            , mpTiledMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
+            , mpTiledMap(new TiledMap(mpTMX, mpShader, glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1.f)), mpTextureManager.get()))
 
             , mpL(
                 luaL_newstate(),
@@ -54,14 +53,13 @@ namespace te
         LuaGameState(std::shared_ptr<TMX> pTMX)
             : mpTMX(pTMX)
             , mpShader(new Shader(
-                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100),
-                glm::scale(glm::vec3(1.f / mpTMX->tilewidth, 1.f / mpTMX->tileheight, 1.f))))
+                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100)))
 
             , mpTextureManager(new TextureManager())
             , mpMeshManager(new MeshManager(mpTMX, mpTextureManager))
             , mpAnimationFactory(new AnimationFactory(mpTMX, mpMeshManager))
 
-            , mpTiledMap(new TiledMap(mpTMX, mpShader, mpTextureManager.get()))
+            , mpTiledMap(new TiledMap(mpTMX, mpShader, glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1.f)), mpTextureManager.get()))
 
             , mpL(
                 luaL_newstate(),
@@ -119,7 +117,7 @@ namespace te
 
         void init()
         {
-            te::loadObjects(mpTMX, *mpShader, mpMeshManager, *mpEntityManager, *mpTransformComponent, *mpAnimationComponent, mpDataComponent.get());
+            te::loadObjects(mpTMX, glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1.f)), mpMeshManager, *mpEntityManager, *mpTransformComponent, *mpAnimationComponent, mpDataComponent.get());
 
             lua_State* L = mpL.get();
 
