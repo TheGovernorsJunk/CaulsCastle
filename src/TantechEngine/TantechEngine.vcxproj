@@ -132,10 +132,10 @@
     <ClInclude Include="wrappers.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Assets\shaders\simple_render_component.glfs" />
-    <None Include="..\Assets\shaders\simple_render_component.glvs" />
-    <None Include="..\Assets\shaders\basic.glfs" />
-    <None Include="..\Assets\shaders\basic.glvs" />
+    <None Include="..\..\assets\shaders\basic.glfs" />
+    <None Include="..\..\assets\shaders\basic.glvs" />
+    <None Include="..\..\assets\shaders\simple_render_component.glfs" />
+    <None Include="..\..\assets\shaders\simple_render_component.glvs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

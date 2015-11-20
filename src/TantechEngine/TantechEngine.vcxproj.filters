@@ -193,16 +193,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Assets\shaders\simple_render_component.glfs">
+    <None Include="..\..\assets\shaders\basic.glfs">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="..\Assets\shaders\simple_render_component.glvs">
+    <None Include="..\..\assets\shaders\basic.glvs">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="..\Assets\shaders\basic.glfs">
+    <None Include="..\..\assets\shaders\simple_render_component.glfs">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="..\Assets\shaders\basic.glvs">
+    <None Include="..\..\assets\shaders\simple_render_component.glvs">
       <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
