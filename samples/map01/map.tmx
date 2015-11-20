@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="6">
  <tileset firstgid="1" name="roguelikeIndoor_transparent" tilewidth="16" tileheight="16" spacing="1" tilecount="468">
-  <image source="../../assets/spritesheets/roguelike_indoor_pack/Spritesheet/roguelikeIndoor_transparent.png" width="457" height="305"/>
+  <image source="../../../../Projects/MetroidClone/assets/spritesheets/roguelike_indoor_pack/Spritesheet/roguelikeIndoor_transparent.png" width="457" height="305"/>
+ </tileset>
+ <tileset firstgid="469" name="nana" tilewidth="300" tileheight="300" tilecount="6">
+  <image source="../../../../Projects/MetroidClone/assets/spritesheets/nana/nana.png" width="900" height="600"/>
  </tileset>
  <layer name="floor" width="100" height="100">
   <data>
@@ -10007,7 +10010,7 @@
    <tile gid="155"/>
   </data>
  </layer>
- <layer name="objects" width="100" height="100">
+ <layer name="doodads" width="100" height="100">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -20011,4 +20014,8 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <objectgroup name="objects">
+  <object id="3" name="Speaker" gid="455" x="32" y="32" width="16" height="16"/>
+  <object id="4" gid="469" x="80" y="48" width="30" height="30"/>
+ </objectgroup>
 </map>

@@ -8,7 +8,7 @@ return {
   height = 100,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 4,
+  nextobjectid = 6,
   properties = {},
   tilesets = {
     {
@@ -28,6 +28,25 @@ return {
       properties = {},
       terrains = {},
       tilecount = 468,
+      tiles = {}
+    },
+    {
+      name = "nana",
+      firstgid = 469,
+      tilewidth = 300,
+      tileheight = 300,
+      spacing = 0,
+      margin = 0,
+      image = "../../assets/spritesheets/nana/nana.png",
+      imagewidth = 900,
+      imageheight = 600,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 6,
       tiles = {}
     }
   },
@@ -284,6 +303,20 @@ return {
           height = 16,
           rotation = 0,
           gid = 455,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 4,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 80,
+          y = 48,
+          width = 30,
+          height = 30,
+          rotation = 0,
+          gid = 469,
           visible = true,
           properties = {}
         }
