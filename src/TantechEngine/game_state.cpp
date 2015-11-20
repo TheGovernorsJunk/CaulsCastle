@@ -173,12 +173,13 @@ namespace te
         stack.draw();
     }
 
-    void executeStack(StateStack& stack, SDL_Window& window)
+    void executeStack(StateStack& stack, SDL_Window& window, bool* pTerminator)
     {
         std::vector<const SDL_Event> events;
         SDL_Event e;
 
-        bool running = true;
+        bool localRunning = true;
+        bool& running = pTerminator ? *pTerminator : localRunning;
 
         Uint64 t0 = SDL_GetPerformanceCounter();
 

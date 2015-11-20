@@ -90,7 +90,7 @@ namespace te
     };
 
     void tickStack(StateStack&, const std::vector<const SDL_Event>& events, float dt);
-    void executeStack(StateStack&, SDL_Window&);
+    void executeStack(StateStack&, SDL_Window&, bool* pTerminator = nullptr);
 }
 
 #endif
