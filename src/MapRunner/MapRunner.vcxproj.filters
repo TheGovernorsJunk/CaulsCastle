@@ -19,6 +19,12 @@
     <Filter Include="Resource Files\samples\map01">
       <UniqueIdentifier>{add39b6c-f9f8-4dd1-b222-2372dfe67486}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets">
+      <UniqueIdentifier>{29547d0a-1734-477b-b3a9-ef432fd85eef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\lua">
+      <UniqueIdentifier>{1293a91c-8ab6-4dc3-9684-7b58fe2388cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -34,6 +40,9 @@
     </None>
     <None Include="..\..\samples\map01\main.lua">
       <Filter>Resource Files\samples\map01</Filter>
+    </None>
+    <None Include="..\..\assets\lua\console.lua">
+      <Filter>Resource Files\assets\lua</Filter>
     </None>
   </ItemGroup>
 </Project>
