@@ -34,6 +34,8 @@ namespace te
         std::vector<BoundingBox>& getIntersections(const BoundingBox&, std::vector<BoundingBox>& intersections) const;
         std::vector<BoundingBox>& getIntersections(const BoundingBox&, unsigned layerIndex, std::vector<BoundingBox>& intersections) const;
 
+        static void* operator new(std::size_t);
+        static void operator delete(void*);
     private:
         TiledMap(const TiledMap&) = delete;
         TiledMap& operator=(const TiledMap&) = delete;
