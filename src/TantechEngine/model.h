@@ -16,7 +16,7 @@ namespace te
         Model(const std::vector<std::shared_ptr<const Mesh>>& meshes);
         Model(std::vector<std::shared_ptr<const Mesh>>&& meshes);
 
-        void draw(Shader& shader, const glm::mat4& view) const;
+        void draw(Shader& shader, const glm::mat4& modelview) const;
     private:
         std::vector<std::shared_ptr<const Mesh>> mMeshes;
     };

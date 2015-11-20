@@ -3,7 +3,6 @@
 #include "transform_component.h"
 #include "animation_component.h"
 #include "animation_factory.h"
-#include "shader.h"
 #include "data_component.h"
 
 #include <lua.hpp>
@@ -358,14 +357,13 @@ namespace te
 
     void loadObjects(
         std::shared_ptr<const TMX> pTMX,
-        const Shader& shader,
+        const glm::mat4& model,
         std::shared_ptr<MeshManager> pMeshManager,
         EntityManager& entityManager,
         TransformComponent& transformComponent,
         AnimationComponent& animationComponent,
         DataComponent* dataComponent)
     {
-        glm::mat4 model = shader.getModel();
         AnimationFactory animationFactory(pTMX, pMeshManager);
 
         unsigned layerIndex = -1;
@@ -380,10 +378,8 @@ namespace te
                 const TMX::Tileset& tileset = pTMX->tilesets.at(getTilesetIndex(*pTMX, object.gid));
                 transformComponent.setLocalTransform(
                     entity,
-                    model * glm::scale(
-                        // Subtract by height to compensate for TMX odd positions
-                        glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)),
-                        glm::vec3(object.width, object.height, 1)));
+                    // Subtract by height to compensate for TMX odd positions
+                    model * glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)));
 
                 std::shared_ptr<const Animation> pAnimation(new Animation{
                     animationFactory.create(object.gid)
