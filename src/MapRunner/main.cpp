@@ -88,6 +88,27 @@ namespace te
             mpRenderSystem->draw();
         }
 
+        void runConsole()
+        {
+            lua_State* L = mpL.get();
+            int status = luaL_dofile(L, "assets/lua/console.lua");
+            if (status) {
+                throw std::runtime_error("LuaGameState::runConsole: Could not load console.lua");
+            }
+            luabridge::LuaRef mainRef(luabridge::getGlobal(L, "main"));
+            if (mainRef.isNil()) {
+                throw std::runtime_error("LuaGameState::runConsole: Could not load console.lua main function.");
+            }
+
+            while (true) {
+                try {
+                    mainRef();
+                } catch (const luabridge::LuaException& ex) {
+                    std::cerr << ex.what() << std::endl;
+                }
+            }
+        }
+
     private:
         void printEntities()
         {
