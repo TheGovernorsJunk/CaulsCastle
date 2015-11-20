@@ -131,11 +131,9 @@ namespace te
         return program;
     }
 
-    Shader::Shader(const glm::mat4& projection, const glm::mat4& model)
+    Shader::Shader(const glm::mat4& projection)
         : mProgram(loadProgram("assets/shaders/basic.glvs", "assets/shaders/basic.glfs"))
-        , mViewLocation(glGetUniformLocation(mProgram, "te_ViewMatrix"))
-        , mLastView()
-        , mModel(model)
+        , mModelViewLocation(glGetUniformLocation(mProgram, "te_ModelViewMatrix"))
     {
         glUseProgram(mProgram);
 
@@ -143,12 +141,8 @@ namespace te
         if (projectionMatrixLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
         glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
-        if (mViewLocation == -1) { throw std::runtime_error{ "te_ViewMatrix: not a valid program variable." }; }
-        glUniformMatrix4fv(mViewLocation, 1, GL_FALSE, glm::value_ptr(mLastView));
-
-        GLint modelMatrixLocation = glGetUniformLocation(mProgram, "te_ModelMatrix");
-        if (modelMatrixLocation == -1) { throw std::runtime_error("te_ModelMatrix: not a valid program variable."); }
-        glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(model));
+        if (mModelViewLocation == -1) { throw std::runtime_error{ "te_ModelViewMatrix: not a valid program variable." }; }
+        glUniformMatrix4fv(mModelViewLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
     }
 
     void Shader::destroy()
@@ -163,7 +157,6 @@ namespace te
 
     Shader::Shader(Shader&& o)
         : mProgram(o.mProgram)
-        , mLastView(o.mLastView)
     {
         o.mProgram = 0;
     }
@@ -173,25 +166,16 @@ namespace te
         destroy();
 
         mProgram = o.mProgram;
-        mLastView = o.mLastView;
         o.mProgram = 0;
 
         return *this;
     }
 
-    glm::mat4 Shader::getModel() const
-    {
-        return mModel;
-    }
-
-    void Shader::draw(const glm::mat4& view, const Mesh& mesh)
+    void Shader::draw(const glm::mat4& modelview, const Mesh& mesh) const
     {
         glUseProgram(mProgram);
 
-        if (view != mLastView) {
-            glUniformMatrix4fv(mViewLocation, 1, GL_FALSE, glm::value_ptr(view));
-            mLastView = view;
-        }
+        glUniformMatrix4fv(mModelViewLocation, 1, GL_FALSE, glm::value_ptr(modelview));
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mesh.getTexture(0)->getID());

@@ -16,21 +16,18 @@ namespace te
 
     class Shader {
     public:
-        Shader(const glm::mat4& projection, const glm::mat4& model);
+        Shader(const glm::mat4& projection);
         ~Shader();
         Shader(Shader&&);
         Shader& operator=(Shader&&);
 
-        glm::mat4 getModel() const;
-        void draw(const glm::mat4& view, const Mesh&);
+        void draw(const glm::mat4& view, const Mesh&) const;
 
         static void* operator new(std::size_t);
         static void operator delete(void*);
     private:
         GLuint mProgram;
-        GLint mViewLocation;
-        glm::mat4 mLastView;
-        glm::mat4 mModel;
+        GLint mModelViewLocation;
 
         void destroy();
 
