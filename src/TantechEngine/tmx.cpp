@@ -379,7 +379,9 @@ namespace te
                 transformComponent.setLocalTransform(
                     entity,
                     // Subtract by height to compensate for TMX odd positions
-                    model * glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)));
+                    model * glm::scale(
+                        glm::translate(glm::vec3(object.x, object.y - object.height, layerIndex)),
+                        glm::vec3((float)object.width / (float)tileset.tilewidth, (float)object.height / (float)tileset.tileheight, 1.f)));
 
                 std::shared_ptr<const Animation> pAnimation(new Animation{
                     animationFactory.create(object.gid)
