@@ -217,82 +217,82 @@ namespace te
         return false;
     }
 
-    bool TiledMap::checkCollision(const BoundingBox& worldBB) const
-    {
-        BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
-            glm::inverse(mpShader->getModel()) * worldBB;
+    //bool TiledMap::checkCollision(const BoundingBox& worldBB) const
+    //{
+    //    BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
+    //        glm::inverse(mpShader->getModel()) * worldBB;
 
-        bool collision = false;
-        for (auto it = mpTMX->layers.begin(); it != mpTMX->layers.end(); ++it) {
-            if (it->type != TMX::Layer::Type::TILELAYER) {
-                continue;
-            }
-            collision = checkUnitCollision(unitBB, *it);
-            if (collision) {
-                break;
-            }
-        };
-        return collision;
-    }
+    //    bool collision = false;
+    //    for (auto it = mpTMX->layers.begin(); it != mpTMX->layers.end(); ++it) {
+    //        if (it->type != TMX::Layer::Type::TILELAYER) {
+    //            continue;
+    //        }
+    //        collision = checkUnitCollision(unitBB, *it);
+    //        if (collision) {
+    //            break;
+    //        }
+    //    };
+    //    return collision;
+    //}
 
-    bool TiledMap::checkCollision(const BoundingBox& worldBB, unsigned layerIndex) const
-    {
-        BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
-            glm::inverse(mpShader->getModel()) * worldBB;
+    //bool TiledMap::checkCollision(const BoundingBox& worldBB, unsigned layerIndex) const
+    //{
+    //    BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
+    //        glm::inverse(mpShader->getModel()) * worldBB;
 
-        const TMX::Layer& layer = mpTMX->layers.at(layerIndex);
-        if (layer.type != TMX::Layer::Type::TILELAYER) {
-            throw std::runtime_error{ "getTileData: layer is not a tile data." };
-        }
+    //    const TMX::Layer& layer = mpTMX->layers.at(layerIndex);
+    //    if (layer.type != TMX::Layer::Type::TILELAYER) {
+    //        throw std::runtime_error{ "getTileData: layer is not a tile data." };
+    //    }
 
-        return checkUnitCollision(unitBB, layer);
-    }
+    //    return checkUnitCollision(unitBB, layer);
+    //}
 
-    std::vector<BoundingBox>& TiledMap::getIntersections(const BoundingBox& worldBB, std::vector<BoundingBox>& bbs) const
-    {
-        BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
-            glm::inverse(mpShader->getModel()) * worldBB;
+    //std::vector<BoundingBox>& TiledMap::getIntersections(const BoundingBox& worldBB, std::vector<BoundingBox>& bbs) const
+    //{
+    //    BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
+    //        glm::inverse(mpShader->getModel()) * worldBB;
 
-        for (auto it = mpTMX->layers.begin(); it != mpTMX->layers.end(); ++it) {
-            if (it->type != TMX::Layer::Type::TILELAYER) {
-                continue;
-            }
-            getUnitIntersections(unitBB, *it, bbs);
-        };
+    //    for (auto it = mpTMX->layers.begin(); it != mpTMX->layers.end(); ++it) {
+    //        if (it->type != TMX::Layer::Type::TILELAYER) {
+    //            continue;
+    //        }
+    //        getUnitIntersections(unitBB, *it, bbs);
+    //    };
 
-        return bbs;
-    }
+    //    return bbs;
+    //}
 
-    std::vector<BoundingBox>& TiledMap::getIntersections(const BoundingBox& worldBB, unsigned layerIndex, std::vector<BoundingBox>& bbs) const
-    {
-        BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
-            glm::inverse(mpShader->getModel()) * worldBB;
+    //std::vector<BoundingBox>& TiledMap::getIntersections(const BoundingBox& worldBB, unsigned layerIndex, std::vector<BoundingBox>& bbs) const
+    //{
+    //    BoundingBox unitBB = glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1)) *
+    //        glm::inverse(mpShader->getModel()) * worldBB;
 
-        const TMX::Layer& layer = mpTMX->layers.at(layerIndex);
-        if (layer.type != TMX::Layer::Type::TILELAYER) {
-            throw std::runtime_error{ "getTileData: layer is not a tile data." };
-        }
+    //    const TMX::Layer& layer = mpTMX->layers.at(layerIndex);
+    //    if (layer.type != TMX::Layer::Type::TILELAYER) {
+    //        throw std::runtime_error{ "getTileData: layer is not a tile data." };
+    //    }
 
-        getUnitIntersections(unitBB, layer, bbs);
-        return bbs;
-    }
+    //    getUnitIntersections(unitBB, layer, bbs);
+    //    return bbs;
+    //}
 
-    void TiledMap::getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer, std::vector<BoundingBox>& bbs) const
-    {
-        for (int x = (int)unitBB.x; x < (int)(unitBB.x + unitBB.w) + 1; ++x) {
-            for (int y = (int)unitBB.y; y < (int)(unitBB.y + unitBB.h) + 1; ++y) {
-                unsigned gid = getTileData(layer, x, y);
+    //void TiledMap::getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer, std::vector<BoundingBox>& bbs) const
+    //{
+    //    for (int x = (int)unitBB.x; x < (int)(unitBB.x + unitBB.w) + 1; ++x) {
+    //        for (int y = (int)unitBB.y; y < (int)(unitBB.y + unitBB.h) + 1; ++y) {
+    //            unsigned gid = getTileData(layer, x, y);
 
-                if (gid == 0) { continue; }
+    //            if (gid == 0) { continue; }
 
-                auto collisionRectIt = mCollisionRects.find(gid);
-                if (collisionRectIt != mCollisionRects.end()) {
-                    BoundingBox translatedBB = glm::translate(glm::vec3(x, y, 0)) * collisionRectIt->second;
-                    if (te::checkCollision(unitBB, translatedBB)) {
-                        bbs.push_back(mpShader->getModel() * glm::scale(glm::vec3(16.f, 16.f, 1.f)) * te::getIntersection(unitBB, translatedBB));
-                    }
-                }
-            }
-        }
-    }
+    //            auto collisionRectIt = mCollisionRects.find(gid);
+    //            if (collisionRectIt != mCollisionRects.end()) {
+    //                BoundingBox translatedBB = glm::translate(glm::vec3(x, y, 0)) * collisionRectIt->second;
+    //                if (te::checkCollision(unitBB, translatedBB)) {
+    //                    bbs.push_back(mpShader->getModel() * glm::scale(glm::vec3(16.f, 16.f, 1.f)) * te::getIntersection(unitBB, translatedBB));
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }
