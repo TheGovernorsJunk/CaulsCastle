@@ -1,8 +1,7 @@
 #version 330 core
 
 uniform mat4 te_ProjectionMatrix;
-uniform mat4 te_ViewMatrix;
-uniform mat4 te_ModelMatrix;
+uniform mat4 te_ModelViewMatrix;
 
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texCoords;
@@ -14,7 +13,7 @@ flat out int SamplerID;
 
 void main()
 {
-    gl_Position = te_ProjectionMatrix * te_ViewMatrix * te_ModelMatrix * vec4(position, 1.0);
+    gl_Position = te_ProjectionMatrix * te_ModelViewMatrix * vec4(position, 1.0);
     TexCoords = texCoords;
     SamplerID = sampler;
 }
