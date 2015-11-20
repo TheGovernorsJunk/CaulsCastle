@@ -295,4 +295,14 @@ namespace te
     //        }
     //    }
     //}
+
+    void* TiledMap::operator new(std::size_t sz)
+    {
+        return _aligned_malloc(sz, 16);
+    }
+
+    void TiledMap::operator delete(void* ptr)
+    {
+        _aligned_free(ptr);
+    }
 }
