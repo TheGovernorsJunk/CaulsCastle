@@ -47,7 +47,29 @@ return {
       properties = {},
       terrains = {},
       tilecount = 6,
-      tiles = {}
+      tiles = {
+        {
+          id = 0,
+          animation = {
+            {
+              tileid = "0",
+              duration = "1500"
+            },
+            {
+              tileid = "1",
+              duration = "300"
+            },
+            {
+              tileid = "0",
+              duration = "2000"
+            },
+            {
+              tileid = "2",
+              duration = "1000"
+            }
+          }
+        }
+      }
     }
   },
   layers = {
@@ -308,7 +330,7 @@ return {
         },
         {
           id = 4,
-          name = "",
+          name = "Nana",
           type = "",
           shape = "rectangle",
           x = 80,

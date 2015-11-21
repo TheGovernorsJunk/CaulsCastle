@@ -78,6 +78,7 @@ namespace te
         bool processInput(const SDL_Event&) { return false; }
         bool update(float dt)
         {
+            mpRenderSystem->update(dt);
             return false;
         }
         void draw()
