@@ -27,6 +27,7 @@ namespace te
 
         void setParent(const Entity& child, const Entity& parent);
         void setLocalTransform(const Entity& entity, const glm::mat4& transform);
+        void multiplyLocalTransform(const Entity& entity, const glm::mat4& transform);
         glm::mat4 getWorldTransform(const Entity& entity) const;
         glm::mat4 getLocalTransform(const Entity& entity) const;
 

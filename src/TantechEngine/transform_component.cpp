@@ -39,6 +39,18 @@ namespace te
         transformTree(instance, parentTransform);
     }
 
+    void TransformComponent::multiplyLocalTransform(const Entity& entity, const glm::mat4& transform)
+    {
+        if (!hasInstance(entity)) { createInstance(entity, createTransformInstance(entity)); }
+        TransformInstance& instance = at(entity);
+        instance.local *= transform;
+        glm::mat4 parentTransform =
+            instance.parent != entity ?
+            at(instance.parent).world :
+            glm::mat4();
+        transformTree(instance, parentTransform);
+    }
+
     glm::mat4 TransformComponent::getWorldTransform(const Entity& entity) const
     {
         if (hasInstance(entity))

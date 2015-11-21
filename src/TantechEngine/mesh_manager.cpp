@@ -32,9 +32,9 @@ namespace te
 
             std::vector<Vertex> vertices(4);
             vertices[0].position = { 0, 0, 0 };
-            vertices[1].position = { (float)tileset.tilewidth, 0, 0 };
-            vertices[2].position = { (float)tileset.tilewidth, (float)tileset.tileheight, 0 };
-            vertices[3].position = { 0, (float)tileset.tileheight, 0 };
+            vertices[1].position = { (float)tileset.tilewidth / (float)tmx.tilewidth, 0, 0 };
+            vertices[2].position = { (float)tileset.tilewidth / (float)tmx.tilewidth, (float)tileset.tileheight / (float)tmx.tileheight, 0 };
+            vertices[3].position = { 0, (float)tileset.tileheight / (float)tmx.tileheight, 0 };
 
             unsigned localIndex = gid - tileset.firstgid;
 
