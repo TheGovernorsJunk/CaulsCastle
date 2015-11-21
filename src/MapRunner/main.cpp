@@ -140,6 +140,7 @@ namespace te
                     .beginClass<TransformComponent>("TransformComponent")
                         .addFunction("get", &TransformComponent::getLocalTransform)
                         .addFunction("set", &TransformComponent::setLocalTransform)
+                        .addFunction("mul", &TransformComponent::multiplyLocalTransform)
                     .endClass()
 
                     .beginClass<DataComponent>("DataComponent")
@@ -156,6 +157,8 @@ namespace te
 
                     .addFunction("translateMatrix", static_cast<glm::mat4 (*)(const glm::mat4&, const glm::vec3&)>(&glm::translate))
                     .addFunction("translate", static_cast<glm::mat4 (*)(const glm::vec3&)>(&glm::translate))
+                    .addFunction("scaleMatrix", static_cast<glm::mat4 (*)(const glm::mat4&, const glm::vec3&)>(&glm::scale))
+                    .addFunction("scale", static_cast<glm::mat4 (*)(const glm::vec3&)>(&glm::scale))
 
                 .endNamespace();
 

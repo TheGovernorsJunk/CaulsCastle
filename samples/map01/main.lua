@@ -8,6 +8,6 @@ function main()
 
     -- Place stereo one unit to the right
     local stereoTransform = te_transform:get(stereo)
-    te_transform:set(stereo, te.translateMatrix(stereoTransform, te.vec3(1, 0, 0)))
+    te_transform:mul(stereo, te.translate(te.vec3(1, 0, 0)))
 
 end
