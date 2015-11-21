@@ -43,7 +43,7 @@ namespace te
     {
         if (!hasInstance(entity)) { createInstance(entity, createTransformInstance(entity)); }
         TransformInstance& instance = at(entity);
-        instance.local *= transform;
+        instance.local = transform * instance.local;
         glm::mat4 parentTransform =
             instance.parent != entity ?
             at(instance.parent).world :
