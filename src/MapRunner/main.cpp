@@ -27,29 +27,8 @@ namespace te
     {
     public:
         LuaGameState(TMX&& tmx)
-            : mpTMX(new TMX(std::move(tmx)))
-            , mpShader(new Shader(
-                glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100)))
+            : LuaGameState(std::shared_ptr<TMX>(new TMX(std::move(tmx)))) {}
 
-            , mpTextureManager(new TextureManager())
-            , mpMeshManager(new MeshManager(mpTMX, mpTextureManager))
-            , mpAnimationFactory(new AnimationFactory(mpTMX, mpMeshManager))
-
-            , mpTiledMap(new TiledMap(mpTMX, mpShader, glm::scale(glm::vec3(1.f/mpTMX->tilewidth, 1.f/mpTMX->tileheight, 1.f)), mpTextureManager.get()))
-
-            , mpL(
-                luaL_newstate(),
-                [](lua_State* L) { lua_close(L); })
-
-            , mpTransformComponent(new TransformComponent())
-            , mpAnimationComponent(new AnimationComponent())
-            , mpDataComponent(new DataComponent())
-            , mpEntityManager(new EntityManager(std::vector<std::shared_ptr<Observer<DestroyEvent>>>{ mpTransformComponent, mpAnimationComponent, mpDataComponent }))
-
-            , mpRenderSystem(new RenderSystem(mpShader, nullptr, mpAnimationComponent, mpTransformComponent))
-        {
-            init();
-        }
         LuaGameState(std::shared_ptr<TMX> pTMX)
             : mpTMX(pTMX)
             , mpShader(new Shader(
