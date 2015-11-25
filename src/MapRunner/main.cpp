@@ -55,7 +55,10 @@ namespace te
         }
 
         // Override methods
-        bool processInput(const SDL_Event&) { return false; }
+        bool processInput(const SDL_Event&)
+        {
+            return false;
+        }
         bool update(float dt)
         {
             mpRenderSystem->update(dt);
