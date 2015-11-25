@@ -54,6 +54,7 @@ namespace te
             init();
         }
 
+        // Override methods
         bool processInput(const SDL_Event&) { return false; }
         bool update(float dt)
         {
