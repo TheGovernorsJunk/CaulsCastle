@@ -1,3 +1,5 @@
+Copyright (c) Ryan Conley 2015
+
 nana.png
 ========
 tilewidth=300
