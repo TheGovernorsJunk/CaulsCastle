@@ -23,11 +23,16 @@ namespace te
     class TransformComponent : public Component<TransformInstance>
     {
     public:
+        enum class Space
+        { SELF, WORLD };
+
         TransformComponent(std::size_t capacity = 1024);
 
         void setParent(const Entity& child, const Entity& parent);
-        void setLocalTransform(const Entity& entity, const glm::mat4& transform);
-        void multiplyLocalTransform(const Entity& entity, const glm::mat4& transform);
+
+        glm::mat4 setLocalTransform(const Entity& entity, const glm::mat4& transform);
+        glm::mat4 multiplyTransform(const Entity& entity, const glm::mat4& transform, Space relativeTo = Space::SELF);
+
         glm::mat4 getWorldTransform(const Entity& entity) const;
         glm::mat4 getLocalTransform(const Entity& entity) const;
 

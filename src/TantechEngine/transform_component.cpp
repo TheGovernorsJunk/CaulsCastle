@@ -27,7 +27,7 @@ namespace te
         transformTree(childInstance, parentTransform);
     }
 
-    void TransformComponent::setLocalTransform(const Entity& entity, const glm::mat4& transform)
+    glm::mat4 TransformComponent::setLocalTransform(const Entity& entity, const glm::mat4& transform)
     {
         if (!hasInstance(entity)) { createInstance(entity, createTransformInstance(entity)); }
         TransformInstance& instance = at(entity);
@@ -37,18 +37,33 @@ namespace te
             at(instance.parent).world :
             glm::mat4();
         transformTree(instance, parentTransform);
+        return instance.local;
     }
 
-    void TransformComponent::multiplyLocalTransform(const Entity& entity, const glm::mat4& transform)
+    glm::mat4 TransformComponent::multiplyTransform(const Entity& entity, const glm::mat4& transform, Space relativeTo)
     {
         if (!hasInstance(entity)) { createInstance(entity, createTransformInstance(entity)); }
         TransformInstance& instance = at(entity);
-        instance.local = transform * instance.local;
+
         glm::mat4 parentTransform =
             instance.parent != entity ?
             at(instance.parent).world :
             glm::mat4();
+
+        switch (relativeTo)
+        {
+        case Space::SELF:
+            instance.local *= transform;
+            break;
+        case Space::WORLD:
+            instance.local = (glm::inverse(parentTransform) * transform) * instance.local;
+            break;
+        default:
+            throw std::runtime_error("TransformComponent::multiplyTransform: Invalid space.");
+        }
+
         transformTree(instance, parentTransform);
+        return instance.local;
     }
 
     glm::mat4 TransformComponent::getWorldTransform(const Entity& entity) const
