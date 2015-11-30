@@ -24,5 +24,8 @@
     <ClCompile Include="tmx_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="command_system_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
