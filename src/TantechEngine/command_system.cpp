@@ -18,7 +18,13 @@ namespace te
 
     CommandSystem::CommandSystem(std::shared_ptr<CommandComponent> pCommand)
         : mpCommandComponent(pCommand)
-        , mCommands() {}
+        , mCommands()
+    {
+        if (mpCommandComponent == nullptr)
+        {
+            throw std::runtime_error("CommandSystem::CommandSystem: Must supply CommandComponent");
+        }
+    }
 
     void CommandSystem::queueCommand(const Command& command)
     {

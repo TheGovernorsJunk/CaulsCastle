@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="command_system_test.cpp" />
     <ClCompile Include="game_state_test.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="tmx_test.cpp" />

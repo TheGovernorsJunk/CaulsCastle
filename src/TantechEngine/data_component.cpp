@@ -72,7 +72,7 @@ namespace te
 
     void DataComponent::destroyInstance(const Entity& entity)
     {
-        if (!hasInstance(entity)) {
+        if (hasInstance(entity)) {
             auto it = mEntityIDs.find(at(entity).id);
             mEntityIDs.erase(it);
             Component::destroyInstance(entity);
