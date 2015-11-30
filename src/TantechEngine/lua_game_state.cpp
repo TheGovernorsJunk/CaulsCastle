@@ -93,7 +93,10 @@ namespace te
             , pTransform(new TransformComponent())
             , pAnimation(new AnimationComponent())
             , pData(new DataComponent())
-            , pEntityManager(new EntityManager(std::vector<std::shared_ptr<Observer<DestroyEvent>>>{pTransform}))
+            , pEntityManager(new EntityManager(std::vector<std::shared_ptr<Observer<DestroyEvent>>>{
+                  pTransform,
+                  pAnimation,
+                  pData}))
 
             , pRenderSystem(new RenderSystem(pShader, nullptr, pAnimation, pTransform))
 
@@ -138,7 +141,7 @@ namespace te
             int status = luaL_dofile(L, (pTMX->meta.path + "/main.lua").c_str());
             if (status) {
                 // throw std::runtime_error("LuaGameState::init: Could not load main.lua.");
-                std::clog << "Warning: LuaGameState::init: Could not load main.lua." << std::endl;
+                std::clog << "Warning: LuaGameState: Could not load main.lua." << std::endl;
             } else {
 
                 luabridge::LuaRef mainRef(luabridge::getGlobal(L, "main"));
