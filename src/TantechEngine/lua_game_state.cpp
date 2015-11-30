@@ -125,7 +125,7 @@ namespace te
                         .addFunction("translatef", &Impl::translatef)
                         .addFunction("translateWorldf", &Impl::translateWorldf)
                         .addFunction("translatev", &Impl::translatev)
-                        .addFunction("translateWorldf", &Impl::translateWorldv)
+                        .addFunction("translateWorldv", &Impl::translateWorldv)
                         .addFunction("scalef", &Impl::scalef)
                         .addFunction("scalev", &Impl::scalev)
                         .addFunction("printEntities", &Impl::printEntities)
