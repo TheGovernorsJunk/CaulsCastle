@@ -1,13 +1,16 @@
 function main()
 
-    -- Prints entities loaded from Tiled
-    te_state:printEntities();
+    -- Print loaded entities with helper function
+    te:printEntities()
 
-    -- Gets entity according to Tiled ID
-    local stereo = te_data:getEntity(3)
+    -- Get handle to stereo entity
+    local stereo = te:getEntity(3)
 
-    -- Place stereo one unit to the right
-    local stereoTransform = te_transform:get(stereo)
-    te_transform:mul(stereo, te.translate(te.vec3(1, 0, 0)))
+    -- Translate stereo position with values directly
+    te:translatef(stereo, 2, 0, 0)
+
+    -- Also translate with vector
+    local translation = tt.vec3(0, 1, 0)
+    te:translatev(stereo, translation)
 
 end
