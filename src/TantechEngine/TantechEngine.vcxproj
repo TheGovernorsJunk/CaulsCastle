@@ -92,6 +92,7 @@
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="simple_render_component.cpp" />
+    <ClCompile Include="ecs.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tiled_map.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="command_system.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="data_component.h" />
+    <ClInclude Include="ecs.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="gl.h" />
