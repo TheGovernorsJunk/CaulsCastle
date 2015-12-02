@@ -10,17 +10,14 @@ namespace te
     struct TMX;
     class TextureManager;
     class MeshManager;
+    struct AssetManager;
 
     class LuaGameState : public GameState {
     public:
-        LuaGameState(
-            TMX&&,
-            std::shared_ptr<TextureManager> = std::shared_ptr<TextureManager>(nullptr),
-            std::shared_ptr<MeshManager> = std::shared_ptr<MeshManager>(nullptr));
-        LuaGameState(
-            std::shared_ptr<TMX>,
-            std::shared_ptr<TextureManager> = std::shared_ptr<TextureManager>(nullptr),
-            std::shared_ptr<MeshManager> = std::shared_ptr<MeshManager>(nullptr));
+        LuaGameState(TMX&&);
+        LuaGameState(std::shared_ptr<TMX>);
+        LuaGameState(TMX&&, const AssetManager&);
+        LuaGameState(std::shared_ptr<TMX>, const AssetManager&);
 
         bool processInput(const SDL_Event&);
         bool update(float dt);

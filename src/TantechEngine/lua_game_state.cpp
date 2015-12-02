@@ -10,6 +10,7 @@
 #include "animation_component.h"
 #include "data_component.h"
 #include "render_system.h"
+#include "ecs.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -27,63 +28,52 @@ namespace te
 
         std::shared_ptr<TiledMap> pTiledMap;
 
-        std::shared_ptr<TextureManager> pTextureManager;
-        std::shared_ptr<MeshManager> pMeshManager;
-        std::shared_ptr<AnimationFactory> pAnimationFactory;
-
-        std::shared_ptr<TransformComponent> pTransform;
-        std::shared_ptr<AnimationComponent> pAnimation;
-        std::shared_ptr<DataComponent> pData;
-        std::shared_ptr<EntityManager> pEntityManager;
-
-        std::shared_ptr<RenderSystem> pRenderSystem;
+        AssetManager assets;
+        ECS ecs;
 
 
         Entity getEntity(unsigned tiledId)
         {
-            return pData->getEntity(tiledId);
+            return ecs.pDataComponent->getEntity(tiledId);
         }
         glm::mat4 translatef(const Entity& entity, float x, float y, float z)
         {
-            return pTransform->multiplyTransform(entity, glm::translate(glm::vec3(x, y, z)));
+            return ecs.pTransformComponent->multiplyTransform(entity, glm::translate(glm::vec3(x, y, z)));
         }
         glm::mat4 translateWorldf(const Entity& entity, float x, float y, float z)
         {
-            return pTransform->multiplyTransform(entity, glm::translate(glm::vec3(x, y, z)), TransformComponent::Space::WORLD);
+            return ecs.pTransformComponent->multiplyTransform(entity, glm::translate(glm::vec3(x, y, z)), TransformComponent::Space::WORLD);
         }
         glm::mat4 translatev(const Entity& entity, glm::vec3 translation)
         {
-            return pTransform->multiplyTransform(entity, glm::translate(translation));
+            return ecs.pTransformComponent->multiplyTransform(entity, glm::translate(translation));
         }
         glm::mat4 translateWorldv(const Entity& entity, glm::vec3 translation)
         {
-            return pTransform->multiplyTransform(entity, glm::translate(translation), TransformComponent::Space::WORLD);
+            return ecs.pTransformComponent->multiplyTransform(entity, glm::translate(translation), TransformComponent::Space::WORLD);
         }
         glm::mat4 scalef(const Entity& entity, float x, float y, float z)
         {
-            return pTransform->multiplyTransform(entity, glm::scale(glm::vec3(x, y, z)));
+            return ecs.pTransformComponent->multiplyTransform(entity, glm::scale(glm::vec3(x, y, z)));
         }
         glm::mat4 scalev(const Entity& entity, glm::vec3 scale)
         {
-            return pTransform->multiplyTransform(entity, glm::scale(scale));
+            return ecs.pTransformComponent->multiplyTransform(entity, glm::scale(scale));
         }
 
         void printEntities()
         {
-            pData->forEach([](const Entity& entity, const DataInstance& instance) {
+            ecs.pDataComponent->forEach([](const Entity& entity, const DataInstance& instance) {
                 std::cout << instance.id << ": " << instance.name << std::endl;
             });
         }
 
         void destroyEntity(const Entity& entity)
         {
-            pEntityManager->destroy(entity);
+            ecs.pEntityManager->destroy(entity);
         }
 
-        Impl(
-            std::shared_ptr<TMX> pTMX,
-            std::shared_ptr<TextureManager> pTextureManager,
-            std::shared_ptr<MeshManager> pMeshManager)
+        Impl(std::shared_ptr<const TMX> pTMX, const AssetManager& _assets)
 
             : pL(luaL_newstate(),
                  [](lua_State* L) { lua_close(L); })
@@ -91,28 +81,13 @@ namespace te
 
             , pTiledMap(nullptr)
 
-            , pTextureManager(pTextureManager)
-            , pMeshManager(pMeshManager)
-            , pAnimationFactory(nullptr)
-
-            , pTransform(new TransformComponent())
-            , pAnimation(new AnimationComponent())
-            , pData(new DataComponent())
-            , pEntityManager(new EntityManager(std::vector<std::shared_ptr<Observer<DestroyEvent>>>{
-                  pTransform,
-                  pAnimation,
-                  pData}))
-
-            , pRenderSystem(new RenderSystem(pShader, nullptr, pAnimation, pTransform))
+            , assets(_assets)
+            , ecs(pShader)
 
         {
-            // Supply managers if none given
-            if (!pTextureManager) { pTextureManager = std::shared_ptr<TextureManager>(new TextureManager()); }
-            if (!pMeshManager) { pMeshManager = std::shared_ptr<MeshManager>(new MeshManager(pTMX, pTextureManager)); }
-            pTiledMap = std::shared_ptr<TiledMap>(new TiledMap(pTMX, pShader, glm::scale(glm::vec3(1.f / pTMX->tilewidth, 1.f / pTMX->tileheight, 1.f)), pTextureManager.get()));
-            pAnimationFactory = std::shared_ptr<AnimationFactory>(new AnimationFactory(pTMX, pMeshManager));
-
-            te::loadObjects(pTMX, glm::scale(glm::vec3(1.f/pTMX->tilewidth, 1.f/pTMX->tileheight, 1.f)), pMeshManager, *pEntityManager, *pTransform, *pAnimation, pData.get());
+            glm::mat4 model = glm::scale(glm::vec3(1.f / pTMX->tilewidth, 1.f / pTMX->tileheight, 1.f));
+            pTiledMap = std::shared_ptr<TiledMap>(new TiledMap(pTMX, pShader, model, assets.pTextureManager.get()));
+            te::loadObjects(*pTMX, model, assets, ecs);
 
             lua_State* L = pL.get();
             luaL_openlibs(L);
@@ -160,30 +135,23 @@ namespace te
         }
     };
 
-    LuaGameState::LuaGameState(
-        TMX&& tmx,
-        std::shared_ptr<TextureManager> pTextureManager,
-        std::shared_ptr<MeshManager> pMeshManager)
-        : LuaGameState(std::shared_ptr<TMX>(new TMX(std::move(tmx))), pTextureManager, pMeshManager)
+    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX)
+        : LuaGameState(pTMX, AssetManager(pTMX))
     {}
-
-    LuaGameState::LuaGameState(
-        std::shared_ptr<TMX> pTMX,
-        std::shared_ptr<TextureManager> pTextureManager,
-        std::shared_ptr<MeshManager> pMeshManager)
-        : mpImpl(new Impl(pTMX, pTextureManager, pMeshManager))
+    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const AssetManager& assets)
+        : mpImpl(new Impl(pTMX, assets))
     {}
 
     bool LuaGameState::processInput(const SDL_Event&) { return false; }
     bool LuaGameState::update(float dt)
     {
-        mpImpl->pRenderSystem->update(dt);
+        mpImpl->ecs.pRenderSystem->update(dt);
         return false;
     }
     void LuaGameState::draw()
     {
         mpImpl->pTiledMap->draw();
-        mpImpl->pRenderSystem->draw();
+        mpImpl->ecs.pRenderSystem->draw();
     }
 
     void LuaGameState::runConsole()
