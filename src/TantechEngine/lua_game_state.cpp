@@ -75,6 +75,11 @@ namespace te
             });
         }
 
+        void destroyEntity(const Entity& entity)
+        {
+            pEntityManager->destroy(entity);
+        }
+
         Impl(
             std::shared_ptr<TMX> pTMX,
             std::shared_ptr<TextureManager> pTextureManager,
@@ -125,6 +130,7 @@ namespace te
 
                     .beginClass<Impl>("State")
                         .addFunction("getEntity", &Impl::getEntity)
+                        .addFunction("destroyEntity", &Impl::destroyEntity)
                         .addFunction("translatef", &Impl::translatef)
                         .addFunction("translateWorldf", &Impl::translateWorldf)
                         .addFunction("translatev", &Impl::translatev)
