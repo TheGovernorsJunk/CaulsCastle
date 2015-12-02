@@ -4,6 +4,7 @@
 #include "animation_component.h"
 #include "animation_factory.h"
 #include "data_component.h"
+#include "ecs.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -356,44 +357,37 @@ namespace te
     }
 
     void loadObjects(
-        std::shared_ptr<const TMX> pTMX,
+        const TMX& tmx,
         const glm::mat4& model,
-        std::shared_ptr<MeshManager> pMeshManager,
-        EntityManager& entityManager,
-        TransformComponent& transformComponent,
-        AnimationComponent& animationComponent,
-        DataComponent* dataComponent)
+        AssetManager& assets,
+        ECS& ecs)
     {
-        AnimationFactory animationFactory(pTMX, pMeshManager);
-
         unsigned layerIndex = -1;
-        std::for_each(std::begin(pTMX->layers), std::end(pTMX->layers), [&](const TMX::Layer& layer) {
+        std::for_each(std::begin(tmx.layers), std::end(tmx.layers), [&](const TMX::Layer& layer) {
 
             ++layerIndex;
             if (layer.type != TMX::Layer::Type::OBJECTGROUP) { return; }
 
             std::for_each(std::begin(layer.objects), std::end(layer.objects), [&](const TMX::Tileset::Tile::ObjectGroup::Object& object) {
-                Entity entity = entityManager.create();
+                Entity entity = ecs.pEntityManager->create();
 
-                const TMX::Tileset& tileset = pTMX->tilesets.at(getTilesetIndex(*pTMX, object.gid));
-                transformComponent.setLocalTransform(
+                const TMX::Tileset& tileset = tmx.tilesets.at(getTilesetIndex(tmx, object.gid));
+                ecs.pTransformComponent->setLocalTransform(
                     entity,
                     glm::scale(
                         // Subtract by height to compensate for TMX odd positions
-                        glm::translate(glm::vec3((float)object.x / (float)pTMX->tilewidth, (float)(object.y - object.height) / (float)pTMX->tileheight, layerIndex)),
+                        glm::translate(glm::vec3((float)object.x / (float)tmx.tilewidth, (float)(object.y - object.height) / (float)tmx.tileheight, layerIndex)),
                         glm::vec3((float)object.width / (float)tileset.tilewidth, (float)object.height / (float)tileset.tileheight, 1.f)));
 
                 std::shared_ptr<const Animation> pAnimation(new Animation{
-                    animationFactory.create(object.gid)
+                    assets.pAnimationFactory->create(object.gid)
                 });
-                animationComponent.setAnimations(entity, {
+                ecs.pAnimationComponent->setAnimations(entity, {
                     {0, pAnimation}
                 }, 0);
 
-                if (dataComponent) {
-                    dataComponent->create(entity, object.id);
-                    dataComponent->setData(entity, { "name", object.name });
-                }
+                ecs.pDataComponent->create(entity, object.id);
+                ecs.pDataComponent->setData(entity, { "name", object.name });
             });
 
         });

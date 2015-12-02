@@ -139,21 +139,14 @@ namespace te
         BadFilename(const char* message);
     };
 
-    class Shader;
-    class MeshManager;
-    class EntityManager;
-    class TransformComponent;
-    class AnimationComponent;
-    class DataComponent;
+    struct AssetManager;
+    struct ECS;
 
     void loadObjects(
-        std::shared_ptr<const TMX>,
+        const TMX&,
         const glm::mat4& model,
-        std::shared_ptr<MeshManager>,
-        EntityManager&,
-        TransformComponent&,
-        AnimationComponent&,
-        DataComponent* = nullptr);
+        AssetManager&,
+        ECS&);
 }
 
 #endif
