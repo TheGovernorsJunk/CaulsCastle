@@ -8,7 +8,7 @@ return {
   height = 100,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 6,
+  nextobjectid = 12,
   properties = {},
   tilesets = {
     {
@@ -66,6 +66,57 @@ return {
             {
               tileid = "2",
               duration = "1000"
+            }
+          }
+        }
+      }
+    },
+    {
+      name = "hero",
+      firstgid = 475,
+      filename = "../../assets/spritesheets/hero/hero.tsx",
+      tilewidth = 64,
+      tileheight = 64,
+      spacing = 0,
+      margin = 0,
+      image = "../../assets/spritesheets/hero/hero.png",
+      imagewidth = 128,
+      imageheight = 192,
+      tileoffset = {
+        x = 0,
+        y = 0
+      },
+      properties = {},
+      terrains = {},
+      tilecount = 6,
+      tiles = {
+        {
+          id = 0,
+          animation = {
+            {
+              tileid = "0",
+              duration = "200"
+            },
+            {
+              tileid = "1",
+              duration = "200"
+            }
+          }
+        },
+        {
+          id = 2,
+          animation = {
+            {
+              tileid = "2",
+              duration = "100"
+            },
+            {
+              tileid = "3",
+              duration = "200"
+            },
+            {
+              tileid = "2",
+              duration = "100"
             }
           }
         }
@@ -339,6 +390,20 @@ return {
           height = 30,
           rotation = 0,
           gid = 469,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 8,
+          name = "Hero",
+          type = "",
+          shape = "rectangle",
+          x = 48,
+          y = 64,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          gid = 475,
           visible = true,
           properties = {}
         }
