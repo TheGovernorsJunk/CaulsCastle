@@ -22,14 +22,8 @@ namespace te
         , pAnimationFactory(new AnimationFactory(pTMX, pMeshManager))
     {}
 
-    ECS::ECS(std::shared_ptr<TMX> pTMX, std::shared_ptr<Shader> pShader)
-        : ECS(pShader, AssetManager(pTMX))
-    {}
-
-    ECS::ECS(std::shared_ptr<Shader> pShader,
-             const AssetManager& assets)
-        : assets(assets)
-        , pTransformComponent(new TransformComponent())
+    ECS::ECS(std::shared_ptr<Shader> pShader)
+        : pTransformComponent(new TransformComponent())
         , pAnimationComponent(new AnimationComponent())
         , pDataComponent(new DataComponent())
         , pEntityManager(new EntityManager(EntityManager::ObserverVector{

@@ -31,8 +31,6 @@ namespace te
     class RenderSystem;
 
     struct ECS {
-        AssetManager assets;
-
         const std::shared_ptr<TransformComponent> pTransformComponent;
         const std::shared_ptr<AnimationComponent> pAnimationComponent;
         const std::shared_ptr<DataComponent> pDataComponent;
@@ -41,9 +39,7 @@ namespace te
 
         const std::shared_ptr<RenderSystem> pRenderSystem;
 
-        ECS(std::shared_ptr<TMX>, std::shared_ptr<Shader>);
-        ECS(std::shared_ptr<Shader>,
-            const AssetManager&);
+        ECS(std::shared_ptr<Shader>);
     };
 }
 
