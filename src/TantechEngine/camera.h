@@ -16,6 +16,9 @@ namespace te
         void follow(const Entity&);
         void onNotify(const TransformUpdateEvent& evt);
         glm::mat4 getView() const;
+
+        static void* operator new(std::size_t);
+        static void operator delete(void*);
     private:
         bool mHasSubject;
         Entity mSubject;

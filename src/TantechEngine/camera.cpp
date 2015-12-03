@@ -29,4 +29,14 @@ namespace te
     {
         return mViewTransform;
     }
+
+    void* Camera::operator new(std::size_t sz)
+    {
+        return _aligned_malloc(sz, 16);
+    }
+
+    void Camera::operator delete(void* ptr)
+    {
+        _aligned_free(ptr);
+    }
 }
