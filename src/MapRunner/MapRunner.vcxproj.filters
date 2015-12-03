@@ -50,5 +50,11 @@
     <None Include="..\..\samples\map02\main.lua">
       <Filter>Resource Files\samples\map02</Filter>
     </None>
+    <None Include="..\..\samples\map02\map.lua">
+      <Filter>Resource Files\samples\map02</Filter>
+    </None>
+    <None Include="..\..\samples\map02\map.tmx">
+      <Filter>Resource Files\samples\map02</Filter>
+    </None>
   </ItemGroup>
 </Project>

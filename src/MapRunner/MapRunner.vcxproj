@@ -132,6 +132,8 @@
     <None Include="..\..\samples\map01\map.lua" />
     <None Include="..\..\samples\map01\map.tmx" />
     <None Include="..\..\samples\map02\main.lua" />
+    <None Include="..\..\samples\map02\map.lua" />
+    <None Include="..\..\samples\map02\map.tmx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
