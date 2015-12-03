@@ -2,6 +2,7 @@
 #define TE_ECS_H
 
 #include <memory>
+#include <string>
 
 namespace te
 {
@@ -44,6 +45,22 @@ namespace te
 
     void update(const ECS&, float dt);
     void draw(const ECS&);
+
+    class LuaStateECS {
+    public:
+        LuaStateECS(const ECS&);
+        ~LuaStateECS();
+
+        void loadScript(const std::string& path) const;
+        void runScript() const;
+        void runConsole() const;
+    private:
+        // May add lots of scripting, so avoid recompilation
+        // with private implementation.
+        struct Impl;
+        // Use of unique_ptr causes awkward compilation errors
+        Impl* mpImpl;
+    };
 }
 
 #endif
