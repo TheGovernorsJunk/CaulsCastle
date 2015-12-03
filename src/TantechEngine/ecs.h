@@ -31,6 +31,8 @@ namespace te
     class RenderSystem;
 
     struct ECS {
+        ECS(std::shared_ptr<Shader>);
+
         const std::shared_ptr<TransformComponent> pTransformComponent;
         const std::shared_ptr<AnimationComponent> pAnimationComponent;
         const std::shared_ptr<DataComponent> pDataComponent;
@@ -38,9 +40,10 @@ namespace te
         const std::shared_ptr<EntityManager> pEntityManager;
 
         const std::shared_ptr<RenderSystem> pRenderSystem;
-
-        ECS(std::shared_ptr<Shader>);
     };
+
+    void update(const ECS&, float dt);
+    void draw(const ECS&);
 }
 
 #endif

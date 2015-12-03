@@ -144,13 +144,13 @@ namespace te
     bool LuaGameState::processInput(const SDL_Event&) { return false; }
     bool LuaGameState::update(float dt)
     {
-        mpImpl->ecs.pRenderSystem->update(dt);
+        te::update(mpImpl->ecs, dt);
         return false;
     }
     void LuaGameState::draw()
     {
         mpImpl->pTiledMap->draw();
-        mpImpl->ecs.pRenderSystem->draw();
+        te::draw(mpImpl->ecs);
     }
 
     void LuaGameState::runConsole()
