@@ -25,6 +25,8 @@ namespace te
         AssetManager(std::shared_ptr<const TMX>);
     };
 
+    class Camera;
+
     class TransformComponent;
     class AnimationComponent;
     class DataComponent;
@@ -35,6 +37,8 @@ namespace te
 
     struct ECS {
         ECS(std::shared_ptr<Shader>);
+
+        const std::shared_ptr<Camera> pCamera;
 
         const std::shared_ptr<TransformComponent> pTransformComponent;
         const std::shared_ptr<AnimationComponent> pAnimationComponent;

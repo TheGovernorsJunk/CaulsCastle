@@ -4,6 +4,7 @@
 #include "texture_manager.h"
 #include "mesh_manager.h"
 #include "animation_factory.h"
+#include "camera.h"
 #include "transform_component.h"
 #include "animation_component.h"
 #include "data_component.h"
@@ -23,7 +24,8 @@ namespace te
     {}
 
     ECS::ECS(std::shared_ptr<Shader> pShader)
-        : pTransformComponent(new TransformComponent())
+        : pCamera(new Camera())
+        , pTransformComponent(new TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>{pCamera}))
         , pAnimationComponent(new AnimationComponent())
         , pDataComponent(new DataComponent())
         , pEntityManager(new EntityManager(EntityManager::ObserverVector{
@@ -41,6 +43,6 @@ namespace te
 
     void draw(const ECS& ecs, const glm::mat4& viewTransform)
     {
-        ecs.pRenderSystem->draw(viewTransform);
+        ecs.pRenderSystem->draw(viewTransform * ecs.pCamera->getView());
     }
 }
