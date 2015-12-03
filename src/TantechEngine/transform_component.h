@@ -33,7 +33,8 @@ namespace te
         enum class Space
         { SELF, WORLD };
 
-        TransformComponent(std::size_t capacity = 1024);
+        TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>&& observers = {},
+                           std::size_t capacity = 1024);
 
         void setParent(const Entity& child, const Entity& parent);
 
