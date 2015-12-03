@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
             SDL_WINDOW_SHOWN);
 
         std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
-            std::shared_ptr<te::TMX>(new te::TMX(argv[1]))));
+            std::shared_ptr<te::TMX>(new te::TMX(argv[1])), glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100)));
         te::StateStack stateStack(pState);
 
         bool running = true;
