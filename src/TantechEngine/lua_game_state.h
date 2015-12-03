@@ -2,21 +2,19 @@
 #define TE_LUA_GAME_STATE
 
 #include "game_state.h"
+#include "ecs.h"
 
 #include <memory>
 
 namespace te
 {
     struct TMX;
-    class TextureManager;
-    class MeshManager;
-    struct AssetManager;
+    class Shader;
+    class TiledMap;
 
     class LuaGameState : public GameState {
     public:
-        LuaGameState(TMX&&);
         LuaGameState(std::shared_ptr<TMX>);
-        LuaGameState(TMX&&, const AssetManager&);
         LuaGameState(std::shared_ptr<TMX>, const AssetManager&);
 
         bool processInput(const SDL_Event&);
@@ -26,8 +24,11 @@ namespace te
         void runConsole();
 
     private:
-        struct Impl;
-        std::unique_ptr<Impl> mpImpl;
+        std::shared_ptr<Shader> mpShader;
+        AssetManager mAssets;
+        ECS mECS;
+        LuaStateECS mLuaStateECS;
+        std::shared_ptr<TiledMap> mpTiledMap;
     };
 }
 

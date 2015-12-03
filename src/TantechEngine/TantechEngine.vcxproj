@@ -82,13 +82,13 @@
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="lua_game_state.cpp" />
+    <ClCompile Include="lua_state_ecs.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_manager.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="physics_component.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="platformer_physics_system.cpp" />
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="simple_render_component.cpp" />
