@@ -33,4 +33,14 @@ namespace te
           }))
         , pRenderSystem(new RenderSystem(pShader, nullptr, pAnimationComponent, pTransformComponent))
     {}
+
+    void update(const ECS& ecs, float dt)
+    {
+        ecs.pRenderSystem->update(dt);
+    }
+
+    void draw(const ECS& ecs)
+    {
+        ecs.pRenderSystem->draw();
+    }
 }
