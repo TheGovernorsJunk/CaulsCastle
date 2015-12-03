@@ -3,6 +3,7 @@
 #include "entity_manager.h"
 #include "data_component.h"
 #include "transform_component.h"
+#include "camera.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -25,6 +26,11 @@ namespace te
         {
             return ecs.pDataComponent->getEntity(tiledId);
         }
+        void cameraFollow(const Entity& entity)
+        {
+            ecs.pCamera->follow(entity);
+        }
+
         glm::mat4 translatef(const Entity& entity, float x, float y, float z)
         {
             return ecs.pTransformComponent->multiplyTransform(entity, glm::translate(glm::vec3(x, y, z)));
@@ -85,6 +91,7 @@ namespace te
 
                     .beginClass<Impl>("State")
                         .addFunction("getEntity", &Impl::getEntity)
+                        .addFunction("cameraFollow", &Impl::cameraFollow)
                         .addFunction("destroyEntity", &Impl::destroyEntity)
                         .addFunction("translatef", &Impl::translatef)
                         .addFunction("translateWorldf", &Impl::translateWorldf)

@@ -1,6 +1,8 @@
 #ifndef TE_ECS_H
 #define TE_ECS_H
 
+#include <glm/glm.hpp>
+
 #include <memory>
 #include <string>
 
@@ -23,6 +25,8 @@ namespace te
         AssetManager(std::shared_ptr<const TMX>);
     };
 
+    class Camera;
+
     class TransformComponent;
     class AnimationComponent;
     class DataComponent;
@@ -34,6 +38,8 @@ namespace te
     struct ECS {
         ECS(std::shared_ptr<Shader>);
 
+        const std::shared_ptr<Camera> pCamera;
+
         const std::shared_ptr<TransformComponent> pTransformComponent;
         const std::shared_ptr<AnimationComponent> pAnimationComponent;
         const std::shared_ptr<DataComponent> pDataComponent;
@@ -44,7 +50,7 @@ namespace te
     };
 
     void update(const ECS&, float dt);
-    void draw(const ECS&);
+    void draw(const ECS&, const glm::mat4& viewTransform = glm::mat4());
 
     class LuaStateECS {
     public:

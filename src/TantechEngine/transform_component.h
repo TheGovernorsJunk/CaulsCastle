@@ -20,13 +20,21 @@ namespace te
         Entity prevSibling;
     };
 
-    class TransformComponent : public Component<TransformInstance>
+    struct TransformUpdateEvent
+    {
+        const Entity entity;
+        const glm::mat4 worldTransform;
+    };
+
+    class TransformComponent : public Component<TransformInstance>,
+                               public Notifier<TransformUpdateEvent>
     {
     public:
         enum class Space
         { SELF, WORLD };
 
-        TransformComponent(std::size_t capacity = 1024);
+        TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>&& observers = {},
+                           std::size_t capacity = 1024);
 
         void setParent(const Entity& child, const Entity& parent);
 

@@ -3,10 +3,12 @@
 #include "tmx.h"
 #include "shader.h"
 #include "tiled_map.h"
+#include "camera.h"
 
 #include <glm/gtx/transform.hpp>
 
 #include <iostream>
+#include <cassert>
 
 namespace te
 {
@@ -20,14 +22,17 @@ namespace te
         , mLuaStateECS(mECS)
         , mpTiledMap(nullptr)
     {
+        assert(pTMX);
+
         glm::mat4 model = glm::scale(glm::vec3(1.f / pTMX->tilewidth, 1.f / pTMX->tileheight, 1.f));
         mpTiledMap = std::shared_ptr<TiledMap>(new TiledMap(pTMX, mpShader, model, assets.pTextureManager.get()));
         loadObjects(*pTMX, model, mAssets, mECS);
         try {
             mLuaStateECS.loadScript(pTMX->meta.path + "/main.lua");
             mLuaStateECS.runScript();
-        } catch (const std::runtime_error&) {
-            std::clog << "Warning: LuaGameState: Could not load main.lua" << std::endl;
+        } catch (const std::runtime_error& ex) {
+            std::clog << "Warning: LuaGameState: Could not load main.lua." << std::endl;
+            std::clog << ex.what() << std::endl;
         }
     }
 
@@ -39,7 +44,7 @@ namespace te
     }
     void LuaGameState::draw()
     {
-        mpTiledMap->draw();
+        mpTiledMap->draw(mECS.pCamera->getView());
         te::draw(mECS);
     }
 

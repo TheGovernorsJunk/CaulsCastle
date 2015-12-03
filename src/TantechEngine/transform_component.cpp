@@ -3,8 +3,9 @@
 
 namespace te
 {
-    TransformComponent::TransformComponent(std::size_t capacity)
-        : Component(capacity) {}
+    TransformComponent::TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>&& observers, std::size_t capacity)
+        : Component(capacity)
+        , Notifier(std::move(observers)) {}
 
     TransformInstance createTransformInstance(const Entity& entity)
     {
@@ -37,6 +38,7 @@ namespace te
             at(instance.parent).world :
             glm::mat4();
         transformTree(instance, parentTransform);
+        notify({ entity, instance.world });
         return instance.local;
     }
 
@@ -63,6 +65,7 @@ namespace te
         }
 
         transformTree(instance, parentTransform);
+        notify({ entity, instance.world });
         return instance.local;
     }
 
