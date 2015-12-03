@@ -37,6 +37,7 @@ namespace te
             at(instance.parent).world :
             glm::mat4();
         transformTree(instance, parentTransform);
+        notify({ entity, instance.world });
         return instance.local;
     }
 
@@ -63,6 +64,7 @@ namespace te
         }
 
         transformTree(instance, parentTransform);
+        notify({ entity, instance.world });
         return instance.local;
     }
 

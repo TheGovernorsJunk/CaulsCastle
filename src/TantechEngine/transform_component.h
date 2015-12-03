@@ -20,7 +20,14 @@ namespace te
         Entity prevSibling;
     };
 
-    class TransformComponent : public Component<TransformInstance>
+    struct TransformUpdateEvent
+    {
+        const Entity entity;
+        const glm::mat4 worldTransform;
+    };
+
+    class TransformComponent : public Component<TransformInstance>,
+                               public Notifier<TransformUpdateEvent>
     {
     public:
         enum class Space
