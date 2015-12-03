@@ -1,6 +1,8 @@
 #ifndef TE_ECS_H
 #define TE_ECS_H
 
+#include <glm/glm.hpp>
+
 #include <memory>
 #include <string>
 
@@ -44,7 +46,7 @@ namespace te
     };
 
     void update(const ECS&, float dt);
-    void draw(const ECS&);
+    void draw(const ECS&, const glm::mat4& viewTransform = glm::mat4());
 
     class LuaStateECS {
     public:

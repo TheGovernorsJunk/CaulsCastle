@@ -39,8 +39,8 @@ namespace te
         ecs.pRenderSystem->update(dt);
     }
 
-    void draw(const ECS& ecs)
+    void draw(const ECS& ecs, const glm::mat4& viewTransform)
     {
-        ecs.pRenderSystem->draw();
+        ecs.pRenderSystem->draw(viewTransform);
     }
 }
