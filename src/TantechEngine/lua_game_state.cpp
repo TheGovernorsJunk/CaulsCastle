@@ -12,11 +12,11 @@
 
 namespace te
 {
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX)
-        : LuaGameState(pTMX, AssetManager(pTMX))
+    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection)
+        : LuaGameState(pTMX, projection, AssetManager(pTMX))
     {}
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const AssetManager& assets)
-        : mpShader(new Shader(glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100)))
+    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const AssetManager& assets)
+        : mpShader(new Shader(projection))
         , mAssets(assets)
         , mECS(mpShader)
         , mLuaStateECS(mECS)
