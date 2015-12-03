@@ -19,7 +19,10 @@ namespace te
     class Notifier
     {
     public:
+        Notifier(std::vector<std::shared_ptr<Observer<EventType>>>&& observers)
+            : mObservers(std::move(observers)) {}
         virtual ~Notifier() {}
+
         void addObserver(std::shared_ptr<Observer<EventType>> newObserver)
         {
             assert(newObserver);
