@@ -44,6 +44,7 @@ namespace te
     };
 
     class Camera;
+    class InputSystem;
     class CommandSystem;
     class RenderSystem;
 
@@ -52,9 +53,13 @@ namespace te
 
         const std::shared_ptr<Camera> pCamera;
         const std::shared_ptr<CommandSystem> pCommandSystem;
+        const std::shared_ptr<InputSystem> pInputSystem;
         const std::shared_ptr<RenderSystem> pRenderSystem;
     };
 
+    enum class InputType;
+
+    void processInput(const ECSWatchers&, char ch, InputType);
     void update(const ECSWatchers&, float dt);
     void draw(const ECSWatchers&, const glm::mat4& viewTransform = glm::mat4());
 

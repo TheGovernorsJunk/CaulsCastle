@@ -37,6 +37,11 @@ namespace te
           }))
     {}
 
+    void processInput(const ECSWatchers& watchers, char ch, InputType type)
+    {
+        watchers.pInputSystem->processInput(ch, type);
+    }
+
     void update(const ECSWatchers& watchers, float dt)
     {
         watchers.pCommandSystem->update(dt);
@@ -51,6 +56,7 @@ namespace te
     ECSWatchers::ECSWatchers(ECS& ecs, std::shared_ptr<const Shader> pShader)
         : pCamera(new Camera())
         , pCommandSystem(new CommandSystem(ecs))
+        , pInputSystem(new InputSystem(pCommandSystem))
         , pRenderSystem(new RenderSystem(pShader, nullptr, ecs.pAnimationComponent, ecs.pTransformComponent))
     {
         assert(pShader);
