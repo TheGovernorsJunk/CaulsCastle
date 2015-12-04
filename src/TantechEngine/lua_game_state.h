@@ -14,8 +14,8 @@ namespace te
 
     class LuaGameState : public GameState {
     public:
-        LuaGameState(std::shared_ptr<TMX>, const glm::mat4& projection);
-        LuaGameState(std::shared_ptr<TMX>, const glm::mat4& projection, const AssetManager&);
+        LuaGameState(std::shared_ptr<TMX>, const glm::mat4& projection, const glm::mat4& model);
+        LuaGameState(std::shared_ptr<TMX>, const glm::mat4& projection, const glm::mat4& model, const AssetManager&);
 
         bool processInput(const SDL_Event&);
         bool update(float dt);

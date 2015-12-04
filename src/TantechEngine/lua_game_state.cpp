@@ -12,20 +12,18 @@
 
 namespace te
 {
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection)
-        : LuaGameState(pTMX, projection, AssetManager(pTMX))
+    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const glm::mat4& model)
+        : LuaGameState(pTMX, projection, model, AssetManager(pTMX))
     {}
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const AssetManager& assets)
+    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const glm::mat4& model, const AssetManager& assets)
         : mpShader(new Shader(projection))
         , mAssets(assets)
         , mECS(mpShader)
         , mLuaStateECS(mECS)
-        , mpTiledMap(nullptr)
+        , mpTiledMap(new TiledMap(pTMX, mpShader, model, assets.pTextureManager.get()))
     {
         assert(pTMX);
 
-        glm::mat4 model = glm::scale(glm::vec3(1.f / pTMX->tilewidth, 1.f / pTMX->tileheight, 1.f));
-        mpTiledMap = std::shared_ptr<TiledMap>(new TiledMap(pTMX, mpShader, model, assets.pTextureManager.get()));
         loadObjects(*pTMX, model, mAssets, mECS);
         try {
             mLuaStateECS.loadScript(pTMX->meta.path + "/main.lua");
