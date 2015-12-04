@@ -82,6 +82,7 @@
     <ClCompile Include="data_component.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game_state.cpp" />
+    <ClCompile Include="input_system.cpp" />
     <ClCompile Include="lua_game_state.cpp" />
     <ClCompile Include="lua_state_ecs.cpp" />
     <ClCompile Include="mesh.cpp" />
