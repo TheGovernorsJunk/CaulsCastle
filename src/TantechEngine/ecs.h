@@ -36,7 +36,7 @@ namespace te
     class RenderSystem;
 
     struct ECS {
-        ECS(std::shared_ptr<Shader>);
+        ECS(std::shared_ptr<const Shader>);
 
         const std::shared_ptr<Camera> pCamera;
 

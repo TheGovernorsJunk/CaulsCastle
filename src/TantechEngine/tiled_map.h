@@ -21,8 +21,8 @@ namespace te
 
     class TiledMap {
     public:
-        TiledMap(const std::string& path, const std::string& file, std::shared_ptr<Shader> pShader, const glm::mat4& model, TextureManager* tm = nullptr);
-        TiledMap(std::shared_ptr<const TMX> pTMX, std::shared_ptr<Shader> pShader, const glm::mat4& model, TextureManager* tm = nullptr);
+        TiledMap(const std::string& path, const std::string& file, std::shared_ptr<const Shader> pShader, const glm::mat4& model, TextureManager* tm = nullptr);
+        TiledMap(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model, TextureManager* tm = nullptr);
         ~TiledMap();
         TiledMap(TiledMap&&);
         TiledMap& operator=(TiledMap&&);
@@ -46,7 +46,7 @@ namespace te
         void getUnitIntersections(const BoundingBox& unitBB, const TMX::Layer& layer, std::vector<BoundingBox>& intersections) const;
 
         glm::mat4 mModelMatrix;
-        std::shared_ptr<Shader> mpShader;
+        std::shared_ptr<const Shader> mpShader;
         std::shared_ptr<const TMX> mpTMX;
         std::vector<Model> mLayers;
         std::map<unsigned, const BoundingBox> mCollisionRects;

@@ -16,7 +16,7 @@ namespace te
     {
     public:
         RenderSystem(
-            std::shared_ptr<Shader> pShader,
+            std::shared_ptr<const Shader> pShader,
             std::shared_ptr<SimpleRenderComponent> pRender,
             std::shared_ptr<AnimationComponent> pAnimation,
             std::shared_ptr<TransformComponent> pTransform);
@@ -25,7 +25,7 @@ namespace te
         void draw(const glm::mat4& viewTransform = glm::mat4()) const;
 
     private:
-        std::shared_ptr<Shader> mpShader;
+        std::shared_ptr<const Shader> mpShader;
         std::shared_ptr<SimpleRenderComponent> mpRender;
         std::shared_ptr<AnimationComponent> mpAnimation;
         std::shared_ptr<TransformComponent> mpTransform;

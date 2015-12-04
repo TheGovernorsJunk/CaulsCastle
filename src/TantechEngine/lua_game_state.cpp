@@ -12,17 +12,23 @@
 
 namespace te
 {
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const glm::mat4& model)
-        : LuaGameState(pTMX, projection, model, AssetManager(pTMX))
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, const glm::mat4& projection, const glm::mat4& model)
+        : LuaGameState(pTMX, std::shared_ptr<const Shader>(new Shader(projection)), model, AssetManager(pTMX))
     {}
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const glm::mat4& model, const AssetManager& assets)
-        : mpShader(new Shader(projection))
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, const glm::mat4& projection, const glm::mat4& model, const AssetManager& assets)
+        : LuaGameState(pTMX, std::shared_ptr<const Shader>(new Shader(projection)), model, assets)
+    {}
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model)
+        : LuaGameState(pTMX, pShader, model, AssetManager(pTMX))
+    {}
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model, const AssetManager& assets)
+        : mpShader(pShader)
         , mAssets(assets)
-        , mECS(mpShader)
-        , mLuaStateECS(mECS)
         , mpTiledMap(new TiledMap(pTMX, mpShader, model, assets.pTextureManager.get()))
+        , mECS(pShader)
+        , mLuaStateECS(mECS)
     {
-        assert(pTMX);
+        assert(pTMX && pShader);
 
         loadObjects(*pTMX, model, mAssets, mECS);
         try {

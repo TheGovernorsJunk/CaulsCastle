@@ -23,7 +23,7 @@ namespace te
         , pAnimationFactory(new AnimationFactory(pTMX, pMeshManager))
     {}
 
-    ECS::ECS(std::shared_ptr<Shader> pShader)
+    ECS::ECS(std::shared_ptr<const Shader> pShader)
         : pCamera(new Camera())
         , pTransformComponent(new TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>{pCamera}))
         , pAnimationComponent(new AnimationComponent())
