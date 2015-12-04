@@ -8,7 +8,9 @@
 #include "transform_component.h"
 #include "animation_component.h"
 #include "data_component.h"
+#include "command_component.h"
 #include "entity_manager.h"
+#include "command_system.h"
 #include "render_system.h"
 
 namespace te
@@ -27,6 +29,7 @@ namespace te
         : pTransformComponent(new TransformComponent())
         , pAnimationComponent(new AnimationComponent())
         , pDataComponent(new DataComponent())
+        , pCommandComponent(new CommandComponent())
         , pEntityManager(new EntityManager(EntityManager::ObserverVector{
               pTransformComponent,
               pAnimationComponent,
@@ -36,6 +39,7 @@ namespace te
 
     void update(const ECSWatchers& watchers, float dt)
     {
+        watchers.pCommandSystem->update(dt);
         watchers.pRenderSystem->update(dt);
     }
 
@@ -46,6 +50,7 @@ namespace te
 
     ECSWatchers::ECSWatchers(ECS& ecs, std::shared_ptr<const Shader> pShader)
         : pCamera(new Camera())
+        , pCommandSystem(new CommandSystem(ecs))
         , pRenderSystem(new RenderSystem(pShader, nullptr, ecs.pAnimationComponent, ecs.pTransformComponent))
     {
         assert(pShader);

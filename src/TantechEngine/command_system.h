@@ -2,6 +2,7 @@
 #define TE_COMMAND_SYSTEM_H
 
 #include "typedefs.h"
+#include "ecs.h"
 
 #include <functional>
 #include <memory>
@@ -14,15 +15,15 @@ namespace te
 
     class Command {
     public:
-        Command(CommandMask dispatchMask, CommandMask forbidMask, std::function<void(const Entity&, float)> = [](const Entity&, float){});
+        Command(CommandMask dispatchMask, CommandMask forbidMask, std::function<void(const Entity&, const ECS&, float)> = [](const Entity&, const ECS&, float){});
         virtual ~Command();
 
     private:
         friend class CommandSystem;
 
-        virtual void execute(const Entity& e, float dt) const;
+        virtual void execute(const Entity& e, const ECS& ecs, float dt) const;
 
-        std::function<void(const Entity&, float)> mFn;
+        std::function<void(const Entity&, const ECS&, float)> mFn;
         CommandMask mDispatchMask;
         CommandMask mForbidMask;
     };
@@ -30,13 +31,13 @@ namespace te
     class CommandSystem
     {
     public:
-        CommandSystem(std::shared_ptr<CommandComponent>);
+        CommandSystem(const ECS&);
 
         void queueCommand(const Command&);
         void queueCommand(Command&&);
         void update(float dt);
     private:
-        std::shared_ptr<CommandComponent> mpCommandComponent;
+        const ECS mECS;
         std::vector<Command> mCommands;
     };
 }

@@ -25,15 +25,12 @@ namespace te
         AssetManager(std::shared_ptr<const TMX>);
     };
 
-    class Camera;
-
     class TransformComponent;
     class AnimationComponent;
     class DataComponent;
+    class CommandComponent;
 
     class EntityManager;
-
-    class RenderSystem;
 
     struct ECS {
         ECS();
@@ -41,14 +38,20 @@ namespace te
         const std::shared_ptr<TransformComponent> pTransformComponent;
         const std::shared_ptr<AnimationComponent> pAnimationComponent;
         const std::shared_ptr<DataComponent> pDataComponent;
+        const std::shared_ptr<CommandComponent> pCommandComponent;
 
         const std::shared_ptr<EntityManager> pEntityManager;
     };
+
+    class Camera;
+    class CommandSystem;
+    class RenderSystem;
 
     struct ECSWatchers {
         ECSWatchers(ECS& ecs, std::shared_ptr<const Shader>);
 
         const std::shared_ptr<Camera> pCamera;
+        const std::shared_ptr<CommandSystem> pCommandSystem;
         const std::shared_ptr<RenderSystem> pRenderSystem;
     };
 

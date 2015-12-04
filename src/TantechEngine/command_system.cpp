@@ -3,7 +3,7 @@
 
 namespace te
 {
-    Command::Command(CommandMask dispatchMask, CommandMask forbidMask, std::function<void(const Entity&, float)> fn)
+    Command::Command(CommandMask dispatchMask, CommandMask forbidMask, std::function<void(const Entity&, const ECS&, float)> fn)
         : mDispatchMask(dispatchMask)
         , mForbidMask(forbidMask)
         , mFn(fn)
@@ -11,20 +11,15 @@ namespace te
 
     Command::~Command() {}
 
-    void Command::execute(const Entity& e, float dt) const
+    void Command::execute(const Entity& e, const ECS& ecs, float dt) const
     {
-        mFn(e, dt);
+        mFn(e, ecs, dt);
     }
 
-    CommandSystem::CommandSystem(std::shared_ptr<CommandComponent> pCommand)
-        : mpCommandComponent(pCommand)
+    CommandSystem::CommandSystem(const ECS& ecs)
+        : mECS(ecs)
         , mCommands()
-    {
-        if (mpCommandComponent == nullptr)
-        {
-            throw std::runtime_error("CommandSystem::CommandSystem: Must supply CommandComponent");
-        }
-    }
+    {}
 
     void CommandSystem::queueCommand(const Command& command)
     {
@@ -38,11 +33,11 @@ namespace te
 
     void CommandSystem::update(float dt)
     {
-        mpCommandComponent->forEach([this, dt](const te::Entity& e, CommandInstance inst) {
+        mECS.pCommandComponent->forEach([this, dt](const te::Entity& e, CommandInstance inst) {
             std::for_each(std::begin(mCommands), std::end(mCommands), [&](const Command& command){
                 if (((command.mDispatchMask & inst.commandMask) == command.mDispatchMask) &&
                     ((command.mForbidMask & inst.commandMask) == 0)) {
-                    command.execute(e, dt);
+                    command.execute(e, mECS, dt);
                 }
             });
         });
