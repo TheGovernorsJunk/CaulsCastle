@@ -3,7 +3,10 @@
 #include "entity_manager.h"
 #include "data_component.h"
 #include "transform_component.h"
+#include "command_component.h"
 #include "camera.h"
+#include "command_system.h"
+#include "commands.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -30,6 +33,15 @@ namespace te
         void cameraFollow(const Entity& entity)
         {
             ecsWatchers.pCamera->follow(entity);
+        }
+        void setTypeMask(const Entity& entity, int typeMask)
+        {
+            ecs.pCommandComponent->setTypeMask(entity, typeMask);
+        }
+        void setKeyPress(const std::string& ch, int fnID, luabridge::LuaRef args, int mask)
+        {
+            assert(ch.length() == 1);
+            ecsWatchers.pInputSystem->setKeyPress(ch[0], Command(mask, 0, getFunction((FuncID)fnID)(args)));
         }
 
         glm::mat4 translatef(const Entity& entity, float x, float y, float z)
@@ -95,6 +107,8 @@ namespace te
                         .addFunction("getEntity", &Impl::getEntity)
                         .addFunction("cameraFollow", &Impl::cameraFollow)
                         .addFunction("destroyEntity", &Impl::destroyEntity)
+                        .addFunction("setTypeMask", &Impl::setTypeMask)
+                        .addFunction("setKeyPress", &Impl::setKeyPress)
                         .addFunction("translatef", &Impl::translatef)
                         .addFunction("translateWorldf", &Impl::translateWorldf)
                         .addFunction("translatev", &Impl::translatev)
@@ -103,10 +117,13 @@ namespace te
                         .addFunction("scalev", &Impl::scalev)
                         .addFunction("printEntities", &Impl::printEntities)
                     .endClass()
+
                 .endNamespace();
 
             luabridge::push(L, this);
             lua_setglobal(L, "te");
+            luabridge::push(L, (int)FuncID::MOVE);
+            lua_setglobal(L, "TE_MOVE");
         }
     };
 
