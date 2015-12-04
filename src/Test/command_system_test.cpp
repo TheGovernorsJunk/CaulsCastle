@@ -4,8 +4,8 @@
 
 namespace te
 {
-    TEST(CommandSystemTest, ConstructorException)
-    {
-        EXPECT_THROW(CommandSystem(nullptr), std::runtime_error);
-    }
+    //TEST(CommandSystemTest, ConstructorException)
+    //{
+    //    EXPECT_THROW(CommandSystem(nullptr), std::runtime_error);
+    //}
 }
