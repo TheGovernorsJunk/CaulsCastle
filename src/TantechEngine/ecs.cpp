@@ -23,9 +23,8 @@ namespace te
         , pAnimationFactory(new AnimationFactory(pTMX, pMeshManager))
     {}
 
-    ECS::ECS(std::shared_ptr<const Shader> pShader)
-        : pCamera(new Camera())
-        , pTransformComponent(new TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>{pCamera}))
+    ECS::ECS()
+        : pTransformComponent(new TransformComponent())
         , pAnimationComponent(new AnimationComponent())
         , pDataComponent(new DataComponent())
         , pEntityManager(new EntityManager(EntityManager::ObserverVector{
@@ -33,16 +32,23 @@ namespace te
               pAnimationComponent,
               pDataComponent
           }))
-        , pRenderSystem(new RenderSystem(pShader, nullptr, pAnimationComponent, pTransformComponent))
     {}
 
-    void update(const ECS& ecs, float dt)
+    void update(const ECSWatchers& watchers, float dt)
     {
-        ecs.pRenderSystem->update(dt);
+        watchers.pRenderSystem->update(dt);
     }
 
-    void draw(const ECS& ecs, const glm::mat4& viewTransform)
+    void draw(const ECSWatchers& watchers, const glm::mat4& viewTransform)
     {
-        ecs.pRenderSystem->draw(viewTransform * ecs.pCamera->getView());
+        watchers.pRenderSystem->draw(viewTransform * watchers.pCamera->getView());
+    }
+
+    ECSWatchers::ECSWatchers(ECS& ecs, std::shared_ptr<const Shader> pShader)
+        : pCamera(new Camera())
+        , pRenderSystem(new RenderSystem(pShader, nullptr, ecs.pAnimationComponent, ecs.pTransformComponent))
+    {
+        assert(pShader);
+        ecs.pTransformComponent->addObserver(pCamera);
     }
 }

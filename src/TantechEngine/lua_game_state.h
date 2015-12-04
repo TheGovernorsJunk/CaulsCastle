@@ -30,6 +30,7 @@ namespace te
         AssetManager mAssets;
         std::shared_ptr<TiledMap> mpTiledMap;
         ECS mECS;
+        ECSWatchers mECSWatchers;
         LuaStateECS mLuaStateECS;
     };
 }

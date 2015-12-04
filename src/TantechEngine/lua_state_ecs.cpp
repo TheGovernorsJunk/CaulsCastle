@@ -19,6 +19,7 @@ namespace te
         // members
         std::unique_ptr<lua_State, std::function<void(lua_State*)>> pL;
         ECS ecs;
+        ECSWatchers ecsWatchers;
         luabridge::LuaRef mainRef;
 
         // methods for Lua
@@ -28,7 +29,7 @@ namespace te
         }
         void cameraFollow(const Entity& entity)
         {
-            ecs.pCamera->follow(entity);
+            ecsWatchers.pCamera->follow(entity);
         }
 
         glm::mat4 translatef(const Entity& entity, float x, float y, float z)
@@ -69,10 +70,11 @@ namespace te
         }
 
         // constructors
-        Impl(const ECS& ecs)
+        Impl(const ECS& ecs, const ECSWatchers& watchers)
             : pL(luaL_newstate(),
                  [](lua_State* L) { lua_close(L); })
             , ecs(ecs)
+            , ecsWatchers(watchers)
             , mainRef(luabridge::LuaRef(pL.get()))
         {
             lua_State* L = pL.get();
@@ -108,8 +110,8 @@ namespace te
         }
     };
 
-    LuaStateECS::LuaStateECS(const ECS& ecs)
-        : mpImpl(new Impl(ecs)) {}
+    LuaStateECS::LuaStateECS(const ECS& ecs, const ECSWatchers& watchers)
+        : mpImpl(new Impl(ecs, watchers)) {}
     LuaStateECS::~LuaStateECS()
     {
         delete mpImpl;

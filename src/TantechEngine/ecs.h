@@ -36,25 +36,28 @@ namespace te
     class RenderSystem;
 
     struct ECS {
-        ECS(std::shared_ptr<const Shader>);
-
-        const std::shared_ptr<Camera> pCamera;
+        ECS();
 
         const std::shared_ptr<TransformComponent> pTransformComponent;
         const std::shared_ptr<AnimationComponent> pAnimationComponent;
         const std::shared_ptr<DataComponent> pDataComponent;
 
         const std::shared_ptr<EntityManager> pEntityManager;
+    };
 
+    struct ECSWatchers {
+        ECSWatchers(ECS& ecs, std::shared_ptr<const Shader>);
+
+        const std::shared_ptr<Camera> pCamera;
         const std::shared_ptr<RenderSystem> pRenderSystem;
     };
 
-    void update(const ECS&, float dt);
-    void draw(const ECS&, const glm::mat4& viewTransform = glm::mat4());
+    void update(const ECSWatchers&, float dt);
+    void draw(const ECSWatchers&, const glm::mat4& viewTransform = glm::mat4());
 
     class LuaStateECS {
     public:
-        LuaStateECS(const ECS&);
+        LuaStateECS(const ECS&, const ECSWatchers&);
         ~LuaStateECS();
 
         void loadScript(const std::string& path) const;

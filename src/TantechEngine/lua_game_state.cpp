@@ -25,8 +25,9 @@ namespace te
         : mpShader(pShader)
         , mAssets(assets)
         , mpTiledMap(new TiledMap(pTMX, pShader, model, assets.pTextureManager.get()))
-        , mECS(pShader)
-        , mLuaStateECS(mECS)
+        , mECS()
+        , mECSWatchers(mECS, pShader)
+        , mLuaStateECS(mECS, mECSWatchers)
     {
         assert(pTMX && pShader);
 
@@ -43,13 +44,13 @@ namespace te
     bool LuaGameState::processInput(const SDL_Event&) { return false; }
     bool LuaGameState::update(float dt)
     {
-        te::update(mECS, dt);
+        te::update(mECSWatchers, dt);
         return false;
     }
     void LuaGameState::draw()
     {
-        mpTiledMap->draw(mECS.pCamera->getView());
-        te::draw(mECS);
+        mpTiledMap->draw(mECSWatchers.pCamera->getView());
+        te::draw(mECSWatchers);
     }
 
     void LuaGameState::runConsole()
