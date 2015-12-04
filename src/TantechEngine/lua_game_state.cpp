@@ -4,28 +4,35 @@
 #include "shader.h"
 #include "tiled_map.h"
 #include "camera.h"
+#include "command_system.h"
 
 #include <glm/gtx/transform.hpp>
+#include <SDL_events.h>
 
 #include <iostream>
 #include <cassert>
 
 namespace te
 {
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection)
-        : LuaGameState(pTMX, projection, AssetManager(pTMX))
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, const glm::mat4& projection, const glm::mat4& model)
+        : LuaGameState(pTMX, std::shared_ptr<const Shader>(new Shader(projection)), model, AssetManager(pTMX))
     {}
-    LuaGameState::LuaGameState(std::shared_ptr<TMX> pTMX, const glm::mat4& projection, const AssetManager& assets)
-        : mpShader(new Shader(projection))
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, const glm::mat4& projection, const glm::mat4& model, const AssetManager& assets)
+        : LuaGameState(pTMX, std::shared_ptr<const Shader>(new Shader(projection)), model, assets)
+    {}
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model)
+        : LuaGameState(pTMX, pShader, model, AssetManager(pTMX))
+    {}
+    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model, const AssetManager& assets)
+        : mpShader(pShader)
         , mAssets(assets)
-        , mECS(mpShader)
-        , mLuaStateECS(mECS)
-        , mpTiledMap(nullptr)
+        , mpTiledMap(new TiledMap(pTMX, pShader, model, assets.pTextureManager.get()))
+        , mECS()
+        , mECSWatchers(mECS, pShader)
+        , mLuaStateECS(mECS, mECSWatchers)
     {
-        assert(pTMX);
+        assert(pTMX && pShader);
 
-        glm::mat4 model = glm::scale(glm::vec3(1.f / pTMX->tilewidth, 1.f / pTMX->tileheight, 1.f));
-        mpTiledMap = std::shared_ptr<TiledMap>(new TiledMap(pTMX, mpShader, model, assets.pTextureManager.get()));
         loadObjects(*pTMX, model, mAssets, mECS);
         try {
             mLuaStateECS.loadScript(pTMX->meta.path + "/main.lua");
@@ -36,16 +43,23 @@ namespace te
         }
     }
 
-    bool LuaGameState::processInput(const SDL_Event&) { return false; }
+    bool LuaGameState::processInput(const SDL_Event& evt) {
+        if (evt.type == SDL_KEYDOWN) {
+            te::processInput(mECSWatchers, evt.key.keysym.sym, InputType::PRESS);
+        } else if (evt.type == SDL_KEYUP) {
+            te::processInput(mECSWatchers, evt.key.keysym.sym, InputType::RELEASE);
+        }
+        return false;
+    }
     bool LuaGameState::update(float dt)
     {
-        te::update(mECS, dt);
+        te::update(mECSWatchers, dt);
         return false;
     }
     void LuaGameState::draw()
     {
-        mpTiledMap->draw(mECS.pCamera->getView());
-        te::draw(mECS);
+        mpTiledMap->draw(mECSWatchers.pCamera->getView());
+        te::draw(mECSWatchers);
     }
 
     void LuaGameState::runConsole()

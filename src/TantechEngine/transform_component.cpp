@@ -7,7 +7,7 @@ namespace te
         : Component(capacity)
         , Notifier(std::move(observers)) {}
 
-    TransformInstance createTransformInstance(const Entity& entity)
+    static TransformInstance createTransformInstance(const Entity& entity)
     {
         return TransformInstance{
             glm::mat4(),

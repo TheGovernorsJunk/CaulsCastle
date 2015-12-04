@@ -1,62 +1,32 @@
 #include "commands.h"
-#include "types.h"
-#include "entity.h"
-#include <SDL_keycode.h>
-#include <SDL_events.h>
+#include "ecs.h"
+#include "transform_component.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+
+#include <iostream>
 
 namespace te
 {
-    static const float PADDLE_SPEED = 100.f;
-
-    CommandMap createPaddleCommandMap(std::shared_ptr<Rectangle> pPaddle)
+    static std::function<void(const Entity&, const ECS&, float)> genMove(luabridge::LuaRef args)
     {
-        CommandMap commands;
-        if (pPaddle.get() != nullptr)
-        {
-            commands[Action::UP] = [pPaddle]()
-            {
-                Vector2f vel = pPaddle.get()->getVelocity() + Vector2f(0.f, -PADDLE_SPEED);
-                if (vel.y >= -PADDLE_SPEED && vel.y <= 0.f)
-                {
-                    pPaddle.get()->setVelocity(vel);
-                }
-            };
-            commands[Action::DOWN] = [pPaddle]()
-            {
-                Vector2f vel = pPaddle.get()->getVelocity() + Vector2f(0.f, PADDLE_SPEED);
-                if (vel.y <= PADDLE_SPEED && vel.y >= 0.f)
-                {
-                    pPaddle.get()->setVelocity(vel);
-                }
-            };
+        if (!args.isTable()) {
+            throw std::runtime_error("Function requires array of arguments.");
         }
-        return commands;
+        glm::vec3 vel = args[1];
+        return [vel](const Entity& entity, const ECS& ecs, float) {
+            ecs.pTransformComponent->multiplyTransform(entity, glm::translate(vel), TransformComponent::Space::WORLD);
+        };
     }
 
-    KeyMap createPaddleKeyMap(unsigned int playerN)
+    std::function<void(const Entity&, const ECS&, float)>(*getFunction(FuncID id)) (luabridge::LuaRef)
     {
-        KeyMap keys;
-        switch (playerN)
-        {
-        case 1:
-            keys[std::make_pair(SDLK_UP, SDL_KEYDOWN)] = Action::UP;
-            keys[std::make_pair(SDLK_DOWN, SDL_KEYDOWN)] = Action::DOWN;
-            keys[std::make_pair(SDLK_UP, SDL_KEYUP)] = Action::DOWN;
-            keys[std::make_pair(SDLK_DOWN, SDL_KEYUP)] = Action::UP;
-            break;
-        case 2:
-            keys[std::make_pair(SDLK_w, SDL_KEYDOWN)] = Action::UP;
-            keys[std::make_pair(SDLK_s, SDL_KEYDOWN)] = Action::DOWN;
-            keys[std::make_pair(SDLK_w, SDL_KEYUP)] = Action::DOWN;
-            keys[std::make_pair(SDLK_s, SDL_KEYUP)] = Action::UP;
-            break;
+        switch (id) {
+        case FuncID::MOVE:
+            return &genMove;
         default:
-            keys[std::make_pair(SDLK_UP, SDL_KEYDOWN)] = Action::UP;
-            keys[std::make_pair(SDLK_DOWN, SDL_KEYDOWN)] = Action::DOWN;
-            keys[std::make_pair(SDLK_UP, SDL_KEYUP)] = Action::DOWN;
-            keys[std::make_pair(SDLK_DOWN, SDL_KEYUP)] = Action::UP;
-            break;
+            throw std::runtime_error("No function for given ID");
         }
-        return keys;
     }
 }

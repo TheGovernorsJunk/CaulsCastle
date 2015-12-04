@@ -1,27 +1,20 @@
 #ifndef TE_COMMANDS_H
 #define TE_COMMANDS_H
 
+#include <lua.hpp>
+#include <LuaBridge.h>
+
 #include <functional>
-#include <map>
-#include <SDL_keycode.h>
-#include <SDL_events.h>
-#include <memory>
 
 namespace te
 {
-    class Rectangle;
+    class Entity;
+    struct ECS;
 
-    enum class Action { UP, DOWN };
+    static enum class FuncID
+    { MOVE };
 
-    //typedef std::function<void()> Command;
-
-    //typedef std::map<Action, Command> CommandMap;
-
-    //CommandMap createPaddleCommandMap(std::shared_ptr<Rectangle> pPaddle);
-
-    //typedef std::map<std::pair<SDL_Keycode, Uint32>, Action> KeyMap;
-
-    //KeyMap createPaddleKeyMap(unsigned int configN = 1);
+    std::function<void(const Entity&, const ECS&, float)> (*getFunction(FuncID))(luabridge::LuaRef);
 }
 
-#endif /* TE_COMMANDS_H */
+#endif

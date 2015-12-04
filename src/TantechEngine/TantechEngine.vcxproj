@@ -77,11 +77,13 @@
     <ClCompile Include="bounding_box_component.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collision_system.cpp" />
+    <ClCompile Include="commands.cpp" />
     <ClCompile Include="command_component.cpp" />
     <ClCompile Include="command_system.cpp" />
     <ClCompile Include="data_component.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game_state.cpp" />
+    <ClCompile Include="input_system.cpp" />
     <ClCompile Include="lua_game_state.cpp" />
     <ClCompile Include="lua_state_ecs.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -108,6 +110,7 @@
     <ClInclude Include="bounding_box_component.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="collision_system.h" />
+    <ClInclude Include="commands.h" />
     <ClInclude Include="command_component.h" />
     <ClInclude Include="command_system.h" />
     <ClInclude Include="component.h" />

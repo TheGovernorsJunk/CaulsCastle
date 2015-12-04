@@ -16,7 +16,7 @@
 
 namespace te
 {
-    TiledMap::TiledMap(const std::string& path, const std::string& file, std::shared_ptr<Shader> pShader, const glm::mat4& model, TextureManager* tm)
+    TiledMap::TiledMap(const std::string& path, const std::string& file, std::shared_ptr<const Shader> pShader, const glm::mat4& model, TextureManager* tm)
         : mModelMatrix(model)
         , mpShader(pShader)
         , mpTMX(new TMX{path, file})
@@ -26,7 +26,7 @@ namespace te
         init(*mpTMX, tm);
     }
 
-    TiledMap::TiledMap(std::shared_ptr<const TMX> pTMX, std::shared_ptr<Shader> pShader, const glm::mat4& model, TextureManager* tm)
+    TiledMap::TiledMap(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model, TextureManager* tm)
         : mModelMatrix(model)
         , mpShader(pShader)
         , mpTMX(pTMX)

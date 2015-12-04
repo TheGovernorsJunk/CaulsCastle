@@ -8,7 +8,9 @@
 #include "transform_component.h"
 #include "animation_component.h"
 #include "data_component.h"
+#include "command_component.h"
 #include "entity_manager.h"
+#include "command_system.h"
 #include "render_system.h"
 
 namespace te
@@ -23,26 +25,41 @@ namespace te
         , pAnimationFactory(new AnimationFactory(pTMX, pMeshManager))
     {}
 
-    ECS::ECS(std::shared_ptr<Shader> pShader)
-        : pCamera(new Camera())
-        , pTransformComponent(new TransformComponent(std::vector<std::shared_ptr<Observer<TransformUpdateEvent>>>{pCamera}))
+    ECS::ECS()
+        : pTransformComponent(new TransformComponent())
         , pAnimationComponent(new AnimationComponent())
         , pDataComponent(new DataComponent())
+        , pCommandComponent(new CommandComponent())
         , pEntityManager(new EntityManager(EntityManager::ObserverVector{
               pTransformComponent,
               pAnimationComponent,
               pDataComponent
           }))
-        , pRenderSystem(new RenderSystem(pShader, nullptr, pAnimationComponent, pTransformComponent))
     {}
 
-    void update(const ECS& ecs, float dt)
+    void processInput(const ECSWatchers& watchers, char ch, InputType type)
     {
-        ecs.pRenderSystem->update(dt);
+        watchers.pInputSystem->processInput(ch, type);
     }
 
-    void draw(const ECS& ecs, const glm::mat4& viewTransform)
+    void update(const ECSWatchers& watchers, float dt)
     {
-        ecs.pRenderSystem->draw(viewTransform * ecs.pCamera->getView());
+        watchers.pCommandSystem->update(dt);
+        watchers.pRenderSystem->update(dt);
+    }
+
+    void draw(const ECSWatchers& watchers, const glm::mat4& viewTransform)
+    {
+        watchers.pRenderSystem->draw(viewTransform * watchers.pCamera->getView());
+    }
+
+    ECSWatchers::ECSWatchers(ECS& ecs, std::shared_ptr<const Shader> pShader)
+        : pCamera(new Camera())
+        , pCommandSystem(new CommandSystem(ecs))
+        , pInputSystem(new InputSystem(pCommandSystem))
+        , pRenderSystem(new RenderSystem(pShader, nullptr, ecs.pAnimationComponent, ecs.pTransformComponent))
+    {
+        assert(pShader);
+        ecs.pTransformComponent->addObserver(pCamera);
     }
 }

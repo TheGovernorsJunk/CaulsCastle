@@ -11,7 +11,7 @@
 namespace te
 {
     RenderSystem::RenderSystem(
-        std::shared_ptr<Shader> pShader,
+        std::shared_ptr<const Shader> pShader,
         std::shared_ptr<SimpleRenderComponent> pRender,
         std::shared_ptr<AnimationComponent> pAnimation,
         std::shared_ptr<TransformComponent> pTransform)
