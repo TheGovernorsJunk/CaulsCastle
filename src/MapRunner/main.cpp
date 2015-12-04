@@ -45,8 +45,11 @@ int main(int argc, char* argv[])
             WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN);
 
+        std::shared_ptr<te::TMX> pTMX(new te::TMX(argv[1]));
         std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
-            std::shared_ptr<te::TMX>(new te::TMX(argv[1])), glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100)));
+            pTMX,
+            glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100),
+            glm::scale(glm::vec3(1.f/pTMX->tilewidth, 1.f/pTMX->tileheight, 1.f))));
         te::StateStack stateStack(pState);
 
         bool running = true;
