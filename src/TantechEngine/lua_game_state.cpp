@@ -4,8 +4,10 @@
 #include "shader.h"
 #include "tiled_map.h"
 #include "camera.h"
+#include "command_system.h"
 
 #include <glm/gtx/transform.hpp>
+#include <SDL_events.h>
 
 #include <iostream>
 #include <cassert>
@@ -41,7 +43,14 @@ namespace te
         }
     }
 
-    bool LuaGameState::processInput(const SDL_Event&) { return false; }
+    bool LuaGameState::processInput(const SDL_Event& evt) {
+        if (evt.type == SDL_KEYDOWN) {
+            te::processInput(mECSWatchers, evt.key.keysym.sym, InputType::PRESS);
+        } else if (evt.type == SDL_KEYUP) {
+            te::processInput(mECSWatchers, evt.key.keysym.sym, InputType::RELEASE);
+        }
+        return false;
+    }
     bool LuaGameState::update(float dt)
     {
         te::update(mECSWatchers, dt);
