@@ -24,7 +24,7 @@ namespace te
     LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model, const AssetManager& assets)
         : mpShader(pShader)
         , mAssets(assets)
-        , mpTiledMap(new TiledMap(pTMX, mpShader, model, assets.pTextureManager.get()))
+        , mpTiledMap(new TiledMap(pTMX, pShader, model, assets.pTextureManager.get()))
         , mECS(pShader)
         , mLuaStateECS(mECS)
     {
