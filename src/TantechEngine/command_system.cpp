@@ -17,7 +17,8 @@ namespace te
     }
 
     CommandSystem::CommandSystem(const ECS& ecs)
-        : mECS(ecs)
+        : System(ecs)
+        , mECS(ecs)
         , mCommands()
     {}
 
@@ -33,7 +34,7 @@ namespace te
 
     void CommandSystem::update(float dt)
     {
-        mECS.pCommandComponent->forEach([this, dt](const te::Entity& e, CommandInstance inst) {
+        get<CommandComponent>().forEach([this, dt](const te::Entity& e, CommandInstance inst) {
             std::for_each(std::begin(mCommands), std::end(mCommands), [&](const Command& command){
                 if (((command.mDispatchMask & inst.commandMask) == command.mDispatchMask) &&
                     ((command.mForbidMask & inst.commandMask) == 0)) {

@@ -57,7 +57,7 @@ namespace te
         : pCamera(new Camera())
         , pCommandSystem(new CommandSystem(ecs))
         , pInputSystem(new InputSystem(pCommandSystem))
-        , pRenderSystem(new RenderSystem(pShader, nullptr, ecs.pAnimationComponent, ecs.pTransformComponent))
+        , pRenderSystem(new RenderSystem(ecs, pShader))
     {
         assert(pShader);
         ecs.pTransformComponent->addObserver(pCamera);

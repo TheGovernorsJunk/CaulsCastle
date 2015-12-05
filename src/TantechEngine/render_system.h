@@ -1,6 +1,8 @@
 #ifndef TE_RENDER_SYSTEM_H
 #define TE_RENDER_SYSTEM_H
 
+#include "system.h"
+
 #include <glm/glm.hpp>
 #include "gl.h"
 #include <memory>
@@ -12,23 +14,18 @@ namespace te
     class AnimationComponent;
     class TransformComponent;
 
-    class RenderSystem
+    class RenderSystem : public System
     {
     public:
         RenderSystem(
-            std::shared_ptr<const Shader> pShader,
-            std::shared_ptr<SimpleRenderComponent> pRender,
-            std::shared_ptr<AnimationComponent> pAnimation,
-            std::shared_ptr<TransformComponent> pTransform);
+            const ECS& ecs,
+            std::shared_ptr<const Shader> pShader);
 
         void update(float dt) const;
         void draw(const glm::mat4& viewTransform = glm::mat4()) const;
 
     private:
         std::shared_ptr<const Shader> mpShader;
-        std::shared_ptr<SimpleRenderComponent> mpRender;
-        std::shared_ptr<AnimationComponent> mpAnimation;
-        std::shared_ptr<TransformComponent> mpTransform;
     };
 }
 
