@@ -2,7 +2,7 @@
 #define TE_COMMAND_SYSTEM_H
 
 #include "typedefs.h"
-#include "ecs.h"
+#include "system.h"
 
 #include <functional>
 #include <memory>
@@ -29,7 +29,7 @@ namespace te
         CommandMask mForbidMask;
     };
 
-    class CommandSystem
+    class CommandSystem : public System
     {
     public:
         CommandSystem(const ECS&);

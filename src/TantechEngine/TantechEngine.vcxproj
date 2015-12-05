@@ -96,6 +96,7 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="simple_render_component.cpp" />
     <ClCompile Include="ecs.cpp" />
+    <ClCompile Include="system.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tiled_map.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="render_system.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="simple_render_component.h" />
+    <ClInclude Include="system.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture_manager.h" />
     <ClInclude Include="tiled_map.h" />
