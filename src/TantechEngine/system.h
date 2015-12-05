@@ -44,7 +44,7 @@ namespace te
         }
 
     private:
-        ECS mECS;
+        const ECS mECS;
     };
 }
 
