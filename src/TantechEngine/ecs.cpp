@@ -54,12 +54,11 @@ namespace te
     }
 
     ECSWatchers::ECSWatchers(ECS& ecs, std::shared_ptr<const Shader> pShader)
-        : pCamera(new Camera())
+        : pCamera(new Camera(ecs))
         , pCommandSystem(new CommandSystem(ecs))
         , pInputSystem(new InputSystem(pCommandSystem))
         , pRenderSystem(new RenderSystem(ecs, pShader))
     {
         assert(pShader);
-        ecs.pTransformComponent->addObserver(pCamera);
     }
 }

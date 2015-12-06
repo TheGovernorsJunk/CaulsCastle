@@ -1,20 +1,19 @@
 #ifndef TE_CAMERA_H
 #define TE_CAMERA_H
 
-#include "transform_component.h"
 #include "entity_manager.h"
+#include "system.h"
 
 #include <glm/glm.hpp>
 
 namespace te
 {
-    class Camera : public Observer<TransformUpdateEvent>
+    class Camera : public System
     {
     public:
-        Camera();
+        Camera(const ECS&);
 
         void follow(const Entity&);
-        void onNotify(const TransformUpdateEvent& evt);
         glm::mat4 getView() const;
 
         static void* operator new(std::size_t);
@@ -22,7 +21,6 @@ namespace te
     private:
         bool mHasSubject;
         Entity mSubject;
-        glm::mat4 mViewTransform;
     };
 }
 
