@@ -7,5 +7,8 @@ function main()
   te:translatef(hero, 0, 0, 0)
 
   te:setTypeMask(hero, 1)
+  te:setKeyPress("w", TE_MOVE, {tt.vec3(0, -1, 0)}, 1)
+  te:setKeyPress("a", TE_MOVE, {tt.vec3(-1, 0, 0)}, 1)
+  te:setKeyPress("s", TE_MOVE, {tt.vec3(0, 1, 0)}, 1)
   te:setKeyPress("d", TE_MOVE, {tt.vec3(1, 0, 0)}, 1)
 end
