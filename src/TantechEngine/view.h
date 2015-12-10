@@ -40,6 +40,8 @@ namespace te
         View(const std::shared_ptr<Shader>&);
         View(const std::shared_ptr<Shader>&, const FloatRect& lens);
 
+        FloatRect getLens() const;
+
         void reset(const FloatRect&);
         void setViewport(const FloatRect&);
 
