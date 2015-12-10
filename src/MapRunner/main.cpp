@@ -13,6 +13,7 @@
 #include <render_system.h>
 #include <lua_game_state.h>
 #include <ecs.h>
+#include <view.h>
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -45,10 +46,14 @@ int main(int argc, char* argv[])
             WINDOW_HEIGHT,
             SDL_WINDOW_SHOWN);
 
+        te::View view({ 0, 0, 16, 9 });
+        view.setViewport({ 0.f, 0.f, 1.f, 1.f });
+        auto pShader = std::make_shared<te::Shader>(view, *pWindow);
+
         std::shared_ptr<te::TMX> pTMX(new te::TMX(argv[1]));
         std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
             pTMX,
-            glm::ortho<GLfloat>(0, 16, 9, 0, -100, 100),
+            pShader,
             glm::scale(glm::vec3(1.f/pTMX->tilewidth, 1.f/pTMX->tileheight, 1.f))));
         te::StateStack stateStack(pState);
 
