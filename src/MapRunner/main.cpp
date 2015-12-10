@@ -50,11 +50,11 @@ int main(int argc, char* argv[])
         view.setViewport({ 0.f, 0.f, 1.f, 1.f });
         auto pShader = std::make_shared<te::Shader>(view, *pWindow);
 
-        std::shared_ptr<te::TMX> pTMX(new te::TMX(argv[1]));
-        std::shared_ptr<te::LuaGameState> pState(new te::LuaGameState(
+        auto pTMX = std::make_shared<te::TMX>(argv[1]);
+        auto pState = std::make_shared<te::LuaGameState>(
             pTMX,
             pShader,
-            glm::scale(glm::vec3(1.f/pTMX->tilewidth, 1.f/pTMX->tileheight, 1.f))));
+            glm::scale(glm::vec3(1.f/pTMX->tilewidth, 1.f/pTMX->tileheight, 1.f)));
         te::StateStack stateStack(pState);
 
         bool running = true;
