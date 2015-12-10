@@ -5,6 +5,7 @@
 #include "tiled_map.h"
 #include "camera.h"
 #include "command_system.h"
+#include "view.h"
 
 #include <glm/gtx/transform.hpp>
 #include <SDL_events.h>
@@ -14,17 +15,11 @@
 
 namespace te
 {
-    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, const glm::mat4& projection, const glm::mat4& model)
-        : LuaGameState(pTMX, std::shared_ptr<const Shader>(new Shader(projection)), model, AssetManager(pTMX))
-    {}
-    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, const glm::mat4& projection, const glm::mat4& model, const AssetManager& assets)
-        : LuaGameState(pTMX, std::shared_ptr<const Shader>(new Shader(projection)), model, assets)
-    {}
-    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model)
+    LuaGameState::LuaGameState(const std::shared_ptr<const TMX>& pTMX, const std::shared_ptr<Shader>& pShader, const glm::mat4& model)
         : LuaGameState(pTMX, pShader, model, AssetManager(pTMX))
     {}
-    LuaGameState::LuaGameState(std::shared_ptr<const TMX> pTMX, std::shared_ptr<const Shader> pShader, const glm::mat4& model, const AssetManager& assets)
-        : mpShader(pShader)
+    LuaGameState::LuaGameState(const std::shared_ptr<const TMX>& pTMX, const std::shared_ptr<Shader>& pShader, const glm::mat4& model, const AssetManager& assets)
+        : GameState()
         , mAssets(assets)
         , mpTiledMap(new TiledMap(pTMX, pShader, model, assets.pTextureManager.get()))
         , mECS()
