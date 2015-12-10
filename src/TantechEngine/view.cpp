@@ -36,6 +36,11 @@ namespace te
         return mLens;
     }
 
+    FloatRect View::getViewport() const
+    {
+        return mViewport;
+    }
+
     void View::reset(const FloatRect& lens)
     {
         mLens = lens;

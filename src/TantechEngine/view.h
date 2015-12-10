@@ -41,6 +41,7 @@ namespace te
         View(const FloatRect& lens);
 
         FloatRect getLens() const;
+        FloatRect getViewport() const;
 
         void reset(const FloatRect&);
         void setViewport(const FloatRect&);
