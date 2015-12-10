@@ -49,6 +49,8 @@ namespace te
 
     View::Lock View::activate(const View& view, const std::shared_ptr<Shader>& pShader, SDL_Window& window)
     {
+        if (!pShader) { throw std::runtime_error("View::activate: Shader required."); }
+
         int width = 0, height = 0;
         SDL_GetWindowSize(&window, &width, &height);
         return activate(view, pShader, width, height);
@@ -56,6 +58,8 @@ namespace te
 
     View::Lock View::activate(const View& view, const std::shared_ptr<Shader>& pShader, int width, int height)
     {
+        if (!pShader) { throw std::runtime_error("View::activate: Shader required."); }
+
         GLint originalViewport[4];
         glGetIntegerv(GL_VIEWPORT, originalViewport);
 
