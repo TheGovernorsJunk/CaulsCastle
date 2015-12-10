@@ -1,14 +1,19 @@
 #include "shader.h"
 #include "mesh.h"
 #include "texture.h"
+#include "view.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
+#include <SDL.h>
 
 #include <stdexcept>
 #include <fstream>
 
 namespace te
 {
+    const static GLfloat Z = 100.f;
+
     std::string getShaderLog(GLuint shader)
     {
         if (!glIsShader(shader))
@@ -131,18 +136,27 @@ namespace te
         return program;
     }
 
-    Shader::Shader()
-        : Shader(glm::mat4())
-    {}
-
-    Shader::Shader(const glm::mat4& projection)
-        : mProgram(loadProgram("assets/shaders/basic.glvs", "assets/shaders/basic.glfs"))
+    Shader::Shader(const View& view, SDL_Window& window)
+        : mOriginalViewport()
+        , mProgram(loadProgram("assets/shaders/basic.glvs", "assets/shaders/basic.glfs"))
         , mProjectionLocation(glGetUniformLocation(mProgram, "te_ProjectionMatrix"))
         , mModelViewLocation(glGetUniformLocation(mProgram, "te_ModelViewMatrix"))
-        , mProjection(projection)
+        , mProjection()
     {
+        glGetIntegerv(GL_VIEWPORT, mOriginalViewport.data());
+
+        int width = 0, height = 0;
+        SDL_GetWindowSize(&window, &width, &height);
+        FloatRect viewport = view.getViewport();
+        glViewport((int)(viewport.x * width),
+                   (int)(height - (height * (viewport.h + viewport.y))),
+                   (int)(viewport.w * width),
+                   (int)(viewport.h * height));
+
         glUseProgram(mProgram);
 
+        FloatRect lens = view.getLens();
+        glm::mat4 projection(glm::ortho<GLfloat>(lens.x, lens.x + lens.w, lens.y + lens.h, lens.y, -Z, Z));
         if (mProjectionLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
         glUniformMatrix4fv(mProjectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -157,11 +171,19 @@ namespace te
 
     Shader::~Shader()
     {
-        destroy();
+        // 0 indicates moved Shader
+        if (mProgram != 0) {
+            glViewport(mOriginalViewport[0], mOriginalViewport[1], mOriginalViewport[2], mOriginalViewport[3]);
+            destroy();
+        }
     }
 
     Shader::Shader(Shader&& o)
-        : mProgram(o.mProgram)
+        : mOriginalViewport(std::move(o.mOriginalViewport))
+        , mProgram(std::move(o.mProgram))
+        , mProjectionLocation(std::move(o.mProjectionLocation))
+        , mModelViewLocation(std::move(o.mModelViewLocation))
+        , mProjection(std::move(o.mProjection))
     {
         o.mProgram = 0;
     }
@@ -170,7 +192,12 @@ namespace te
     {
         destroy();
 
-        mProgram = o.mProgram;
+        mOriginalViewport = std::move(o.mOriginalViewport);
+        mProgram = std::move(o.mProgram);
+        mProjectionLocation = std::move(o.mProjectionLocation);
+        mModelViewLocation = std::move(o.mModelViewLocation);
+        mProjection = std::move(o.mProjection);
+
         o.mProgram = 0;
 
         return *this;

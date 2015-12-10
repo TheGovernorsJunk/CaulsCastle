@@ -5,8 +5,13 @@
 #include <glm/glm.hpp>
 #include <string>
 
+#include <array>
+
+struct SDL_Window;
+
 namespace te
 {
+    class View;
     class Mesh;
 
     std::string getShaderLog(GLuint shader);
@@ -16,8 +21,7 @@ namespace te
 
     class Shader {
     public:
-        Shader();
-        Shader(const glm::mat4& projection);
+        Shader(const View&, SDL_Window&);
         ~Shader();
         Shader(Shader&&);
         Shader& operator=(Shader&&);
@@ -30,6 +34,7 @@ namespace te
         static void* operator new(std::size_t);
         static void operator delete(void*);
     private:
+        std::array<GLint, 4> mOriginalViewport;
         GLuint mProgram;
         GLint mProjectionLocation;
         GLint mModelViewLocation;
