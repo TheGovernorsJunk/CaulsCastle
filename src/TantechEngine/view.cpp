@@ -96,8 +96,7 @@ namespace te
     View::Lock& View::Lock::operator=(Lock&& o)
     {
         mpShader = o.mpShader;
-        mProjection = o.mProjection;
-        mViewport = o.mViewport;
+        // Projection and viewport should not change
 
         o.mpShader = nullptr;
 
