@@ -20,7 +20,12 @@ namespace te
     {
     public:
         Notifier(std::vector<std::shared_ptr<Observer<EventType>>>&& observers)
-            : mObservers(std::move(observers)) {}
+            : mObservers()
+        {
+            std::for_each(std::begin(observers), std::end(observers), [this](const std::shared_ptr<Observer<EventType>>& pObserver) {
+                mObservers.push_back(std::weak_ptr<Observer<EventType>>{ pObserver });
+            });
+        }
         virtual ~Notifier() {}
 
         void addObserver(std::shared_ptr<Observer<EventType>> newObserver)
@@ -33,12 +38,24 @@ namespace te
     protected:
         void notify(const EventType& evt)
         {
-            std::for_each(std::begin(mObservers), std::end(mObservers), [&evt](std::shared_ptr<Observer<EventType>>& pObserver) {
-                pObserver->onNotify(evt);
+            bool cleanupNeeded = false;
+            std::for_each(std::begin(mObservers), std::end(mObservers), [&evt, &cleanupNeeded](const std::weak_ptr<Observer<EventType>>& wpObserver) {
+                if (auto pObserver = wpObserver.lock()) {
+                    pObserver->onNotify(evt);
+                } else {
+                    cleanupNeeded = true;
+                }
             });
+
+            // Remove obsolete pointers
+            if (cleanupNeeded) {
+                mObservers.erase(std::remove_if(mObservers.begin(), mObservers.end(), [this](const std::weak_ptr<Observer<EventType>>& wpObserver) {
+                    return (wpObserver.lock() == std::shared_ptr<Observer<EventType>>());
+                }));
+            }
         }
     private:
-        std::vector<std::shared_ptr<Observer<EventType>>> mObservers;
+        std::vector<std::weak_ptr<Observer<EventType>>> mObservers;
     };
 }
 
