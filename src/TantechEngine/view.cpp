@@ -22,13 +22,12 @@ namespace te
         }
     }
 
-    View::View(const std::shared_ptr<Shader>& pShader)
-        : View(pShader, FloatRect(0,0,0,0))
+    View::View()
+        : View(FloatRect(0,0,0,0))
     {}
 
-    View::View(const std::shared_ptr<Shader>& pShader, const FloatRect& lens)
-        : mpShader(pShader)
-        , mLens(lens)
+    View::View(const FloatRect& lens)
+        : mLens(lens)
         , mViewport(0, 0, 1, 1)
     {}
 
@@ -48,14 +47,14 @@ namespace te
         mViewport = viewport;
     }
 
-    View::Lock View::activate(const View& view, SDL_Window& window)
+    View::Lock View::activate(const View& view, const std::shared_ptr<Shader>& pShader, SDL_Window& window)
     {
         int width = 0, height = 0;
         SDL_GetWindowSize(&window, &width, &height);
-        return activate(view, width, height);
+        return activate(view, pShader, width, height);
     }
 
-    View::Lock View::activate(const View& view, int width, int height)
+    View::Lock View::activate(const View& view, const std::shared_ptr<Shader>& pShader, int width, int height)
     {
         GLint originalViewport[4];
         glGetIntegerv(GL_VIEWPORT, originalViewport);
@@ -66,13 +65,13 @@ namespace te
                    (int)(viewport.w * width),
                    (int)(viewport.h * height));
 
-        glm::mat4 originalProjection = view.mpShader->getProjection();
-        view.mpShader->setProjection(glm::ortho<GLfloat>(view.mLens.x, view.mLens.x + view.mLens.w, view.mLens.y + view.mLens.h, view.mLens.y, -Z, Z));
+        glm::mat4 originalProjection = pShader->getProjection();
+        pShader->setProjection(glm::ortho<GLfloat>(view.mLens.x, view.mLens.x + view.mLens.w, view.mLens.y + view.mLens.h, view.mLens.y, -Z, Z));
 
-        return View::Lock(view.mpShader, originalProjection, { originalViewport[0],
-                                                               originalViewport[1],
-                                                               originalViewport[2],
-                                                               originalViewport[3] });
+        return View::Lock(pShader, originalProjection, { originalViewport[0],
+                                                         originalViewport[1],
+                                                         originalViewport[2],
+                                                         originalViewport[3] });
     }
 
     View::Lock::Lock(const std::shared_ptr<Shader>& pShader,

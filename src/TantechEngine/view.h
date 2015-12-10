@@ -37,19 +37,18 @@ namespace te
             Lock& operator=(const Lock&) = delete;
         };
 
-        View(const std::shared_ptr<Shader>&);
-        View(const std::shared_ptr<Shader>&, const FloatRect& lens);
+        View();
+        View(const FloatRect& lens);
 
         FloatRect getLens() const;
 
         void reset(const FloatRect&);
         void setViewport(const FloatRect&);
 
-        static Lock activate(const View&, SDL_Window&);
-        static Lock activate(const View&, int screenWidth, int screenHeight);
+        static Lock activate(const View&, const std::shared_ptr<Shader>& pShader, SDL_Window&);
+        static Lock activate(const View&, const std::shared_ptr<Shader>& pShader, int screenWidth, int screenHeight);
 
     private:
-        std::shared_ptr<Shader> mpShader;
         FloatRect mLens;
         FloatRect mViewport;
     };
