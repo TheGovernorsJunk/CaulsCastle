@@ -131,15 +131,20 @@ namespace te
         return program;
     }
 
+    Shader::Shader()
+        : Shader(glm::mat4())
+    {}
+
     Shader::Shader(const glm::mat4& projection)
         : mProgram(loadProgram("assets/shaders/basic.glvs", "assets/shaders/basic.glfs"))
+        , mProjectionLocation(glGetUniformLocation(mProgram, "te_ProjectionMatrix"))
         , mModelViewLocation(glGetUniformLocation(mProgram, "te_ModelViewMatrix"))
+        , mProjection(projection)
     {
         glUseProgram(mProgram);
 
-        GLint projectionMatrixLocation = glGetUniformLocation(mProgram, "te_ProjectionMatrix");
-        if (projectionMatrixLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
-        glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        if (mProjectionLocation == -1) { throw std::runtime_error("te_ProjectionMatrix: not a valid program variable."); }
+        glUniformMatrix4fv(mProjectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
         if (mModelViewLocation == -1) { throw std::runtime_error{ "te_ModelViewMatrix: not a valid program variable." }; }
         glUniformMatrix4fv(mModelViewLocation, 1, GL_FALSE, glm::value_ptr(glm::mat4()));
@@ -169,6 +174,17 @@ namespace te
         o.mProgram = 0;
 
         return *this;
+    }
+
+    glm::mat4 Shader::getProjection() const
+    {
+        return mProjection;
+    }
+
+    void Shader::setProjection(const glm::mat4& projection)
+    {
+        glUniformMatrix4fv(mProjectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        mProjection = projection;
     }
 
     void Shader::draw(const glm::mat4& modelview, const Mesh& mesh) const
