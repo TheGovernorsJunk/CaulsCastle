@@ -114,6 +114,9 @@
     <ClCompile Include="system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wrappers.h">
@@ -225,6 +228,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
