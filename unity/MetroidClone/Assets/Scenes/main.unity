@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
-  jumpDistance: 5
+  jumpForce: 100
   groundCheck: {fileID: 520102119}
   groundMask:
     serializedVersion: 2

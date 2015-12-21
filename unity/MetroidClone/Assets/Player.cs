@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-	public float maxSpeed = 100f;
-	public float jumpDistance = 5f;
+	public float maxSpeed = 10f;
+	public float jumpForce = 100f;
 	public Transform groundCheck;
 	public LayerMask groundMask;
 
@@ -31,10 +31,19 @@ public class Player : MonoBehaviour
 		rb2D.velocity = new Vector2(horizontal * maxSpeed, rb2D.velocity.y);
 		anim.SetFloat("speed", Mathf.Abs(horizontal));
 
+		//if (Mathf.Abs(horizontal) == 1)
+		//	transform.localScale = new Vector3(horizontal * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+	}
+
+	void Update()
+	{
+		bool onGround = OnGround;
+		anim.SetBool("jump", !onGround);
+
 		int vertical = (int)Input.GetAxisRaw("Vertical");
-		if (vertical == 1 && OnGround)
+		if ((vertical == 1) && onGround)
 		{
-			rb2D.velocity = new Vector2(rb2D.velocity.x, jumpDistance);
+			rb2D.AddForce(new Vector2(0, jumpForce));
 		}
 	}
 }
