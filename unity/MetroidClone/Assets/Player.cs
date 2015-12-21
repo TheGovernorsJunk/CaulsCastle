@@ -5,9 +5,19 @@ public class Player : MonoBehaviour
 {
 	public float maxSpeed = 100f;
 	public float jumpDistance = 5f;
+	public Transform groundCheck;
+	public LayerMask groundMask;
 
 	private Rigidbody2D rb2D;
 	private Animator anim;
+
+	bool OnGround
+	{
+		get
+		{
+			return Physics2D.OverlapPoint(groundCheck.position, groundMask);
+		}
+	}
 
 	void Awake()
 	{
@@ -24,15 +34,7 @@ public class Player : MonoBehaviour
 		int vertical = (int)Input.GetAxisRaw("Vertical");
 		if (vertical == 1 && OnGround)
 		{
-			rb2D.velocity += new Vector2(0, jumpDistance);
-		}
-	}
-
-	bool OnGround
-	{
-		get
-		{
-			return rb2D.velocity.y < float.Epsilon && rb2D.velocity.y > -float.Epsilon;
+			rb2D.velocity = new Vector2(rb2D.velocity.x, jumpDistance);
 		}
 	}
 }
