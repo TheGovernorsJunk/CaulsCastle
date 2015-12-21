@@ -12,15 +12,14 @@ public class Player : MonoBehaviour
 		rb2D = GetComponent<Rigidbody2D>();
 	}
 
-	void Update ()
+	void FixedUpdate ()
 	{
-		int horizontal = (int)Input.GetAxis("Horizontal");
-		if (horizontal != 0)
-		{
-			rb2D.velocity += new Vector2(horizontal * maxSpeed * Time.deltaTime, 0);
-		}
+		int horizontal = (int)Input.GetAxisRaw("Horizontal");
+		rb2D.velocity -= new Vector2(rb2D.velocity.x, 0);
+		rb2D.velocity += new Vector2(horizontal * maxSpeed, 0);
 
-		if (Input.GetKeyDown(KeyCode.UpArrow) && OnGround)
+		int vertical = (int)Input.GetAxisRaw("Vertical");
+		if (vertical == 1 && OnGround)
 		{
 			rb2D.velocity += new Vector2(0, 5);
 		}
