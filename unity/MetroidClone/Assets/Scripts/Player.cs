@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 		int vertical = (int)Input.GetAxisRaw("Vertical");
 		if ((vertical == 1) && onGround)
 		{
-			rb2D.AddForce(new Vector2(0, jumpForce));
+			rb2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
 		}
 	}
 }
