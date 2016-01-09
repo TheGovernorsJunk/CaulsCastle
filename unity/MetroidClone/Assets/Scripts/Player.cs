@@ -5,26 +5,16 @@ public class Player : MonoBehaviour
 {
 	public float maxSpeed = 10f;
 	public float jumpForce = 5f;
-	public LayerMask groundMask;
 
 	private Rigidbody2D rb2D;
 	private Animator anim;
-	private CircleCollider2D groundCheck;
-
-	bool OnGround
-	{
-		get
-		{
-			// return Physics2D.OverlapPoint(groundCheck.position, groundMask);
-			return groundCheck.IsTouchingLayers(groundMask);
-		}
-	}
+	private GroundCollision groundCollision;
 
 	void Awake()
 	{
 		rb2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
-		groundCheck = GetComponentInChildren<CircleCollider2D>();
+		groundCollision = GetComponentInChildren<GroundCollision>();
 	}
 
 	void FixedUpdate ()
@@ -36,7 +26,7 @@ public class Player : MonoBehaviour
 		//if (Mathf.Abs(horizontal) == 1)
 		//	transform.localScale = new Vector3(horizontal * transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
-		bool onGround = OnGround;
+		bool onGround = groundCollision.OnGround;
 		anim.SetBool("jump", !onGround);
 
 		int vertical = (int)Input.GetAxisRaw("Vertical");
