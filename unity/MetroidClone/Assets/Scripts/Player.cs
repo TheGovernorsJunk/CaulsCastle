@@ -5,17 +5,18 @@ public class Player : MonoBehaviour
 {
 	public float maxSpeed = 10f;
 	public float jumpForce = 5f;
-	public Transform groundCheck;
 	public LayerMask groundMask;
 
 	private Rigidbody2D rb2D;
 	private Animator anim;
+	private CircleCollider2D groundCheck;
 
 	bool OnGround
 	{
 		get
 		{
-			return Physics2D.OverlapPoint(groundCheck.position, groundMask);
+			// return Physics2D.OverlapPoint(groundCheck.position, groundMask);
+			return groundCheck.IsTouchingLayers(groundMask);
 		}
 	}
 
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
 	{
 		rb2D = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
+		groundCheck = GetComponentInChildren<CircleCollider2D>();
 	}
 
 	void FixedUpdate ()
