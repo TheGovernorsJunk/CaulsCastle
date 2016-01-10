@@ -30,4 +30,13 @@ public class CharacterAnimation : MonoBehaviour {
 		anim.SetBool("jump", true);
 		anim.SetBool("idle", false);
 	}
+
+	void OnGround()
+	{
+		if (anim.GetBool("jump"))
+		{
+			anim.SetTrigger("jumpcomplete");
+			anim.SetBool("jump", false);
+		}
+	}
 }
