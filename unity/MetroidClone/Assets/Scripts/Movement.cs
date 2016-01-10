@@ -19,5 +19,14 @@ public class Movement : MonoBehaviour
 		rigidbody.velocity = new Vector2(
 			horizontal * maxSpeed * Time.deltaTime,
 			rigidbody.velocity.y);
+
+		if (horizontal != 0)
+		{
+			BroadcastMessage("OnMove", horizontal);
+		}
+		else
+		{
+			BroadcastMessage("OnIdle");
+		}
 	}
 }

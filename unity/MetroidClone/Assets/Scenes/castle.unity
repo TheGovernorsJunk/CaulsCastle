@@ -127,6 +127,21 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e8f98501d8c7eeb4ca9cd2e5c7f9c416, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &91422559 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 187092, guid: 3afc8231bd92420419e5962cefd35c8a, type: 2}
+  m_PrefabInternal: {fileID: 1102011444}
+--- !u!114 &91422563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 91422559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ba09695b24f1f644b7c5ee12908da87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &117723461 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 163402, guid: 3afc8231bd92420419e5962cefd35c8a, type: 2}
@@ -174,30 +189,6 @@ Prefab:
       propertyPath: subject
       value: 
       objectReference: {fileID: 117723461}
-    - target: {fileID: 21249472, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -426835713
-      objectReference: {fileID: 0}
-    - target: {fileID: 21272272, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -426835713
-      objectReference: {fileID: 0}
-    - target: {fileID: 21257358, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -426835713
-      objectReference: {fileID: 0}
-    - target: {fileID: 21224658, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -426835713
-      objectReference: {fileID: 0}
-    - target: {fileID: 21203822, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
-      propertyPath: m_SortingLayerID
-      value: -426835713
-      objectReference: {fileID: 0}
-    - target: {fileID: 21203822, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
   m_IsPrefabParent: 0
