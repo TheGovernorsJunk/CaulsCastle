@@ -5,7 +5,7 @@ public class Parallax : MonoBehaviour
 {
 	public float parallaxFactorX = 1f;
 	public float parallaxFactorY = 1f;
-	public SpriteRenderer parallaxBackground;
+	public GameObject parallaxBackground;
 
 	private Camera camera;
 
