@@ -24,4 +24,10 @@ public class CharacterAnimation : MonoBehaviour {
 		anim.SetBool("idle", true);
 		anim.SetBool("move", false);
 	}
+
+	void OnJump()
+	{
+		anim.SetBool("jump", true);
+		anim.SetBool("idle", false);
+	}
 }
