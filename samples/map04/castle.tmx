@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="twilight-tiles" tilewidth="16" tileheight="16" tilecount="256">
+  <image source="../../assets/spritesheets/castle/twilight-tiles.png" trans="6f6d51" width="256" height="256"/>
+ </tileset>
+ <layer name="Near Background" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1ksRwgAQRMFoCx8DgIKAAkABoACiAOKTqfWQ2kt31bvPcYYBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAtY1pk7Zpl/a9c4hDOqZT9xDKlM7p0j2Eck23dO8eQnmkZ3p1D6G80yfN3UMo3/RLS/cQVuU7AwDQ4Q+1zwpT
+  </data>
+ </layer>
+ <layer name="Platforms" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2dGtAVEUhlHxRgduB7SBClwVoAJUgAruVQH6tCuYfZITmSOzVvIl+/Ek/9NkRiMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAODTJh1Ne3zXUM06+unxXUNlj7bYoy32aIs92mKPttijLfOOFj2+a6jGSQAA8M2y/x/LaBWtK2/KZN/nm+g32lbelMn22EX76FB5Uybb4xidonPlTZlsj0t0jW6VN2WyPf6i/+heeVMm2+MRPaNX5U2ZN71iRTk=
+  </data>
+ </layer>
+</map>
