@@ -7,18 +7,11 @@ public class Parallax : MonoBehaviour
 	public float parallaxFactorY = 1f;
 	public GameObject parallaxBackground;
 
-	private Camera camera;
-
-	void Start()
-	{
-		camera = GetComponent<Camera>();
-	}
-
 	void Update ()
 	{
 		Vector3 position = new Vector3(
-			parallaxFactorX * camera.transform.position.x,
-			parallaxFactorY * camera.transform.position.y);
+			parallaxFactorX * transform.position.x,
+			parallaxFactorY * transform.position.y);
 		position.z = parallaxBackground.transform.position.z;
 		parallaxBackground.transform.position = position;
 	}
