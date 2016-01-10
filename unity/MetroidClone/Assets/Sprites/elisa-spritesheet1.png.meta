@@ -1,0 +1,457 @@
+fileFormatVersion: 2
+guid: 8f1348841a0e788498c7771cf023ba59
+timeCreated: 1452445009
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: elisa-spritesheet1_0
+    21300002: elisa-spritesheet1_1
+    21300004: elisa-spritesheet1_2
+    21300006: elisa-spritesheet1_3
+    21300008: elisa-spritesheet1_4
+    21300010: elisa-spritesheet1_5
+    21300012: elisa-spritesheet1_6
+    21300014: elisa-spritesheet1_7
+    21300016: elisa-spritesheet1_8
+    21300018: elisa-spritesheet1_9
+    21300020: elisa-spritesheet1_10
+    21300022: elisa-spritesheet1_11
+    21300024: elisa-spritesheet1_12
+    21300026: elisa-spritesheet1_13
+    21300028: elisa-spritesheet1_14
+    21300030: elisa-spritesheet1_15
+    21300032: elisa-spritesheet1_16
+    21300034: elisa-spritesheet1_17
+    21300036: elisa-spritesheet1_18
+    21300038: elisa-spritesheet1_19
+    21300040: elisa-spritesheet1_20
+    21300042: elisa-spritesheet1_21
+    21300044: elisa-spritesheet1_22
+    21300046: elisa-spritesheet1_23
+    21300048: elisa-spritesheet1_24
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: elisa-spritesheet1_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 454
+        width: 54
+        height: 54
+      alignment: 9
+      pivot: {x: 0.46007952, y: 0.48412803}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24.844294, y: 27.857086}
+        - {x: -24.844294, y: -26.142914}
+        - {x: 29.155706, y: -26.142914}
+        - {x: 29.155706, y: 27.857086}
+    - name: elisa-spritesheet1_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 454
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_2
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 454
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_3
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 454
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_4
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 454
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_5
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 454
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_6
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 454
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_7
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 396
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_8
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 396
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_9
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 396
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_10
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 396
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_11
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_12
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_13
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_14
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_15
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_16
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_17
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_18
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 337
+        width: 54
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 27}
+        - {x: -27, y: -27}
+        - {x: 27, y: -27}
+        - {x: 27, y: 27}
+    - name: elisa-spritesheet1_19
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 271
+        width: 89
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.5, y: 31}
+        - {x: -44.5, y: -31}
+        - {x: 44.5, y: -31}
+        - {x: 44.5, y: 31}
+    - name: elisa-spritesheet1_20
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 271
+        width: 89
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.5, y: 31}
+        - {x: -44.5, y: -31}
+        - {x: 44.5, y: -31}
+        - {x: 44.5, y: 31}
+    - name: elisa-spritesheet1_21
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 271
+        width: 89
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.5, y: 31}
+        - {x: -44.5, y: -31}
+        - {x: 44.5, y: -31}
+        - {x: 44.5, y: 31}
+    - name: elisa-spritesheet1_22
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 206
+        width: 89
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.5, y: 31}
+        - {x: -44.5, y: -31}
+        - {x: 44.5, y: -31}
+        - {x: 44.5, y: 31}
+    - name: elisa-spritesheet1_23
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 206
+        width: 89
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.5, y: 31}
+        - {x: -44.5, y: -31}
+        - {x: 44.5, y: -31}
+        - {x: 44.5, y: 31}
+    - name: elisa-spritesheet1_24
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 206
+        width: 89
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.5, y: 31}
+        - {x: -44.5, y: -31}
+        - {x: 44.5, y: -31}
+        - {x: 44.5, y: 31}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
