@@ -1,10 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+public class Movement : MonoBehaviour
+{
 
-	public float maxSpeed = 5f;
-	public Rigidbody2D rigidbody;
+	public float maxSpeed = 100f;
+
+	private Rigidbody2D rigidbody;
+
+	void Start()
+	{
+		rigidbody = GetComponent<Rigidbody2D>();
+	}
 
 	void FixedUpdate ()
 	{
