@@ -9,7 +9,7 @@ public class TakeHit : MonoBehaviour
 	{
 		if (attacker.tag == "HitBox")
 		{
-			Debug.Log(string.Format("Hit {0}!", gameObject.name));
+			BroadcastMessage("OnHit");
 		}
 	}
 }

@@ -40,4 +40,9 @@ public class CharacterAnimation : MonoBehaviour {
 	{
 		anim.SetBool("attack", requestingAttack);
 	}
+
+	void OnHit()
+	{
+		anim.SetBool("damage", true);
+	}
 }
