@@ -16,22 +16,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &149038
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 22491172}
-  - 223: {fileID: 22319774}
-  m_Layer: 8
-  m_Name: Canvas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &152246
 GameObject:
   m_ObjectHideFlags: 1
@@ -64,6 +48,7 @@ GameObject:
   - 114: {fileID: 11453100}
   - 114: {fileID: 11408980}
   - 114: {fileID: 11415754}
+  - 114: {fileID: 11464420}
   m_Layer: 8
   m_Name: Elisa
   m_TagString: Untagged
@@ -168,7 +153,6 @@ Transform:
   m_Children:
   - {fileID: 408878}
   - {fileID: 463948}
-  - {fileID: 22491172}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!50 &5033410
@@ -298,6 +282,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 100
   runSpeed: 175
+--- !u!114 &11464420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6e934ab2cea994ba103493bac46795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textPrototype: {fileID: 10208198, guid: 40bb0d20b63af7849aca63683515c125, type: 2}
 --- !u!114 &11465334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -384,41 +380,6 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
---- !u!223 &22319774
-Canvas:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149038}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!224 &22491172
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149038}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.037131365, y: 0.03713136, z: 0.03713136}
-  m_Children: []
-  m_Father: {fileID: 492386}
-  m_RootOrder: 2
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.2049661}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

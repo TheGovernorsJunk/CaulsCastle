@@ -21,7 +21,7 @@ public class Health : MonoBehaviour
 	void OnHit(DamageVector damageVector)
 	{
 		int damage = (int)(damageVector.physicalDamage - (stats.resistance * 0.2));
-		Debug.Log(string.Format("Took {0} damage!", damage));
+		BroadcastMessage("OnDamageTaken", damage);
 		hp -= damage;
 		if (hp <= 0)
 			Destroy(gameObject);
