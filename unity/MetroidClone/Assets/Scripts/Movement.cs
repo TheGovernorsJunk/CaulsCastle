@@ -4,7 +4,8 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
 
-	public float maxSpeed = 100f;
+	public float walkSpeed = 100f;
+	public float runSpeed = 175f;
 
 	private Rigidbody2D rigidbody;
 
@@ -15,9 +16,10 @@ public class Movement : MonoBehaviour
 
 	void FixedUpdate ()
 	{
+		int isRunning = (int)Input.GetAxisRaw("Fire4");
 		int horizontal = (int)Input.GetAxisRaw("Horizontal");
 		rigidbody.velocity = new Vector2(
-			horizontal * maxSpeed * Time.deltaTime,
+			horizontal * (isRunning == 1 ? runSpeed : walkSpeed) * Time.deltaTime,
 			rigidbody.velocity.y);
 
 		if (horizontal != 0)
