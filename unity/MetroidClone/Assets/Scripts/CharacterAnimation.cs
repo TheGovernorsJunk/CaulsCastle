@@ -32,8 +32,12 @@ public class CharacterAnimation : MonoBehaviour {
 	{
 		if (anim.GetBool("jump"))
 		{
-			anim.SetTrigger("jumpcomplete");
 			anim.SetBool("jump", false);
 		}
+	}
+
+	void OnAttack(bool requestingAttack)
+	{
+		anim.SetBool("attack", requestingAttack);
 	}
 }

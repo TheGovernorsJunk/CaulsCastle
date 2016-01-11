@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 492386}
   - 114: {fileID: 11457678}
   - 114: {fileID: 11497064}
+  - 114: {fileID: 11465334}
   - 61: {fileID: 6190778}
   - 50: {fileID: 5033410}
   m_Layer: 8
@@ -73,7 +74,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: -0.279, z: 0}
+  m_LocalPosition: {x: -0.03, y: 0.235, z: 0}
   m_LocalScale: {x: 0.5412292, y: 0.54122907, z: 0.54122907}
   m_Children: []
   m_Father: {fileID: 492386}
@@ -134,9 +135,9 @@ BoxCollider2D:
   m_Material: {fileID: 6200000, guid: 8ad1902a713dc044ea788a9ba9743b60, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.016774178, y: -0.009173155}
+  m_Offset: {x: -0.016774178, y: 0.43854403}
   serializedVersion: 2
-  m_Size: {x: 0.32904765, y: 0.47319865}
+  m_Size: {x: 0.32904765, y: 0.44075513}
 --- !u!95 &9513698
 Animator:
   serializedVersion: 3
@@ -167,6 +168,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 100
   runSpeed: 175
+--- !u!114 &11465334
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41245f733469c5c4d87f45407a78dfc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11495588
 MonoBehaviour:
   m_ObjectHideFlags: 1

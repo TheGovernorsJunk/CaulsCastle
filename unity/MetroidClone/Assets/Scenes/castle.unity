@@ -98,7 +98,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 429896, guid: e8f98501d8c7eeb4ca9cd2e5c7f9c416, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 20.841
+      value: 21.341
       objectReference: {fileID: 0}
     - target: {fileID: 429896, guid: e8f98501d8c7eeb4ca9cd2e5c7f9c416, type: 2}
       propertyPath: m_LocalPosition.z
@@ -130,7 +130,7 @@ Prefab:
 --- !u!1 &117723461 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 163402, guid: 3afc8231bd92420419e5962cefd35c8a, type: 2}
-  m_PrefabInternal: {fileID: 1102011444}
+  m_PrefabInternal: {fileID: 942791154}
 --- !u!1001 &755685680
 Prefab:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a967145b3a0ff364181b50ce26d02aab, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &1102011444
+--- !u!1001 &942791154
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -215,10 +215,6 @@ Prefab:
     - target: {fileID: 492386, guid: 3afc8231bd92420419e5962cefd35c8a, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11457678, guid: 3afc8231bd92420419e5962cefd35c8a, type: 2}
-      propertyPath: runSpeed
-      value: 175
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3afc8231bd92420419e5962cefd35c8a, type: 2}
