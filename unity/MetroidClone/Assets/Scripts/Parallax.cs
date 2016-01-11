@@ -11,8 +11,8 @@ public class Parallax : MonoBehaviour
 	{
 		Vector3 position = new Vector3(
 			parallaxFactorX * transform.position.x,
-			parallaxFactorY * transform.position.y);
-		position.z = parallaxBackground.transform.position.z;
+			parallaxFactorY * transform.position.y,
+			parallaxBackground.transform.position.z);
 		parallaxBackground.transform.position = position;
 	}
 }
