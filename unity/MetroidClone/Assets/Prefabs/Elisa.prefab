@@ -46,6 +46,8 @@ GameObject:
   - 114: {fileID: 11465334}
   - 50: {fileID: 5033410}
   - 114: {fileID: 11453100}
+  - 114: {fileID: 11408980}
+  - 114: {fileID: 11415754}
   m_Layer: 8
   m_Name: Elisa
   m_TagString: Untagged
@@ -228,6 +230,33 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11408980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0c2188e58539c4f83f22f25360f282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vitality: 10
+  endurance: 10
+  strength: 10
+  dexterity: 10
+  resistance: 10
+--- !u!114 &11415754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d9851ae9ebc18468affb73dec0f75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11453100
 MonoBehaviour:
   m_ObjectHideFlags: 1

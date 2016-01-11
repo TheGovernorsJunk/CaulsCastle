@@ -9,7 +9,10 @@ public class TakeHit : MonoBehaviour
 	{
 		if (attacker.tag == "HitBox")
 		{
-			BroadcastMessage("OnHit");
+			Stats stats = attacker.GetComponentInParent<Stats>();
+			DamageVector damageVector = new DamageVector()
+			{ physicalDamage = stats.strength };
+			BroadcastMessage("OnHit", damageVector);
 		}
 	}
 }
