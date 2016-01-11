@@ -3,16 +3,21 @@ using System.Collections;
 
 public class TextDie : MonoBehaviour {
 
-	int frames = 40;
+	public int frames = 50;
+	int currFrame = 0;
 
 	void Start ()
 	{
 		StartCoroutine("Die");
 	}
 
+	public void Reset()
+	{
+		currFrame = 0;
+	}
+
 	IEnumerator Die()
 	{
-		int currFrame = 0;
 		while (currFrame < frames)
 		{
 			++currFrame;

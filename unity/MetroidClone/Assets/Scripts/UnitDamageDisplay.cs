@@ -8,9 +8,19 @@ public class UnitDamageDisplay : MonoBehaviour {
 	void Start() {}
 	void OnDamageTaken(int damage)
 	{
-		TextMesh text = (TextMesh)Instantiate(textPrototype);
-		text.text = string.Format("{0}", damage);
-		text.transform.parent = transform;
-		text.transform.localPosition = text.transform.position;
+		TextMesh existingText = GetComponentInChildren<TextMesh>();
+		if (existingText != null)
+		{
+			int existingDamage = int.Parse(existingText.text);
+			existingText.text = string.Format("{0}", damage + existingDamage);
+			existingText.GetComponent<TextDie>().Reset();
+		}
+		else
+		{
+			TextMesh text = (TextMesh)Instantiate(textPrototype);
+			text.text = string.Format("{0}", damage);
+			text.transform.parent = transform;
+			text.transform.localPosition = text.transform.position;
+		}
 	}
 }
