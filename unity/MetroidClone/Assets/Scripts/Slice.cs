@@ -12,11 +12,15 @@ public class Slice : MonoBehaviour {
 	{
 		if (direction == 1)
 		{
-			transform.localScale = new Vector3(1,1,1);
+			Vector3 scale = transform.localScale;
+			scale.x = Mathf.Abs(transform.localScale.x);
+			transform.localScale = scale;
 		}
 		else if (direction == -1)
 		{
-			transform.localScale = new Vector3(-1,1,1);
+			Vector3 scale = transform.localScale;
+			scale.x = -Mathf.Abs(transform.localScale.x);
+			transform.localScale = scale;
 		}
 	}
 }
