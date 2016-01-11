@@ -13,7 +13,7 @@ public class GroundCheck : MonoBehaviour {
 
 	private bool grounded;
 
-	void OnCollisionEnter2D()
+	void OnCollisionStay2D()
 	{
 		grounded = true;
 	}
