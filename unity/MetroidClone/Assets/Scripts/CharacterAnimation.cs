@@ -23,9 +23,9 @@ public class CharacterAnimation : MonoBehaviour {
 		anim.SetBool("move", false);
 	}
 
-	void OnJump()
+	void OnJump(bool isJumping)
 	{
-		anim.SetBool("jump", true);
+		anim.SetBool("jump", isJumping);
 	}
 
 	void OnGround()

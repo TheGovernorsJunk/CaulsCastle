@@ -23,8 +23,7 @@ public class Jump : MonoBehaviour
 			vel.y = 0;
 			rigidbody.velocity = vel;
 			rigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-
-			BroadcastMessage("OnJump");
 		}
+		BroadcastMessage("OnJump", !groundCheck.Grounded);
 	}
 }
