@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &126054
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 415906}
+  - 61: {fileID: 6191050}
+  m_Layer: 8
+  m_Name: Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &152246
 GameObject:
   m_ObjectHideFlags: 1
@@ -10,7 +26,7 @@ GameObject:
   - 4: {fileID: 467660}
   - 114: {fileID: 11475162}
   - 61: {fileID: 6107530}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Hit
   m_TagString: HitBox
   m_Icon: {fileID: 0}
@@ -28,8 +44,8 @@ GameObject:
   - 114: {fileID: 11457678}
   - 114: {fileID: 11497064}
   - 114: {fileID: 11465334}
-  - 61: {fileID: 6190778}
   - 50: {fileID: 5033410}
+  - 114: {fileID: 11453100}
   m_Layer: 8
   m_Name: Elisa
   m_TagString: Untagged
@@ -47,7 +63,7 @@ GameObject:
   - 4: {fileID: 463948}
   - 58: {fileID: 5884222}
   - 114: {fileID: 11498212}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,8 +99,21 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 467660}
+  - {fileID: 415906}
   m_Father: {fileID: 492386}
   m_RootOrder: 0
+--- !u!4 &415906
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.026, y: 0.475, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 408878}
+  m_RootOrder: 1
 --- !u!4 &463948
 Transform:
   m_ObjectHideFlags: 1
@@ -168,20 +197,20 @@ BoxCollider2D:
   m_Offset: {x: 0.31340083, y: 0.039175183}
   serializedVersion: 2
   m_Size: {x: 0.6895532, y: 0.4783503}
---- !u!61 &6190778
+--- !u!61 &6191050
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163402}
+  m_GameObject: {fileID: 126054}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 8ad1902a713dc044ea788a9ba9743b60, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: -0.016774178, y: 0.43854403}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.32904765, y: 0.44075513}
+  m_Size: {x: 0.3, y: 0.5}
 --- !u!95 &9513698
 Animator:
   serializedVersion: 3
@@ -199,6 +228,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11453100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff20e331b78a451469e3793dc26bdee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11457678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -304,7 +344,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 163402}

@@ -1,13 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Slice : MonoBehaviour {
-
-	void OnTriggerEnter2D(Collider2D target)
-	{
-		Debug.Log("Hit!");
-	}
-
+public class Slice : MonoBehaviour
+{
 	void OnMove(int direction)
 	{
 		if (direction == 1)
