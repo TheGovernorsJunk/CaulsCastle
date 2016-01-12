@@ -45,4 +45,9 @@ public class CharacterAnimation : MonoBehaviour {
 	{
 		anim.SetBool("damage", true);
 	}
+
+	void OnBlock(bool block)
+	{
+		anim.SetBool("block", block);
+	}
 }
