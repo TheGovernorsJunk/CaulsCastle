@@ -10,20 +10,33 @@ public class Movement : MonoBehaviour
 
 	Rigidbody2D rigidbody;
 	GroundCheck groundCheck;
+	Animator animator;
+
+	int blockHash = Animator.StringToHash("Block");
 
 	void Start()
 	{
 		rigidbody = GetComponent<Rigidbody2D>();
 		groundCheck = GetComponentInChildren<GroundCheck>();
+		animator = GetComponentInChildren<Animator>();
 	}
 
 	void FixedUpdate()
 	{
 		int isRunning = (int)Input.GetAxisRaw("Fire4");
 		int horizontal = (int)Input.GetAxisRaw("Horizontal");
-		rigidbody.velocity = new Vector2(
-			horizontal * (isRunning == 1 ? runSpeed : walkSpeed) * Time.deltaTime,
-			rigidbody.velocity.y);
+
+		AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+		if (info.shortNameHash != blockHash)
+		{
+			rigidbody.velocity = new Vector2(
+				horizontal * (isRunning == 1 ? runSpeed : walkSpeed) * Time.deltaTime,
+				rigidbody.velocity.y);
+		}
+		else
+		{
+			rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
+		}
 
 		int vertical = (int)Input.GetAxisRaw("Fire2");
 		if ((vertical == 1) && groundCheck.Grounded)
