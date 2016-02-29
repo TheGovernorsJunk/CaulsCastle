@@ -13,6 +13,7 @@ public class Movement : MonoBehaviour
 	Animator animator;
 
 	int blockHash = Animator.StringToHash("Block");
+	int attackHash = Animator.StringToHash("Attack");
 
 	void Start()
 	{
@@ -23,11 +24,13 @@ public class Movement : MonoBehaviour
 
 	void FixedUpdate()
 	{
+		bool grounded = groundCheck.Grounded;
+
 		int isRunning = (int)Input.GetAxisRaw("Fire4");
 		int horizontal = (int)Input.GetAxisRaw("Horizontal");
 
 		AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-		if (info.shortNameHash != blockHash)
+		if (info.shortNameHash != blockHash && (info.shortNameHash != attackHash || !grounded))
 		{
 			rigidbody.velocity = new Vector2(
 				horizontal * (isRunning == 1 ? runSpeed : walkSpeed) * Time.deltaTime,
@@ -39,7 +42,7 @@ public class Movement : MonoBehaviour
 		}
 
 		int vertical = (int)Input.GetAxisRaw("Fire2");
-		if ((vertical == 1) && groundCheck.Grounded)
+		if ((vertical == 1) && grounded)
 		{
 			Vector2 vel = rigidbody.velocity;
 			vel.y = 0;
