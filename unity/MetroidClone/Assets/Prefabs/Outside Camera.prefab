@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21257358}
   - 61: {fileID: 6194602}
   - 50: {fileID: 5049248}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pane 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 472342}
   - 61: {fileID: 6145770}
   - 114: {fileID: 11488986}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Right Boundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 4: {fileID: 458778}
   - 61: {fileID: 6149454}
   - 114: {fileID: 11402708}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left Boundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - 212: {fileID: 21224658}
   - 61: {fileID: 6157718}
   - 50: {fileID: 5021180}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pane 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - 212: {fileID: 21249472}
   - 61: {fileID: 6146276}
   - 50: {fileID: 5077814}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pane 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - 212: {fileID: 21272272}
   - 61: {fileID: 6143608}
   - 50: {fileID: 5035678}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pane 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 406212}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,6 +513,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   subject: {fileID: 0}
+  offset: {x: 0, y: 0}
+  map: {fileID: 0}
 --- !u!114 &11465828
 MonoBehaviour:
   m_ObjectHideFlags: 1
