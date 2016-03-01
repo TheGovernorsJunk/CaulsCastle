@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
 	public float walkSpeed = 100f;
 	public float runSpeed = 175f;
 	public float jumpForce = 5f;
+	public float maxJumpHeight = 15f;
 
 	Rigidbody2D rigidbody;
 	GroundCheck groundCheck;
@@ -44,10 +45,27 @@ public class Movement : MonoBehaviour
 		int vertical = (int)Input.GetAxisRaw("Fire2");
 		if ((vertical == 1) && grounded)
 		{
+			StartCoroutine("Jump");
+		}
+	}
+
+	IEnumerator Jump()
+	{
+		float jumpHeight = 0f;
+		float initialY = transform.position.y;
+		do
+		{
+			jumpHeight = transform.position.y - initialY;
 			Vector2 vel = rigidbody.velocity;
 			vel.y = 0;
 			rigidbody.velocity = vel;
 			rigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-		}
+			yield return null;
+		} while ((int)Input.GetAxisRaw("Fire2") == 1 && jumpHeight < maxJumpHeight);
+
+		// Immediately halt y movement
+		Vector2 finalVel = rigidbody.velocity;
+		finalVel.y = 0;
+		rigidbody.velocity = finalVel;
 	}
 }
