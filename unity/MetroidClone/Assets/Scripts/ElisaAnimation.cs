@@ -26,7 +26,7 @@ public class ElisaAnimation : MonoBehaviour
 
 		animator.SetBool(blockingHash, (int)Input.GetAxisRaw("Fire3") == 1);
 
-		float horizontal = Input.GetAxisRaw("Horizontal");
+		int horizontal = (int)Input.GetAxisRaw("Horizontal");
 		animator.SetFloat(speedHash, horizontal);
 		if (horizontal != 0f)
 			transform.localScale = new Vector3(
