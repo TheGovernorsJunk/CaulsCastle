@@ -5,6 +5,7 @@ public class DamageAnimation : MonoBehaviour
 {
 	Animator animator;
 	int hitHash = Animator.StringToHash("hit");
+	int blockHash = Animator.StringToHash("Block");
 
 	void Start()
 	{
@@ -13,7 +14,7 @@ public class DamageAnimation : MonoBehaviour
 	
 	void OnTriggerEnter2D(Collider2D attacker)
 	{
-		if (attacker.tag == "HitBox")
+		if (attacker.tag == "HitBox" && animator.GetCurrentAnimatorStateInfo(0).shortNameHash != blockHash)
 		{
 			animator.SetTrigger(hitHash);
 		}
