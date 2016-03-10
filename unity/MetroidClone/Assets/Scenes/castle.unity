@@ -767,6 +767,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 657278383}
   m_RootOrder: 1
+--- !u!20 &1794383618 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 2025934, guid: a967145b3a0ff364181b50ce26d02aab,
+    type: 2}
+  m_PrefabInternal: {fileID: 448969235}
 --- !u!1 &1829025120
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,14 +835,14 @@ Canvas:
   m_GameObject: {fileID: 1829025120}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1794383618}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1484294967
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1829025124
