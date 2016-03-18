@@ -10,10 +10,12 @@
 
 namespace te
 {
+	class MessageDispatcher;
+
 	class Entity : public sf::Drawable, public sf::Transformable, public BaseGameEntity
 	{
 	public:
-		Entity();
+		Entity(const std::shared_ptr<MessageDispatcher>&);
 		void setSprite(const sf::Sprite& sprite);
 		void setBoxCollider(const sf::FloatRect& boxCollider);
 		void setDrawColliderEnabled(float enabled);
@@ -32,6 +34,8 @@ namespace te
 		sf::Vector2f mVelocity;
 
 		StateMachine<Entity> mFSM;
+		const std::shared_ptr<MessageDispatcher> mpMessageDispatcher;
+		const std::shared_ptr<EntityManager> mpEntityManager;
 	};
 }
 

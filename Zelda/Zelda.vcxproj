@@ -122,6 +122,7 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="message_dispatcher.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tmx.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="base_game_entity.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_manager.h" />
+    <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
     <ClInclude Include="texture_manager.h" />

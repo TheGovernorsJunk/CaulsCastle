@@ -7,6 +7,8 @@
 
 namespace te
 {
+	struct Telegram;
+
 	template <class EntityType>
 	class StateMachine
 	{
@@ -32,6 +34,16 @@ namespace te
 			{
 				mpCurrentState->execute(mpOwner, dt);
 			}
+		}
+
+		bool handleMessage(const Telegram& telegram) const
+		{
+			if (mpCurrentState && mpCurrentState->onMessage(mpOwner, telegram))
+			{
+				return true;
+			}
+
+			return (mpGlobalState && mpGlobalState->onMessage(mpOwner, telegram));
 		}
 
 		void changeState(State<EntityType>& pNewState)

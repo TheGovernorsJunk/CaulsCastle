@@ -8,6 +8,8 @@ namespace sf
 
 namespace te
 {
+	struct Telegram;
+
 	template <class EntityType>
 	class State
 	{
@@ -17,6 +19,8 @@ namespace te
 		virtual void enter(EntityType& entity) {}
 		virtual void execute(EntityType& entity, sf::Time dt) = 0;
 		virtual void exit(EntityType& entity) {}
+
+		virtual bool onMessage(EntityType& entity, const Telegram& telegram) = 0;
 	};
 }
 

@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "state_machine.h"
 #include "entity_manager.h"
+#include "message_dispatcher.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -30,13 +31,15 @@ int main()
 
 	sf::FloatRect boxCollider = { 5,3,14,20 };
 
-	te::EntityManager em;
-	auto link = std::make_shared<te::Entity>();
+	auto pEM = std::make_shared<te::EntityManager>();
+	auto pMessageDispatcher = std::make_shared<te::MessageDispatcher>(pEM);
+
+	auto link = std::make_shared<te::Entity>(pMessageDispatcher);
 
 	// Test entity manager. These statements are valid.
-	em.registerEntity(link);
-	em.removeEntity(link);
-	em.registerEntity(link);
+	pEM->registerEntity(link);
+	pEM->removeEntity(link);
+	pEM->registerEntity(link);
 
 	link->setSprite(linkSprite);
 	link->setBoxCollider(boxCollider);
@@ -63,6 +66,8 @@ int main()
 				{
 				case sf::Keyboard::A:
 					link->setVelocity(sf::Vector2f(direction * -64, 0) + link->getVelocity());
+					// Brittle. For testing only.
+					pMessageDispatcher->dispatchMessage(0.0, 1, 2, 50, NULL);
 					break;
 				case sf::Keyboard::D:
 					link->setVelocity(sf::Vector2f(direction * 64, 0) + link->getVelocity());
@@ -78,6 +83,7 @@ int main()
 		}
 
 		sf::Time dt = clock.restart();
+		pMessageDispatcher->dispatchDelayedMessages(dt);
 		link->update(dt);
 
 		window.clear();

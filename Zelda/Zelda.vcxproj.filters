@@ -36,6 +36,9 @@
     <ClCompile Include="base_game_entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="message_dispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -65,6 +68,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="entity_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message_dispatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

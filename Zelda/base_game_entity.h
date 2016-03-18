@@ -8,7 +8,7 @@ namespace sf
 
 namespace te
 {
-	class Telegram;
+	struct Telegram;
 	class EntityManager;
 
 	class BaseGameEntity
