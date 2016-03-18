@@ -118,6 +118,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="base_game_entity.cpp" />
+    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
@@ -127,6 +130,11 @@
     <None Include="map.tmx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base_game_entity.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="entity_manager.h" />
+    <ClInclude Include="state.h" />
+    <ClInclude Include="state_machine.h" />
     <ClInclude Include="texture_manager.h" />
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="tmx.h" />
