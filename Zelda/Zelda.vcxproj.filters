@@ -39,6 +39,12 @@
     <ClCompile Include="message_dispatcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="graph_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graph_edge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -71,6 +77,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="message_dispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graph_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graph_edge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sparse_graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

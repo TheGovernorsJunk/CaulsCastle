@@ -5,6 +5,9 @@
 #include "state_machine.h"
 #include "entity_manager.h"
 #include "message_dispatcher.h"
+#include "sparse_graph.h"
+#include "graph_edge.h"
+#include "graph_node.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -13,8 +16,30 @@
 #include <iostream>
 #include <memory>
 
+namespace te
+{
+	class SampleNode : public GraphNode
+	{};
+	class SampleEdge : public GraphEdge
+	{
+	public:
+		SampleEdge(int from, int to, double cost = 1.0)
+			: GraphEdge(from, to, cost) {}
+	};
+}
+
 int main()
 {
+	te::SparseGraph<te::SampleNode, te::SampleEdge> graph;
+	int from = graph.addNode(te::SampleNode());
+	int to = graph.addNode(te::SampleNode());
+	graph.addEdge(te::SampleEdge(from, to));
+	graph.getEdge(from, to);
+	graph.removeEdge(from, to);
+	graph.clear();
+	std::cout << "Nodes:\t" << graph.numActiveNodes() << std::endl;
+	std::cout << "Edges:\t" << graph.numEdges() << std::endl;
+
 	te::TMX tmx("map.tmx");
 
 	sf::RenderWindow window(sf::VideoMode(600, 400), "Zelda");

@@ -121,6 +121,8 @@
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="entity_manager.cpp" />
+    <ClCompile Include="graph_edge.cpp" />
+    <ClCompile Include="graph_node.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message_dispatcher.cpp" />
     <ClCompile Include="texture_manager.cpp" />
@@ -134,7 +136,10 @@
     <ClInclude Include="base_game_entity.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_manager.h" />
+    <ClInclude Include="graph_edge.h" />
+    <ClInclude Include="graph_node.h" />
     <ClInclude Include="message_dispatcher.h" />
+    <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
     <ClInclude Include="texture_manager.h" />
