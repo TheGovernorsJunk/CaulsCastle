@@ -17,6 +17,7 @@ namespace te
 		BaseGameEntity();
 		virtual void update(const sf::Time& dt) = 0;
 		virtual bool handleMessage(const Telegram& msg) = 0;
+		int getID() const;
 	private:
 		friend class EntityManager;
 		int mID;

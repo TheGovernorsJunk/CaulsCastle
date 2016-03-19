@@ -67,10 +67,11 @@ int main()
 				case sf::Keyboard::A:
 					link->setVelocity(sf::Vector2f(direction * -64, 0) + link->getVelocity());
 					// Brittle. For testing only.
-					pMessageDispatcher->dispatchMessage(0.0, 1, 2, 50, NULL);
+					pMessageDispatcher->dispatchMessage(3.0, link->getID(), link->getID(), 50, NULL);
 					break;
 				case sf::Keyboard::D:
 					link->setVelocity(sf::Vector2f(direction * 64, 0) + link->getVelocity());
+					pMessageDispatcher->dispatchMessage(0, link->getID(), link->getID(), 50, NULL);
 					break;
 				case sf::Keyboard::W:
 					link->setVelocity(sf::Vector2f(0, direction * -64) + link->getVelocity());

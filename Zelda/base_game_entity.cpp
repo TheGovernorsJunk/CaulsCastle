@@ -4,4 +4,9 @@ namespace te
 {
 	BaseGameEntity::BaseGameEntity()
 		: mID(0) {}
+
+	int BaseGameEntity::getID() const
+	{
+		return mID;
+	}
 }
