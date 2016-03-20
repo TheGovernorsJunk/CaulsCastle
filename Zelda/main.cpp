@@ -8,6 +8,7 @@
 #include "sparse_graph.h"
 #include "graph_edge.h"
 #include "graph_node.h"
+#include "graph_search_dfs.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -30,15 +31,24 @@ namespace te
 
 int main()
 {
-	te::SparseGraph<te::SampleNode, te::SampleEdge> graph;
-	int from = graph.addNode(te::SampleNode());
-	int to = graph.addNode(te::SampleNode());
-	graph.addEdge(te::SampleEdge(from, to));
-	graph.getEdge(from, to);
-	graph.removeEdge(from, to);
-	graph.clear();
-	std::cout << "Nodes:\t" << graph.numActiveNodes() << std::endl;
-	std::cout << "Edges:\t" << graph.numEdges() << std::endl;
+	auto graph = std::make_shared<te::SparseGraph<te::SampleNode, te::SampleEdge>>();
+	int from = graph->addNode(te::SampleNode());
+	int to = graph->addNode(te::SampleNode());
+	graph->addEdge(te::SampleEdge(from, to));
+	graph->getEdge(from, to);
+	//graph.removeEdge(from, to);
+	//graph.clear();
+	std::cout << "Nodes:\t" << graph->numActiveNodes() << std::endl;
+	std::cout << "Edges:\t" << graph->numEdges() << std::endl;
+
+	te::GraphSearchDFS<te::SparseGraph<te::SampleNode, te::SampleEdge>> dfs(graph, 0, 1);
+	if (dfs.found())
+		std::cout << "There is a path." << std::endl;
+	int isolated = graph->addNode(te::SampleNode());
+	graph->addEdge(te::SampleEdge(isolated, 0));
+	te::GraphSearchDFS<te::SparseGraph<te::SampleNode, te::SampleEdge>> dfs2(graph, isolated, 1);
+	if (dfs2.found())
+		std::cout << "There is a path." << std::endl;
 
 	te::TMX tmx("map.tmx");
 

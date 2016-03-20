@@ -160,7 +160,43 @@ namespace te
 			mEdges.clear();
 		}
 
+		class ConstEdgeIterator
+		{
+		public:
+			ConstEdgeIterator(const SparseGraph& graph, int node)
+				: mGraph(graph), mNode(node), mIter()
+			{
+				begin();
+			}
+
+			const Edge* begin()
+			{
+				mGraph.throwIfInvalid(mNode);
+				mIter = mGraph.mEdges.at(mNode).begin();
+				return !end() ? &(*mIter) : nullptr;
+			}
+
+			const Edge* next()
+			{
+				mGraph.throwIfInvalid(mNode);
+				++mIter;
+				return !end() ? &(*mIter) : nullptr;
+			}
+
+			bool end()
+			{
+				mGraph.throwIfInvalid(mNode);
+				return mIter == mGraph.mEdges.at(mNode).end();
+			}
+		private:
+			const SparseGraph& mGraph;
+			int mNode;
+			typename EdgeList::const_iterator mIter;
+		};
+
 	private:
+		friend class ConstEdgeIterator;
+
 		bool isValid(int index) const
 		{
 			return index >= 0 && (unsigned)index < mNodes.size() && mNodes.at(index).getIndex() != Node::INVALID_INDEX;
