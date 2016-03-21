@@ -48,7 +48,14 @@ int main()
 	graph->addEdge(te::SampleEdge(isolated, 0));
 	te::GraphSearchDFS<te::SparseGraph<te::SampleNode, te::SampleEdge>> dfs2(graph, isolated, 1);
 	if (dfs2.found())
+	{
 		std::cout << "There is a path." << std::endl;
+		std::list<int> path = dfs2.getPathToTarget();
+		std::for_each(path.begin(), path.end(), [](int node) {
+			std::cout << node << ",";
+		});
+		std::cout << std::endl;
+	}
 
 	te::TMX tmx("map.tmx");
 

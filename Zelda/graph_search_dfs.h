@@ -27,6 +27,25 @@ namespace te
 			return mbFound;
 		}
 
+		std::list<int> getPathToTarget() const
+		{
+			std::list<int> path;
+
+			if (!mbFound || mTarget < 0) return path;
+
+			int nd = mTarget;
+
+			path.push_back(nd);
+
+			while(nd != mSource)
+			{
+				nd = mRoute[nd];
+				path.push_back(nd);
+			}
+
+			return path;
+		}
+
 	private:
 		bool search()
 		{
