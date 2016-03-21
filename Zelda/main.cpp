@@ -9,6 +9,7 @@
 #include "graph_edge.h"
 #include "graph_node.h"
 #include "graph_search_dfs.h"
+#include "graph_search_bfs.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -46,11 +47,21 @@ int main()
 		std::cout << "There is a path." << std::endl;
 	int isolated = graph->addNode(te::SampleNode());
 	graph->addEdge(te::SampleEdge(isolated, 0));
-	te::GraphSearchDFS<te::SparseGraph<te::SampleNode, te::SampleEdge>> dfs2(graph, isolated, 1);
+	te::GraphSearchDFS<te::SparseGraph<te::SampleNode, te::SampleEdge>> dfs2(graph, isolated, to);
 	if (dfs2.found())
 	{
 		std::cout << "There is a path." << std::endl;
 		std::list<int> path = dfs2.getPathToTarget();
+		std::for_each(path.begin(), path.end(), [](int node) {
+			std::cout << node << ",";
+		});
+		std::cout << std::endl;
+	}
+
+	te::GraphSearchBFS<te::SparseGraph<te::SampleNode, te::SampleEdge>> bfs(graph, isolated, to);
+	if (bfs.found())
+	{
+		std::list<int> path = bfs.getPathToTarget();
 		std::for_each(path.begin(), path.end(), [](int node) {
 			std::cout << node << ",";
 		});

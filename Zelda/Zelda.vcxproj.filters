@@ -91,5 +91,8 @@
     <ClInclude Include="graph_search_dfs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graph_search_bfs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

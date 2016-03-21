@@ -138,6 +138,7 @@
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="graph_edge.h" />
     <ClInclude Include="graph_node.h" />
+    <ClInclude Include="graph_search_bfs.h" />
     <ClInclude Include="graph_search_dfs.h" />
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="sparse_graph.h" />
