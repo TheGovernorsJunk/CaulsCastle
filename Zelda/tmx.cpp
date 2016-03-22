@@ -27,7 +27,33 @@ namespace te
 
 		for (rapidxml::xml_node<char>* pTileset = tmx.first_node("map")->first_node("tileset"); pTileset != 0; pTileset = pTileset->next_sibling("tileset"))
 		{
+			std::vector<TileData> tiles;
+			for (rapidxml::xml_node<char>* pTile = pTileset->first_node("tile"); pTile != 0; pTile = pTile->next_sibling("tile"))
+			{
+				rapidxml::xml_node<char>* pObjectGroup = pTile->first_node("objectgroup");
+				std::vector<Object> objects;
+				for (rapidxml::xml_node<char>* pObject = pObjectGroup->first_node("object"); pObject != 0; pObject = pObject->next_sibling("object"))
+				{
+					objects.push_back(Object{
+						std::stoi(pObject->first_attribute("id")->value()),
+						std::stoi(pObject->first_attribute("x")->value()),
+						std::stoi(pObject->first_attribute("y")->value()),
+						pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
+						pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0,
+					});
+				}
+
+				tiles.push_back({
+					std::stoi(pTile->first_attribute("id")->value()),
+					ObjectGroup {
+						pObjectGroup->first_attribute("draworder")->value(),
+						std::move(objects)
+					}
+				});
+			}
+
 			rapidxml::xml_node<char>* pImage = pTileset->first_node("image");
+
 			mTilesets.push_back({
 				std::stoi(pTileset->first_attribute("firstgid")->value()),
 				pTileset->first_attribute("name")->value(),
@@ -37,7 +63,8 @@ namespace te
 					pImage->first_attribute("source")->value(),
 					std::stoi(pImage->first_attribute("width")->value()),
 				    std::stoi(pImage->first_attribute("height")->value())
-				}
+				},
+				std::move(tiles)
 			});
 		}
 
@@ -96,20 +123,20 @@ namespace te
 				int y = tileIndex / mWidth;
 
 				std::array<sf::Vertex,4> quad;
-				quad[0].position = sf::Vector2f(x * mTilewidth, y * mTileheight);
-				quad[1].position = sf::Vector2f((x + 1) * mTilewidth, y * mTileheight);
-				quad[2].position = sf::Vector2f((x + 1) * mTilewidth, (y + 1) * mTileheight);
-				quad[3].position = sf::Vector2f(x * mTilewidth, (y + 1) * mTileheight);
+				quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
+				quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
+				quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
+				quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
 
 				auto tilesetIter = getTilesetIterator(tileIter->gid, mTilesets);
 				int localId = tileIter->gid - tilesetIter->firstgid;
 				int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
 				int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
 
-				quad[0].texCoords = sf::Vector2f(tu * mTilewidth, tv * mTileheight);
-				quad[1].texCoords = sf::Vector2f((tu + 1) * mTilewidth, tv * mTileheight);
-				quad[2].texCoords = sf::Vector2f((tu + 1) * mTilewidth, (tv + 1) * mTileheight);
-				quad[3].texCoords = sf::Vector2f(tu * mTilewidth, (tv + 1) * mTileheight);
+				quad[0].texCoords = sf::Vector2f((float)tu * mTilewidth, (float)tv * mTileheight);
+				quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (float)tv * mTileheight);
+				quad[2].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 1.f) * mTileheight);
+				quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 1.f) * mTileheight);
 
 				int tilesetIndex = tilesetIter - mTilesets.begin();
 				std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {

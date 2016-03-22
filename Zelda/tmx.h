@@ -20,6 +20,21 @@ namespace te
 			int width;
 			int height;
 		};
+		struct Object {
+			int id;
+			int x;
+			int y;
+			int width;
+			int height;
+		};
+		struct ObjectGroup {
+			std::string draworder;
+			std::vector<Object> objects;
+		};
+		struct TileData {
+			int id;
+			ObjectGroup objectgroup;
+		};
 		struct Tileset {
 			int firstgid;
 			std::string name;
@@ -27,6 +42,7 @@ namespace te
 			int tileheight;
 			int tilecount;
 			Image image;
+			std::vector<TileData> tiles;
 		};
 		struct Tile {
 			int gid;
