@@ -1,7 +1,10 @@
 #ifndef TE_SPARSE_GRAPH_H
 #define TE_SPARSE_GRAPH_H
 
+#include "nav_graph_node.h"
 #include "nav_graph_edge.h"
+
+#include <SFML/Graphics.hpp>
 
 #include <vector>
 #include <list>
@@ -10,7 +13,7 @@
 namespace te
 {
 	template <class NodeType, class EdgeType>
-	class SparseGraph
+	class SparseGraph : public sf::Drawable
 	{
 	public:
 		typedef NodeType Node;
@@ -229,10 +232,26 @@ namespace te
 			edgeList.erase(newEnd, edgeList.end());
 		}
 
+		virtual void draw(sf::RenderTarget&, sf::RenderStates) const
+		{}
+
 		NodeVector mNodes;
 		EdgeListVector mEdges;
 		bool mbDigraph;
 		int mNextNodeIndex;
+	};
+
+	template<> void SparseGraph<NavGraphNode, NavGraphEdge>::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		std::for_each(mEdges.begin(), mEdges.end(), [&](const EdgeList& edgeList) {
+			std::for_each(edgeList.begin(), edgeList.end(), [&](const Edge& edge) {
+				sf::Vertex line[] = {
+					sf::Vertex(getNode(edge.getFrom()).getPosition()),
+					sf::Vertex(getNode(edge.getTo()).getPosition())
+				};
+				target.draw(line, 2, sf::Lines, states);
+			});
+		});
 	};
 }
 

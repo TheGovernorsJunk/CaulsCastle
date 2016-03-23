@@ -155,6 +155,7 @@ int main()
 		window.draw(map);
 		window.draw(*link);
 		window.draw(collider);
+		window.draw(navGraph);
 		window.display();
 	}
 
