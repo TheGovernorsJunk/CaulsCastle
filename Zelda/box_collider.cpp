@@ -23,9 +23,10 @@ namespace te
 		sf::RectangleShape rect;
 		rect.setPosition({ mRect.left, mRect.top });
 		rect.setSize({ mRect.width, mRect.height });
-		rect.setFillColor(sf::Color::Transparent);
-		rect.setOutlineColor(sf::Color::Blue);
-		rect.setOutlineThickness(1.f);
+		sf::Color fillColor(255, 0, 0, 50);
+		rect.setFillColor(fillColor);
+		//rect.setOutlineColor(sf::Color::Blue);
+		//rect.setOutlineThickness(1.f);
 		target.draw(rect, states);
 	}
 }
