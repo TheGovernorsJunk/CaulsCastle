@@ -15,6 +15,16 @@ namespace te
 	public:
 		void addCollider(const BoxCollider& collider);
 		virtual std::vector<Wall2f> getWalls() const;
+
+		template <typename T>
+		bool contains(T x, T y) const
+		{
+			for (auto it = mBoxColliders.begin(); it != mBoxColliders.end(); ++it)
+			{
+				if (it->contains(x, y)) return true;
+			}
+			return false;
+		}
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		std::vector<BoxCollider> mBoxColliders;
