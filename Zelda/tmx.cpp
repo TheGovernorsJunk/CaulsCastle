@@ -122,30 +122,33 @@ namespace te
 			});
 
 			for (auto tileIter = layer.data.tiles.begin(); tileIter != layer.data.tiles.end(); ++tileIter) {
-				int tileIndex = tileIter - layer.data.tiles.begin();
-				int x = tileIndex % mWidth;
-				int y = tileIndex / mWidth;
+				if (tileIter->gid != 0)
+				{
+					int tileIndex = tileIter - layer.data.tiles.begin();
+					int x = tileIndex % mWidth;
+					int y = tileIndex / mWidth;
 
-				std::array<sf::Vertex,4> quad;
-				quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
-				quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
-				quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
-				quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
+					std::array<sf::Vertex, 4> quad;
+					quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
+					quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
+					quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
+					quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
 
-				auto tilesetIter = getTilesetIterator(tileIter->gid, mTilesets);
-				int localId = tileIter->gid - tilesetIter->firstgid;
-				int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
-				int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
+					auto tilesetIter = getTilesetIterator(tileIter->gid, mTilesets);
+					int localId = tileIter->gid - tilesetIter->firstgid;
+					int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
+					int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
 
-				quad[0].texCoords = sf::Vector2f((float)tu * mTilewidth, (float)tv * mTileheight);
-				quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (float)tv * mTileheight);
-				quad[2].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 1.f) * mTileheight);
-				quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 1.f) * mTileheight);
+					quad[0].texCoords = sf::Vector2f((float)tu * mTilewidth, (float)tv * mTileheight);
+					quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (float)tv * mTileheight);
+					quad[2].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 1.f) * mTileheight);
+					quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 1.f) * mTileheight);
 
-				int tilesetIndex = tilesetIter - mTilesets.begin();
-				std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
-					vertexArrays[tilesetIndex].append(v);
-				});
+					int tilesetIndex = tilesetIter - mTilesets.begin();
+					std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
+						vertexArrays[tilesetIndex].append(v);
+					});
+				}
 			}
 
 			layers.push_back(vertexArrays);
