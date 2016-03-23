@@ -281,7 +281,7 @@ namespace te
 						NavGraphNode newNode;
 						newNode.setPosition(newPos);
 						int newIndex = graph.addNode(newNode);
-						graph.addEdge(NavGraphEdge(startIndex, newIndex, length(graph.getNode(startIndex).getPosition() - newPos)));
+						//graph.addEdge(NavGraphEdge(startIndex, newIndex, length(graph.getNode(startIndex).getPosition() - newPos)));
 
 						assigned.insert(std::make_pair(newPos, newIndex));
 						newIndices.push_back(newIndex);
@@ -292,13 +292,17 @@ namespace te
 				std::for_each(newIndices.begin(), newIndices.end(), [&](int newIndex) {
 					sf::Vector2f newPosition = graph.getNode(newIndex).getPosition();
 
-					const std::array<sf::Vector2f, 4> diagonals = {
+					const std::array<sf::Vector2f, 8> neighbors = {
+						sf::Vector2f((float)mTilewidth, 0),
+						sf::Vector2f(-(float)mTilewidth, 0),
+						sf::Vector2f(0, (float)mTileheight),
+						sf::Vector2f(0, -(float)mTileheight),
 						sf::Vector2f((float)mTilewidth, (float)mTileheight),
 						sf::Vector2f(-(float)mTilewidth, (float)mTileheight),
 						sf::Vector2f(-(float)mTilewidth, -(float)mTileheight),
 						sf::Vector2f((float)mTilewidth, -(float)mTileheight),
 					};
-					std::for_each(diagonals.begin(), diagonals.end(), [&](sf::Vector2f offset) {
+					std::for_each(neighbors.begin(), neighbors.end(), [&](sf::Vector2f offset) {
 						sf::Vector2f neighbor = newPosition + offset;
 						auto neighborIndexIter = assigned.find(neighbor);
 						if (neighborIndexIter != assigned.end())
