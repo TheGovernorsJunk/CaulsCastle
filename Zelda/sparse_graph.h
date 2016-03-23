@@ -1,6 +1,8 @@
 #ifndef TE_SPARSE_GRAPH_H
 #define TE_SPARSE_GRAPH_H
 
+#include "nav_graph_edge.h"
+
 #include <vector>
 #include <list>
 #include <algorithm>
@@ -158,6 +160,14 @@ namespace te
 		{
 			mNodes.clear();
 			mEdges.clear();
+		}
+
+		void pruneEdges()
+		{
+			std::for_each(mEdges.begin(), mEdges.end(), [](EdgeList& edgeList) {
+				std::set<Edge> edgeSet(edgeList.begin(), edgeList.end());
+				edgeList.assign(edgeSet.begin(), edgeSet.end());
+			});
 		}
 
 		class ConstEdgeIterator
