@@ -119,6 +119,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="base_game_entity.cpp" />
+    <ClCompile Include="box_collider.cpp" />
+    <ClCompile Include="collider.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="graph_edge.cpp" />
@@ -128,12 +130,15 @@
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tmx.cpp" />
+    <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_game_entity.h" />
+    <ClInclude Include="box_collider.h" />
+    <ClInclude Include="collider.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="graph_edge.h" />
@@ -147,6 +152,7 @@
     <ClInclude Include="texture_manager.h" />
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="tmx.h" />
+    <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

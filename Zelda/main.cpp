@@ -10,6 +10,8 @@
 #include "graph_node.h"
 #include "graph_search_dfs.h"
 #include "graph_search_bfs.h"
+#include "box_collider.h"
+#include "wall.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -32,6 +34,9 @@ namespace te
 
 int main()
 {
+	te::BoxCollider collider(sf::FloatRect(32, 16, 48, 64));
+	std::vector<te::Wall2f> walls = collider.getWalls();
+
 	auto graph = std::make_shared<te::SparseGraph<te::SampleNode, te::SampleEdge>>();
 	int from = graph->addNode(te::SampleNode());
 	int to = graph->addNode(te::SampleNode());
@@ -143,6 +148,7 @@ int main()
 		window.clear();
 		window.draw(map);
 		window.draw(*link);
+		window.draw(collider);
 		window.display();
 	}
 
