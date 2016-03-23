@@ -54,6 +54,9 @@
     <ClCompile Include="box_collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="composite_collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -110,6 +113,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="box_collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="composite_collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,12 +8,14 @@ namespace te
 {
 	class TextureManager;
 	class TileMap;
+	class CompositeCollider;
 
 	class TMX
 	{
 	public:
 		TMX(const std::string& filename);
 		TileMap makeTileMap(TextureManager&) const;
+		CompositeCollider makeCollider() const;
 	private:
 		struct Image {
 			std::string source;
@@ -57,8 +59,12 @@ namespace te
 			Data data;
 		};
 
+		static const int NULL_TILE;
+		static const TileData NULL_DATA;
+
 		//std::vector<Tileset>::const_iterator getTilesetIterator(int gid) const;
 		friend std::vector<Tileset>::const_iterator getTilesetIterator(int, const std::vector<Tileset>&);
+		const TileData& getTileData(int x, int y, const Layer& layer) const;
 
 		int mWidth;
 		int mHeight;

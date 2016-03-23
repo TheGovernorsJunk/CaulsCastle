@@ -2,6 +2,7 @@
 
 #include "texture_manager.h"
 #include "tile_map.h"
+#include "composite_collider.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -13,6 +14,9 @@
 
 namespace te
 {
+	const int TMX::NULL_TILE = -1;
+	const TMX::TileData TMX::NULL_DATA = TMX::TileData{ NULL_TILE, TMX::ObjectGroup() };
+
 	TMX::TMX(const std::string& filename)
 	{
 		rapidxml::file<> tmxFile(filename.c_str());
@@ -148,5 +152,53 @@ namespace te
 		});
 
 		return TileMap(pTextures, layers);
+	}
+
+	const TMX::TileData& TMX::getTileData(int x, int y, const TMX::Layer& layer) const
+	{
+		int i = y * mWidth + x;
+		if (i >= mWidth * mHeight)
+		{
+			throw std::out_of_range("Tile coordinates are out of bounds.");
+		}
+		const Tile& tile = layer.data.tiles[i];
+		if (tile.gid == 0)
+		{
+			return TMX::NULL_DATA;
+		}
+		auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
+		const int localId = tile.gid - tilesetIter->firstgid;
+		const std::vector<TileData>& tiles = tilesetIter->tiles;
+		auto result = std::find_if(tiles.begin(), tiles.end(), [localId](const TileData& data) {
+			return localId == data.id;
+		});
+		if (result == tiles.end())
+		{
+			return TMX::NULL_DATA;
+		}
+		return *result;
+	}
+
+	CompositeCollider TMX::makeCollider() const
+	{
+		CompositeCollider collider;
+		std::for_each(mLayers.begin(), mLayers.end(), [&collider, this](const Layer& layer) {
+			for (int y = 0; y < mHeight; ++y)
+			{
+				for (int x = 0; x < mWidth; ++x)
+				{
+					const TMX::TileData& tileData = getTileData(x, y, layer);
+					if (tileData.id != NULL_TILE)
+					{
+						sf::Transform transform;
+						transform.translate((float)x * mTilewidth, (float)y * mTileheight);
+						std::for_each(tileData.objectgroup.objects.begin(), tileData.objectgroup.objects.end(), [&collider, &transform](const Object& obj) {
+							collider.addCollider({ transform.transformRect({ (float)obj.x, (float)obj.y, (float)obj.width, (float)obj.height }) });
+						});
+					}
+				}
+			}
+		});
+		return collider;
 	}
 }
