@@ -3,6 +3,8 @@
 #include "texture_manager.h"
 #include "tile_map.h"
 #include "composite_collider.h"
+#include "nav_graph_node.h"
+#include "nav_graph_edge.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -11,6 +13,20 @@
 #include <memory>
 #include <algorithm>
 #include <array>
+#include <set>
+#include <cmath>
+
+constexpr bool std::less<sf::Vector2f>::operator()(const sf::Vector2f& a, const sf::Vector2f& b) const
+{
+	return a.x < b.x || (a.x == b.x && a.y < b.y);
+}
+
+constexpr bool std::less<te::NavGraphEdge>::operator()(const te::NavGraphEdge& a, const te::NavGraphEdge& b) const
+{
+	return a.getFrom() < b.getFrom() ||
+		(a.getFrom() == b.getFrom() && a.getTo() < b.getTo()) ||
+		(a.getFrom() == b.getFrom() && a.getTo() == b.getTo() && a.getCost() < b.getCost());
+}
 
 namespace te
 {
@@ -203,5 +219,113 @@ namespace te
 			}
 		});
 		return collider;
+	}
+
+	int TMX::index(int x, int y) const
+	{
+		return y * mWidth + x;
+	}
+
+	static float length(const sf::Vector2f& v)
+	{
+		return std::sqrtf(v.x * v.x + v.y * v.y);
+	}
+
+	SparseGraph<NavGraphNode, NavGraphEdge> TMX::makeNavGraph() const
+	{
+		CompositeCollider collider = makeCollider();
+		NavGraphNode seedNode;
+		seedNode.setIndex(-1);
+		int x = 0, y = 0;
+		while (seedNode.getIndex() == -1 && y < mHeight)
+		{
+			float xCoord = x * mTilewidth + (mTilewidth / 2.f);
+			float yCoord = y * mTileheight + (mTileheight / 2.f);
+			if (!collider.contains(xCoord, yCoord))
+			{
+				seedNode.setIndex(0);
+				seedNode.setPosition(sf::Vector2f(xCoord, yCoord));
+			}
+			else
+			{
+				++x;
+				if (x == mWidth)
+				{
+					x = 0;
+					++y;
+				}
+			}
+		}
+
+		SparseGraph<NavGraphNode, NavGraphEdge> graph;
+		if (seedNode.getIndex() != -1)
+		{
+			int seedIndex = graph.addNode(seedNode);
+
+			std::vector<NavGraphNode> allNodes;
+			std::map<sf::Vector2f, int> assigned;
+			auto flood = [&, this](int startIndex) {
+				sf::Vector2f pos = graph.getNode(startIndex).getPosition();
+				std::vector<int> newIndices;
+
+				const std::array<sf::Vector2f, 4> offsets = {
+					sf::Vector2f((float)mTilewidth, 0),
+					sf::Vector2f(-(float)mTilewidth, 0),
+					sf::Vector2f(0, (float)mTileheight),
+					sf::Vector2f(0, -(float)mTileheight)
+				};
+				std::for_each(offsets.begin(), offsets.end(), [&](const sf::Vector2f& offset) {
+					sf::Vector2f newPos = offset + pos;
+					if (assigned.find(newPos) == assigned.end() && !collider.contains(newPos.x, newPos.y) && newPos.x > 0 && newPos.x < mWidth * mTilewidth && newPos.y > 0 && newPos.y < mHeight * mTileheight)
+					{
+						NavGraphNode newNode;
+						newNode.setPosition(newPos);
+						int newIndex = graph.addNode(newNode);
+						graph.addEdge(NavGraphEdge(startIndex, newIndex, length(graph.getNode(startIndex).getPosition() - newPos)));
+
+						assigned.insert(std::make_pair(newPos, newIndex));
+						newIndices.push_back(newIndex);
+					}
+				});
+
+				// Add diagonal edges
+				std::for_each(newIndices.begin(), newIndices.end(), [&](int newIndex) {
+					sf::Vector2f newPosition = graph.getNode(newIndex).getPosition();
+
+					const std::array<sf::Vector2f, 4> diagonals = {
+						sf::Vector2f((float)mTilewidth, (float)mTileheight),
+						sf::Vector2f(-(float)mTilewidth, (float)mTileheight),
+						sf::Vector2f(-(float)mTilewidth, -(float)mTileheight),
+						sf::Vector2f((float)mTilewidth, -(float)mTileheight),
+					};
+					std::for_each(diagonals.begin(), diagonals.end(), [&](sf::Vector2f offset) {
+						sf::Vector2f neighbor = newPosition + offset;
+						auto neighborIndexIter = assigned.find(neighbor);
+						if (neighborIndexIter != assigned.end())
+						{
+							graph.addEdge(NavGraphEdge(newIndex, neighborIndexIter->second, length(graph.getNode(newIndex).getPosition() - neighbor)));
+						}
+					});
+				});
+				return newIndices;
+			};
+
+			auto flatMapFlood = [&](std::vector<int> indices) {
+				std::vector<int> newIndices;
+				std::for_each(indices.begin(), indices.end(), [&](int index) {
+					std::vector<int> currIndices = flood(index);
+					newIndices.insert(newIndices.end(), currIndices.begin(), currIndices.end());
+				});
+				return newIndices;
+			};
+
+			std::vector<int> newIndices = flatMapFlood({ seedIndex });
+			while (newIndices.size() > 0)
+			{
+				newIndices = flatMapFlood(newIndices);
+			}
+		}
+		graph.pruneEdges();
+		return graph;
 	}
 }

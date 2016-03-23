@@ -13,6 +13,8 @@
 #include "box_collider.h"
 #include "wall.h"
 #include "composite_collider.h"
+#include "nav_graph_node.h"
+#include "nav_graph_edge.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -77,6 +79,7 @@ int main()
 	te::TMX tmx("map.tmx");
 
 	te::CompositeCollider collider = tmx.makeCollider();
+	auto navGraph = tmx.makeNavGraph();
 
 	sf::RenderWindow window(sf::VideoMode(600, 400), "Zelda");
 	window.setVerticalSyncEnabled(true);
