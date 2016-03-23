@@ -1,6 +1,8 @@
 #ifndef TE_TMX_H
 #define TE_TMX_H
 
+#include "sparse_graph.h"
+
 #include <string>
 #include <vector>
 
@@ -9,6 +11,8 @@ namespace te
 	class TextureManager;
 	class TileMap;
 	class CompositeCollider;
+	class NavGraphNode;
+	class NavGraphEdge;
 
 	class TMX
 	{
@@ -16,6 +20,9 @@ namespace te
 		TMX(const std::string& filename);
 		TileMap makeTileMap(TextureManager&) const;
 		CompositeCollider makeCollider() const;
+
+		SparseGraph<NavGraphNode, NavGraphEdge> makeNavGraph() const;
+
 	private:
 		struct Image {
 			std::string source;
@@ -65,6 +72,7 @@ namespace te
 		//std::vector<Tileset>::const_iterator getTilesetIterator(int gid) const;
 		friend std::vector<Tileset>::const_iterator getTilesetIterator(int, const std::vector<Tileset>&);
 		const TileData& getTileData(int x, int y, const Layer& layer) const;
+		int index(int x, int y) const;
 
 		int mWidth;
 		int mHeight;
