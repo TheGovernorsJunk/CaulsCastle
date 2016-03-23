@@ -57,6 +57,12 @@
     <ClCompile Include="composite_collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="nav_graph_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="nav_graph_edge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -116,6 +122,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="composite_collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nav_graph_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="nav_graph_edge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

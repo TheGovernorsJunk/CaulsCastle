@@ -128,6 +128,8 @@
     <ClCompile Include="graph_node.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message_dispatcher.cpp" />
+    <ClCompile Include="nav_graph_edge.cpp" />
+    <ClCompile Include="nav_graph_node.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tmx.cpp" />
@@ -148,6 +150,8 @@
     <ClInclude Include="graph_search_bfs.h" />
     <ClInclude Include="graph_search_dfs.h" />
     <ClInclude Include="message_dispatcher.h" />
+    <ClInclude Include="nav_graph_edge.h" />
+    <ClInclude Include="nav_graph_node.h" />
     <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
