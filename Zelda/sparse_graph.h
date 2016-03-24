@@ -186,13 +186,16 @@ namespace te
 			{
 				mGraph.throwIfInvalid(mNode);
 				mIter = mGraph.mEdges.at(mNode).begin();
+				if (!end() && !mGraph.isValid(mIter->getTo())) next();
 				return !end() ? &(*mIter) : nullptr;
 			}
 
 			const Edge* next()
 			{
 				mGraph.throwIfInvalid(mNode);
-				++mIter;
+				do {
+					++mIter;
+				} while (!end() && !mGraph.isValid(mIter->getTo()));
 				return !end() ? &(*mIter) : nullptr;
 			}
 
