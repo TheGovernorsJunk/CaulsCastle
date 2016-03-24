@@ -44,7 +44,7 @@ int main()
 	auto graph = std::make_shared<te::SparseGraph<te::SampleNode, te::SampleEdge>>();
 	int from = graph->addNode(te::SampleNode());
 	int to = graph->addNode(te::SampleNode());
-	graph->addEdge(te::SampleEdge(from, to));
+	graph->addEdge(te::SampleEdge(from, to, 4.2));
 	graph->getEdge(from, to);
 	//graph.removeEdge(from, to);
 	//graph.clear();
@@ -77,7 +77,13 @@ int main()
 		std::cout << std::endl;
 	}
 
+	graph->addEdge(te::SampleEdge(isolated, to, 9.0));
+	//graph->removeNode(to);
 	te::GraphSearchDijkstra<te::SparseGraph<te::SampleNode, te::SampleEdge>> dijkstra(graph, isolated, to);
+	std::list<int> dPath = dijkstra.getPathToTarget();
+	for (auto i : dPath) std::cout << i << ",";
+	std::cout << std::endl;
+	std::cout << dijkstra.getCostToTarget() << std::endl;
 
 	te::TMX tmx("map.tmx");
 
