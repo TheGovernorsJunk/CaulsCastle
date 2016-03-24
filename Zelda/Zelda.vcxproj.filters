@@ -133,5 +133,8 @@
     <ClInclude Include="graph_search_dijkstra.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="steering_behaviors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

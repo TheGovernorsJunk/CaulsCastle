@@ -156,6 +156,7 @@
     <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
+    <ClInclude Include="steering_behaviors.h" />
     <ClInclude Include="texture_manager.h" />
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="tmx.h" />
