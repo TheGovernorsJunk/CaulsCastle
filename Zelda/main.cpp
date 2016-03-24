@@ -88,7 +88,10 @@ int main()
 	te::TMX tmx("map.tmx");
 
 	te::CompositeCollider collider = tmx.makeCollider();
-	auto navGraph = tmx.makeNavGraph();
+	auto navGraph = std::make_shared<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>>(tmx.makeNavGraph());
+	te::GraphSearchDijkstra<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>> navSearch(navGraph, 1, 400);
+	std::list<int> navPath = navSearch.getPathToTarget();
+	for (auto i : navPath) std::cout << i << "-";
 
 	sf::RenderWindow window(sf::VideoMode(600, 400), "Zelda");
 	window.setVerticalSyncEnabled(true);
@@ -164,7 +167,20 @@ int main()
 		window.draw(map);
 		window.draw(*link);
 		window.draw(collider);
-		window.draw(navGraph);
+		window.draw(*navGraph);
+		if (navPath.size() > 1)
+		{
+			int last = navPath.front();
+			for (auto next : navPath)
+			{
+				sf::Vertex line[] = {
+					sf::Vertex(navGraph->getNode(last).getPosition(), sf::Color::Magenta),
+					sf::Vertex(navGraph->getNode(next).getPosition(), sf::Color::Magenta)
+				};
+				window.draw(line, 2, sf::Lines);
+				last = next;
+			}
+		}
 		window.display();
 	}
 
