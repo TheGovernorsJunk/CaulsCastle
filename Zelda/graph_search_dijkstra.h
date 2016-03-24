@@ -33,9 +33,20 @@ namespace te
 			return index;
 		}
 
-		void resort()
+		std::vector<size_t> popAll()
 		{
-			mPriorityQueue.push(pop());
+			std::vector<size_t> elems;
+			elems.reserve(mPriorityQueue.size());
+			while (!mPriorityQueue.empty())
+			{
+				elems.push_back(pop());
+			}
+			return elems;
+		}
+
+		void assignElements(std::vector<size_t>&& elems)
+		{
+			mPriorityQueue = std::priority_queue<size_t, std::vector<size_t>, std::function<bool(size_t, size_t)>>(mCompare, std::move(elems));
 		}
 
 	private:
@@ -120,8 +131,9 @@ namespace te
 					// If cost here is cheaper than on record
 					else if ((newCost < mCostToThisNode[pE->getTo()]) && (mShortestPathTree[pE->getTo()] == 0))
 					{
+						std::vector<size_t> elems = pq.popAll();
 						mCostToThisNode[pE->getTo()] = newCost;
-						pq.resort();
+						pq.assignElements(std::move(elems));
 						mSearchFrontier[pE->getTo()] = pE;
 					}
 				}
