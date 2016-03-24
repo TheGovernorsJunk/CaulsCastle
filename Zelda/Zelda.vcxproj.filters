@@ -130,5 +130,8 @@
     <ClInclude Include="nav_graph_edge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graph_search_dijkstra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

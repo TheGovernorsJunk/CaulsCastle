@@ -149,6 +149,7 @@
     <ClInclude Include="graph_node.h" />
     <ClInclude Include="graph_search_bfs.h" />
     <ClInclude Include="graph_search_dfs.h" />
+    <ClInclude Include="graph_search_dijkstra.h" />
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />

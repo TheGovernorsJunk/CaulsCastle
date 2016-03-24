@@ -10,6 +10,7 @@
 #include "graph_node.h"
 #include "graph_search_dfs.h"
 #include "graph_search_bfs.h"
+#include "graph_search_dijkstra.h"
 #include "box_collider.h"
 #include "wall.h"
 #include "composite_collider.h"
@@ -75,6 +76,8 @@ int main()
 		});
 		std::cout << std::endl;
 	}
+
+	te::GraphSearchDijkstra<te::SparseGraph<te::SampleNode, te::SampleEdge>> dijkstra(graph, isolated, to);
 
 	te::TMX tmx("map.tmx");
 
