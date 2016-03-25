@@ -1,8 +1,9 @@
 #ifndef TE_ENTITY_H
 #define TE_ENTITY_H
 
-#include "base_game_entity.h"
+#include "moving_entity.h"
 #include "state_machine.h"
+#include "steering_behaviors.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -12,7 +13,7 @@ namespace te
 {
 	class MessageDispatcher;
 
-	class Entity : public sf::Drawable, public BaseGameEntity
+	class Entity : public sf::Drawable, public MovingEntity
 	{
 	public:
 		Entity(const std::shared_ptr<MessageDispatcher>&);
@@ -25,6 +26,9 @@ namespace te
 
 		virtual void update(const sf::Time& dt);
 		virtual bool handleMessage(const Telegram& msg);
+
+		const SteeringBehaviors& getSteering() const;
+		SteeringBehaviors& getSteering();
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
@@ -36,6 +40,7 @@ namespace te
 		StateMachine<Entity> mFSM;
 		const std::shared_ptr<MessageDispatcher> mpMessageDispatcher;
 		const std::shared_ptr<EntityManager> mpEntityManager;
+		SteeringBehaviors mSteering;
 	};
 }
 

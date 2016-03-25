@@ -92,6 +92,7 @@ int main()
 	te::GraphSearchDijkstra<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>> navSearch(navGraph, 1, 400);
 	std::list<int> navPath = navSearch.getPathToTarget();
 	for (auto i : navPath) std::cout << i << "-";
+	std::cout << std::endl;
 
 	sf::RenderWindow window(sf::VideoMode(600, 400), "Zelda");
 	window.setVerticalSyncEnabled(true);
@@ -154,6 +155,9 @@ int main()
 					break;
 				case sf::Keyboard::S:
 					link->setVelocity(sf::Vector2f(0, direction * 64) + link->getVelocity());
+					break;
+				case sf::Keyboard::Space:
+					pMessageDispatcher->dispatchMessage(0, link->getID(), link->getID(), 75, NULL);
 					break;
 				}
 			}

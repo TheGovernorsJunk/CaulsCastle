@@ -10,15 +10,24 @@ namespace te
 	class EntityState : public State<Entity>
 	{
 	public:
-		virtual void execute(Entity& entity, sf::Time dt)
+		virtual void execute(Entity& entity, const sf::Time& dt)
 		{
-			entity.move(dt.asSeconds() * entity.getVelocity());
+			//entity.move(dt.asSeconds() * entity.getVelocity());
+			entity.updateOnForce(dt, entity.getSteering().calculate());
 		}
 		virtual bool onMessage(Entity& entity, const Telegram& telegram)
 		{
 			if (telegram.msg == 50)
 			{
 				std::cout << "Message received!" << std::endl;
+				return true;
+			}
+			if (telegram.msg == 75)
+			{
+				//entity.getSteering().setSeekEnabled(true, sf::Vector2f(16 * 15.f, 16 * 20.f));
+				//entity.getSteering().setFleeEnabled(true, sf::Vector2f(16 * 0.f, 16 * 0.f), 16 * 16.f);
+				entity.getSteering().setArriveEnabled(true, sf::Vector2f(16 * 15.f, 16 * 20.f), SteeringBehaviors::Deceleration::Slow);
+				return true;
 			}
 			return false;
 		}
@@ -27,13 +36,16 @@ namespace te
 
 
 	Entity::Entity(const std::shared_ptr<MessageDispatcher>& pMessageDispatcher)
-		: mSprite()
+		: sf::Drawable()
+		, MovingEntity(64.f, 50.f, 90.f)
+		, mSprite()
 		, mBoxCollider()
 		, mDrawColliderEnabled(false)
 		, mVelocity(0, 0)
 		, mFSM(*this, std::make_shared<EntityState>())
 		, mpMessageDispatcher(pMessageDispatcher)
 		, mpEntityManager(pMessageDispatcher->getEntityManager())
+		, mSteering(*this)
 	{}
 
 	void Entity::setSprite(const sf::Sprite& sprite)
@@ -69,6 +81,16 @@ namespace te
 	bool Entity::handleMessage(const Telegram& telegram)
 	{
 		return mFSM.handleMessage(telegram);
+	}
+
+	const SteeringBehaviors& Entity::getSteering() const
+	{
+		return mSteering;
+	}
+
+	SteeringBehaviors& Entity::getSteering()
+	{
+		return mSteering;
 	}
 
 	void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
