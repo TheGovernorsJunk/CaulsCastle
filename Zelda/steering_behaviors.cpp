@@ -4,8 +4,31 @@
 
 namespace te
 {
-	SteeringBehaviors::SteeringBehaviors(Vehicle& vehicle)
-		: mOwner(vehicle) {}
+	SteeringBehaviors::SteeringBehaviors(Owner& vehicle)
+		: mOwner(vehicle)
+		, mSteeringForce(0.f, 0.f)
+		, mSeekEnabled(false)
+	{}
+
+	sf::Vector2f SteeringBehaviors::calculate()
+	{
+		mSteeringForce = sf::Vector2f(0.f, 0.f);
+
+		sf::Vector2f force;
+		if (mSeekEnabled)
+		{
+			force = seek(mSeekTarget);
+			if (!accumulateForce(mSteeringForce, force)) return mSteeringForce;
+		}
+
+		return mSteeringForce;
+	}
+
+	void SteeringBehaviors::setSeekEnabled(bool enabled, sf::Vector2f target)
+	{
+		mSeekEnabled = enabled;
+		mSeekTarget = target;
+	}
 
 	sf::Vector2f SteeringBehaviors::seek(sf::Vector2f target) const
 	{
@@ -43,5 +66,22 @@ namespace te
 		}
 
 		return sf::Vector2f(0.f, 0.f);
+	}
+
+	bool SteeringBehaviors::accumulateForce(sf::Vector2f& accumulator, sf::Vector2f force) const
+	{
+		float magnitude = length(accumulator);
+		float magnitudeRemaining = mOwner.getMaxForce() - magnitude;
+		if (magnitudeRemaining <= 0.f) return false;
+		float magnitudeToAdd = length(force);
+		if (magnitudeToAdd < magnitudeRemaining)
+		{
+			accumulator += force;
+		}
+		else
+		{
+			accumulator += normalize(force) * magnitudeRemaining;
+		}
+		return true;
 	}
 }
