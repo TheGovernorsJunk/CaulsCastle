@@ -3,7 +3,8 @@
 namespace te
 {
 	Vehicle::Vehicle()
-		: mSteering(*this)
+		: MovingEntity()
+		, mSteering(*this)
 	{}
 
 	const SteeringBehaviors& Vehicle::getSteering() const
