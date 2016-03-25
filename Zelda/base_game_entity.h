@@ -19,6 +19,8 @@ namespace te
 		const static int UNREGISTERED_ID = 0;
 
 		BaseGameEntity();
+		virtual ~BaseGameEntity();
+
 		virtual void update(const sf::Time& dt) = 0;
 		virtual bool handleMessage(const Telegram& msg) = 0;
 		int getID() const;

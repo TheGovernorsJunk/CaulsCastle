@@ -8,6 +8,9 @@ namespace te
 	class MovingEntity : public BaseGameEntity
 	{
 	public:
+		MovingEntity();
+		virtual ~MovingEntity();
+
 		float getMaxSpeed() const;
 		sf::Vector2f getVelocity() const;
 	private:

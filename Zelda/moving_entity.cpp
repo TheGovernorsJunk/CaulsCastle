@@ -2,6 +2,11 @@
 
 namespace te
 {
+	MovingEntity::MovingEntity()
+		: BaseGameEntity() {}
+
+	MovingEntity::~MovingEntity() {}
+
 	float MovingEntity::getMaxSpeed() const
 	{
 		return mMaxSpeed;
