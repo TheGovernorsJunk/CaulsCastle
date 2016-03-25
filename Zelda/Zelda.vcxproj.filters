@@ -63,7 +63,16 @@
     <ClCompile Include="nav_graph_edge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="steering_behaviors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="vector_ops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="moving_entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vehicle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,6 +149,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vector_ops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="moving_entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vehicle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

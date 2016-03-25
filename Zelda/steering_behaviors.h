@@ -12,10 +12,12 @@ namespace te
 	class SteeringBehaviors
 	{
 	public:
-		enum Deceleration { slow = 3, normal = 2, fast = 1 };
+		SteeringBehaviors(Vehicle& owner);
+
+		enum class Deceleration { slow = 3, normal = 2, fast = 1 };
 
 		sf::Vector2f seek(sf::Vector2f target) const;
-		sf::Vector2f flee(sf::Vector2f target) const;
+		sf::Vector2f flee(sf::Vector2f target, float panicDistance = 0.f) const;
 		sf::Vector2f arrive(sf::Vector2f target, Deceleration deceleration) const;
 
 		sf::Vector2f pursuit(const Vehicle& target) const;
@@ -30,6 +32,9 @@ namespace te
 		sf::Vector2f calculate();
 	private:
 		sf::Vector2f getHidingPosition(sf::Vector2f posOb, const double radiusOb, sf::Vector2f posTarget) const;
+
+		typedef Vehicle Owner;
+		Owner& mOwner;
 	};
 }
 

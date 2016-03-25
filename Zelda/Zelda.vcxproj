@@ -128,12 +128,15 @@
     <ClCompile Include="graph_node.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message_dispatcher.cpp" />
+    <ClCompile Include="moving_entity.cpp" />
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
+    <ClCompile Include="steering_behaviors.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tmx.cpp" />
     <ClCompile Include="vector_ops.cpp" />
+    <ClCompile Include="vehicle.cpp" />
     <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +155,7 @@
     <ClInclude Include="graph_search_dfs.h" />
     <ClInclude Include="graph_search_dijkstra.h" />
     <ClInclude Include="message_dispatcher.h" />
+    <ClInclude Include="moving_entity.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
     <ClInclude Include="sparse_graph.h" />
@@ -162,6 +166,7 @@
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="tmx.h" />
     <ClInclude Include="vector_ops.h" />
+    <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
