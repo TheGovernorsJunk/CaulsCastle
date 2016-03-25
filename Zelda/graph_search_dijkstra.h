@@ -10,7 +10,7 @@ namespace te
 	class IndexedPriorityQueue
 	{
 	public:
-		IndexedPriorityQueue(const std::vector<T>& keys, size_t size)
+		IndexedPriorityQueue(const std::vector<T>& keys)
 			: mCompare([&keys](size_t lhs, size_t rhs) { return keys.at(lhs) > keys.at(rhs); })
 			, mPriorityQueue(mCompare)
 		{
@@ -105,7 +105,7 @@ namespace te
 
 		void search()
 		{
-			IndexedPriorityQueue<double> pq(mCostToThisNode, mpGraph->numNodes());
+			IndexedPriorityQueue<double> pq(mCostToThisNode);
 			pq.insert(mSource);
 
 			while (!pq.empty())
