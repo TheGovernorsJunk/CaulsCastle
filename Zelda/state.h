@@ -17,7 +17,7 @@ namespace te
 		virtual ~State() {}
 
 		virtual void enter(EntityType& entity) {}
-		virtual void execute(EntityType& entity, sf::Time dt) = 0;
+		virtual void execute(EntityType& entity, const sf::Time& dt) = 0;
 		virtual void exit(EntityType& entity) {}
 
 		virtual bool onMessage(EntityType& entity, const Telegram& telegram) = 0;
