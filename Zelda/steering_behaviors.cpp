@@ -8,6 +8,13 @@ namespace te
 		: mOwner(vehicle)
 		, mSteeringForce(0.f, 0.f)
 		, mSeekEnabled(false)
+		, mSeekTarget()
+		, mFleeEnabled(false)
+		, mFleeTarget()
+		, mPanicDistance(0.f)
+		, mArriveEnabled(false)
+		, mArriveTarget()
+		, mDeceleration(Deceleration::Normal)
 	{}
 
 	sf::Vector2f SteeringBehaviors::calculate()
@@ -20,6 +27,16 @@ namespace te
 			force = seek(mSeekTarget);
 			if (!accumulateForce(mSteeringForce, force)) return mSteeringForce;
 		}
+		if (mFleeEnabled)
+		{
+			force = flee(mFleeTarget, mPanicDistance);
+			if (!accumulateForce(mSteeringForce, force)) return mSteeringForce;
+		}
+		if (mArriveEnabled)
+		{
+			force = arrive(mArriveTarget, mDeceleration);
+			if (!accumulateForce(mSteeringForce, force)) return mSteeringForce;
+		}
 
 		return mSteeringForce;
 	}
@@ -28,6 +45,20 @@ namespace te
 	{
 		mSeekEnabled = enabled;
 		mSeekTarget = target;
+	}
+
+	void SteeringBehaviors::setFleeEnabled(bool enabled, sf::Vector2f target, float panicDistance)
+	{
+		mFleeEnabled = enabled;
+		mFleeTarget = target;
+		mPanicDistance = panicDistance;
+	}
+
+	void SteeringBehaviors::setArriveEnabled(bool enabled, sf::Vector2f target, SteeringBehaviors::Deceleration deceleration)
+	{
+		mArriveEnabled = enabled;
+		mArriveTarget = target;
+		mDeceleration = deceleration;
 	}
 
 	sf::Vector2f SteeringBehaviors::seek(sf::Vector2f target) const
@@ -40,7 +71,7 @@ namespace te
 	{
 		if (panicDistance > 0.f)
 		{
-			const double panicDistanceSq = 100.0 * 100.0;
+			const double panicDistanceSq = panicDistance * panicDistance;
 			if (distanceSq(mOwner.getPosition(), target) > panicDistanceSq)
 			{
 				return sf::Vector2f(0.f, 0.f);
@@ -58,6 +89,7 @@ namespace te
 
 		if (dist > 0)
 		{
+			// TODO: Find better tweaker
 			const float decelerationTweaker = 0.3f;
 			float speed = dist / ((float)deceleration * decelerationTweaker);
 			speed = std::min(speed, mOwner.getMaxSpeed());

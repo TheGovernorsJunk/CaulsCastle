@@ -17,11 +17,13 @@ namespace te
 
 		SteeringBehaviors(Owner& owner);
 
-		enum class Deceleration { slow = 3, normal = 2, fast = 1 };
+		enum class Deceleration { Slow = 3, Normal = 2, Fast = 1 };
 
 		sf::Vector2f calculate();
 
 		void setSeekEnabled(bool enabled, sf::Vector2f target = sf::Vector2f(0.f, 0.f));
+		void setFleeEnabled(bool enabled, sf::Vector2f target = sf::Vector2f(0.f, 0.f), float panicDistance = 0.f);
+		void setArriveEnabled(bool enabled, sf::Vector2f target = sf::Vector2f(0.f, 0.f), Deceleration deceleration = Deceleration::Normal);
 
 	private:
 		sf::Vector2f seek(sf::Vector2f target) const;
@@ -46,6 +48,14 @@ namespace te
 
 		bool mSeekEnabled;
 		sf::Vector2f mSeekTarget;
+
+		bool mFleeEnabled;
+		sf::Vector2f mFleeTarget;
+		float mPanicDistance;
+
+		bool mArriveEnabled;
+		sf::Vector2f mArriveTarget;
+		Deceleration mDeceleration;
 	};
 }
 
