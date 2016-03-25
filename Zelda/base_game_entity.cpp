@@ -3,7 +3,7 @@
 namespace te
 {
 	BaseGameEntity::BaseGameEntity()
-		: mID(0) {}
+		: mID(UNREGISTERED_ID) {}
 
 	int BaseGameEntity::getID() const
 	{

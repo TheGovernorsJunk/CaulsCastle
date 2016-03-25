@@ -12,7 +12,7 @@ namespace te
 {
 	class MessageDispatcher;
 
-	class Entity : public sf::Drawable, public sf::Transformable, public BaseGameEntity
+	class Entity : public sf::Drawable, public BaseGameEntity
 	{
 	public:
 		Entity(const std::shared_ptr<MessageDispatcher>&);
