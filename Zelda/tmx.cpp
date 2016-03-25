@@ -5,6 +5,7 @@
 #include "composite_collider.h"
 #include "nav_graph_node.h"
 #include "nav_graph_edge.h"
+#include "vector_ops.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -224,11 +225,6 @@ namespace te
 	int TMX::index(int x, int y) const
 	{
 		return y * mWidth + x;
-	}
-
-	static float length(const sf::Vector2f& v)
-	{
-		return std::sqrtf(v.x * v.x + v.y * v.y);
 	}
 
 	SparseGraph<NavGraphNode, NavGraphEdge> TMX::makeNavGraph() const

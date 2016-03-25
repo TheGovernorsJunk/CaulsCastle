@@ -1,13 +1,9 @@
 #include "wall.h"
+#include "vector_ops.h"
 #include <cmath>
 
 namespace te
 {
-	static sf::Vector2f normalize(const sf::Vector2f& v)
-	{
-		return v / std::sqrtf(v.x * v.x + v.y * v.y);
-	}
-
 	Wall2f::Wall2f(const sf::Vector2f& from, const sf::Vector2f& to)
 		: mFrom(from)
 		, mTo(to)
