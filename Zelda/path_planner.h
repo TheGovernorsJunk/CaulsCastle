@@ -21,6 +21,7 @@ namespace te
 		enum { NoClosestNodeFound = -1 };
 
 		int getClosestNodeToPosition(sf::Vector2f pos) const;
+		void convertIndicesToVectors(const std::list<int> pathOfNodeIndices, std::list<sf::Vector2f>& path);
 
 		MovingEntity& mOwner;
 		const TileMap::NavGraph& mNavGraph;
