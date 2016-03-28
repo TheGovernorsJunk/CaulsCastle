@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace te
 {
@@ -18,7 +19,7 @@ namespace te
 	{
 	public:
 		TMX(const std::string& filename);
-		TileMap makeTileMap(TextureManager&) const;
+		void makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const;
 		CompositeCollider makeCollider() const;
 
 		SparseGraph<NavGraphNode, NavGraphEdge> makeNavGraph() const;

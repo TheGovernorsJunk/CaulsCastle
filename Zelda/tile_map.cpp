@@ -1,13 +1,17 @@
 #include "tile_map.h"
+#include "texture_manager.h"
 
 #include <algorithm>
 
 namespace te
 {
-	TileMap::TileMap(const std::vector<std::shared_ptr<sf::Texture>>& textures, const std::vector<std::vector<sf::VertexArray>>& layers)
-		: mTextures(textures)
-		, mLayers(layers)
+	TileMap::TileMap(TextureManager& textureManager, TMX&& tmx)
+		: mTMX(std::move(tmx))
+		, mTextures()
+		, mLayers()
+		, mCollider(tmx.makeCollider())
 	{
+		mTMX.makeVertices(textureManager, mTextures, mLayers);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
 			if (layerComponents.size() != mTextures.size()) {
 				throw std::runtime_error("Texture and layer component counts are inconsistent.");

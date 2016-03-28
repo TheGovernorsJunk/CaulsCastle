@@ -2,6 +2,8 @@
 #define TE_TILE_MAP_H
 
 #include "sparse_graph.h"
+#include "tmx.h"
+#include "composite_collider.h"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -9,18 +11,25 @@
 
 namespace te
 {
+	class TextureManager;
+
 	class TileMap : public sf::Drawable, public sf::Transformable
 	{
 	public:
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 
-		TileMap(const std::vector<std::shared_ptr<sf::Texture>>& textures, const std::vector<std::vector<sf::VertexArray>>& layers);
-		// TODO: Constructor with rvalue parameters
+		TileMap(TextureManager& textureManager, TMX&& tmx);
+
 	private:
+		TileMap(const TileMap&) = delete;
+		TileMap& operator=(const TileMap&) = delete;
+
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
+		TMX mTMX;
 		std::vector<std::shared_ptr<sf::Texture>> mTextures;
 		std::vector<std::vector<sf::VertexArray>> mLayers;
+		CompositeCollider mCollider;
 	};
 }
 

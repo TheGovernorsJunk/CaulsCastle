@@ -11,7 +11,6 @@
 #include <rapidxml.hpp>
 #include <rapidxml_utils.hpp>
 
-#include <memory>
 #include <algorithm>
 #include <array>
 #include <set>
@@ -124,14 +123,14 @@ namespace te
 		return retIt;
 	}
 
-	TileMap TMX::makeTileMap(TextureManager& textureManager) const
+	void TMX::makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const
 	{
-		std::vector<std::shared_ptr<sf::Texture>> pTextures;
-		std::for_each(mTilesets.begin(), mTilesets.end(), [&pTextures, &textureManager](const Tileset& tileset) {
-			pTextures.push_back(textureManager.get(tileset.image.source));
+		textures.clear();
+		std::for_each(mTilesets.begin(), mTilesets.end(), [&textures, &textureManager](const Tileset& tileset) {
+			textures.push_back(textureManager.get(tileset.image.source));
 		});
 
-		std::vector<std::vector<sf::VertexArray>> layers;
+		layers.clear();
 		std::for_each(mLayers.begin(), mLayers.end(), [this, &layers](const Layer& layer) {
 			std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
 			std::for_each(vertexArrays.begin(), vertexArrays.end(), [](sf::VertexArray& va) {
@@ -171,7 +170,7 @@ namespace te
 			layers.push_back(vertexArrays);
 		});
 
-		return TileMap(pTextures, layers);
+		//TileMap tm(pTextures, layers);
 	}
 
 	const TMX::TileData& TMX::getTileData(int x, int y, const TMX::Layer& layer) const

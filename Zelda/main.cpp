@@ -16,7 +16,7 @@
 #include "composite_collider.h"
 #include "nav_graph_node.h"
 #include "nav_graph_edge.h"
-#include "game.h"
+#include "zelda_game.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -99,10 +99,13 @@ int main()
 	window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
 
-	te::TextureManager textureManager;
-	te::TileMap map = tmx.makeTileMap(textureManager);
+	auto pTextureManager = std::make_shared<te::TextureManager>();
+	//te::TileMap map = tmx.makeTileMap(textureManager);
+	auto pGame = std::make_shared<te::ZeldaGame>(pTextureManager);
+	pGame->loadMap("map.tmx");
+	//pGame->scale(2.f, 2.f);
 
-	auto pLinkTexture = textureManager.get("link.png");
+	auto pLinkTexture = pTextureManager->get("link.png");
 	sf::Sprite linkSprite;
 	linkSprite.setTexture(*pLinkTexture);
 	linkSprite.setTextureRect({ 167,128,24,24 });
@@ -112,7 +115,6 @@ int main()
 	auto pEM = std::make_shared<te::EntityManager>();
 	auto pMessageDispatcher = std::make_shared<te::MessageDispatcher>(pEM);
 
-	auto pGame = std::make_shared<te::Game>();
 	auto link = std::make_shared<te::Entity>(pGame, pMessageDispatcher);
 
 	// Test entity manager. These statements are valid.
@@ -170,7 +172,8 @@ int main()
 		link->update(dt);
 
 		window.clear();
-		window.draw(map);
+		//window.draw(map);
+		window.draw(*pGame);
 		window.draw(*link);
 		window.draw(collider);
 		window.draw(*navGraph);
