@@ -20,6 +20,8 @@ namespace te
 
 		TileMap(TextureManager& textureManager, TMX&& tmx);
 
+		const std::vector<Wall2f>& getWalls() const;
+
 	private:
 		TileMap(const TileMap&) = delete;
 		TileMap& operator=(const TileMap&) = delete;

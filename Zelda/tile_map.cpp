@@ -19,6 +19,11 @@ namespace te
 		});
 	}
 
+	const std::vector<Wall2f>& TileMap::getWalls() const
+	{
+		return mCollider.getWalls();
+	}
+
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();

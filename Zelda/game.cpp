@@ -1,14 +1,29 @@
 #include "game.h"
 #include "tile_map.h"
+#include "vector_ops.h"
 
 namespace te
 {
 	Game::~Game() {}
 
-	//bool Game::isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius) const
-	//{
-	//	throwIfNoMap();
-	//}
+	bool Game::isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius) const
+	{
+		throwIfNoMap();
+		auto& walls = mpTileMap->getWalls();
+
+		sf::Vector2f toB = normalize(b - a);
+		sf::Vector2f currPos = a;
+
+		while (distanceSq(currPos, b) > boundingRadius * boundingRadius)
+		{
+			currPos += toB * 0.5f * boundingRadius;
+			for (auto& wall : walls)
+				if (wall.intersects(currPos, boundingRadius))
+					return true;
+		}
+
+		return false;
+	}
 
 	void Game::setTileMap(const std::shared_ptr<TileMap>& pTileMap)
 	{
