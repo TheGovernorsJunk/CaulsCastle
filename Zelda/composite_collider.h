@@ -3,6 +3,7 @@
 
 #include "collider.h"
 #include "box_collider.h"
+#include "wall.h"
 
 #include <vector>
 
@@ -14,7 +15,8 @@ namespace te
 	{
 	public:
 		void addCollider(const BoxCollider& collider);
-		virtual std::vector<Wall2f> getWalls() const;
+		//virtual std::vector<Wall2f> getWalls() const;
+		const std::vector<Wall2f>& getWalls() const;
 
 		template <typename T>
 		bool contains(T x, T y) const
@@ -28,6 +30,7 @@ namespace te
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		std::vector<BoxCollider> mBoxColliders;
+		std::vector<Wall2f> mWalls;
 	};
 }
 

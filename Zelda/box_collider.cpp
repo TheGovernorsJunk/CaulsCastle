@@ -6,17 +6,28 @@ namespace te
 {
 	BoxCollider::BoxCollider(const sf::FloatRect& rect)
 		: mRect(rect)
-	{}
-
-	std::vector<Wall2f> BoxCollider::getWalls() const
+		, mWalls()
 	{
-		std::vector<Wall2f> walls;
-		walls.push_back(Wall2f({ mRect.left, mRect.top }, { mRect.left, mRect.top + mRect.height }));
-		walls.push_back(Wall2f({ mRect.left, mRect.top + mRect.height }, { mRect.left + mRect.width, mRect.top + mRect.height }));
-		walls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top + mRect.height }, { mRect.left + mRect.width, mRect.top }));
-		walls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top }, { mRect.left, mRect.top }));
-		return walls;
+		mWalls.push_back(Wall2f({ mRect.left, mRect.top }, { mRect.left, mRect.top + mRect.height }));
+		mWalls.push_back(Wall2f({ mRect.left, mRect.top + mRect.height }, { mRect.left + mRect.width, mRect.top + mRect.height }));
+		mWalls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top + mRect.height }, { mRect.left + mRect.width, mRect.top }));
+		mWalls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top }, { mRect.left, mRect.top }));
 	}
+
+	const std::vector<Wall2f>& BoxCollider::getWalls() const
+	{
+		return mWalls;
+	}
+
+	//std::vector<Wall2f> BoxCollider::getWalls() const
+	//{
+	//	std::vector<Wall2f> walls;
+	//	walls.push_back(Wall2f({ mRect.left, mRect.top }, { mRect.left, mRect.top + mRect.height }));
+	//	walls.push_back(Wall2f({ mRect.left, mRect.top + mRect.height }, { mRect.left + mRect.width, mRect.top + mRect.height }));
+	//	walls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top + mRect.height }, { mRect.left + mRect.width, mRect.top }));
+	//	walls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top }, { mRect.left, mRect.top }));
+	//	return walls;
+	//}
 
 	void BoxCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{

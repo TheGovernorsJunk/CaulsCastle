@@ -1,5 +1,4 @@
 #include "composite_collider.h"
-#include "wall.h"
 
 #include <algorithm>
 
@@ -8,17 +7,24 @@ namespace te
 	void CompositeCollider::addCollider(const BoxCollider& collider)
 	{
 		mBoxColliders.push_back(collider);
+		std::vector<Wall2f> walls = collider.getWalls();
+		mWalls.insert(mWalls.end(), walls.begin(), walls.end());
 	}
 
-	std::vector<Wall2f> CompositeCollider::getWalls() const
+	const std::vector<Wall2f>& CompositeCollider::getWalls() const
 	{
-		std::vector<Wall2f> walls;
-		std::for_each(mBoxColliders.begin(), mBoxColliders.end(), [&walls](const BoxCollider& collider) {
-			std::vector<Wall2f> currWalls = collider.getWalls();
-			walls.insert(walls.end(), currWalls.begin(), currWalls.end());
-		});
-		return walls;
+		return mWalls;
 	}
+
+	//std::vector<Wall2f> CompositeCollider::getWalls() const
+	//{
+	//	std::vector<Wall2f> walls;
+	//	std::for_each(mBoxColliders.begin(), mBoxColliders.end(), [&walls](const BoxCollider& collider) {
+	//		std::vector<Wall2f> currWalls = collider.getWalls();
+	//		walls.insert(walls.end(), currWalls.begin(), currWalls.end());
+	//	});
+	//	return walls;
+	//}
 
 	void CompositeCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{

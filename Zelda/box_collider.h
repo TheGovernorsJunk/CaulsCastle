@@ -10,7 +10,7 @@ namespace te
 	public:
 		BoxCollider(const sf::FloatRect& rect);
 
-		std::vector<Wall2f> getWalls() const;
+		const std::vector<Wall2f>& getWalls() const;
 
 		template <typename T>
 		bool contains(T x, T y) const
@@ -21,6 +21,7 @@ namespace te
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 		sf::FloatRect mRect;
+		std::vector<Wall2f> mWalls;
 	};
 }
 

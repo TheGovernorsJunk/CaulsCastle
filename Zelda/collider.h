@@ -14,7 +14,7 @@ namespace te
 	public:
 		virtual ~Collider();
 
-		virtual std::vector<Wall2f> getWalls() const = 0;
+		virtual const std::vector<Wall2f>& getWalls() const = 0;
 	};
 }
 
