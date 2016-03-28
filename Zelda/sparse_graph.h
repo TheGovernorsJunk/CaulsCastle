@@ -210,6 +210,17 @@ namespace te
 			typename EdgeList::const_iterator mIter;
 		};
 
+		// TODO: Define more encapsulated iterator
+		typedef typename NodeVector::const_iterator ConstNodeIterator;
+		ConstNodeIterator nodeBegin() const
+		{
+			return mNodes.cbegin();
+		}
+		ConstNodeIterator nodeEnd() const
+		{
+			return mNodes.cend();
+		}
+
 	private:
 		friend class ConstEdgeIterator;
 
