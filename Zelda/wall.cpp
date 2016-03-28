@@ -24,4 +24,10 @@ namespace te
 	{
 		return mNormal;
 	}
+
+	bool Wall2f::intersects(sf::Vector2f position, float radius) const
+	{
+		float radiusSq = radius * radius;
+		return distanceSq(position, mFrom) <= radiusSq || distanceSq(position, mTo) <= radiusSq;
+	}
 }

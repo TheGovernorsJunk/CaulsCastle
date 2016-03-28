@@ -13,6 +13,8 @@ namespace te
 		sf::Vector2f getFrom() const;
 		sf::Vector2f getTo() const;
 		sf::Vector2f getNormal() const;
+
+		bool intersects(sf::Vector2f position, float radius) const;
 	private:
 		sf::Vector2f mFrom;
 		sf::Vector2f mTo;
