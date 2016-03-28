@@ -80,7 +80,7 @@ int main()
 
 	graph->addEdge(te::SampleEdge(isolated, to, 9.0));
 	//graph->removeNode(to);
-	te::GraphSearchDijkstra<te::SparseGraph<te::SampleNode, te::SampleEdge>> dijkstra(graph, isolated, to);
+	te::GraphSearchDijkstra<te::SparseGraph<te::SampleNode, te::SampleEdge>> dijkstra(*graph, isolated, to);
 	std::list<int> dPath = dijkstra.getPathToTarget();
 	for (auto i : dPath) std::cout << i << ",";
 	std::cout << std::endl;
@@ -90,7 +90,7 @@ int main()
 
 	te::CompositeCollider collider = tmx.makeCollider();
 	auto navGraph = std::make_shared<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>>(tmx.makeNavGraph());
-	te::GraphSearchDijkstra<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>> navSearch(navGraph, 1, 400);
+	te::GraphSearchDijkstra<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>> navSearch(*navGraph, 1, 400);
 	std::list<int> navPath = navSearch.getPathToTarget();
 	for (auto i : navPath) std::cout << i << "-";
 	std::cout << std::endl;

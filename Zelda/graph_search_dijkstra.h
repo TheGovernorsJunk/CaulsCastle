@@ -58,11 +58,11 @@ namespace te
 	class GraphSearchDijkstra
 	{
 	public:
-		GraphSearchDijkstra(const std::shared_ptr<Graph>& pGraph, int source, int target = -1)
-			: mpGraph(pGraph)
-			, mShortestPathTree(pGraph->numNodes())
-			, mCostToThisNode(pGraph->numNodes())
-			, mSearchFrontier(pGraph->numNodes())
+		GraphSearchDijkstra(const Graph& graph, int source, int target = -1)
+			: mGraph(graph)
+			, mShortestPathTree(mGraph.numNodes())
+			, mCostToThisNode(mGraph.numNodes())
+			, mSearchFrontier(mGraph.numNodes())
 			, mSource(source)
 			, mTarget(target)
 		{
@@ -78,7 +78,7 @@ namespace te
 		{
 			std::list<int> path;
 
-			if (mTarget < 0 || mTarget >= mpGraph->numNodes() || mSearchFrontier[mTarget] == 0) return path;
+			if (mTarget < 0 || mTarget >= mGraph.numNodes() || mSearchFrontier[mTarget] == 0) return path;
 
 			int nd = mTarget;
 
@@ -95,7 +95,7 @@ namespace te
 
 		double getCostToTarget() const
 		{
-			return (mTarget < 0 || mTarget >= mpGraph->numNodes() || mSearchFrontier[mTarget] == 0) ?
+			return (mTarget < 0 || mTarget >= mGraph.numNodes() || mSearchFrontier[mTarget] == 0) ?
 				-1.0 : mCostToThisNode[mTarget];
 		}
 
@@ -115,7 +115,7 @@ namespace te
 
 				if (nextClosestNode == mTarget) return;
 
-				Graph::ConstEdgeIterator constEdgeIter(*mpGraph, nextClosestNode);
+				Graph::ConstEdgeIterator constEdgeIter(mGraph, nextClosestNode);
 				for (const Edge* pE = constEdgeIter.begin(); !constEdgeIter.end(); pE = constEdgeIter.next())
 				{
 					double newCost = mCostToThisNode[nextClosestNode] + pE->getCost();
@@ -140,7 +140,7 @@ namespace te
 			}
 		}
 
-		std::shared_ptr<Graph> mpGraph;
+		const Graph& mGraph;
 		std::vector<const Edge*> mShortestPathTree;
 		std::vector<double> mCostToThisNode;
 		std::vector<const Edge*> mSearchFrontier;
