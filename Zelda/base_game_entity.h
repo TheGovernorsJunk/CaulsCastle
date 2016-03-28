@@ -24,6 +24,7 @@ namespace te
 		BaseGameEntity(const std::shared_ptr<Game>& pWorld);
 		virtual ~BaseGameEntity();
 
+		virtual float getBoundingRadius() const;
 		virtual void update(const sf::Time& dt) = 0;
 		virtual bool handleMessage(const Telegram& msg) = 0;
 		int getID() const;

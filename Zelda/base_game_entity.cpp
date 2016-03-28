@@ -9,6 +9,11 @@ namespace te
 
 	BaseGameEntity::~BaseGameEntity() {}
 
+	float BaseGameEntity::getBoundingRadius() const
+	{
+		return 1.f;
+	}
+
 	int BaseGameEntity::getID() const
 	{
 		return mID;
