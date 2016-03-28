@@ -2,8 +2,8 @@
 
 namespace te
 {
-	Vehicle::Vehicle()
-		: MovingEntity()
+	Vehicle::Vehicle(const std::shared_ptr<Game>& pWorld)
+		: MovingEntity(pWorld)
 		, mSteering(*this)
 	{}
 

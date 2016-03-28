@@ -8,7 +8,7 @@ namespace te
 	class MovingEntity : public BaseGameEntity
 	{
 	public:
-		MovingEntity(float maxSpeed = 0.f, float maxForce = 0.f, float maxTurnRate = 0.f);
+		MovingEntity(const std::shared_ptr<Game>& pWorld, float maxSpeed = 0.f, float maxForce = 0.f, float maxTurnRate = 0.f);
 		virtual ~MovingEntity();
 
 		float getMaxSpeed() const;

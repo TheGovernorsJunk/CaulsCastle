@@ -16,6 +16,7 @@
 #include "composite_collider.h"
 #include "nav_graph_node.h"
 #include "nav_graph_edge.h"
+#include "game.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -111,7 +112,8 @@ int main()
 	auto pEM = std::make_shared<te::EntityManager>();
 	auto pMessageDispatcher = std::make_shared<te::MessageDispatcher>(pEM);
 
-	auto link = std::make_shared<te::Entity>(pMessageDispatcher);
+	auto pGame = std::make_shared<te::Game>();
+	auto link = std::make_shared<te::Entity>(pGame, pMessageDispatcher);
 
 	// Test entity manager. These statements are valid.
 	pEM->registerEntity(link);

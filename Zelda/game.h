@@ -8,6 +8,8 @@ namespace te
 	class Game
 	{
 	public:
+		virtual ~Game();
+
 		bool isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius = 0) const;
 	};
 }

@@ -16,7 +16,7 @@ namespace te
 	class Entity : public sf::Drawable, public MovingEntity
 	{
 	public:
-		Entity(const std::shared_ptr<MessageDispatcher>&);
+		Entity(const std::shared_ptr<Game>& pWorld, const std::shared_ptr<MessageDispatcher>& pMessageDispatcher);
 		void setSprite(const sf::Sprite& sprite);
 		void setBoxCollider(const sf::FloatRect& boxCollider);
 		void setDrawColliderEnabled(float enabled);
