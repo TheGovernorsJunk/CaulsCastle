@@ -3,6 +3,7 @@
 
 #include "moving_entity.h"
 #include "path_planner.h"
+#include "goal_think.h"
 
 namespace te
 {
@@ -15,6 +16,7 @@ namespace te
 
 	private:
 		PathPlanner mPathPlanner;
+		GoalThink mBrain;
 	};
 }
 

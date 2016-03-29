@@ -155,6 +155,8 @@
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="goal.h" />
+    <ClInclude Include="goal_composite.h" />
+    <ClInclude Include="goal_think.h" />
     <ClInclude Include="graph_edge.h" />
     <ClInclude Include="graph_node.h" />
     <ClInclude Include="graph_search_bfs.h" />
