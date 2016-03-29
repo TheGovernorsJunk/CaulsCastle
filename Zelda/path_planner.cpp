@@ -6,6 +6,12 @@
 
 namespace te
 {
+	PathPlanner::PathPlanner(MovingEntity& owner)
+		: mOwner(owner)
+		, mNavGraph(mOwner.getWorld().getMap().getNavGraph())
+		, mDestinationPosition(0.f, 0.f)
+	{}
+
 	bool PathPlanner::createPathToPosition(sf::Vector2f targetPos, std::list<sf::Vector2f>& path)
 	{
 		mDestinationPosition = targetPos;

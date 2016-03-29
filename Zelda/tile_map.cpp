@@ -9,7 +9,8 @@ namespace te
 		: mTMX(std::move(tmx))
 		, mTextures()
 		, mLayers()
-		, mCollider(tmx.makeCollider())
+		, mCollider(mTMX.makeCollider())
+		, mNavGraph(mTMX.makeNavGraph())
 	{
 		mTMX.makeVertices(textureManager, mTextures, mLayers);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -22,6 +23,11 @@ namespace te
 	const std::vector<Wall2f>& TileMap::getWalls() const
 	{
 		return mCollider.getWalls();
+	}
+
+	const TileMap::NavGraph& TileMap::getNavGraph() const
+	{
+		return mNavGraph;
 	}
 
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -21,6 +21,7 @@ namespace te
 		TileMap(TextureManager& textureManager, TMX&& tmx);
 
 		const std::vector<Wall2f>& getWalls() const;
+		const NavGraph& getNavGraph() const;
 
 	private:
 		TileMap(const TileMap&) = delete;
@@ -32,6 +33,7 @@ namespace te
 		std::vector<std::shared_ptr<sf::Texture>> mTextures;
 		std::vector<std::vector<sf::VertexArray>> mLayers;
 		CompositeCollider mCollider;
+		NavGraph mNavGraph;
 	};
 }
 
