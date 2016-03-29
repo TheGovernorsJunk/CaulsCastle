@@ -140,6 +140,7 @@
     <ClCompile Include="vector_ops.cpp" />
     <ClCompile Include="vehicle.cpp" />
     <ClCompile Include="wall.cpp" />
+    <ClCompile Include="zelda_entity.cpp" />
     <ClCompile Include="zelda_game.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="goal.h" />
     <ClInclude Include="graph_edge.h" />
     <ClInclude Include="graph_node.h" />
     <ClInclude Include="graph_search_bfs.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="vector_ops.h" />
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="zelda_entity.h" />
     <ClInclude Include="zelda_game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

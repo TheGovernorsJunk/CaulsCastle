@@ -84,6 +84,9 @@
     <ClCompile Include="zelda_game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zelda_entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -173,6 +176,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zelda_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zelda_entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="goal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
