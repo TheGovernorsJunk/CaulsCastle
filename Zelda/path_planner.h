@@ -18,6 +18,9 @@ namespace te
 		bool createPathToPosition(sf::Vector2f targetPosition, std::list<sf::Vector2f>& path);
 
 	private:
+		PathPlanner(const PathPlanner&) = delete;
+		PathPlanner& operator=(const PathPlanner&) = delete;
+
 		enum { NoClosestNodeFound = -1 };
 
 		int getClosestNodeToPosition(sf::Vector2f pos) const;
