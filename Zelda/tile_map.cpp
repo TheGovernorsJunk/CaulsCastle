@@ -31,11 +31,6 @@ namespace te
 		return mNavGraph;
 	}
 
-	TileMap::NavGraph& TileMap::getNavGraph()
-	{
-		return mNavGraph;
-	}
-
 	void TileMap::setDrawColliderEnabled(bool enabled)
 	{
 		mDrawFlags = enabled ? mDrawFlags | COLLIDER : mDrawFlags ^ COLLIDER;
@@ -44,6 +39,8 @@ namespace te
 	void TileMap::setDrawNavGraphEnabled(bool enabled)
 	{
 		mDrawFlags = enabled ? mDrawFlags | NAV_GRAPH : mDrawFlags ^ NAV_GRAPH;
+		if (enabled)
+			mNavGraph.prepareVerticesForDrawing();
 	}
 
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

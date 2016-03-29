@@ -105,7 +105,6 @@ int main()
 	pGame->loadMap("map.tmx");
 	pGame->getMap().setDrawColliderEnabled(true);
 	pGame->getMap().setDrawNavGraphEnabled(true);
-	pGame->getMap().getNavGraph().prepareVerticesForDrawing();
 	//pGame->scale(2.f, 2.f);
 
 	auto pLinkTexture = pTextureManager->get("link.png");

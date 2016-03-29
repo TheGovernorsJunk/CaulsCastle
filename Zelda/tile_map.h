@@ -22,7 +22,6 @@ namespace te
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
-		NavGraph& getNavGraph();
 
 		void setDrawColliderEnabled(bool enabled);
 		void setDrawNavGraphEnabled(bool enabled);
