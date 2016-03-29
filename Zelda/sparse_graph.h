@@ -193,9 +193,12 @@ namespace te
 			const Edge* next()
 			{
 				mGraph.throwIfInvalid(mNode);
-				do {
-					++mIter;
-				} while (!end() && !mGraph.isValid(mIter->getTo()));
+				if (!end())
+				{
+					do {
+						++mIter;
+					} while (!end() && !mGraph.isValid(mIter->getTo()));
+				}
 				return !end() ? &(*mIter) : nullptr;
 			}
 
@@ -210,16 +213,40 @@ namespace te
 			typename EdgeList::const_iterator mIter;
 		};
 
-		// TODO: Define more encapsulated iterator
-		typedef typename NodeVector::const_iterator ConstNodeIterator;
-		ConstNodeIterator nodeBegin() const
+		class ConstNodeIterator
 		{
-			return mNodes.cbegin();
-		}
-		ConstNodeIterator nodeEnd() const
-		{
-			return mNodes.cend();
-		}
+		public:
+			ConstNodeIterator(const SparseGraph& graph)
+				: mGraph(graph)
+			{
+				begin();
+			}
+
+			const Node* begin()
+			{
+				mIter = mGraph.mNodes.begin();
+				return !end() ? &(*mIter) : nullptr;
+			}
+
+			const Node* next()
+			{
+				if (!end())
+				{
+					do {
+						++mIter;
+					} while (!end() && mIter->getIndex() != Node::INVALID_INDEX);
+				}
+				return !end() ? &(*mIter) : nullptr;
+			}
+
+			bool end()
+			{
+				return mIter == mGraph.mNodes.end();
+			}
+		private:
+			const SparseGraph& mGraph;
+			typename NodeVector::const_iterator mIter;
+		};
 
 	private:
 		friend class ConstEdgeIterator;

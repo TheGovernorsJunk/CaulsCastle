@@ -50,21 +50,20 @@ namespace te
 	{
 		if (mNavGraph.numActiveNodes() > 0)
 		{
-			TileMap::NavGraph::ConstNodeIterator currBest;
-			auto nodeIter = mNavGraph.nodeBegin();
-			do
+			TileMap::NavGraph::ConstNodeIterator nodeIter(mNavGraph);
+			const TileMap::NavGraph::Node* currBest = nodeIter.begin();
+			while (!nodeIter.end() && mOwner.getWorld().isPathObstructed(currBest->getPosition(), pos, mOwner.getBoundingRadius()))
 			{
-				currBest = nodeIter;
-				++nodeIter;
-			} while (nodeIter != mNavGraph.nodeEnd() && (currBest->getIndex() == NavGraphNode::INVALID_INDEX || mOwner.getWorld().isPathObstructed(pos, currBest->getPosition(), mOwner.getBoundingRadius())));
+				currBest = nodeIter.next();
+			}
 
-			if (nodeIter != mNavGraph.nodeEnd())
+			if (!nodeIter.end())
 			{
-				for (; nodeIter != mNavGraph.nodeEnd(); ++nodeIter)
+				for (const TileMap::NavGraph::Node* pNode = nodeIter.next(); !nodeIter.end(); pNode = nodeIter.next())
 				{
-					if (distanceSq(nodeIter->getPosition(), pos) < distanceSq(currBest->getPosition(), pos) && !mOwner.getWorld().isPathObstructed(pos, nodeIter->getPosition(), mOwner.getBoundingRadius()))
+					if (distanceSq(pNode->getPosition(), pos) < distanceSq(currBest->getPosition(), pos) && !mOwner.getWorld().isPathObstructed(pos, pNode->getPosition(), mOwner.getBoundingRadius()))
 					{
-						currBest = nodeIter;
+						currBest = pNode;
 					}
 				}
 				return currBest->getIndex();
