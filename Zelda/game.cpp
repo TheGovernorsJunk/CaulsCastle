@@ -31,6 +31,12 @@ namespace te
 		return *mpTileMap;
 	}
 
+	TileMap& Game::getMap()
+	{
+		throwIfNoMap();
+		return *mpTileMap;
+	}
+
 	void Game::setTileMap(const std::shared_ptr<TileMap>& pTileMap)
 	{
 		if (pTileMap)

@@ -11,6 +11,7 @@ namespace te
 		, mLayers()
 		, mCollider(mTMX.makeCollider())
 		, mNavGraph(mTMX.makeNavGraph())
+		, mDrawFlags(0)
 	{
 		mTMX.makeVertices(textureManager, mTextures, mLayers);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -30,6 +31,21 @@ namespace te
 		return mNavGraph;
 	}
 
+	TileMap::NavGraph& TileMap::getNavGraph()
+	{
+		return mNavGraph;
+	}
+
+	void TileMap::setDrawColliderEnabled(bool enabled)
+	{
+		mDrawFlags = enabled ? mDrawFlags | COLLIDER : mDrawFlags ^ COLLIDER;
+	}
+
+	void TileMap::setDrawNavGraphEnabled(bool enabled)
+	{
+		mDrawFlags = enabled ? mDrawFlags | NAV_GRAPH : mDrawFlags ^ NAV_GRAPH;
+	}
+
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();
@@ -41,5 +57,17 @@ namespace te
 				target.draw(*iter, states);
 			}
 		});
+
+		states.texture = NULL;
+		if ((mDrawFlags & COLLIDER) > 0)
+		{
+			target.draw(mCollider, states);
+		}
+
+		if ((mDrawFlags & NAV_GRAPH) > 0)
+		{
+			target.draw(mNavGraph, states);
+		}
 	}
+
 }

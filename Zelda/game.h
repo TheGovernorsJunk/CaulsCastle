@@ -16,6 +16,7 @@ namespace te
 
 		bool isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius = 0) const;
 		const TileMap& getMap() const;
+		TileMap& getMap();
 
 	protected:
 		void setTileMap(const std::shared_ptr<TileMap>& pTileMap);

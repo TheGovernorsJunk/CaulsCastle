@@ -24,8 +24,11 @@ namespace te
 		typedef std::vector<EdgeList> EdgeListVector;
 
 		SparseGraph(bool digraph = false)
-			: mNextNodeIndex(0)
+			: mNodes()
+			, mEdges()
 			, mbDigraph(digraph)
+			, mNextNodeIndex(0)
+			, mLineVertices()
 		{}
 
 		const Node& getNode(int index) const
@@ -33,10 +36,10 @@ namespace te
 			throwIfInvalid(index);
 			return mNodes.at(index);
 		}
-		Node& getNode(int index)
-		{
-			return const_cast<Node&>(static_cast<const SparseGraph<Node, Edge>*>(this)->getNode(index));
-		}
+		//Node& getNode(int index)
+		//{
+		//	return const_cast<Node&>(static_cast<const SparseGraph<Node, Edge>*>(this)->getNode(index));
+		//}
 
 		const Edge& getEdge(int from, int to) const
 		{
@@ -60,10 +63,10 @@ namespace te
 			}
 		}
 
-		Edge& getEdge(int from, int to)
-		{
-			return const_cast<Edge&>(static_cast<const SparseGraph<Node, Edge>*>(this)->getEdge(from, to));
-		}
+		//Edge& getEdge(int from, int to)
+		//{
+		//	return const_cast<Edge&>(static_cast<const SparseGraph<Node, Edge>*>(this)->getEdge(from, to));
+		//}
 
 		int getNextFreeNodeIndex() const
 		{
@@ -173,6 +176,8 @@ namespace te
 			});
 		}
 
+		void prepareVerticesForDrawing() {}
+
 		class ConstEdgeIterator
 		{
 		public:
@@ -280,20 +285,30 @@ namespace te
 		EdgeListVector mEdges;
 		bool mbDigraph;
 		int mNextNodeIndex;
+
+		// For use by NavGraph impl
+		sf::VertexArray mLineVertices;
 	};
+
+	template<> void SparseGraph<NavGraphNode, NavGraphEdge>::prepareVerticesForDrawing()
+	{
+		mLineVertices.clear();
+		mLineVertices.setPrimitiveType(sf::Lines);
+		std::for_each(mEdges.begin(), mEdges.end(), [&](const EdgeList& edgeList) {
+			std::for_each(edgeList.begin(), edgeList.end(), [&](const Edge& edge) {
+				if (isPresent(edge.getFrom()) && isPresent(edge.getTo()))
+				{
+					mLineVertices.append(sf::Vertex(getNode(edge.getFrom()).getPosition(), sf::Color::Blue));
+					mLineVertices.append(sf::Vertex(getNode(edge.getTo()).getPosition(), sf::Color::Blue));
+				}
+			});
+		});
+	}
 
 	template<> void SparseGraph<NavGraphNode, NavGraphEdge>::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		std::for_each(mEdges.begin(), mEdges.end(), [&](const EdgeList& edgeList) {
-			std::for_each(edgeList.begin(), edgeList.end(), [&](const Edge& edge) {
-				sf::Vertex line[] = {
-					sf::Vertex(getNode(edge.getFrom()).getPosition()),
-					sf::Vertex(getNode(edge.getTo()).getPosition())
-				};
-				target.draw(line, 2, sf::Lines, states);
-			});
-		});
-	};
+		target.draw(mLineVertices, states);
+	}
 }
 
 #endif

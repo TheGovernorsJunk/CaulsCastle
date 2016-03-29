@@ -103,6 +103,9 @@ int main()
 	//te::TileMap map = tmx.makeTileMap(textureManager);
 	auto pGame = std::make_shared<te::ZeldaGame>(pTextureManager);
 	pGame->loadMap("map.tmx");
+	pGame->getMap().setDrawColliderEnabled(true);
+	pGame->getMap().setDrawNavGraphEnabled(true);
+	pGame->getMap().getNavGraph().prepareVerticesForDrawing();
 	//pGame->scale(2.f, 2.f);
 
 	auto pLinkTexture = pTextureManager->get("link.png");
@@ -127,8 +130,6 @@ int main()
 	link->setDrawColliderEnabled(true);
 
 	link->setPosition(160, 128);
-
-	te::StateMachine<te::Entity> machine(*link, nullptr);
 
 	sf::Clock clock;
 	while (window.isOpen())
@@ -175,8 +176,8 @@ int main()
 		//window.draw(map);
 		window.draw(*pGame);
 		window.draw(*link);
-		window.draw(collider);
-		window.draw(*navGraph);
+		//window.draw(collider);
+		//window.draw(*navGraph);
 		if (navPath.size() > 1)
 		{
 			int last = navPath.front();

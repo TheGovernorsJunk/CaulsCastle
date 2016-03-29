@@ -22,8 +22,15 @@ namespace te
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
+		NavGraph& getNavGraph();
+
+		void setDrawColliderEnabled(bool enabled);
+		void setDrawNavGraphEnabled(bool enabled);
 
 	private:
+		enum DrawFlags
+		{ COLLIDER = 0x01, NAV_GRAPH = 0x02 };
+
 		TileMap(const TileMap&) = delete;
 		TileMap& operator=(const TileMap&) = delete;
 
@@ -34,6 +41,8 @@ namespace te
 		std::vector<std::vector<sf::VertexArray>> mLayers;
 		CompositeCollider mCollider;
 		NavGraph mNavGraph;
+
+		int mDrawFlags;
 	};
 }
 
