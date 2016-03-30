@@ -239,7 +239,7 @@ namespace te
 				{
 					do {
 						++mIter;
-					} while (!end() && mIter->getIndex() != Node::INVALID_INDEX);
+					} while (!end() && mIter->getIndex() == Node::INVALID_INDEX);
 				}
 				return !end() ? &(*mIter) : nullptr;
 			}
