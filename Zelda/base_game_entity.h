@@ -16,7 +16,7 @@ namespace te
 	class EntityManager;
 	class Game;
 
-	class BaseGameEntity : public sf::Transformable
+	class BaseGameEntity : public sf::Transformable, public sf::Drawable
 	{
 	public:
 		const static int UNREGISTERED_ID = 0;
@@ -26,11 +26,12 @@ namespace te
 
 		virtual float getBoundingRadius() const;
 		virtual void update(const sf::Time& dt) = 0;
-		virtual bool handleMessage(const Telegram& msg) = 0;
+		virtual bool handleMessage(const Telegram& msg);
 		int getID() const;
 		const Game& getWorld() const;
 		Game& getWorld();
 	private:
+		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		friend class EntityManager;
 		int mID;
 		std::shared_ptr<Game> mpWorld;

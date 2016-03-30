@@ -3,7 +3,9 @@
 namespace te
 {
 	BaseGameEntity::BaseGameEntity(const std::shared_ptr<Game>& pWorld)
-		: mID(UNREGISTERED_ID)
+		: sf::Transformable()
+		, sf::Drawable()
+		, mID(UNREGISTERED_ID)
 		, mpWorld(pWorld)
 	{}
 
@@ -12,6 +14,11 @@ namespace te
 	float BaseGameEntity::getBoundingRadius() const
 	{
 		return 1.f;
+	}
+
+	bool BaseGameEntity::handleMessage(const Telegram& msg)
+	{
+		return false;
 	}
 
 	int BaseGameEntity::getID() const
@@ -28,4 +35,6 @@ namespace te
 	{
 		return *mpWorld;
 	}
+
+	void BaseGameEntity::draw(sf::RenderTarget&, sf::RenderStates) const {}
 }
