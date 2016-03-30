@@ -3,7 +3,7 @@
 
 namespace te
 {
-	class Telegram;
+	struct Telegram;
 
 	template<class T>
 	class Goal
