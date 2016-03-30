@@ -125,6 +125,8 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="goal_follow_path.cpp" />
+    <ClCompile Include="goal_move_to_position.cpp" />
     <ClCompile Include="goal_think.cpp" />
     <ClCompile Include="graph_edge.cpp" />
     <ClCompile Include="graph_node.cpp" />
@@ -159,6 +161,8 @@
     <ClInclude Include="goal.h" />
     <ClInclude Include="goal_composite.h" />
     <ClInclude Include="goal_evaluator.h" />
+    <ClInclude Include="goal_follow_path.h" />
+    <ClInclude Include="goal_move_to_position.h" />
     <ClInclude Include="goal_think.h" />
     <ClInclude Include="graph_edge.h" />
     <ClInclude Include="graph_node.h" />

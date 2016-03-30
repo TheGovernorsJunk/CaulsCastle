@@ -93,6 +93,12 @@
     <ClCompile Include="regulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="goal_move_to_position.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="goal_follow_path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -200,6 +206,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="regulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="goal_move_to_position.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="goal_follow_path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

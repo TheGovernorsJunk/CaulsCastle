@@ -17,6 +17,7 @@
 #include "nav_graph_node.h"
 #include "nav_graph_edge.h"
 #include "zelda_game.h"
+#include "zelda_entity.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -130,6 +131,9 @@ int main()
 
 	link->setPosition(160, 128);
 
+	auto linkEntity = std::make_shared<te::ZeldaEntity>(pGame);
+	linkEntity->setPosition(16.f * 8, 16.f * 8);
+
 	sf::Clock clock;
 	while (window.isOpen())
 	{
@@ -170,6 +174,7 @@ int main()
 		sf::Time dt = clock.restart();
 		pMessageDispatcher->dispatchDelayedMessages(dt);
 		link->update(dt);
+		linkEntity->update(dt);
 
 		window.clear();
 		//window.draw(map);
@@ -190,6 +195,7 @@ int main()
 				last = next;
 			}
 		}
+		window.draw(*linkEntity);
 		window.display();
 	}
 
