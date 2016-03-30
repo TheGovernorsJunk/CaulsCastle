@@ -16,7 +16,7 @@ namespace te
 		removeAllSubgoals();
 
 		std::list<sf::Vector2f> path;
-		if (mOwner.getPathPlanner().createPathToPosition(mOwner.getPosition(), path))
+		if (mOwner.getPathPlanner().createPathToPosition(mPosition, path))
 		{
 			addSubgoal<Goal_FollowPath>(mOwner, std::move(path));
 		}
@@ -29,15 +29,14 @@ namespace te
 			activate();
 		}
 
-		Status status = processSubgoals(dt);
-		setStatus(status);
+		setStatus(processSubgoals(dt));
 
 		if (hasFailed())
 		{
 			activate();
 		}
 
-		return status;
+		return getStatus();
 	}
 
 	void Goal_MoveToPosition::terminate() {}
