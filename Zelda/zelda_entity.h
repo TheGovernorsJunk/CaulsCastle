@@ -5,6 +5,7 @@
 #include "path_planner.h"
 #include "goal_think.h"
 #include "regulator.h"
+#include "steering_behaviors.h"
 
 namespace te
 {
@@ -17,6 +18,8 @@ namespace te
 
 		void update(const sf::Time& dt);
 		PathPlanner& getPathPlanner();
+		GoalThink& getBrain();
+		SteeringBehaviors& getSteering();
 
 	private:
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
@@ -25,6 +28,7 @@ namespace te
 
 		Regulator mGoalArbitrationRegulator;
 		GoalThink mBrain;
+		SteeringBehaviors mSteering;
 	};
 }
 
