@@ -11,7 +11,7 @@ namespace te
 	void GoalThink::arbitrate()
 	{
 		float best = 0;
-		GoalEvaluator<ZeldaEntity>* mostDesirable = NULL;
+		GoalEvaluator<ZeldaEntity>* mostDesirable = nullptr;
 
 		for (auto& pEvaluator : mEvaluators)
 		{
@@ -23,7 +23,7 @@ namespace te
 			}
 		}
 
-		assert(mostDesirable != NULL);
+		assert(mostDesirable != nullptr);
 		mostDesirable->setGoal(mOwner);
 	}
 
