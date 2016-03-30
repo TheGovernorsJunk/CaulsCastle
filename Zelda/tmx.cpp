@@ -259,6 +259,7 @@ namespace te
 
 			std::vector<NavGraphNode> allNodes;
 			std::map<sf::Vector2f, int> assigned;
+			assigned.insert(std::make_pair(graph.getNode(seedIndex).getPosition(), seedIndex));
 			auto flood = [&, this](int startIndex) {
 				sf::Vector2f pos = graph.getNode(startIndex).getPosition();
 				std::vector<int> newIndices;
