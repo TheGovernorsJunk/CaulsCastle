@@ -9,7 +9,7 @@ namespace te
 {
 	class ZeldaEntity;
 
-	class Goal_FollowPath : public Goal<ZeldaEntity>
+	class Goal_FollowPath : public GoalComposite<ZeldaEntity>
 	{
 	public:
 		Goal_FollowPath(ZeldaEntity& owner, const std::list<sf::Vector2f>& path);
