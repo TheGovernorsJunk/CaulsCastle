@@ -54,6 +54,10 @@ namespace te
 		{
 			mStatus = status;
 		}
+		Status getStatus() const
+		{
+			return mStatus;
+		}
 	private:
 		Status mStatus;
 	};
