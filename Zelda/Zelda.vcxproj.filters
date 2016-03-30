@@ -193,5 +193,8 @@
     <ClInclude Include="goal_composite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="goal_evaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

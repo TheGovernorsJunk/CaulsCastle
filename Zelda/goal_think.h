@@ -2,6 +2,7 @@
 #define TE_GOAL_THINK_H
 
 #include "goal_composite.h"
+#include "goal_evaluator.h"
 
 namespace te
 {
@@ -9,10 +10,19 @@ namespace te
 
 	class GoalThink : public GoalComposite<ZeldaEntity>
 	{
+	public:
+		GoalThink(ZeldaEntity& owner);
+
 		void activate();
 		Status process();
 		void terminate();
 		//bool handleMessage(const Telegram&);
+
+		void arbitrate();
+
+	private:
+		ZeldaEntity& mOwner;
+		std::list<std::unique_ptr<GoalEvaluator<ZeldaEntity>>> mEvaluators;
 	};
 }
 
