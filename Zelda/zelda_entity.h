@@ -16,8 +16,11 @@ namespace te
 		ZeldaEntity(const std::shared_ptr<Game>& pGame);
 
 		void update(const sf::Time& dt);
+		PathPlanner& getPathPlanner();
 
 	private:
+		void draw(sf::RenderTarget&, sf::RenderStates) const;
+
 		PathPlanner mPathPlanner;
 
 		Regulator mGoalArbitrationRegulator;

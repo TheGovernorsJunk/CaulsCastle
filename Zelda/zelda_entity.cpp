@@ -15,4 +15,15 @@ namespace te
 
 		if (mGoalArbitrationRegulator.isReady(dt)) mBrain.arbitrate();
 	}
+
+	PathPlanner& ZeldaEntity::getPathPlanner()
+	{
+		return mPathPlanner;
+	}
+
+	void ZeldaEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		states.transform *= getTransform();
+		target.draw(sf::CircleShape(getBoundingRadius()), states);
+	}
 }
