@@ -31,7 +31,7 @@ namespace te
 
 		int closestNodeToTarget = getClosestNodeToPosition(targetPos);
 
-		if (closestNodeToTarget = NoClosestNodeFound)
+		if (closestNodeToTarget == NoClosestNodeFound)
 		{
 			return false;
 		}
