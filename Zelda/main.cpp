@@ -97,7 +97,7 @@ int main()
 	std::cout << std::endl;
 
 	sf::RenderWindow window(sf::VideoMode(600, 400), "Zelda");
-	window.setVerticalSyncEnabled(true);
+	//window.setVerticalSyncEnabled(true);
 	window.setKeyRepeatEnabled(false);
 
 	auto pTextureManager = std::make_shared<te::TextureManager>();
@@ -135,46 +135,54 @@ int main()
 	linkEntity->setPosition(16.f * 8, 16.f * 8);
 
 	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
 	while (window.isOpen())
 	{
-		sf::Event evt;
-		while (window.pollEvent(evt))
+		sf::Time dt = clock.restart();
+		timeSinceLastUpdate += dt;
+		while (timeSinceLastUpdate > timePerFrame)
 		{
-			if (evt.type == sf::Event::Closed)
+			timeSinceLastUpdate -= timePerFrame;
+
+			sf::Event evt;
+			while (window.pollEvent(evt))
 			{
-				window.close();
-			}
-			else if (evt.type == sf::Event::KeyPressed || evt.type == sf::Event::KeyReleased)
-			{
-				float direction = evt.type == sf::Event::KeyPressed ? 1.f : -1.f;
-				switch (evt.key.code)
+				if (evt.type == sf::Event::Closed)
 				{
-				case sf::Keyboard::A:
-					link->setVelocity(sf::Vector2f(direction * -64, 0) + link->getVelocity());
-					// Brittle. For testing only.
-					pMessageDispatcher->dispatchMessage(3.0, link->getID(), link->getID(), 50, NULL);
-					break;
-				case sf::Keyboard::D:
-					link->setVelocity(sf::Vector2f(direction * 64, 0) + link->getVelocity());
-					pMessageDispatcher->dispatchMessage(0, link->getID(), link->getID(), 50, NULL);
-					break;
-				case sf::Keyboard::W:
-					link->setVelocity(sf::Vector2f(0, direction * -64) + link->getVelocity());
-					break;
-				case sf::Keyboard::S:
-					link->setVelocity(sf::Vector2f(0, direction * 64) + link->getVelocity());
-					break;
-				case sf::Keyboard::Space:
-					pMessageDispatcher->dispatchMessage(0, link->getID(), link->getID(), 75, NULL);
-					break;
+					window.close();
+				}
+				else if (evt.type == sf::Event::KeyPressed || evt.type == sf::Event::KeyReleased)
+				{
+					float direction = evt.type == sf::Event::KeyPressed ? 1.f : -1.f;
+					switch (evt.key.code)
+					{
+					case sf::Keyboard::A:
+						link->setVelocity(sf::Vector2f(direction * -64, 0) + link->getVelocity());
+						// Brittle. For testing only.
+						pMessageDispatcher->dispatchMessage(3.0, link->getID(), link->getID(), 50, NULL);
+						break;
+					case sf::Keyboard::D:
+						link->setVelocity(sf::Vector2f(direction * 64, 0) + link->getVelocity());
+						pMessageDispatcher->dispatchMessage(0, link->getID(), link->getID(), 50, NULL);
+						break;
+					case sf::Keyboard::W:
+						link->setVelocity(sf::Vector2f(0, direction * -64) + link->getVelocity());
+						break;
+					case sf::Keyboard::S:
+						link->setVelocity(sf::Vector2f(0, direction * 64) + link->getVelocity());
+						break;
+					case sf::Keyboard::Space:
+						pMessageDispatcher->dispatchMessage(0, link->getID(), link->getID(), 75, NULL);
+						break;
+					}
 				}
 			}
-		}
 
-		sf::Time dt = clock.restart();
-		pMessageDispatcher->dispatchDelayedMessages(dt);
-		link->update(dt);
-		linkEntity->update(dt);
+			pMessageDispatcher->dispatchDelayedMessages(dt);
+			link->update(timePerFrame);
+			linkEntity->update(timePerFrame);
+		}
 
 		window.clear();
 		//window.draw(map);
