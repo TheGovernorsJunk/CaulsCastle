@@ -11,6 +11,9 @@ namespace te
 
 	void GoalEvaluator_MoveToPosition::setGoal(ZeldaEntity& entity)
 	{
-		entity.getBrain().addSubgoal<Goal_MoveToPosition>(entity, sf::Vector2f(16.f * 14, 16.f * 14));
+		if (!entity.getSteering().isSeekEnabled())
+		{
+			entity.getBrain().addSubgoal<Goal_MoveToPosition>(entity, sf::Vector2f(16.f * 14, 16.f * 14));
+		}
 	}
 }
