@@ -90,6 +90,9 @@
     <ClCompile Include="goal_think.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="regulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -194,6 +197,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="goal_evaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="regulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -134,6 +134,7 @@
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
     <ClCompile Include="path_planner.cpp" />
+    <ClCompile Include="regulator.cpp" />
     <ClCompile Include="steering_behaviors.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
     <ClInclude Include="path_planner.h" />
+    <ClInclude Include="regulator.h" />
     <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
