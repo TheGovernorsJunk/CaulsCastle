@@ -1,4 +1,5 @@
 #include "goal_think.h"
+#include "goal_evaluator_move_to_position.h"
 
 #include <cassert>
 
@@ -6,7 +7,11 @@ namespace te
 {
 	GoalThink::GoalThink(ZeldaEntity& owner)
 		: mOwner(owner)
-	{}
+		, mEvaluators()
+	{
+		mEvaluators.push_back(std::make_unique<GoalEvaluator_MoveToPosition>());
+		assert(mEvaluators.size() != 0);
+	}
 
 	void GoalThink::arbitrate()
 	{
