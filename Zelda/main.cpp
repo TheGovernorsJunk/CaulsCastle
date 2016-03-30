@@ -132,7 +132,7 @@ int main()
 	link->setPosition(160, 128);
 
 	auto linkEntity = std::make_shared<te::ZeldaEntity>(pGame);
-	linkEntity->setPosition(16.f * 8, 16.f * 8);
+	linkEntity->setPosition(16 * 8 + 8.f, 16 * 8 + 8.f);
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
