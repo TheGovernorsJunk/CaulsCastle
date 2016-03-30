@@ -15,7 +15,7 @@ namespace te
 		template <class U, class... Args>
 		void addSubgoal(Args&&... args)
 		{
-			mSubgoals.push_front(std::make_unique<U>(args));
+			mSubgoals.push_front(std::make_unique<U>(args...));
 		}
 
 	protected:
