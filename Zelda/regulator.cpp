@@ -4,7 +4,7 @@ namespace te
 {
 	Regulator::Regulator(const sf::Time& updatePeriod)
 		: mUpdatePeriod(updatePeriod)
-		, mDT(sf::microseconds(0))
+		, mDT(sf::Time::Zero)
 	{}
 
 	bool Regulator::isReady(const sf::Time& dt)
