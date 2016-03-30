@@ -32,9 +32,9 @@ namespace te
 		setStatus(Status::ACTIVE);
 	}
 
-	Goal<ZeldaEntity>::Status GoalThink::process()
+	Goal<ZeldaEntity>::Status GoalThink::process(const sf::Time& dt)
 	{
-		return processSubgoals();
+		return processSubgoals(dt);
 	}
 
 	void GoalThink::terminate() {}

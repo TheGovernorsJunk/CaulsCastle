@@ -1,6 +1,11 @@
 #ifndef TE_GOAL_H
 #define TE_GOAL_H
 
+namespace sf
+{
+	class Time;
+}
+
 namespace te
 {
 	struct Telegram;
@@ -19,7 +24,7 @@ namespace te
 		{}
 
 		virtual void activate() = 0;
-		virtual Status process() = 0;
+		virtual Status process(const sf::Time& dt) = 0;
 		virtual void terminate() = 0;
 		virtual bool handleMessage(const Telegram&)
 		{

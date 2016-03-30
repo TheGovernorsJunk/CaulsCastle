@@ -11,7 +11,7 @@ namespace te
 
 	void ZeldaEntity::update(const sf::Time& dt)
 	{
-		mBrain.process();
+		mBrain.process(dt);
 
 		if (mGoalArbitrationRegulator.isReady(dt)) mBrain.arbitrate();
 	}

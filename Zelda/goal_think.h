@@ -14,7 +14,7 @@ namespace te
 		GoalThink(ZeldaEntity& owner);
 
 		void activate();
-		Status process();
+		Status process(const sf::Time& dt);
 		void terminate();
 		//bool handleMessage(const Telegram&);
 

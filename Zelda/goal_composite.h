@@ -20,7 +20,7 @@ namespace te
 		}
 
 	protected:
-		Status processSubgoals()
+		Status processSubgoals(const sf::Time& dt)
 		{
 			while (!mSubgoals.empty() && (mSubgoals.front()->isCompleted() || mSubgoals.front()->hasFailed()))
 			{
@@ -30,7 +30,7 @@ namespace te
 
 			if (!mSubgoals.empty())
 			{
-				Status statusOfSubgoals = mSubgoals.front()->process();
+				Status statusOfSubgoals = mSubgoals.front()->process(dt);
 
 				if (statusOfSubgoals == Status::COMPLETED && mSubgoals.size() > 1)
 				{
