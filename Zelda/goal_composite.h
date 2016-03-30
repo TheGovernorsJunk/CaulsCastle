@@ -12,11 +12,10 @@ namespace te
 	class GoalComposite : public Goal<T>
 	{
 	public:
-		template <class U>
-		void addSubgoal()
+		template <class U, class... Args>
+		void addSubgoal(Args&&... args)
 		{
-			std::unique_ptr<Goal<T>> pGoal(new U());
-			mSubgoals.push_front(std::move(pGoal));
+			mSubgoals.push_front(std::make_unique<U>(args));
 		}
 
 	protected:
