@@ -9,7 +9,15 @@ namespace te
 
 	sf::Vector2f normalize(const sf::Vector2f& v)
 	{
-		return v / std::sqrtf(v.x * v.x + v.y * v.y);
+		float magnitude = std::sqrtf(v.x * v.x + v.y * v.y);
+		if (magnitude == 0)
+		{
+			return sf::Vector2f(0, 0);
+		}
+		else
+		{
+			return v / magnitude;
+		}
 	}
 
 	float lengthSq(const sf::Vector2f& v)
