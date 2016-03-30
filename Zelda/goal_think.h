@@ -12,8 +12,7 @@ namespace te
 		void activate();
 		Status process();
 		void terminate();
-		bool handleMessage(const Telegram&);
-		void addSubgoal(const Goal&) {}
+		//bool handleMessage(const Telegram&);
 	};
 }
 

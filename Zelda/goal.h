@@ -14,11 +14,43 @@ namespace te
 			INACTIVE, ACTIVE, COMPLETED, FAILED
 		};
 
+		Goal()
+			: mStatus(Status::INACTIVE)
+		{}
+
 		virtual void activate() = 0;
 		virtual Status process() = 0;
 		virtual void terminate() = 0;
-		virtual bool handleMessage(const Telegram&) = 0;
+		virtual bool handleMessage(const Telegram&)
+		{
+			return false;
+		}
 		virtual void addSubgoal(const Goal&) {}
+
+		bool isActive() const
+		{
+			return mStatus == Status::ACTIVE;
+		}
+		bool isInactive() const
+		{
+			return mStatus == Status::INACTIVE;
+		}
+		bool isCompleted() const
+		{
+			return mStatus == Status::COMPLETED;
+		}
+		bool hasFailed() const
+		{
+			return mStatus == Status::FAILED;
+		}
+
+	protected:
+		void setStatus(Status status)
+		{
+			mStatus = status;
+		}
+	private:
+		Status mStatus;
 	};
 }
 

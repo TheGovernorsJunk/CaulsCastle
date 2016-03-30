@@ -125,6 +125,7 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="goal_think.cpp" />
     <ClCompile Include="graph_edge.cpp" />
     <ClCompile Include="graph_node.cpp" />
     <ClCompile Include="main.cpp" />
