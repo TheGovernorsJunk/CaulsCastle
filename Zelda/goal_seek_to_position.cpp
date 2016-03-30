@@ -21,7 +21,7 @@ namespace te
 			activate();
 
 		sf::Vector2f currPosition = mOwner.getPosition();
-		if (distanceSq(currPosition, mPosition) < 0.5f)
+		if (distanceSq(currPosition, mPosition) < 64.f)
 		{
 			setStatus(Status::COMPLETED);
 		}
