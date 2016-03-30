@@ -6,14 +6,20 @@ namespace te
 		: sf::Transformable()
 		, sf::Drawable()
 		, mID(UNREGISTERED_ID)
+		, mBoundingRadius(1.f)
 		, mpWorld(pWorld)
 	{}
 
 	BaseGameEntity::~BaseGameEntity() {}
 
+	void BaseGameEntity::setBoundingRadius(float radius)
+	{
+		mBoundingRadius = radius;
+	}
+
 	float BaseGameEntity::getBoundingRadius() const
 	{
-		return 1.f;
+		return mBoundingRadius;
 	}
 
 	bool BaseGameEntity::handleMessage(const Telegram& msg)

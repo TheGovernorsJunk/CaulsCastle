@@ -24,7 +24,8 @@ namespace te
 		BaseGameEntity(const std::shared_ptr<Game>& pWorld);
 		virtual ~BaseGameEntity();
 
-		virtual float getBoundingRadius() const;
+		void setBoundingRadius(float radius);
+		float getBoundingRadius() const;
 		virtual void update(const sf::Time& dt) = 0;
 		virtual bool handleMessage(const Telegram& msg);
 		int getID() const;
@@ -33,7 +34,9 @@ namespace te
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		friend class EntityManager;
+
 		int mID;
+		float mBoundingRadius;
 		std::shared_ptr<Game> mpWorld;
 	};
 }
