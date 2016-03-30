@@ -25,6 +25,9 @@ namespace te
 		void setFleeEnabled(bool enabled, sf::Vector2f target = sf::Vector2f(0.f, 0.f), float panicDistance = 0.f);
 		void setArriveEnabled(bool enabled, sf::Vector2f target = sf::Vector2f(0.f, 0.f), Deceleration deceleration = Deceleration::Normal);
 
+		bool isSeekEnabled() const;
+		bool isSeekEnabled(sf::Vector2f& target) const;
+
 	private:
 		sf::Vector2f seek(sf::Vector2f target) const;
 		sf::Vector2f flee(sf::Vector2f target, float panicDistance = 0.f) const;

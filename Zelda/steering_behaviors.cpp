@@ -100,6 +100,17 @@ namespace te
 		return sf::Vector2f(0.f, 0.f);
 	}
 
+	bool SteeringBehaviors::isSeekEnabled() const
+	{
+		return mSeekEnabled;
+	}
+
+	bool SteeringBehaviors::isSeekEnabled(sf::Vector2f& target) const
+	{
+		target = mSeekTarget;
+		return mSeekEnabled;
+	}
+
 	bool SteeringBehaviors::accumulateForce(sf::Vector2f& accumulator, sf::Vector2f force) const
 	{
 		float magnitude = length(accumulator);
