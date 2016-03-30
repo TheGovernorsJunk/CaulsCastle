@@ -36,8 +36,7 @@ namespace te
 
 
 	Entity::Entity(const std::shared_ptr<Game>& pWorld, const std::shared_ptr<MessageDispatcher>& pMessageDispatcher)
-		: sf::Drawable()
-		, MovingEntity(pWorld, 64.f, 50.f, 90.f)
+		: MovingEntity(pWorld, 64.f, 50.f, 90.f)
 		, mSprite()
 		, mBoxCollider()
 		, mDrawColliderEnabled(false)
