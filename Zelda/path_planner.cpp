@@ -4,6 +4,8 @@
 #include "graph_search_dijkstra.h"
 #include "vector_ops.h"
 
+#include <limits>
+
 namespace te
 {
 	PathPlanner::PathPlanner(MovingEntity& owner)
@@ -51,31 +53,30 @@ namespace te
 		return false;
 	}
 
-	// TODO: Test this implementation
 	int PathPlanner::getClosestNodeToPosition(sf::Vector2f pos) const
 	{
-		if (mNavGraph.numActiveNodes() > 0)
-		{
-			TileMap::NavGraph::ConstNodeIterator nodeIter(mNavGraph);
-			const TileMap::NavGraph::Node* currBest = nodeIter.begin();
-			while (!nodeIter.end() && mOwner.getWorld().isPathObstructed(currBest->getPosition(), pos, mOwner.getBoundingRadius()))
-			{
-				currBest = nodeIter.next();
-			}
+		float closestSoFar = std::numeric_limits<float>::max();
+		int closestNode = NoClosestNodeFound;
 
-			if (!nodeIter.end())
+		const float range = mOwner.getWorld().getMap().getCellSpaceNeighborhoodRange();
+
+		TileMap::NavCellSpace& cellSpace = mOwner.getWorld().getMap().getCellSpace();
+		cellSpace.calculateNeighbors(pos, range);
+
+		for (const TileMap::NavGraph::Node* pNode = cellSpace.begin(); !cellSpace.end(); pNode = cellSpace.next())
+		{
+			if (!mOwner.getWorld().isPathObstructed(pNode->getPosition(), pos, mOwner.getBoundingRadius()))
 			{
-				for (const TileMap::NavGraph::Node* pNode = nodeIter.next(); !nodeIter.end(); pNode = nodeIter.next())
+				float dist = distanceSq(pos, pNode->getPosition());
+				if (dist < closestSoFar)
 				{
-					if (distanceSq(pNode->getPosition(), pos) < distanceSq(currBest->getPosition(), pos) && !mOwner.getWorld().isPathObstructed(pos, pNode->getPosition(), mOwner.getBoundingRadius()))
-					{
-						currBest = pNode;
-					}
+					closestSoFar = dist;
+					closestNode = pNode->getIndex();
 				}
-				return currBest->getIndex();
 			}
 		}
-		return NoClosestNodeFound;
+
+		return closestNode;
 	}
 
 	void PathPlanner::convertIndicesToVectors(const std::list<int> pathOfNodeIndices, std::list<sf::Vector2f>& path)
