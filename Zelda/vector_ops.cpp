@@ -25,6 +25,13 @@ namespace te
 		return v.x * v.x + v.y * v.y;
 	}
 
+	float distance(const sf::Vector2f& a, const sf::Vector2f& b)
+	{
+		float x = a.x - b.x;
+		float y = a.y - b.y;
+		return std::sqrt(x * x + y * y);
+	}
+
 	float distanceSq(const sf::Vector2f& a, const sf::Vector2f& b)
 	{
 		float x = a.x - b.x;
