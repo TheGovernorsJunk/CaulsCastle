@@ -1,10 +1,30 @@
 #include "tile_map.h"
 #include "texture_manager.h"
+#include "vector_ops.h"
 
 #include <algorithm>
 
 namespace te
 {
+	static float calculateAverageGraphEdgeLength(const TileMap::NavGraph& navGraph)
+	{
+		float totalLength = 0;
+		int numEdgesCounted = 0;
+
+		TileMap::NavGraph::ConstNodeIterator nodeIter(navGraph);
+		for (const TileMap::NavGraph::Node* pNode = nodeIter.begin(); !nodeIter.end(); pNode = nodeIter.next())
+		{
+			TileMap::NavGraph::ConstEdgeIterator edgeIter(navGraph, pNode->getIndex());
+			for (const TileMap::NavGraph::Edge* pEdge = edgeIter.begin(); !edgeIter.end(); pEdge = edgeIter.next())
+			{
+				++numEdgesCounted;
+				totalLength += distance(navGraph.getNode(pEdge->getFrom()).getPosition(), navGraph.getNode(pEdge->getTo()).getPosition());
+			}
+		}
+
+		return totalLength / numEdgesCounted;
+	}
+
 	TileMap::TileMap(TextureManager& textureManager, TMX&& tmx)
 		: mTMX(std::move(tmx))
 		, mTextures()
@@ -12,6 +32,7 @@ namespace te
 		, mCollider(mTMX.makeCollider())
 		, mNavGraph(mTMX.makeNavGraph())
 		, mDrawFlags(0)
+		, mCellSpaceNeighborhoodRange(calculateAverageGraphEdgeLength(mNavGraph) + 1)
 	{
 		mTMX.makeVertices(textureManager, mTextures, mLayers);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -41,6 +62,11 @@ namespace te
 		mDrawFlags = enabled ? mDrawFlags | NAV_GRAPH : mDrawFlags ^ NAV_GRAPH;
 		if (enabled)
 			mNavGraph.prepareVerticesForDrawing();
+	}
+
+	float TileMap::getCellSpaceNeighborhoodRange() const
+	{
+		return mCellSpaceNeighborhoodRange;
 	}
 
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

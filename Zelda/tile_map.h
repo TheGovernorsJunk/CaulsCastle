@@ -26,6 +26,8 @@ namespace te
 		void setDrawColliderEnabled(bool enabled);
 		void setDrawNavGraphEnabled(bool enabled);
 
+		float getCellSpaceNeighborhoodRange() const;
+
 	private:
 		enum DrawFlags
 		{ COLLIDER = 0x01, NAV_GRAPH = 0x02 };
@@ -42,6 +44,7 @@ namespace te
 		NavGraph mNavGraph;
 
 		int mDrawFlags;
+		float mCellSpaceNeighborhoodRange;
 	};
 }
 
