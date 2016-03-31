@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="application.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="box_collider.cpp" />
     <ClCompile Include="collider.cpp" />
@@ -153,6 +154,7 @@
     <None Include="map.tmx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application.h" />
     <ClInclude Include="base_game_entity.h" />
     <ClInclude Include="box_collider.h" />
     <ClInclude Include="cell_space_partition.h" />
