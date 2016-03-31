@@ -2,6 +2,8 @@
 
 namespace te
 {
+	TextureManager::TextureManager() {}
+
 	std::shared_ptr<sf::Texture> TextureManager::get(const std::string& file)
 	{
 		auto iter = mTextures.find(file);

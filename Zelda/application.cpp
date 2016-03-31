@@ -39,6 +39,7 @@ namespace te
 			}
 
 			window->clear();
+			render(*window);
 			window->display();
 		}
 	}
