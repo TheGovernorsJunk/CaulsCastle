@@ -11,6 +11,7 @@
 #include "graph_search_dfs.h"
 #include "graph_search_bfs.h"
 #include "graph_search_dijkstra.h"
+#include "graph_search_a_star.h"
 #include "box_collider.h"
 #include "wall.h"
 #include "composite_collider.h"
@@ -91,7 +92,7 @@ int main()
 
 	te::CompositeCollider collider = tmx.makeCollider();
 	auto navGraph = std::make_shared<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>>(tmx.makeNavGraph());
-	te::GraphSearchDijkstra<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>> navSearch(*navGraph, 1, 400);
+	te::GraphSearchAStar<te::SparseGraph<te::NavGraphNode, te::NavGraphEdge>, te::HeuristicEuclid> navSearch(*navGraph, 1, 400);
 	std::list<int> navPath = navSearch.getPathToTarget();
 	for (auto i : navPath) std::cout << i << "-";
 	std::cout << std::endl;

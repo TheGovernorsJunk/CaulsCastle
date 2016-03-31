@@ -1,7 +1,7 @@
 #include"path_planner.h"
 #include "moving_entity.h"
 #include "game.h"
-#include "graph_search_dijkstra.h"
+#include "graph_search_a_star.h"
 #include "vector_ops.h"
 
 #include <limits>
@@ -38,9 +38,8 @@ namespace te
 			return false;
 		}
 
-		// TODO: Use A* instead
-		typedef GraphSearchDijkstra<TileMap::NavGraph> Dijkstra;
-		Dijkstra search(mNavGraph, closestNode, closestNodeToTarget);
+		typedef GraphSearchAStar<TileMap::NavGraph, HeuristicEuclid> AStar;
+		AStar search(mNavGraph, closestNode, closestNodeToTarget);
 
 		std::list<int> pathOfNodeIndices = search.getPathToTarget();
 		if (!pathOfNodeIndices.empty())
