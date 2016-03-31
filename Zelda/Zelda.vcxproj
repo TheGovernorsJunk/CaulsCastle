@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="base_game_entity.h" />
     <ClInclude Include="box_collider.h" />
+    <ClInclude Include="cell_space_partition.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="composite_collider.h" />
     <ClInclude Include="entity.h" />

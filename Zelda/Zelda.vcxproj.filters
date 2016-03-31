@@ -226,5 +226,8 @@
     <ClInclude Include="goal_seek_to_position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cell_space_partition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
