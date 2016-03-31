@@ -4,6 +4,7 @@
 #include "sparse_graph.h"
 #include "tmx.h"
 #include "composite_collider.h"
+#include "cell_space_partition.h"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -17,6 +18,7 @@ namespace te
 	{
 	public:
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
+		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
 		TileMap(TextureManager& textureManager, TMX&& tmx);
 
@@ -27,6 +29,7 @@ namespace te
 		void setDrawNavGraphEnabled(bool enabled);
 
 		float getCellSpaceNeighborhoodRange() const;
+		NavCellSpace& getCellSpace();
 
 	private:
 		enum DrawFlags
@@ -45,6 +48,7 @@ namespace te
 
 		int mDrawFlags;
 		float mCellSpaceNeighborhoodRange;
+		NavCellSpace mCellSpacePartition;
 	};
 }
 

@@ -33,6 +33,7 @@ namespace te
 		, mNavGraph(mTMX.makeNavGraph())
 		, mDrawFlags(0)
 		, mCellSpaceNeighborhoodRange(calculateAverageGraphEdgeLength(mNavGraph) + 1)
+		, mCellSpacePartition(mTMX.getWidth() * mTMX.getTileWidth(), mTMX.getHeight() * mTMX.getTileHeight(), mTMX.getWidth() / 4, mTMX.getHeight() / 4, mNavGraph.numNodes())
 	{
 		mTMX.makeVertices(textureManager, mTextures, mLayers);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -40,6 +41,12 @@ namespace te
 				throw std::runtime_error("Texture and layer component counts are inconsistent.");
 			}
 		});
+
+		TileMap::NavGraph::ConstNodeIterator nodeIter(mNavGraph);
+		for (const TileMap::NavGraph::Node* pNode = nodeIter.begin(); !nodeIter.end(); pNode = nodeIter.next())
+		{
+			mCellSpacePartition.addEntity(pNode);
+		}
 	}
 
 	const std::vector<Wall2f>& TileMap::getWalls() const
@@ -67,6 +74,11 @@ namespace te
 	float TileMap::getCellSpaceNeighborhoodRange() const
 	{
 		return mCellSpaceNeighborhoodRange;
+	}
+
+	TileMap::NavCellSpace& TileMap::getCellSpace()
+	{
+		return mCellSpacePartition;
 	}
 
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
