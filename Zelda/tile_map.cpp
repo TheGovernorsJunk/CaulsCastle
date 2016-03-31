@@ -25,17 +25,16 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
-	TileMap::TileMap(TextureManager& textureManager, TMX&& tmx)
-		: mTMX(std::move(tmx))
-		, mTextures()
+	TileMap::TileMap(TextureManager& textureManager, const TMX& tmx)
+		: mTextures()
 		, mLayers()
-		, mCollider(mTMX.makeCollider())
-		, mNavGraph(mTMX.makeNavGraph())
+		, mCollider(tmx.makeCollider())
+		, mNavGraph(tmx.makeNavGraph())
 		, mDrawFlags(0)
 		, mCellSpaceNeighborhoodRange(calculateAverageGraphEdgeLength(mNavGraph) + 1)
-		, mCellSpacePartition(mTMX.getWidth() * mTMX.getTileWidth(), mTMX.getHeight() * mTMX.getTileHeight(), mTMX.getWidth() / 4, mTMX.getHeight() / 4, mNavGraph.numNodes())
+		, mCellSpacePartition(tmx.getWidth() * tmx.getTileWidth(), tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mNavGraph.numNodes())
 	{
-		mTMX.makeVertices(textureManager, mTextures, mLayers);
+		tmx.makeVertices(textureManager, mTextures, mLayers);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
 			if (layerComponents.size() != mTextures.size()) {
 				throw std::runtime_error("Texture and layer component counts are inconsistent.");

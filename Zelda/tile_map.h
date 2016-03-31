@@ -20,7 +20,7 @@ namespace te
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
-		TileMap(TextureManager& textureManager, TMX&& tmx);
+		TileMap(TextureManager& textureManager, const TMX& tmx);
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
@@ -40,7 +40,6 @@ namespace te
 
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-		TMX mTMX;
 		std::vector<std::shared_ptr<sf::Texture>> mTextures;
 		std::vector<std::vector<sf::VertexArray>> mLayers;
 		CompositeCollider mCollider;
