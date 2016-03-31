@@ -328,4 +328,24 @@ namespace te
 		graph.pruneEdges();
 		return graph;
 	}
+
+	int TMX::getWidth() const
+	{
+		return mWidth;
+	}
+
+	int TMX::getHeight() const
+	{
+		return mHeight;
+	}
+
+	int TMX::getTileWidth() const
+	{
+		return mTilewidth;
+	}
+
+	int TMX::getTileHeight() const
+	{
+		return mTileheight;
+	}
 }

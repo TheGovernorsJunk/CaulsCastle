@@ -24,6 +24,11 @@ namespace te
 
 		SparseGraph<NavGraphNode, NavGraphEdge> makeNavGraph() const;
 
+		int getWidth() const;
+		int getHeight() const;
+		int getTileWidth() const;
+		int getTileHeight() const;
+
 	private:
 		struct Image {
 			std::string source;
