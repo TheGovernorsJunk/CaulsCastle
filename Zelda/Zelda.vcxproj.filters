@@ -229,5 +229,11 @@
     <ClInclude Include="cell_space_partition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="graph_search_a_star.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="indexed_priority_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

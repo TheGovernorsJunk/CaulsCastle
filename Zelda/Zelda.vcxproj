@@ -171,9 +171,11 @@
     <ClInclude Include="goal_think.h" />
     <ClInclude Include="graph_edge.h" />
     <ClInclude Include="graph_node.h" />
+    <ClInclude Include="graph_search_a_star.h" />
     <ClInclude Include="graph_search_bfs.h" />
     <ClInclude Include="graph_search_dfs.h" />
     <ClInclude Include="graph_search_dijkstra.h" />
+    <ClInclude Include="indexed_priority_queue.h" />
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="moving_entity.h" />
     <ClInclude Include="nav_graph_edge.h" />
