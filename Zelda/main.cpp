@@ -1,44 +1,12 @@
-#include "tmx.h"
-#include "texture_manager.h"
-#include "tile_map.h"
-#include "entity.h"
-#include "state_machine.h"
-#include "entity_manager.h"
-#include "message_dispatcher.h"
-#include "sparse_graph.h"
-#include "graph_edge.h"
-#include "graph_node.h"
-#include "graph_search_dfs.h"
-#include "graph_search_bfs.h"
-#include "graph_search_dijkstra.h"
-#include "graph_search_a_star.h"
-#include "box_collider.h"
-#include "wall.h"
-#include "composite_collider.h"
-#include "nav_graph_node.h"
-#include "nav_graph_edge.h"
-#include "zelda_game.h"
-#include "zelda_entity.h"
+#include "zelda_application.h"
 
-#include <SFML/Graphics.hpp>
-#include <rapidxml.hpp>
-#include <rapidxml_utils.hpp>
-
-#include <iostream>
-#include <memory>
-
-namespace te
+int main()
 {
-	class SampleNode : public GraphNode
-	{};
-	class SampleEdge : public GraphEdge
-	{
-	public:
-		SampleEdge(int from, int to, double cost = 1.0)
-			: GraphEdge(from, to, cost) {}
-	};
+	te::ZeldaApplication app;
+	app.run();
 }
 
+/*
 int main()
 {
 	//te::BoxCollider collider(sf::FloatRect(32, 16, 48, 64));
@@ -210,3 +178,4 @@ int main()
 
 	return 0;
 }
+*/

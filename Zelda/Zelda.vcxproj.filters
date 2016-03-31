@@ -108,6 +108,9 @@
     <ClCompile Include="application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zelda_application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -239,6 +242,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zelda_application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

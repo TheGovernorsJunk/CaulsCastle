@@ -147,6 +147,7 @@
     <ClCompile Include="vector_ops.cpp" />
     <ClCompile Include="vehicle.cpp" />
     <ClCompile Include="wall.cpp" />
+    <ClCompile Include="zelda_application.cpp" />
     <ClCompile Include="zelda_entity.cpp" />
     <ClCompile Include="zelda_game.cpp" />
   </ItemGroup>
@@ -194,6 +195,7 @@
     <ClInclude Include="vector_ops.h" />
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="zelda_application.h" />
     <ClInclude Include="zelda_entity.h" />
     <ClInclude Include="zelda_game.h" />
   </ItemGroup>

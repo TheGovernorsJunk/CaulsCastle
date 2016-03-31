@@ -7,14 +7,14 @@ namespace te
 
 	void Application::run(int fps)
 	{
-		sf::RenderWindow window(sf::VideoMode(600, 400), "Zelda");
-		window.setKeyRepeatEnabled(false);
+		auto window = makeWindow();
+		window->setKeyRepeatEnabled(false);
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
 		const sf::Time timePerFrame = sf::seconds(1.f / fps);
 
-		while (window.isOpen())
+		while (window->isOpen())
 		{
 			sf::Time dt = clock.restart();
 			timeSinceLastUpdate += dt;
@@ -23,11 +23,11 @@ namespace te
 				timeSinceLastUpdate -= timePerFrame;
 
 				sf::Event evt;
-				while (window.pollEvent(evt))
+				while (window->pollEvent(evt))
 				{
 					if (evt.type == sf::Event::Closed)
 					{
-						window.close();
+						window->close();
 					}
 					else
 					{
@@ -38,8 +38,8 @@ namespace te
 				update(timePerFrame);
 			}
 
-			window.clear();
-			window.display();
+			window->clear();
+			window->display();
 		}
 	}
 }
