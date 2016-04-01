@@ -45,30 +45,44 @@ namespace te
 
 	void ZeldaGame::processInput(const sf::Event& evt)
 	{
-		//if (evt.type == sf::Event::KeyPressed || evt.type == sf::Event::KeyReleased)
-		//{
-		//	int flip = evt.type == sf::Event::KeyPressed ? Player::On : Player::Off;
-		//	switch (evt.key.code)
-		//	{
-		//	case sf::Keyboard::W:
-		//		mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Up | flip, NULL);
-		//		break;
-		//	case sf::Keyboard::A:
-		//		mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Left | flip, NULL);
-		//		break;
-		//	case sf::Keyboard::S:
-		//		mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Down | flip, NULL);
-		//		break;
-		//	case sf::Keyboard::D:
-		//		mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Right | flip, NULL);
-		//		break;
-		//	}
-		//}
+		if (evt.type == sf::Event::KeyPressed || evt.type == sf::Event::KeyReleased)
+		{
+			int flip = evt.type == sf::Event::KeyPressed ? Player::On : Player::Off;
+			float positive = flip * 1.f;
+			float negative = flip * -1.f;
+			switch (evt.key.code)
+			{
+			case sf::Keyboard::W:
+				mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&negative);
+				break;
+			case sf::Keyboard::A:
+				mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&negative);
+				break;
+			case sf::Keyboard::S:
+				mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&positive);
+				break;
+			case sf::Keyboard::D:
+				mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&positive);
+				break;
+			}
+		}
 
-		float xAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.f;
-		mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&xAxis);
-		float yAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.f;
-		mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&yAxis);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		//	mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&negative);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		//	mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&negative);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		//	mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&positive);
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		//	mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&positive);
+
+		if (sf::Joystick::isConnected(0))
+		{
+			float xAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.f;
+			mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&xAxis);
+			float yAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.f;
+			mpMessageDispatcher->dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&yAxis);
+		}
 	}
 
 	void ZeldaGame::update(const sf::Time& dt)

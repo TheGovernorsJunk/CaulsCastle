@@ -21,20 +21,28 @@ namespace te
 
 	bool Player::handleMessage(const Telegram& msg)
 	{
-		float speed = 64.f;
+		bool result = false;
+
+		const float speed = 64.f;
 		if ((msg.msg & X) > 0)
 		{
 			float xAxis = *(float*)msg.extraInfo;
 			mVelocity.x = xAxis * speed;
-			return true;
+			result = true;
 		}
 		if ((msg.msg & Y) > 0)
 		{
 			float yAxis = *(float*)msg.extraInfo;
 			mVelocity.y = yAxis * speed;
-			return true;
+			result = true;
 		}
-		return false;
+
+		if (lengthSq(mVelocity) > speed * speed)
+		{
+			mVelocity = normalize(mVelocity) * speed;
+		}
+
+		return result;
 	}
 
 	//bool Player::handleMessage(const Telegram& msg)
