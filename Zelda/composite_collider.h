@@ -18,8 +18,7 @@ namespace te
 		//virtual std::vector<Wall2f> getWalls() const;
 		const std::vector<Wall2f>& getWalls() const;
 
-		template <typename T>
-		bool contains(T x, T y) const
+		bool contains(float x, float y) const
 		{
 			for (auto it = mBoxColliders.begin(); it != mBoxColliders.end(); ++it)
 			{

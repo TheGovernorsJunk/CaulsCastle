@@ -12,8 +12,7 @@ namespace te
 
 		const std::vector<Wall2f>& getWalls() const;
 
-		template <typename T>
-		bool contains(T x, T y) const
+		bool contains(float x, float y) const
 		{
 			return mRect.contains(x, y);
 		}
