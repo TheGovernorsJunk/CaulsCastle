@@ -14,6 +14,9 @@ namespace te
 
 		void loadMap(const std::string& fileName);
 
+		void processInput(const sf::Event& evt);
+		void update(const sf::Time& dt);
+
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

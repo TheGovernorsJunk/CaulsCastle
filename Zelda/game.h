@@ -18,6 +18,9 @@ namespace te
 		const TileMap& getMap() const;
 		TileMap& getMap();
 
+		virtual void processInput(const sf::Event& evt) = 0;
+		virtual void update(const sf::Time& dt) = 0;
+
 	protected:
 		void setTileMap(const std::shared_ptr<TileMap>& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

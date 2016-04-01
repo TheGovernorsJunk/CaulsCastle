@@ -18,7 +18,6 @@ namespace te
 	class Application
 	{
 	public:
-		Application();
 		virtual ~Application();
 
 		void run(int fps = 60);

@@ -18,6 +18,12 @@ namespace te
 		setTileMap(std::make_shared<TileMap>(*mpTextureManager, TMX(fileName)));
 	}
 
+	void ZeldaGame::processInput(const sf::Event& evt)
+	{}
+
+	void ZeldaGame::update(const sf::Time& dt)
+	{}
+
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		Game::draw(target, states);

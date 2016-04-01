@@ -5,10 +5,6 @@
 
 namespace te
 {
-	Application::Application()
-		: mpGame()
-	{}
-
 	Application::~Application() {}
 
 	void Application::run(int fps)
@@ -52,8 +48,14 @@ namespace te
 		}
 	}
 
-	void Application::processInput(const sf::Event& evt, Game& game) {}
-	void Application::update(const sf::Time& dt, Game& game) {}
+	void Application::processInput(const sf::Event& evt, Game& game)
+	{
+		game.processInput(evt);
+	}
+	void Application::update(const sf::Time& dt, Game& game)
+	{
+		game.update(dt);
+	}
 	void Application::render(sf::RenderTarget& target, Game& game)
 	{
 		target.draw(game);
