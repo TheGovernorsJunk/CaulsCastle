@@ -47,7 +47,10 @@ namespace te
 
 	void Player::update(const sf::Time& dt)
 	{
-		move(mVelocity * dt.asSeconds());
+		sf::Vector2f ds = mVelocity * dt.asSeconds();
+		ds.x = std::signbit(ds.x) ? std::floorf(ds.x) : std::ceilf(ds.x);
+		ds.y = std::signbit(ds.y) ? std::floorf(ds.y) : std::ceilf(ds.y);
+		move(ds);
 
 		BoxCollider transformedCollider = mBoxCollider.transform(getTransform());
 		sf::FloatRect collision;
