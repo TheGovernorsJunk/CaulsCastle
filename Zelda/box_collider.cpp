@@ -60,6 +60,11 @@ namespace te
 		return { t.transformRect(mRect) };
 	}
 
+	sf::FloatRect BoxCollider::getRect() const
+	{
+		return mRect;
+	}
+
 	void BoxCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		sf::RectangleShape rect;

@@ -49,19 +49,21 @@ namespace te
 	{
 		move(mVelocity * dt.asSeconds());
 
+		BoxCollider transformedCollider = mBoxCollider.transform(getTransform());
 		sf::FloatRect collision;
-		while (getWorld().getMap().intersects(mBoxCollider.transform(getTransform()), collision))
+		while (getWorld().getMap().intersects(transformedCollider, collision))
 		{
 			sf::Vector2f backup;
 			if (collision.width < collision.height)
 			{
-				backup.x = (std::signbit(mVelocity.x)) ? collision.width : -collision.width;
+				backup.x = collision.left == transformedCollider.getRect().left ? collision.width : -collision.width;
 			}
 			else
 			{
-				backup.y = (std::signbit(mVelocity.y)) ? collision.height : -collision.height;
+				backup.y = collision.top == transformedCollider.getRect().top ? collision.height : -collision.height;
 			}
 			move(backup);
+			transformedCollider = mBoxCollider.transform(getTransform());
 		}
 	}
 
