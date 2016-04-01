@@ -26,6 +26,15 @@ namespace te
 	//	return walls;
 	//}
 
+	bool CompositeCollider::contains(float x, float y) const
+	{
+		for (auto it = mBoxColliders.begin(); it != mBoxColliders.end(); ++it)
+		{
+			if (it->contains(x, y)) return true;
+		}
+		return false;
+	}
+
 	void CompositeCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		std::for_each(mBoxColliders.begin(), mBoxColliders.end(), [&target, &states](const BoxCollider& collider) {

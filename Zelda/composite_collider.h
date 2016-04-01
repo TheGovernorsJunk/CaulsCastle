@@ -18,14 +18,8 @@ namespace te
 		//virtual std::vector<Wall2f> getWalls() const;
 		const std::vector<Wall2f>& getWalls() const;
 
-		bool contains(float x, float y) const
-		{
-			for (auto it = mBoxColliders.begin(); it != mBoxColliders.end(); ++it)
-			{
-				if (it->contains(x, y)) return true;
-			}
-			return false;
-		}
+		bool contains(float x, float y) const;
+
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		std::vector<BoxCollider> mBoxColliders;

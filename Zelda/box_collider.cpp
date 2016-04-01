@@ -19,6 +19,11 @@ namespace te
 		return mWalls;
 	}
 
+	bool BoxCollider::contains(float x, float y) const
+	{
+		return mRect.contains(x, y);
+	}
+
 	//std::vector<Wall2f> BoxCollider::getWalls() const
 	//{
 	//	std::vector<Wall2f> walls;

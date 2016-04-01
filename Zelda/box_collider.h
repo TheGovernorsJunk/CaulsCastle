@@ -12,10 +12,7 @@ namespace te
 
 		const std::vector<Wall2f>& getWalls() const;
 
-		bool contains(float x, float y) const
-		{
-			return mRect.contains(x, y);
-		}
+		bool contains(float x, float y) const;
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
