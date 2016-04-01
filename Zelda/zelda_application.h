@@ -3,7 +3,6 @@
 
 #include "application.h"
 #include "texture_manager.h"
-#include "zelda_game.h"
 
 #include <string>
 
@@ -15,12 +14,14 @@ namespace te
 		ZeldaApplication(const std::string& filename);
 	private:
 		std::unique_ptr<sf::RenderWindow> makeWindow() const;
-		void processInput(const sf::Event& evt);
-		void update(const sf::Time& dt);
-		void render(sf::RenderTarget& target);
+		std::unique_ptr<Game> makeGame() const;
+
+		//void processInput(const sf::Event& evt);
+		//void update(const sf::Time& dt);
+		//void render(sf::RenderTarget& target);
 
 		std::shared_ptr<TextureManager> mTextureManager;
-		ZeldaGame mGame;
+		std::string mFilename;
 	};
 }
 

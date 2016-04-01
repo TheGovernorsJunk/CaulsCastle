@@ -1,14 +1,22 @@
 #include "application.h"
+#include "game.h"
+
 #include <SFML/Graphics.hpp>
 
 namespace te
 {
+	Application::Application()
+		: mpGame()
+	{}
+
 	Application::~Application() {}
 
 	void Application::run(int fps)
 	{
 		auto window = makeWindow();
 		window->setKeyRepeatEnabled(false);
+
+		auto pGame = makeGame();
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -31,16 +39,23 @@ namespace te
 					}
 					else
 					{
-						processInput(evt);
+						processInput(evt, *pGame);
 					}
 				}
 
-				update(timePerFrame);
+				update(timePerFrame, *pGame);
 			}
 
 			window->clear();
-			render(*window);
+			render(*window, *pGame);
 			window->display();
 		}
+	}
+
+	void Application::processInput(const sf::Event& evt, Game& game) {}
+	void Application::update(const sf::Time& dt, Game& game) {}
+	void Application::render(sf::RenderTarget& target, Game& game)
+	{
+		target.draw(game);
 	}
 }

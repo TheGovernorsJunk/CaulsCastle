@@ -1,4 +1,5 @@
 #include "zelda_application.h"
+#include "zelda_game.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -6,9 +7,8 @@ namespace te
 {
 	ZeldaApplication::ZeldaApplication(const std::string& filename)
 		: mTextureManager(std::make_shared<TextureManager>())
-		, mGame(mTextureManager)
+		, mFilename(filename)
 	{
-		mGame.loadMap(filename);
 	}
 
 	std::unique_ptr<sf::RenderWindow> ZeldaApplication::makeWindow() const
@@ -16,10 +16,10 @@ namespace te
 		return std::make_unique<sf::RenderWindow>(sf::VideoMode(600, 400), "Zelda");
 	}
 
-	void ZeldaApplication::processInput(const sf::Event& evt) {}
-	void ZeldaApplication::update(const sf::Time& dt) {}
-	void ZeldaApplication::render(sf::RenderTarget& target)
+	std::unique_ptr<Game> ZeldaApplication::makeGame() const
 	{
-		target.draw(mGame);
+		auto pGame = std::make_unique<ZeldaGame>(mTextureManager);
+		pGame->loadMap(mFilename);
+		return pGame;
 	}
 }
