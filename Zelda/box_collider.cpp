@@ -30,9 +30,19 @@ namespace te
 		return mRect.intersects(o.mRect);
 	}
 
+	bool BoxCollider::intersects(const BoxCollider& o, sf::FloatRect& collision) const
+	{
+		return mRect.intersects(o.mRect, collision);
+	}
+
 	bool BoxCollider::intersects(const CompositeCollider& o) const
 	{
 		return o.intersects(*this);
+	}
+
+	bool BoxCollider::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
+	{
+		return o.intersects(*this, collision);
 	}
 
 	//std::vector<Wall2f> BoxCollider::getWalls() const

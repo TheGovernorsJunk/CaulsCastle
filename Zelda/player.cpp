@@ -47,11 +47,21 @@ namespace te
 
 	void Player::update(const sf::Time& dt)
 	{
-		sf::Vector2f position = getPosition();
 		move(mVelocity * dt.asSeconds());
-		if (getWorld().getMap().intersects(mBoxCollider.transform(getTransform())))
+
+		sf::FloatRect collision;
+		while (getWorld().getMap().intersects(mBoxCollider.transform(getTransform()), collision))
 		{
-			setPosition(position);
+			sf::Vector2f backup;
+			if (collision.width < collision.height)
+			{
+				backup.x = (std::signbit(mVelocity.x)) ? collision.width : -collision.width;
+			}
+			else
+			{
+				backup.y = (std::signbit(mVelocity.y)) ? collision.height : -collision.height;
+			}
+			move(backup);
 		}
 	}
 
@@ -60,9 +70,19 @@ namespace te
 		return mBoxCollider.intersects(o);
 	}
 
+	bool Player::intersects(const BoxCollider& o, sf::FloatRect& collision) const
+	{
+		return mBoxCollider.intersects(o, collision);
+	}
+
 	bool Player::intersects(const CompositeCollider& o) const
 	{
 		return mBoxCollider.intersects(o);
+	}
+
+	bool Player::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
+	{
+		return mBoxCollider.intersects(o, collision);
 	}
 
 	void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

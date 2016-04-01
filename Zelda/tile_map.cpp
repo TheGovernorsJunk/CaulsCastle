@@ -85,9 +85,19 @@ namespace te
 		return mCollider.transform(getTransform()).intersects(o);
 	}
 
+	bool TileMap::intersects(const BoxCollider& o, sf::FloatRect& collision) const
+	{
+		return mCollider.transform(getTransform()).intersects(o, collision);
+	}
+
 	bool TileMap::intersects(const CompositeCollider& o) const
 	{
 		return mCollider.transform(getTransform()).intersects(o);
+	}
+
+	bool TileMap::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
+	{
+		return mCollider.transform(getTransform()).intersects(o, collision);
 	}
 
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

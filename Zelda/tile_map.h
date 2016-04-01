@@ -32,7 +32,9 @@ namespace te
 		NavCellSpace& getCellSpace();
 
 		bool intersects(const BoxCollider&) const;
+		bool intersects(const BoxCollider&, sf::FloatRect&) const;
 		bool intersects(const CompositeCollider&) const;
+		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
 	private:
 		enum DrawFlags

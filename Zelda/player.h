@@ -30,7 +30,9 @@ namespace te
 		void update(const sf::Time& dt);
 
 		bool intersects(const BoxCollider&) const;
+		bool intersects(const BoxCollider&, sf::FloatRect&) const;
 		bool intersects(const CompositeCollider&) const;
+		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;

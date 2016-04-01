@@ -16,7 +16,9 @@ namespace te
 	public:
 		virtual ~Collidable();
 		virtual bool intersects(const BoxCollider&) const = 0;
+		virtual bool intersects(const BoxCollider&, sf::FloatRect& collision) const = 0;
 		virtual bool intersects(const CompositeCollider&) const = 0;
+		virtual bool intersects(const CompositeCollider&, sf::FloatRect& collision) const = 0;
 	};
 
 	class Collider : public sf::Drawable, public Collidable

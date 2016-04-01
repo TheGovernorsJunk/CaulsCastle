@@ -42,10 +42,24 @@ namespace te
 		return false;
 	}
 
+	bool CompositeCollider::intersects(const BoxCollider& o, sf::FloatRect& collision) const
+	{
+		for (auto& boxCollider : mBoxColliders)
+			if (boxCollider.intersects(o, collision)) return true;
+		return false;
+	}
+
 	bool CompositeCollider::intersects(const CompositeCollider& o) const
 	{
 		for (auto& boxCollider : mBoxColliders)
 			if (o.intersects(boxCollider)) return true;
+		return false;
+	}
+
+	bool CompositeCollider::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
+	{
+		for (auto& boxCollider : mBoxColliders)
+			if (o.intersects(boxCollider, collision)) return true;
 		return false;
 	}
 

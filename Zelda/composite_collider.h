@@ -20,7 +20,9 @@ namespace te
 
 		bool contains(float x, float y) const;
 		bool intersects(const BoxCollider&) const;
+		bool intersects(const BoxCollider&, sf::FloatRect&) const;
 		bool intersects(const CompositeCollider&) const;
+		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
 		CompositeCollider transform(const sf::Transform&) const;
 	private:
