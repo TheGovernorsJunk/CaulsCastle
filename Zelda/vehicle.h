@@ -9,7 +9,7 @@ namespace te
 	class Vehicle : public MovingEntity
 	{
 	public:
-		Vehicle(const std::shared_ptr<Game>& pWorld);
+		Vehicle(Game& pWorld);
 
 		const SteeringBehaviors& getSteering() const;
 		SteeringBehaviors& getSteering();

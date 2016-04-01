@@ -371,4 +371,9 @@ namespace te
 	{
 		return mTileheight;
 	}
+
+	std::vector<TMX::ObjectGroup> TMX::getObjectGroups() const
+	{
+		return mObjectGroups;
+	}
 }

@@ -18,8 +18,7 @@ namespace te
 
 	std::unique_ptr<Game> ZeldaApplication::makeGame() const
 	{
-		auto pGame = std::make_unique<ZeldaGame>(mTextureManager);
-		pGame->loadMap(mFilename);
+		auto pGame = std::make_unique<ZeldaGame>(mTextureManager, mFilename);
 		return pGame;
 	}
 }

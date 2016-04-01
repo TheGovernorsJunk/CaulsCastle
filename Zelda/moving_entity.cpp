@@ -3,8 +3,8 @@
 
 namespace te
 {
-	MovingEntity::MovingEntity(const std::shared_ptr<Game>& pWorld, float maxSpeed, float maxForce, float maxTurnRate)
-		: BaseGameEntity(pWorld)
+	MovingEntity::MovingEntity(Game& world, float maxSpeed, float maxForce, float maxTurnRate)
+		: BaseGameEntity(world)
 		, mMaxSpeed(maxSpeed)
 		, mMaxForce(maxForce)
 		, mMaxTurnRate(maxTurnRate)

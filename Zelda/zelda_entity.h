@@ -14,7 +14,7 @@ namespace te
 	class ZeldaEntity : public MovingEntity
 	{
 	public:
-		ZeldaEntity(const std::shared_ptr<Game>& pGame);
+		ZeldaEntity(Game& pGame);
 
 		void update(const sf::Time& dt);
 		PathPlanner& getPathPlanner();

@@ -21,7 +21,7 @@ namespace te
 	public:
 		const static int UNREGISTERED_ID = 0;
 
-		BaseGameEntity(const std::shared_ptr<Game>& pWorld);
+		BaseGameEntity(Game& pWorld);
 		virtual ~BaseGameEntity();
 
 		void setBoundingRadius(float radius);
@@ -37,7 +37,7 @@ namespace te
 
 		int mID;
 		float mBoundingRadius;
-		std::shared_ptr<Game> mpWorld;
+		Game& mWorld;
 	};
 }
 

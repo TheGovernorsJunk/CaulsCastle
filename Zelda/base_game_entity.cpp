@@ -2,12 +2,12 @@
 
 namespace te
 {
-	BaseGameEntity::BaseGameEntity(const std::shared_ptr<Game>& pWorld)
+	BaseGameEntity::BaseGameEntity(Game& pWorld)
 		: sf::Transformable()
 		, sf::Drawable()
 		, mID(UNREGISTERED_ID)
 		, mBoundingRadius(1.f)
-		, mpWorld(pWorld)
+		, mWorld(pWorld)
 	{}
 
 	BaseGameEntity::~BaseGameEntity() {}
@@ -34,12 +34,12 @@ namespace te
 
 	const Game& BaseGameEntity::getWorld() const
 	{
-		return *mpWorld;
+		return mWorld;
 	}
 
 	Game& BaseGameEntity::getWorld()
 	{
-		return *mpWorld;
+		return mWorld;
 	}
 
 	void BaseGameEntity::draw(sf::RenderTarget&, sf::RenderStates) const {}

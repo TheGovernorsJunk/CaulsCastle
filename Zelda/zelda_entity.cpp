@@ -2,8 +2,8 @@
 
 namespace te
 {
-	ZeldaEntity::ZeldaEntity(const std::shared_ptr<Game>& pGame)
-		: MovingEntity(pGame)
+	ZeldaEntity::ZeldaEntity(Game& game)
+		: MovingEntity(game)
 		, mPathPlanner(*this)
 		, mGoalArbitrationRegulator(sf::seconds(0.5f))
 		, mBrain(*this)

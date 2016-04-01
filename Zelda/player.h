@@ -1,0 +1,36 @@
+#ifndef TE_PLAYER_H
+#define TE_PLAYER_H
+
+#include "base_game_entity.h"
+#include "tmx.h"
+
+namespace te
+{
+	class Player : public BaseGameEntity
+	{
+	public:
+		enum Message
+		{
+			Off   = 0x00,
+			On    = 0x01,
+
+			Left  = 0x02,
+			Right = 0x04,
+			Up    = 0x08,
+			Down  = 0x10
+		};
+
+		Player(Game& world, const TMX::Object& playerObject);
+
+		bool handleMessage(const Telegram& msg);
+		void update(const sf::Time& dt);
+
+	private:
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+		float mRadius;
+		sf::Vector2f mVelocity;
+	};
+}
+
+#endif

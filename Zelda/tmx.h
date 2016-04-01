@@ -18,23 +18,6 @@ namespace te
 	class TMX
 	{
 	public:
-		TMX(const std::string& filename);
-		void makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const;
-		CompositeCollider makeCollider() const;
-
-		SparseGraph<NavGraphNode, NavGraphEdge> makeNavGraph() const;
-
-		int getWidth() const;
-		int getHeight() const;
-		int getTileWidth() const;
-		int getTileHeight() const;
-
-	private:
-		struct Image {
-			std::string source;
-			int width;
-			int height;
-		};
 		struct Object {
 			int id;
 			std::string name;
@@ -47,6 +30,26 @@ namespace te
 			std::string name;
 			std::string draworder;
 			std::vector<Object> objects;
+		};
+
+		TMX(const std::string& filename);
+		void makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const;
+		CompositeCollider makeCollider() const;
+
+		SparseGraph<NavGraphNode, NavGraphEdge> makeNavGraph() const;
+
+		int getWidth() const;
+		int getHeight() const;
+		int getTileWidth() const;
+		int getTileHeight() const;
+
+		std::vector<ObjectGroup> getObjectGroups() const;
+
+	private:
+		struct Image {
+			std::string source;
+			int width;
+			int height;
 		};
 		struct TileData {
 			int id;
