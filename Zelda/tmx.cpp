@@ -15,6 +15,7 @@
 #include <array>
 #include <set>
 #include <cmath>
+#include <sstream>
 
 constexpr bool std::less<sf::Vector2f>::operator()(const sf::Vector2f& a, const sf::Vector2f& b) const
 {
@@ -54,6 +55,27 @@ namespace te
 				std::vector<Object> objects;
 				for (rapidxml::xml_node<char>* pObject = pObjectGroup->first_node("object"); pObject != 0; pObject = pObject->next_sibling("object"))
 				{
+					std::vector<Polygon> polygons;
+					for (rapidxml::xml_node<char>* pPolygon = pObject->first_node("polygon"); pPolygon != 0; pPolygon = pPolygon->next_sibling("polygon"))
+					{
+						std::vector<sf::Vector2i> pointsVec;
+
+						std::string pointsStr(pPolygon->first_attribute("points")->value());
+						std::istringstream iss(pointsStr);
+						std::vector<std::string> points{ std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{} };
+						for (auto& point : points)
+						{
+							std::stringstream ss(point);
+							std::string xCoord;
+							std::getline(ss, xCoord, ',');
+							std::string yCoord;
+							std::getline(ss, yCoord);
+							pointsVec.push_back({ std::stoi(xCoord), std::stoi(yCoord) });
+						}
+
+						polygons.push_back({ std::move(pointsVec) });
+					}
+
 					objects.push_back(Object{
 						std::stoi(pObject->first_attribute("id")->value()),
 						"",
@@ -61,6 +83,7 @@ namespace te
 						std::stoi(pObject->first_attribute("y")->value()),
 						pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
 						pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0,
+						std::move(polygons)
 					});
 				}
 

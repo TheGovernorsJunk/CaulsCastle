@@ -18,6 +18,9 @@ namespace te
 	class TMX
 	{
 	public:
+		struct Polygon {
+			std::vector<sf::Vector2i> points;
+		};
 		struct Object {
 			int id;
 			std::string name;
@@ -25,6 +28,7 @@ namespace te
 			int y;
 			int width;
 			int height;
+			std::vector<Polygon> polygons;
 		};
 		struct ObjectGroup {
 			std::string name;

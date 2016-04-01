@@ -23,7 +23,7 @@ namespace te
 	{
 		bool result = false;
 
-		const float speed = 64.f;
+		const float speed = 48.f;
 		if ((msg.msg & X) > 0)
 		{
 			float xAxis = *(float*)msg.extraInfo;

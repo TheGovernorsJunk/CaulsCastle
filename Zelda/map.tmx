@@ -65,6 +65,21 @@
     <object id="0" x="0" y="0" width="16" height="16"/>
    </objectgroup>
   </tile>
+  <tile id="660">
+   <objectgroup draworder="index">
+    <object id="0" x="0" y="0">
+     <polygon points="0,0 0,16 16,0"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="988">
+   <objectgroup draworder="index">
+    <object id="0" x="16" y="0">
+     <polygon points="0,0 -16,16 -16,0"/>
+    </object>
+    <object id="0" x="0" y="0" width="16" height="16"/>
+   </objectgroup>
+  </tile>
  </tileset>
  <layer name="Ground" width="30" height="20">
   <data>
