@@ -14,10 +14,13 @@ namespace te
 			Off   = 0x00,
 			On    = 0x01,
 
-			Left  = 0x02,
-			Right = 0x04,
-			Up    = 0x08,
-			Down  = 0x10
+			//Left  = 0x02,
+			//Right = 0x04,
+			//Up    = 0x08,
+			//Down  = 0x10
+
+			X     = 0x02,
+			Y     = 0x04
 		};
 
 		Player(Game& world, const TMX::Object& playerObject);
