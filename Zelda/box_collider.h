@@ -2,6 +2,7 @@
 #define TE_BOX_COLLIDER_H
 
 #include "collider.h"
+#include "wall.h"
 
 namespace te
 {
@@ -13,6 +14,11 @@ namespace te
 		const std::vector<Wall2f>& getWalls() const;
 
 		bool contains(float x, float y) const;
+
+		bool intersects(const BoxCollider&) const;
+		bool intersects(const CompositeCollider&) const;
+
+		BoxCollider transform(const sf::Transform&) const;
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 

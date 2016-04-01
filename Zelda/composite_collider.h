@@ -19,7 +19,10 @@ namespace te
 		const std::vector<Wall2f>& getWalls() const;
 
 		bool contains(float x, float y) const;
+		bool intersects(const BoxCollider&) const;
+		bool intersects(const CompositeCollider&) const;
 
+		CompositeCollider transform(const sf::Transform&) const;
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		std::vector<BoxCollider> mBoxColliders;

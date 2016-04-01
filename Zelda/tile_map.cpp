@@ -80,6 +80,16 @@ namespace te
 		return mCellSpacePartition;
 	}
 
+	bool TileMap::intersects(const BoxCollider& o) const
+	{
+		return mCollider.transform(getTransform()).intersects(o);
+	}
+
+	bool TileMap::intersects(const CompositeCollider& o) const
+	{
+		return mCollider.transform(getTransform()).intersects(o);
+	}
+
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();

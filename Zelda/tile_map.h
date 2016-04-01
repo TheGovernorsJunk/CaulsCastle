@@ -14,7 +14,7 @@ namespace te
 {
 	class TextureManager;
 
-	class TileMap : public sf::Drawable, public sf::Transformable
+	class TileMap : public sf::Drawable, public sf::Transformable, public Collidable
 	{
 	public:
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
@@ -30,6 +30,9 @@ namespace te
 
 		float getCellSpaceNeighborhoodRange() const;
 		NavCellSpace& getCellSpace();
+
+		bool intersects(const BoxCollider&) const;
+		bool intersects(const CompositeCollider&) const;
 
 	private:
 		enum DrawFlags

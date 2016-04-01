@@ -1,4 +1,5 @@
 #include "box_collider.h"
+#include "composite_collider.h"
 
 #include "wall.h"
 
@@ -24,6 +25,16 @@ namespace te
 		return mRect.contains(x, y);
 	}
 
+	bool BoxCollider::intersects(const BoxCollider& o) const
+	{
+		return mRect.intersects(o.mRect);
+	}
+
+	bool BoxCollider::intersects(const CompositeCollider& o) const
+	{
+		return o.intersects(*this);
+	}
+
 	//std::vector<Wall2f> BoxCollider::getWalls() const
 	//{
 	//	std::vector<Wall2f> walls;
@@ -33,6 +44,11 @@ namespace te
 	//	walls.push_back(Wall2f({ mRect.left + mRect.width, mRect.top }, { mRect.left, mRect.top }));
 	//	return walls;
 	//}
+
+	BoxCollider BoxCollider::transform(const sf::Transform& t) const
+	{
+		return { t.transformRect(mRect) };
+	}
 
 	void BoxCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{

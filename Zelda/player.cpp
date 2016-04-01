@@ -1,6 +1,8 @@
 #include "player.h"
 #include "message_dispatcher.h"
 #include "vector_ops.h"
+#include "game.h"
+#include "tile_map.h"
 
 #include <cassert>
 
@@ -10,6 +12,7 @@ namespace te
 		: BaseGameEntity(world)
 		, mRadius(std::max(playerObject.width / 2.f, playerObject.height / 2.f))
 		, mVelocity(0, 0)
+		, mBoxCollider({ 0, 0, (float)playerObject.width, (float)playerObject.height })
 	{
 		assert(playerObject.name == "Player");
 		setPosition(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f);
@@ -72,7 +75,22 @@ namespace te
 
 	void Player::update(const sf::Time& dt)
 	{
+		sf::Vector2f position = getPosition();
 		move(mVelocity * dt.asSeconds());
+		if (getWorld().getMap().intersects(mBoxCollider.transform(getTransform())))
+		{
+			setPosition(position);
+		}
+	}
+
+	bool Player::intersects(const BoxCollider& o) const
+	{
+		return mBoxCollider.intersects(o);
+	}
+
+	bool Player::intersects(const CompositeCollider& o) const
+	{
+		return mBoxCollider.intersects(o);
 	}
 
 	void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

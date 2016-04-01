@@ -3,10 +3,11 @@
 
 #include "base_game_entity.h"
 #include "tmx.h"
+#include "box_collider.h"
 
 namespace te
 {
-	class Player : public BaseGameEntity
+	class Player : public BaseGameEntity, public Collidable
 	{
 	public:
 		enum Message
@@ -28,11 +29,15 @@ namespace te
 		bool handleMessage(const Telegram& msg);
 		void update(const sf::Time& dt);
 
+		bool intersects(const BoxCollider&) const;
+		bool intersects(const CompositeCollider&) const;
+
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		float mRadius;
 		sf::Vector2f mVelocity;
+		BoxCollider mBoxCollider;
 	};
 }
 

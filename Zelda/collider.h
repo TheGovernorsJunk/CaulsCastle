@@ -8,8 +8,18 @@
 namespace te
 {
 	class Wall2f;
+	class BoxCollider;
+	class CompositeCollider;
 
-	class Collider : public sf::Drawable
+	class Collidable
+	{
+	public:
+		virtual ~Collidable();
+		virtual bool intersects(const BoxCollider&) const = 0;
+		virtual bool intersects(const CompositeCollider&) const = 0;
+	};
+
+	class Collider : public sf::Drawable, public Collidable
 	{
 	public:
 		virtual ~Collider();

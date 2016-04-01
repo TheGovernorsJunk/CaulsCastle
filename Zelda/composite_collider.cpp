@@ -35,6 +35,29 @@ namespace te
 		return false;
 	}
 
+	bool CompositeCollider::intersects(const BoxCollider& o) const
+	{
+		for (auto& boxCollider : mBoxColliders)
+			if (boxCollider.intersects(o)) return true;
+		return false;
+	}
+
+	bool CompositeCollider::intersects(const CompositeCollider& o) const
+	{
+		for (auto& boxCollider : mBoxColliders)
+			if (o.intersects(boxCollider)) return true;
+		return false;
+	}
+
+	CompositeCollider CompositeCollider::transform(const sf::Transform& t) const
+	{
+		CompositeCollider newComposite;
+		newComposite.mBoxColliders.reserve(mBoxColliders.size());
+		for (auto& collider : mBoxColliders)
+			newComposite.addCollider(collider.transform(t));
+		return newComposite;
+	}
+
 	void CompositeCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		std::for_each(mBoxColliders.begin(), mBoxColliders.end(), [&target, &states](const BoxCollider& collider) {
