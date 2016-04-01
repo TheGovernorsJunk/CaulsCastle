@@ -44,9 +44,24 @@ namespace te
 
 	bool CompositeCollider::intersects(const BoxCollider& o, sf::FloatRect& collision) const
 	{
+		bool result = false;
+
+		sf::FloatRect currBest = { 0, 0, 0, 0 };
+		sf::FloatRect currCollision;
 		for (auto& boxCollider : mBoxColliders)
-			if (boxCollider.intersects(o, collision)) return true;
-		return false;
+		{
+			if (boxCollider.intersects(o, currCollision))
+			{
+				if (currCollision.width * currCollision.height > currBest.width * currBest.height)
+				{
+					currBest = currCollision;
+				}
+				result = true;
+			}
+		}
+
+		collision = currBest;
+		return result;
 	}
 
 	bool CompositeCollider::intersects(const CompositeCollider& o) const
@@ -58,9 +73,23 @@ namespace te
 
 	bool CompositeCollider::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
 	{
+		bool result = false;
+
+		sf::FloatRect currBest = { 0, 0, 0, 0 };
+		sf::FloatRect currCollision;
 		for (auto& boxCollider : mBoxColliders)
-			if (o.intersects(boxCollider, collision)) return true;
-		return false;
+		{
+			if (o.intersects(boxCollider, currCollision))
+			{
+				if (currCollision.width * currCollision.height > currBest.width * currBest.height)
+				{
+					currBest = currCollision;
+				}
+			}
+		}
+
+		collision = currBest;
+		return result;
 	}
 
 	CompositeCollider CompositeCollider::transform(const sf::Transform& t) const
