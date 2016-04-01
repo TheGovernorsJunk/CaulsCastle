@@ -1,5 +1,7 @@
 #include "zelda_application.h"
 
+#include <Box2D/Box2D.h>
+
 #include <iostream>
 
 int main(int argc, char* argv[])
@@ -10,6 +12,7 @@ int main(int argc, char* argv[])
 		{
 			throw std::runtime_error("Initial map file must be supplied.");
 		}
+		b2Vec2 gravity(0.0f, -10.0f);
 		te::ZeldaApplication app(argv[1]);
 		app.run();
 	}
