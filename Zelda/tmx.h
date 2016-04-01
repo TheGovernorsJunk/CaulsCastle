@@ -37,12 +37,14 @@ namespace te
 		};
 		struct Object {
 			int id;
+			std::string name;
 			int x;
 			int y;
 			int width;
 			int height;
 		};
 		struct ObjectGroup {
+			std::string name;
 			std::string draworder;
 			std::vector<Object> objects;
 		};
@@ -86,6 +88,7 @@ namespace te
 		int mTileheight;
 		std::vector<Tileset> mTilesets;
 		std::vector<Layer> mLayers;
+		std::vector<ObjectGroup> mObjectGroups;
 	};
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="4">
  <tileset firstgid="1" name="lttp_tileset" tilewidth="16" tileheight="16" tilecount="208">
   <image source="lttp_tileset.png" width="256" height="208"/>
  </tileset>
@@ -670,4 +670,7 @@
    <tile gid="1346"/>
   </data>
  </layer>
+ <objectgroup name="Entities">
+  <object id="1" name="Player" x="256" y="160" width="16" height="16"/>
+ </objectgroup>
 </map>

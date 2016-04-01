@@ -56,6 +56,7 @@ namespace te
 				{
 					objects.push_back(Object{
 						std::stoi(pObject->first_attribute("id")->value()),
+						"",
 						std::stoi(pObject->first_attribute("x")->value()),
 						std::stoi(pObject->first_attribute("y")->value()),
 						pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
@@ -66,6 +67,7 @@ namespace te
 				tiles.push_back({
 					std::stoi(pTile->first_attribute("id")->value()),
 					ObjectGroup {
+						"",
 						pObjectGroup->first_attribute("draworder")->value(),
 						std::move(objects)
 					}
@@ -102,6 +104,27 @@ namespace te
 				std::stoi(pLayer->first_attribute("width")->value()),
 				std::stoi(pLayer->first_attribute("height")->value()),
 				{std::move(tiles)}
+			});
+		}
+
+		for (rapidxml::xml_node<char>* pObjectgroup = tmx.first_node("map")->first_node("objectgroup"); pObjectgroup != 0; pObjectgroup = pObjectgroup->next_sibling("objectgroup"))
+		{
+			std::vector<Object> objects;
+			for (rapidxml::xml_node<char>* pObject = pObjectgroup->first_node("object"); pObject != 0; pObject = pObject->next_sibling("object"))
+			{
+				objects.push_back({
+					std::stoi(pObject->first_attribute("id")->value()),
+					pObject->first_attribute("name") != 0 ? pObject->first_attribute("name")->value() : 0,
+					std::stoi(pObject->first_attribute("x")->value()),
+					std::stoi(pObject->first_attribute("y")->value()),
+					pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
+					pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0
+				});
+			}
+			mObjectGroups.push_back({
+				pObjectgroup->first_attribute("name")->value(),
+				"",
+				std::move(objects)
 			});
 		}
 	}
