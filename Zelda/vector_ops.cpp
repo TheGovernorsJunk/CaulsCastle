@@ -20,7 +20,25 @@ namespace te
 		}
 	}
 
+	b2Vec2 normalize(const b2Vec2& v)
+	{
+		float magnitude = std::sqrtf(v.x * v.x + v.y * v.y);
+		if (magnitude == 0)
+		{
+			return b2Vec2(0, 0);
+		}
+		else
+		{
+			return b2Vec2(v.x / magnitude, v.y / magnitude);
+		}
+	}
+
 	float lengthSq(const sf::Vector2f& v)
+	{
+		return v.x * v.x + v.y * v.y;
+	}
+
+	float lengthSq(const b2Vec2& v)
 	{
 		return v.x * v.x + v.y * v.y;
 	}
