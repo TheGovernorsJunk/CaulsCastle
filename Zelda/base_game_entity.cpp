@@ -46,6 +46,11 @@ namespace te
 		mpBody->SetTransform(b2Vec2(pos.x + x, pos.y + y), mpBody->GetAngle());
 	}
 
+	void BaseGameEntity::setOrigin(sf::Vector2f o)
+	{
+		setOrigin(o.x, o.y);
+	}
+
 	void BaseGameEntity::setOrigin(float x, float y)
 	{
 		mOrigin = { x, y };

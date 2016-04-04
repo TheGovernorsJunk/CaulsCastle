@@ -31,6 +31,7 @@ namespace te
 		void setPosition(float x, float y);
 		void move(sf::Vector2f ds);
 		void move(float x, float y);
+		void setOrigin(sf::Vector2f o);
 		void setOrigin(float x, float y);
 		sf::Vector2f getPosition() const;
 		sf::Transform getTransform() const;
