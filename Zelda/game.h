@@ -5,6 +5,8 @@
 
 #include <memory>
 
+class b2World;
+
 namespace te
 {
 	class TileMap;
@@ -12,6 +14,7 @@ namespace te
 	class Game : public sf::Transformable, public sf::Drawable
 	{
 	public:
+		Game();
 		virtual ~Game();
 
 		bool isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius = 0) const;
@@ -21,6 +24,9 @@ namespace te
 		virtual void processInput(const sf::Event& evt) = 0;
 		virtual void update(const sf::Time& dt) = 0;
 
+		std::shared_ptr<b2World> getPhysicsWorld();
+		std::shared_ptr<const b2World> getPhysicsWorld() const;
+
 	protected:
 		void setTileMap(const std::shared_ptr<TileMap>& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -29,6 +35,7 @@ namespace te
 		void throwIfNoMap() const;
 
 		std::shared_ptr<TileMap> mpTileMap;
+		std::shared_ptr<b2World> mpWorld;
 	};
 }
 

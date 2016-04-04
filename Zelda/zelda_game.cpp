@@ -23,7 +23,7 @@ namespace te
 	void ZeldaGame::loadMap(const std::string& fileName)
 	{
 		TMX tmx(fileName);
-		setTileMap(std::make_shared<TileMap>(*mpTextureManager, tmx));
+		setTileMap(std::make_shared<TileMap>(*mpTextureManager, tmx, 1, 1));
 
 		TMX::Object* pPlayer = nullptr;
 		std::vector<TMX::ObjectGroup> objectGroups = tmx.getObjectGroups();
@@ -70,12 +70,14 @@ namespace te
 	void ZeldaGame::update(const sf::Time& dt)
 	{
 		mpMessageDispatcher->dispatchDelayedMessages(dt);
+		getPhysicsWorld()->Step(dt.asSeconds(), 8, 3);
 		mpPlayer->update(dt);
 	}
 
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
+		states.transform.scale(16.f, 16.f);
 		Game::draw(target, states);
-		target.draw(*mpPlayer);
+		target.draw(*mpPlayer, states);
 	}
 }

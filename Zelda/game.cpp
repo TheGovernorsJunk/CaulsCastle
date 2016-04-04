@@ -4,6 +4,11 @@
 
 namespace te
 {
+	Game::Game()
+		: mpTileMap(nullptr)
+		, mpWorld(new b2World(b2Vec2(0, 0)))
+	{}
+
 	Game::~Game() {}
 
 	bool Game::isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius) const
@@ -36,6 +41,9 @@ namespace te
 		throwIfNoMap();
 		return *mpTileMap;
 	}
+
+	std::shared_ptr<b2World> Game::getPhysicsWorld() { return mpWorld; }
+	std::shared_ptr<const b2World> Game::getPhysicsWorld() const { return mpWorld; }
 
 	void Game::setTileMap(const std::shared_ptr<TileMap>& pTileMap)
 	{
