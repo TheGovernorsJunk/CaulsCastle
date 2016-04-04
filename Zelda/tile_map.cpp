@@ -25,7 +25,7 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
-	TileMap::TileMap(TextureManager& textureManager, const TMX& tmx)
+	TileMap::TileMap(TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
 		: mTextures()
 		, mLayers()
 		, mCollider(tmx.makeCollider())
@@ -34,7 +34,7 @@ namespace te
 		, mCellSpaceNeighborhoodRange(calculateAverageGraphEdgeLength(mNavGraph) + 1)
 		, mCellSpacePartition(tmx.getWidth() * tmx.getTileWidth(), tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mNavGraph.numNodes())
 	{
-		tmx.makeVertices(textureManager, mTextures, mLayers);
+		tmx.makeVertices(textureManager, mTextures, mLayers, widthUnitsPerTile, heightUnitsPerTile);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
 			if (layerComponents.size() != mTextures.size()) {
 				throw std::runtime_error("Texture and layer component counts are inconsistent.");

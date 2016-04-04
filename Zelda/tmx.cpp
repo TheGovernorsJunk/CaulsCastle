@@ -169,15 +169,19 @@ namespace te
 		return retIt;
 	}
 
-	void TMX::makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const
+	void TMX::makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers, int widthUnitsPerTile, int heightUnitsPerTile) const
 	{
+		if (widthUnitsPerTile < 0 || heightUnitsPerTile < 0) throw std::runtime_error("Invalid units per tile passed to TMX::makeVertices.");
+		if (widthUnitsPerTile == 0) widthUnitsPerTile = mTilewidth;
+		if (heightUnitsPerTile == 0) heightUnitsPerTile = mTileheight;
+
 		textures.clear();
 		std::for_each(mTilesets.begin(), mTilesets.end(), [&textures, &textureManager](const Tileset& tileset) {
 			textures.push_back(textureManager.get(tileset.image.source));
 		});
 
 		layers.clear();
-		std::for_each(mLayers.begin(), mLayers.end(), [this, &layers](const Layer& layer) {
+		std::for_each(mLayers.begin(), mLayers.end(), [this, &layers, widthUnitsPerTile, heightUnitsPerTile](const Layer& layer) {
 			std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
 			std::for_each(vertexArrays.begin(), vertexArrays.end(), [](sf::VertexArray& va) {
 				va.setPrimitiveType(sf::Quads);
@@ -191,10 +195,10 @@ namespace te
 					int y = tileIndex / mWidth;
 
 					std::array<sf::Vertex, 4> quad;
-					quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
-					quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
-					quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
-					quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
+					quad[0].position = sf::Vector2f((float)x * widthUnitsPerTile, (float)y * heightUnitsPerTile);
+					quad[1].position = sf::Vector2f((x + 1.f) * widthUnitsPerTile, (float)y * heightUnitsPerTile);
+					quad[2].position = sf::Vector2f((x + 1.f) * widthUnitsPerTile, (y + 1.f) * heightUnitsPerTile);
+					quad[3].position = sf::Vector2f((float)x * widthUnitsPerTile, (y + 1.f) * heightUnitsPerTile);
 
 					auto tilesetIter = getTilesetIterator(tileIter->gid, mTilesets);
 					int localId = tileIter->gid - tilesetIter->firstgid;

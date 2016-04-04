@@ -20,7 +20,7 @@ namespace te
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
-		TileMap(TextureManager& textureManager, const TMX& tmx);
+		TileMap(TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0);
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;

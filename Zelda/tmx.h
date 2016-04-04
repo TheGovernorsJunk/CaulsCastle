@@ -7,6 +7,8 @@
 #include <vector>
 #include <memory>
 
+class b2Shape;
+
 namespace te
 {
 	class TextureManager;
@@ -37,7 +39,7 @@ namespace te
 		};
 
 		TMX(const std::string& filename);
-		void makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const;
+		void makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0) const;
 		CompositeCollider makeCollider() const;
 
 		SparseGraph<NavGraphNode, NavGraphEdge> makeNavGraph() const;
