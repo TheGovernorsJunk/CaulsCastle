@@ -248,10 +248,10 @@ namespace te
 		return *result;
 	}
 
-	CompositeCollider TMX::makeCollider() const
+	CompositeCollider TMX::makeCollider(const sf::Transform& sourceTransform) const
 	{
 		CompositeCollider collider;
-		std::for_each(mLayers.begin(), mLayers.end(), [&collider, this](const Layer& layer) {
+		std::for_each(mLayers.begin(), mLayers.end(), [&collider, &sourceTransform, this](const Layer& layer) {
 			for (int y = 0; y < mHeight; ++y)
 			{
 				for (int x = 0; x < mWidth; ++x)
@@ -259,10 +259,12 @@ namespace te
 					const TMX::TileData& tileData = getTileData(x, y, layer);
 					if (tileData.id != NULL_TILE)
 					{
-						sf::Transform transform;
+						sf::Transform transform = sourceTransform;
 						transform.translate((float)x * mTilewidth, (float)y * mTileheight);
 						std::for_each(tileData.objectgroup.objects.begin(), tileData.objectgroup.objects.end(), [&collider, &transform](const Object& obj) {
-							collider.addCollider({ transform.transformRect({ (float)obj.x, (float)obj.y, (float)obj.width, (float)obj.height }) });
+							if (obj.polygons.size() == 0) {
+								collider.addCollider({ transform.transformRect({ (float)obj.x, (float)obj.y, (float)obj.width, (float)obj.height }) });
+							}
 						});
 					}
 				}
@@ -276,20 +278,19 @@ namespace te
 		return y * mWidth + x;
 	}
 
-	SparseGraph<NavGraphNode, NavGraphEdge> TMX::makeNavGraph() const
+	SparseGraph<NavGraphNode, NavGraphEdge> TMX::makeNavGraph(const sf::Transform& transform) const
 	{
-		CompositeCollider collider = makeCollider();
+		CompositeCollider collider = makeCollider(transform);
 		NavGraphNode seedNode;
 		seedNode.setIndex(-1);
 		int x = 0, y = 0;
 		while (seedNode.getIndex() == -1 && y < mHeight)
 		{
-			float xCoord = x * mTilewidth + (mTilewidth / 2.f);
-			float yCoord = y * mTileheight + (mTileheight / 2.f);
-			if (!collider.contains(xCoord, yCoord))
+			sf::Vector2f coords = transform.transformPoint({ x * mTilewidth + (mTilewidth / 2.f), y * mTileheight + (mTileheight / 2.f) });
+			if (!collider.contains(coords.x, coords.y))
 			{
 				seedNode.setIndex(0);
-				seedNode.setPosition(sf::Vector2f(xCoord, yCoord));
+				seedNode.setPosition(coords);
 			}
 			else
 			{
@@ -315,14 +316,15 @@ namespace te
 				std::vector<int> newIndices;
 
 				const std::array<sf::Vector2f, 4> offsets = {
-					sf::Vector2f((float)mTilewidth, 0),
-					sf::Vector2f(-(float)mTilewidth, 0),
-					sf::Vector2f(0, (float)mTileheight),
-					sf::Vector2f(0, -(float)mTileheight)
+					transform.transformPoint(sf::Vector2f((float)mTilewidth, 0)),
+					transform.transformPoint(sf::Vector2f(-(float)mTilewidth, 0)),
+					transform.transformPoint(sf::Vector2f(0, (float)mTileheight)),
+					transform.transformPoint(sf::Vector2f(0, -(float)mTileheight))
 				};
 				std::for_each(offsets.begin(), offsets.end(), [&](const sf::Vector2f& offset) {
 					sf::Vector2f newPos = offset + pos;
-					if (assigned.find(newPos) == assigned.end() && !collider.contains(newPos.x, newPos.y) && newPos.x > 0 && newPos.x < mWidth * mTilewidth && newPos.y > 0 && newPos.y < mHeight * mTileheight)
+					sf::Vector2f max = transform.transformPoint(mWidth * mTilewidth, mHeight * mTileheight);
+					if (assigned.find(newPos) == assigned.end() && !collider.contains(newPos.x, newPos.y) && newPos.x > 0 && newPos.x < max.x && newPos.y > 0 && newPos.y < max.y)
 					{
 						NavGraphNode newNode;
 						newNode.setPosition(newPos);
@@ -339,14 +341,14 @@ namespace te
 					sf::Vector2f newPosition = graph.getNode(newIndex).getPosition();
 
 					const std::array<sf::Vector2f, 8> neighbors = {
-						sf::Vector2f((float)mTilewidth, 0),
-						sf::Vector2f(-(float)mTilewidth, 0),
-						sf::Vector2f(0, (float)mTileheight),
-						sf::Vector2f(0, -(float)mTileheight),
-						sf::Vector2f((float)mTilewidth, (float)mTileheight),
-						sf::Vector2f(-(float)mTilewidth, (float)mTileheight),
-						sf::Vector2f(-(float)mTilewidth, -(float)mTileheight),
-						sf::Vector2f((float)mTilewidth, -(float)mTileheight),
+						transform.transformPoint(sf::Vector2f((float)mTilewidth, 0)),
+						transform.transformPoint(sf::Vector2f(-(float)mTilewidth, 0)),
+						transform.transformPoint(sf::Vector2f(0, (float)mTileheight)),
+						transform.transformPoint(sf::Vector2f(0, -(float)mTileheight)),
+						transform.transformPoint(sf::Vector2f((float)mTilewidth, (float)mTileheight)),
+						transform.transformPoint(sf::Vector2f(-(float)mTilewidth, (float)mTileheight)),
+						transform.transformPoint(sf::Vector2f(-(float)mTilewidth, -(float)mTileheight)),
+						transform.transformPoint(sf::Vector2f((float)mTilewidth, -(float)mTileheight))
 					};
 					std::for_each(neighbors.begin(), neighbors.end(), [&](sf::Vector2f offset) {
 						sf::Vector2f neighbor = newPosition + offset;
