@@ -21,7 +21,7 @@ namespace te
 		mRadius = std::max(radiusVector.x, radiusVector.y);
 
 		b2PolygonShape collider;
-		sf::Vector2f boxExtents = transform.transformPoint({ playerObject.width / 2.f, playerObject.height / 2.f });
+		sf::Vector2f boxExtents = transform.transformPoint({ playerObject.width / 2.f - 2.f, playerObject.height / 2.f - 2.f });
 		collider.SetAsBox(boxExtents.x, boxExtents.y);
 		mpFixture = std::unique_ptr<b2Fixture, std::function<void(b2Fixture*)>>(getBody().CreateFixture(&collider, 0), [this](b2Fixture* pFixture) {
 			getBody().DestroyFixture(pFixture);
