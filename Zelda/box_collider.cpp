@@ -70,6 +70,11 @@ namespace te
 		return mRect;
 	}
 
+	b2Fixture* BoxCollider::createFixture(b2Body& body, float density) const
+	{
+		return body.CreateFixture(&mShape, density);
+	}
+
 	void BoxCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		sf::RectangleShape rect;

@@ -23,6 +23,8 @@ namespace te
 
 		BoxCollider transform(const sf::Transform&) const;
 		sf::FloatRect getRect() const;
+
+		b2Fixture* createFixture(b2Body& body, float density = 0) const;
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
