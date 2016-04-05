@@ -254,6 +254,9 @@ namespace te
 		};
 
 	private:
+		SparseGraph(const SparseGraph&) = delete;
+		SparseGraph& operator=(const SparseGraph&) = delete;
+
 		friend class ConstEdgeIterator;
 
 		bool isValid(int index) const
