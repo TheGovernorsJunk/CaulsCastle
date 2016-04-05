@@ -66,6 +66,9 @@ namespace te
 		mpRigidBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(pWorld->CreateBody(&bodyDef), [pWorld](b2Body* pBody) {
 			pWorld->DestroyBody(pBody);
 		});
+
+		std::vector<b2Fixture*> fixtures;
+		mpCollider->createFixtures(*mpRigidBody, fixtures);
 	}
 
 	const std::vector<Wall2f>& TileMap::getWalls() const
