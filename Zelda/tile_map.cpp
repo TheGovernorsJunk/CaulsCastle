@@ -28,11 +28,11 @@ namespace te
 	TileMap::TileMap(TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
 		: mTextures()
 		, mLayers()
-		, mCollider(tmx.makeCollider())
-		, mNavGraph(tmx.makeNavGraph())
+		, mpCollider(nullptr)
+		, mpNavGraph(nullptr)
 		, mDrawFlags(0)
-		, mCellSpaceNeighborhoodRange(calculateAverageGraphEdgeLength(mNavGraph) + 1)
-		, mCellSpacePartition(tmx.getWidth() * tmx.getTileWidth(), tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mNavGraph.numNodes())
+		, mCellSpaceNeighborhoodRange(1)
+		, mpCellSpacePartition(nullptr)
 	{
 		tmx.makeVertices(textureManager, mTextures, mLayers, widthUnitsPerTile, heightUnitsPerTile);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -41,21 +41,32 @@ namespace te
 			}
 		});
 
-		TileMap::NavGraph::ConstNodeIterator nodeIter(mNavGraph);
+		sf::Transform transform;
+		transform.scale((float)widthUnitsPerTile / tmx.getTileWidth(), (float)heightUnitsPerTile / tmx.getTileHeight());
+
+		mpCollider = std::unique_ptr<CompositeCollider>(tmx.makeCollider(transform));
+
+		mpNavGraph = std::unique_ptr<NavGraph>(tmx.makeNavGraph(transform));
+
+		mCellSpaceNeighborhoodRange = calculateAverageGraphEdgeLength(*mpNavGraph) + 1;
+
+		mpCellSpacePartition = std::make_unique<NavCellSpace>(tmx.getWidth() * tmx.getTileWidth(), tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mpNavGraph->numNodes());
+
+		TileMap::NavGraph::ConstNodeIterator nodeIter(*mpNavGraph);
 		for (const TileMap::NavGraph::Node* pNode = nodeIter.begin(); !nodeIter.end(); pNode = nodeIter.next())
 		{
-			mCellSpacePartition.addEntity(pNode);
+			mpCellSpacePartition->addEntity(pNode);
 		}
 	}
 
 	const std::vector<Wall2f>& TileMap::getWalls() const
 	{
-		return mCollider.getWalls();
+		return mpCollider->getWalls();
 	}
 
 	const TileMap::NavGraph& TileMap::getNavGraph() const
 	{
-		return mNavGraph;
+		return *mpNavGraph;
 	}
 
 	void TileMap::setDrawColliderEnabled(bool enabled)
@@ -67,7 +78,7 @@ namespace te
 	{
 		mDrawFlags = enabled ? mDrawFlags | NAV_GRAPH : mDrawFlags ^ NAV_GRAPH;
 		if (enabled)
-			mNavGraph.prepareVerticesForDrawing();
+			mpNavGraph->prepareVerticesForDrawing();
 	}
 
 	float TileMap::getCellSpaceNeighborhoodRange() const
@@ -77,27 +88,27 @@ namespace te
 
 	TileMap::NavCellSpace& TileMap::getCellSpace()
 	{
-		return mCellSpacePartition;
+		return *mpCellSpacePartition;
 	}
 
 	bool TileMap::intersects(const BoxCollider& o) const
 	{
-		return mCollider.transform(getTransform()).intersects(o);
+		return mpCollider->transform(getTransform()).intersects(o);
 	}
 
 	bool TileMap::intersects(const BoxCollider& o, sf::FloatRect& collision) const
 	{
-		return mCollider.transform(getTransform()).intersects(o, collision);
+		return mpCollider->transform(getTransform()).intersects(o, collision);
 	}
 
 	bool TileMap::intersects(const CompositeCollider& o) const
 	{
-		return mCollider.transform(getTransform()).intersects(o);
+		return mpCollider->transform(getTransform()).intersects(o);
 	}
 
 	bool TileMap::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
 	{
-		return mCollider.transform(getTransform()).intersects(o, collision);
+		return mpCollider->transform(getTransform()).intersects(o, collision);
 	}
 
 	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -115,12 +126,12 @@ namespace te
 		states.texture = NULL;
 		if ((mDrawFlags & COLLIDER) > 0)
 		{
-			target.draw(mCollider, states);
+			target.draw(*mpCollider, states);
 		}
 
 		if ((mDrawFlags & NAV_GRAPH) > 0)
 		{
-			target.draw(mNavGraph, states);
+			target.draw(*mpNavGraph, states);
 		}
 	}
 

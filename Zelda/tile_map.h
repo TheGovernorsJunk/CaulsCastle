@@ -47,12 +47,12 @@ namespace te
 
 		std::vector<std::shared_ptr<sf::Texture>> mTextures;
 		std::vector<std::vector<sf::VertexArray>> mLayers;
-		CompositeCollider mCollider;
-		NavGraph mNavGraph;
+		std::unique_ptr<CompositeCollider> mpCollider;
+		std::unique_ptr<NavGraph> mpNavGraph;
 
 		int mDrawFlags;
 		float mCellSpaceNeighborhoodRange;
-		NavCellSpace mCellSpacePartition;
+		std::unique_ptr<NavCellSpace> mpCellSpacePartition;
 	};
 }
 
