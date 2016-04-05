@@ -6,7 +6,7 @@
 
 namespace te
 {
-	ZeldaGame::ZeldaGame(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName)
+	ZeldaGame::ZeldaGame(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
 		: mpTextureManager(pTextureManager)
 		, mpEntityManager(std::make_shared<EntityManager>())
 		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(mpEntityManager))
@@ -17,13 +17,15 @@ namespace te
 			throw std::runtime_error("Must supply TextureManager in ZeldaGame ctor.");
 		}
 
-		loadMap(fileName);
+		loadMap(fileName, unitToTileX, unitToTileY);
 	}
 
-	void ZeldaGame::loadMap(const std::string& fileName)
+	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
 	{
 		TMX tmx(fileName);
-		setTileMap(std::make_shared<TileMap>(*mpTextureManager, tmx, 1, 1));
+		setTileMap(std::make_shared<TileMap>(*mpTextureManager, tmx, unitToTileX, unitToTileY));
+		getMap().setDrawColliderEnabled(true);
+		getMap().setDrawNavGraphEnabled(true);
 
 		TMX::Object* pPlayer = nullptr;
 		std::vector<TMX::ObjectGroup> objectGroups = tmx.getObjectGroups();
@@ -39,7 +41,10 @@ namespace te
 			}
 		}
 		if (pPlayer == nullptr) { throw std::runtime_error("No Player object found."); }
-		mpPlayer = std::make_shared<Player>(*this, *pPlayer);
+
+		sf::Transform transform;
+		transform.scale((float)unitToTileX / tmx.getTileWidth(), (float)unitToTileY / tmx.getTileHeight());
+		mpPlayer = std::make_shared<Player>(*this, *pPlayer, transform);
 		mpEntityManager->registerEntity(mpPlayer);
 	}
 

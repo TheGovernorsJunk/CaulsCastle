@@ -13,14 +13,14 @@ namespace te
 	class ZeldaGame : public Game
 	{
 	public:
-		ZeldaGame(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName);
+		ZeldaGame(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName, int unitToTileX, int unitToTileY);
 
 		void processInput(const sf::Event& evt);
 		void update(const sf::Time& dt);
 
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-		void loadMap(const std::string& fileName);
+		void loadMap(const std::string& fileName, int unitToTileX, int unitToTileY);
 
 		std::shared_ptr<TextureManager> mpTextureManager;
 
