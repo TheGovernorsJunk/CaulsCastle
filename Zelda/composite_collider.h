@@ -25,6 +25,8 @@ namespace te
 		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
 		CompositeCollider transform(const sf::Transform&) const;
+		void createFixtures(b2Body& body, std::vector<b2Fixture*>& outFixtures) const;
+
 	private:
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 		std::vector<BoxCollider> mBoxColliders;

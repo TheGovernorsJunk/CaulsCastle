@@ -101,6 +101,16 @@ namespace te
 		return newComposite;
 	}
 
+	void CompositeCollider::createFixtures(b2Body& body, std::vector<b2Fixture*>& outFixtures) const
+	{
+		outFixtures.clear();
+		outFixtures.reserve(mBoxColliders.size());
+		for (auto& boxCollider : mBoxColliders)
+		{
+			outFixtures.push_back(boxCollider.createFixture(body));
+		}
+	}
+
 	void CompositeCollider::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		std::for_each(mBoxColliders.begin(), mBoxColliders.end(), [&target, &states](const BoxCollider& collider) {
