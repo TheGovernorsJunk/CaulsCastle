@@ -3,92 +3,61 @@
 #include "vector_ops.h"
 #include "game.h"
 #include "tile_map.h"
+#include "zelda_game.h"
 
 #include <cassert>
+#include <iostream>
 
 namespace te
 {
-	Player::Player(Game& world, const TMX::Object& playerObject)
-		: BaseGameEntity(world)
-		, mRadius(std::max(playerObject.width / 2.f, playerObject.height / 2.f))
-		, mVelocity(0, 0)
-		, mBoxCollider({ 0, 0, (float)playerObject.width, (float)playerObject.height })
+	Player::Player(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform)
+		: BaseGameEntity(world, transform.transformPoint(sf::Vector2f(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f)))
+		, mRadius(1)
+		, mpFixture(nullptr)
 	{
 		assert(playerObject.name == "Player");
-		setPosition(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f);
-		setOrigin(playerObject.width / 2.f, playerObject.height / 2.f);
+		setOrigin(transform.transformPoint({ playerObject.width / 2.f, playerObject.height / 2.f }));
+
+		sf::Vector2f radiusVector = transform.transformPoint({ playerObject.width / 2.f, playerObject.height / 2.f });
+		mRadius = std::max(radiusVector.x, radiusVector.y);
+
+		b2PolygonShape collider;
+		sf::Vector2f boxExtents = transform.transformPoint({ playerObject.width / 2.f, playerObject.height / 2.f });
+		collider.SetAsBox(boxExtents.x, boxExtents.y);
+		mpFixture = std::unique_ptr<b2Fixture, std::function<void(b2Fixture*)>>(getBody().CreateFixture(&collider, 0), [this](b2Fixture* pFixture) {
+			getBody().DestroyFixture(pFixture);
+		});
 	}
 
 	bool Player::handleMessage(const Telegram& msg)
 	{
 		bool result = false;
 
-		const float speed = 48.f;
+		b2Body& body = getBody();
+		const float speed = 5.f;
 		if ((msg.msg & X) > 0)
 		{
 			float xAxis = *(float*)msg.extraInfo;
-			mVelocity.x = xAxis * speed;
+			body.SetLinearVelocity(b2Vec2(xAxis * speed, body.GetLinearVelocity().y));
 			result = true;
 		}
 		if ((msg.msg & Y) > 0)
 		{
 			float yAxis = *(float*)msg.extraInfo;
-			mVelocity.y = yAxis * speed;
+			body.SetLinearVelocity(b2Vec2(body.GetLinearVelocity().x, yAxis * speed));
 			result = true;
 		}
 
-		if (lengthSq(mVelocity) > speed * speed)
+		b2Vec2 velocity = body.GetLinearVelocity();
+		if (lengthSq(velocity) > speed * speed)
 		{
-			mVelocity = normalize(mVelocity) * speed;
+			body.SetLinearVelocity(normalize(velocity) * speed);
 		}
 
 		return result;
 	}
 
-	void Player::update(const sf::Time& dt)
-	{
-		sf::Vector2f ds = mVelocity * dt.asSeconds();
-		ds.x = std::signbit(ds.x) ? std::floorf(ds.x) : std::ceilf(ds.x);
-		ds.y = std::signbit(ds.y) ? std::floorf(ds.y) : std::ceilf(ds.y);
-		move(ds);
-
-		BoxCollider transformedCollider = mBoxCollider.transform(getTransform());
-		sf::FloatRect collision;
-		while (getWorld().getMap().intersects(transformedCollider, collision))
-		{
-			sf::Vector2f backup;
-			if (collision.width < collision.height)
-			{
-				backup.x = collision.left == transformedCollider.getRect().left ? collision.width : -collision.width;
-			}
-			else
-			{
-				backup.y = collision.top == transformedCollider.getRect().top ? collision.height : -collision.height;
-			}
-			move(backup);
-			transformedCollider = mBoxCollider.transform(getTransform());
-		}
-	}
-
-	bool Player::intersects(const BoxCollider& o) const
-	{
-		return mBoxCollider.intersects(o);
-	}
-
-	bool Player::intersects(const BoxCollider& o, sf::FloatRect& collision) const
-	{
-		return mBoxCollider.intersects(o, collision);
-	}
-
-	bool Player::intersects(const CompositeCollider& o) const
-	{
-		return mBoxCollider.intersects(o);
-	}
-
-	bool Player::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
-	{
-		return mBoxCollider.intersects(o, collision);
-	}
+	void Player::update(const sf::Time& dt) {}
 
 	void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
@@ -96,5 +65,14 @@ namespace te
 		sf::CircleShape shape(mRadius);
 		shape.setFillColor(sf::Color::Blue);
 		target.draw(shape, states);
+
+		// Draw collider
+		b2AABB aabb = mpFixture->GetAABB(0);
+		sf::RectangleShape rectShape(sf::Vector2f(aabb.GetExtents().x * 2, aabb.GetExtents().y * 2));
+		sf::Color color = sf::Color::Red;
+		color.a = 128;
+		rectShape.setFillColor(color);
+
+		target.draw(rectShape, states);
 	}
 }
