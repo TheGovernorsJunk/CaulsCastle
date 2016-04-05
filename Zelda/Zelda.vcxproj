@@ -121,6 +121,7 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="box_collider.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="composite_collider.cpp" />
     <ClCompile Include="entity.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="application.h" />
     <ClInclude Include="base_game_entity.h" />
     <ClInclude Include="box_collider.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="cell_space_partition.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="composite_collider.h" />

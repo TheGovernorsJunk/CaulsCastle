@@ -3,6 +3,7 @@
 #include "tile_map.h"
 #include "entity_manager.h"
 #include "message_dispatcher.h"
+#include "camera.h"
 
 namespace te
 {
@@ -11,6 +12,7 @@ namespace te
 		, mpEntityManager(std::make_shared<EntityManager>())
 		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(mpEntityManager))
 		, mpPlayer(nullptr)
+		, mpCamera(nullptr)
 	{
 		if (!pTextureManager)
 		{
@@ -18,6 +20,7 @@ namespace te
 		}
 
 		loadMap(fileName, unitToTileX, unitToTileY);
+		mpCamera = std::make_shared<Camera>(mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
 	}
 
 	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
@@ -82,6 +85,7 @@ namespace te
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform.scale(16.f, 16.f);
+		target.setView(mpCamera->getView(states.transform));
 		Game::draw(target, states);
 		target.draw(*mpPlayer, states);
 	}
