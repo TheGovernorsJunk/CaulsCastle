@@ -248,10 +248,10 @@ namespace te
 		return *result;
 	}
 
-	CompositeCollider TMX::makeCollider(const sf::Transform& sourceTransform) const
+	CompositeCollider* TMX::makeCollider(const sf::Transform& sourceTransform) const
 	{
-		CompositeCollider collider;
-		std::for_each(mLayers.begin(), mLayers.end(), [&collider, &sourceTransform, this](const Layer& layer) {
+		CompositeCollider* pCollider = new CompositeCollider();
+		std::for_each(mLayers.begin(), mLayers.end(), [pCollider, &sourceTransform, this](const Layer& layer) {
 			for (int y = 0; y < mHeight; ++y)
 			{
 				for (int x = 0; x < mWidth; ++x)
@@ -261,16 +261,16 @@ namespace te
 					{
 						sf::Transform transform = sourceTransform;
 						transform.translate((float)x * mTilewidth, (float)y * mTileheight);
-						std::for_each(tileData.objectgroup.objects.begin(), tileData.objectgroup.objects.end(), [&collider, &transform](const Object& obj) {
+						std::for_each(tileData.objectgroup.objects.begin(), tileData.objectgroup.objects.end(), [pCollider, &transform](const Object& obj) {
 							if (obj.polygons.size() == 0) {
-								collider.addCollider({ transform.transformRect({ (float)obj.x, (float)obj.y, (float)obj.width, (float)obj.height }) });
+								pCollider->addCollider({ transform.transformRect({ (float)obj.x, (float)obj.y, (float)obj.width, (float)obj.height }) });
 							}
 						});
 					}
 				}
 			}
 		});
-		return collider;
+		return pCollider;
 	}
 
 	int TMX::index(int x, int y) const
@@ -278,16 +278,16 @@ namespace te
 		return y * mWidth + x;
 	}
 
-	SparseGraph<NavGraphNode, NavGraphEdge> TMX::makeNavGraph(const sf::Transform& transform) const
+	SparseGraph<NavGraphNode, NavGraphEdge>* TMX::makeNavGraph(const sf::Transform& transform) const
 	{
-		CompositeCollider collider = makeCollider(transform);
+		std::unique_ptr<CompositeCollider> pCollider(makeCollider(transform));
 		NavGraphNode seedNode;
 		seedNode.setIndex(-1);
 		int x = 0, y = 0;
 		while (seedNode.getIndex() == -1 && y < mHeight)
 		{
 			sf::Vector2f coords = transform.transformPoint({ x * mTilewidth + (mTilewidth / 2.f), y * mTileheight + (mTileheight / 2.f) });
-			if (!collider.contains(coords.x, coords.y))
+			if (!pCollider->contains(coords.x, coords.y))
 			{
 				seedNode.setIndex(0);
 				seedNode.setPosition(coords);
@@ -303,16 +303,16 @@ namespace te
 			}
 		}
 
-		SparseGraph<NavGraphNode, NavGraphEdge> graph;
+		SparseGraph<NavGraphNode, NavGraphEdge>* pGraph = new SparseGraph<NavGraphNode, NavGraphEdge>();
 		if (seedNode.getIndex() != -1)
 		{
-			int seedIndex = graph.addNode(seedNode);
+			int seedIndex = pGraph->addNode(seedNode);
 
 			std::vector<NavGraphNode> allNodes;
 			std::map<sf::Vector2f, int> assigned;
-			assigned.insert(std::make_pair(graph.getNode(seedIndex).getPosition(), seedIndex));
+			assigned.insert(std::make_pair(pGraph->getNode(seedIndex).getPosition(), seedIndex));
 			auto flood = [&, this](int startIndex) {
-				sf::Vector2f pos = graph.getNode(startIndex).getPosition();
+				sf::Vector2f pos = pGraph->getNode(startIndex).getPosition();
 				std::vector<int> newIndices;
 
 				const std::array<sf::Vector2f, 4> offsets = {
@@ -323,12 +323,12 @@ namespace te
 				};
 				std::for_each(offsets.begin(), offsets.end(), [&](const sf::Vector2f& offset) {
 					sf::Vector2f newPos = offset + pos;
-					sf::Vector2f max = transform.transformPoint(mWidth * mTilewidth, mHeight * mTileheight);
-					if (assigned.find(newPos) == assigned.end() && !collider.contains(newPos.x, newPos.y) && newPos.x > 0 && newPos.x < max.x && newPos.y > 0 && newPos.y < max.y)
+					sf::Vector2f max = transform.transformPoint((float)mWidth * mTilewidth, (float)mHeight * mTileheight);
+					if (assigned.find(newPos) == assigned.end() && !pCollider->contains(newPos.x, newPos.y) && newPos.x > 0 && newPos.x < max.x && newPos.y > 0 && newPos.y < max.y)
 					{
 						NavGraphNode newNode;
 						newNode.setPosition(newPos);
-						int newIndex = graph.addNode(newNode);
+						int newIndex = pGraph->addNode(newNode);
 						//graph.addEdge(NavGraphEdge(startIndex, newIndex, length(graph.getNode(startIndex).getPosition() - newPos)));
 
 						assigned.insert(std::make_pair(newPos, newIndex));
@@ -338,7 +338,7 @@ namespace te
 
 				// Add diagonal edges
 				std::for_each(newIndices.begin(), newIndices.end(), [&](int newIndex) {
-					sf::Vector2f newPosition = graph.getNode(newIndex).getPosition();
+					sf::Vector2f newPosition = pGraph->getNode(newIndex).getPosition();
 
 					const std::array<sf::Vector2f, 8> neighbors = {
 						transform.transformPoint(sf::Vector2f((float)mTilewidth, 0)),
@@ -355,7 +355,7 @@ namespace te
 						auto neighborIndexIter = assigned.find(neighbor);
 						if (neighborIndexIter != assigned.end())
 						{
-							graph.addEdge(NavGraphEdge(newIndex, neighborIndexIter->second, length(graph.getNode(newIndex).getPosition() - neighbor)));
+							pGraph->addEdge(NavGraphEdge(newIndex, neighborIndexIter->second, length(pGraph->getNode(newIndex).getPosition() - neighbor)));
 						}
 					});
 				});
@@ -377,8 +377,8 @@ namespace te
 				newIndices = flatMapFlood(newIndices);
 			}
 		}
-		graph.pruneEdges();
-		return graph;
+		pGraph->pruneEdges();
+		return pGraph;
 	}
 
 	int TMX::getWidth() const
