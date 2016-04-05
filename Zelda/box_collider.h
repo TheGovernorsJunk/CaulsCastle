@@ -3,6 +3,7 @@
 
 #include "collider.h"
 #include "wall.h"
+#include <Box2D/Box2D.h>
 
 namespace te
 {
@@ -26,6 +27,7 @@ namespace te
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 		sf::FloatRect mRect;
+		b2PolygonShape mShape;
 		std::vector<Wall2f> mWalls;
 	};
 }
