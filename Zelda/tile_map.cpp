@@ -1,6 +1,7 @@
 #include "tile_map.h"
 #include "texture_manager.h"
 #include "vector_ops.h"
+#include "game.h"
 
 #include <algorithm>
 
@@ -25,7 +26,7 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
-	TileMap::TileMap(TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
+	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
 		: mTextures()
 		, mLayers()
 		, mpCollider(nullptr)
@@ -33,6 +34,7 @@ namespace te
 		, mDrawFlags(0)
 		, mCellSpaceNeighborhoodRange(1)
 		, mpCellSpacePartition(nullptr)
+		, mpRigidBody(nullptr)
 	{
 		tmx.makeVertices(textureManager, mTextures, mLayers, widthUnitsPerTile, heightUnitsPerTile);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -57,6 +59,13 @@ namespace te
 		{
 			mpCellSpacePartition->addEntity(pNode);
 		}
+
+		b2BodyDef bodyDef;
+		bodyDef.type = b2_staticBody;
+		auto pWorld = world.getPhysicsWorld();
+		mpRigidBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(pWorld->CreateBody(&bodyDef), [pWorld](b2Body* pBody) {
+			pWorld->DestroyBody(pBody);
+		});
 	}
 
 	const std::vector<Wall2f>& TileMap::getWalls() const

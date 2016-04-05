@@ -12,6 +12,7 @@
 
 namespace te
 {
+	class Game;
 	class TextureManager;
 
 	class TileMap : public sf::Drawable, public sf::Transformable, public Collidable
@@ -20,7 +21,7 @@ namespace te
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
-		TileMap(TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0);
+		TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0);
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
@@ -53,6 +54,8 @@ namespace te
 		int mDrawFlags;
 		float mCellSpaceNeighborhoodRange;
 		std::unique_ptr<NavCellSpace> mpCellSpacePartition;
+
+		std::unique_ptr<b2Body, std::function<void(b2Body*)>> mpRigidBody;
 	};
 }
 
