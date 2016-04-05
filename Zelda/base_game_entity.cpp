@@ -9,7 +9,6 @@ namespace te
 		, mBoundingRadius(1.f)
 		, mWorld(world)
 		, mpBody(nullptr)
-		, mOrigin(0, 0)
 	{
 		b2BodyDef bodyDef;
 		bodyDef.position.Set(position.x, position.y);
@@ -32,7 +31,7 @@ namespace te
 
 	void BaseGameEntity::setPosition(float x, float y)
 	{
-		mpBody->SetTransform(b2Vec2(x - mOrigin.x, y - mOrigin.y), mpBody->GetAngle());
+		mpBody->SetTransform(b2Vec2(x, y), mpBody->GetAngle());
 	}
 
 	void BaseGameEntity::move(sf::Vector2f ds)
@@ -46,16 +45,16 @@ namespace te
 		mpBody->SetTransform(b2Vec2(pos.x + x, pos.y + y), mpBody->GetAngle());
 	}
 
-	void BaseGameEntity::setOrigin(sf::Vector2f o)
-	{
-		setOrigin(o.x, o.y);
-	}
+	//void BaseGameEntity::setOrigin(sf::Vector2f o)
+	//{
+	//	setOrigin(o.x, o.y);
+	//}
 
-	void BaseGameEntity::setOrigin(float x, float y)
-	{
-		mOrigin = { x, y };
-		setPosition(getPosition());
-	}
+	//void BaseGameEntity::setOrigin(float x, float y)
+	//{
+	//	mOrigin = { x, y };
+	//	setPosition(getPosition());
+	//}
 
 	sf::Vector2f BaseGameEntity::getPosition() const
 	{
