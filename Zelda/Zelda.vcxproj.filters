@@ -119,6 +119,9 @@
     <None Include="map.tmx">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="map2.tmx">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tmx.h">

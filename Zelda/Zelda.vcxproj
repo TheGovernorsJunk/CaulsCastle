@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx" />
+    <None Include="map2.tmx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
