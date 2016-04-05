@@ -50,7 +50,7 @@ namespace te
 
 		mCellSpaceNeighborhoodRange = calculateAverageGraphEdgeLength(*mpNavGraph) + 1;
 
-		mpCellSpacePartition = std::make_unique<NavCellSpace>(tmx.getWidth() * tmx.getTileWidth(), tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mpNavGraph->numNodes());
+		mpCellSpacePartition = std::make_unique<NavCellSpace>((float)widthUnitsPerTile / tmx.getWidth() * tmx.getTileWidth(), (float)heightUnitsPerTile / tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mpNavGraph->numNodes());
 
 		TileMap::NavGraph::ConstNodeIterator nodeIter(*mpNavGraph);
 		for (const TileMap::NavGraph::Node* pNode = nodeIter.begin(); !nodeIter.end(); pNode = nodeIter.next())

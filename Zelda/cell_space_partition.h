@@ -22,7 +22,7 @@ namespace te
 	class CellSpacePartition
 	{
 	public:
-		CellSpacePartition(double width, double height, int cellsX, int cellsY, int maxEntities)
+		CellSpacePartition(float width, float height, int cellsX, int cellsY, int maxEntities)
 			: mCells()
 			, mNeighbors(maxEntities, Entity())
 			, mCurrNeighbor(mNeighbors.begin())
