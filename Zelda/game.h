@@ -14,7 +14,6 @@ namespace te
 	class Game : public sf::Transformable, public sf::Drawable
 	{
 	public:
-		Game();
 		virtual ~Game();
 
 		bool isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius = 0) const;
@@ -28,6 +27,8 @@ namespace te
 		const b2World& getPhysicsWorld() const;
 
 	protected:
+		Game();
+
 		void setTileMap(std::unique_ptr<TileMap>&& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

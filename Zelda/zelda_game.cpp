@@ -7,8 +7,14 @@
 
 namespace te
 {
+	std::unique_ptr<ZeldaGame> ZeldaGame::make(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
+	{
+		return std::unique_ptr<ZeldaGame>(new ZeldaGame(pTextureManager, fileName, unitToTileX, unitToTileY));
+	}
+
 	ZeldaGame::ZeldaGame(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
-		: mpTextureManager(pTextureManager)
+		: Game()
+		, mpTextureManager(pTextureManager)
 		, mpEntityManager(std::make_shared<EntityManager>())
 		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(mpEntityManager))
 		, mpPlayer(nullptr)
