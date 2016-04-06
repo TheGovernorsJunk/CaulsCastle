@@ -3,6 +3,7 @@
 #include "vector_ops.h"
 #include "entity_manager.h"
 #include "message_dispatcher.h"
+#include "scene_node.h"
 
 namespace te
 {
@@ -11,6 +12,7 @@ namespace te
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
 		, mpTileMap(nullptr)
+		, mpSceneGraph(SceneNode::make(*this, b2BodyDef()))
 	{}
 
 	Game::~Game() {}

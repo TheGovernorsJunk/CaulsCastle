@@ -62,9 +62,9 @@ namespace te
 
 	void Player::update(const sf::Time& dt) {}
 
-	void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	void Player::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getTransform();
+		states.transform *= getWorldTransform();
 		sf::CircleShape shape(mRadius);
 		shape.setOrigin(mRadius, mRadius);
 		shape.setFillColor(sf::Color::Blue);

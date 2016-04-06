@@ -31,7 +31,7 @@ namespace te
 	private:
 		Player(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform);
 
-		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		float mRadius;
 		std::unique_ptr<b2Fixture, std::function<void(b2Fixture*)>> mpFixture;

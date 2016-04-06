@@ -35,7 +35,7 @@ namespace te
 
 	void ZeldaEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getTransform();
+		states.transform *= getWorldTransform();
 		target.draw(sf::CircleShape(getBoundingRadius()), states);
 	}
 }

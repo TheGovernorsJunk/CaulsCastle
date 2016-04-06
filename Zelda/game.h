@@ -12,6 +12,7 @@ namespace te
 	class TileMap;
 	class EntityManager;
 	class MessageDispatcher;
+	class SceneNode;
 
 	class Game : public sf::Transformable, public sf::Drawable
 	{
@@ -45,6 +46,8 @@ namespace te
 
 		std::unique_ptr<b2World> mpWorld;
 		std::unique_ptr<TileMap> mpTileMap;
+
+		std::unique_ptr<SceneNode> mpSceneGraph;
 	};
 }
 

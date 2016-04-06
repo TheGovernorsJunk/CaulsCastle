@@ -19,15 +19,17 @@ namespace te
 	SceneNode::SceneNode(Game& world, const b2BodyDef& bodyDef)
 		: mWorld(world)
 		, mpParent(nullptr)
-		, mBody(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); })
+		, mpBody(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); })
 		, mChildren()
 		, mZ(0)
-	{}
+	{
+		if (!mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
+	}
 
 	void SceneNode::setPosition(sf::Vector2f position)
 	{
 		position = getParentTransform() * position;
-		mBody->SetTransform(b2Vec2(position.x, position.y), mBody->GetAngle());
+		mpBody->SetTransform(b2Vec2(position.x, position.y), mpBody->GetAngle());
 	}
 
 	void SceneNode::setPosition(float x, float y)
@@ -47,7 +49,7 @@ namespace te
 
 	sf::Vector2f SceneNode::getPosition() const
 	{
-		b2Vec2 worldPosition = mBody->GetPosition();
+		b2Vec2 worldPosition = mpBody->GetPosition();
 		return getParentTransform().getInverse() * sf::Vector2f(worldPosition.x, worldPosition.y);
 	}
 
@@ -65,9 +67,9 @@ namespace te
 	{
 		sf::Transform transform = sf::Transform::Identity;
 
-		b2Vec2 position = mBody->GetPosition();
+		b2Vec2 position = mpBody->GetPosition();
 		transform.translate(sf::Vector2f(position.x, position.y));
-		transform.rotate(mBody->GetAngle() * 180.f / PI, sf::Vector2f(position.x, position.y));
+		transform.rotate(mpBody->GetAngle() * 180.f / PI, sf::Vector2f(position.x, position.y));
 
 		return transform;
 	}
@@ -90,6 +92,16 @@ namespace te
 		result->mpParent = nullptr;
 		mChildren.erase(found);
 		return result;
+	}
+
+	b2Body& SceneNode::getBody()
+	{
+		return *mpBody;
+	}
+
+	const b2Body& SceneNode::getBody() const
+	{
+		return *mpBody;
 	}
 
 	sf::Transform SceneNode::getParentTransform() const
@@ -116,5 +128,13 @@ namespace te
 			this
 		});
 		for (auto& child : mChildren) child->concatPendingDraws(outQueue);
+	}
+
+	b2BodyDef createBodyDef(sf::Vector2f position, b2BodyType type)
+	{
+		b2BodyDef def;
+		def.position = b2Vec2(position.x, position.y);
+		def.type = type;
+		return def;
 	}
 }

@@ -9,6 +9,7 @@
 
 struct b2BodyDef;
 class b2Body;
+enum b2BodyType;
 
 namespace te
 {
@@ -34,14 +35,18 @@ namespace te
 
 		void attachNode(std::unique_ptr<SceneNode>&& child);
 		std::unique_ptr<SceneNode> detachNode(const SceneNode& child);
+	protected:
+		SceneNode(Game& world, const b2BodyDef&);
+
+		b2Body& getBody();
+		const b2Body& getBody() const;
+
 	private:
 		struct PendingDraw
 		{
 			sf::Transform transform;
 			const SceneNode* pNode;
 		};
-
-		SceneNode(Game& world, const b2BodyDef&);
 
 		sf::Transform getParentTransform() const;
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
@@ -50,10 +55,12 @@ namespace te
 
 		Game& mWorld;
 		SceneNode* mpParent;
-		std::unique_ptr<b2Body, std::function<void(b2Body*)>> mBody;
+		std::unique_ptr<b2Body, std::function<void(b2Body*)>> mpBody;
 		std::vector<std::unique_ptr<SceneNode>> mChildren;
 		int mZ;
 	};
+
+	b2BodyDef createBodyDef(sf::Vector2f position, b2BodyType type);
 }
 
 #endif
