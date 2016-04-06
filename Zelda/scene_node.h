@@ -22,6 +22,9 @@ namespace te
 		virtual ~SceneNode();
 
 		void setPosition(sf::Vector2f position);
+		void setPosition(float x, float y);
+		void move(sf::Vector2f ds);
+		void move(float x, float y);
 		sf::Vector2f getPosition() const;
 
 		void setDrawOrder(int z);

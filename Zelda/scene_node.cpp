@@ -30,6 +30,21 @@ namespace te
 		mBody->SetTransform(b2Vec2(position.x, position.y), mBody->GetAngle());
 	}
 
+	void SceneNode::setPosition(float x, float y)
+	{
+		setPosition(sf::Vector2f(x, y));
+	}
+
+	void SceneNode::move(sf::Vector2f move)
+	{
+		setPosition(getPosition() + move);
+	}
+
+	void SceneNode::move(float x, float y)
+	{
+		move(sf::Vector2f(x, y));
+	}
+
 	sf::Vector2f SceneNode::getPosition() const
 	{
 		b2Vec2 worldPosition = mBody->GetPosition();
