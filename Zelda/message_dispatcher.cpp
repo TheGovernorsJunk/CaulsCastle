@@ -28,8 +28,8 @@ namespace te
 		Telegram telegram{ delay,sender,receiver,msg,extraInfo };
 		if (delay <= 0.0)
 		{
-			auto pReceiver = mEntityManager.getEntityFromID(receiver);
-			discharge(*pReceiver, telegram);
+			auto& pReceiver = mEntityManager.getEntityFromID(receiver);
+			discharge(pReceiver, telegram);
 		}
 		else
 		{
@@ -43,8 +43,8 @@ namespace te
 			telegram.dispatchTime -= dt.asSeconds();
 			if (telegram.dispatchTime < 0)
 			{
-				auto pReceiver = mEntityManager.getEntityFromID(telegram.receiver);
-				discharge(*pReceiver, telegram);
+				auto& pReceiver = mEntityManager.getEntityFromID(telegram.receiver);
+				discharge(pReceiver, telegram);
 			}
 		});
 		mPriorityQ.erase(std::remove_if(mPriorityQ.begin(), mPriorityQ.end(), [](const Telegram& telegram) {

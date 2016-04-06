@@ -13,16 +13,16 @@ namespace te
 	public:
 		static std::unique_ptr<EntityManager> make();
 
-		void registerEntity(std::shared_ptr<BaseGameEntity>);
-		std::shared_ptr<BaseGameEntity> getEntityFromID(int id) const;
-		void removeEntity(std::shared_ptr<BaseGameEntity>);
+		void registerEntity(BaseGameEntity&);
+		BaseGameEntity& getEntityFromID(int id) const;
+		void removeEntity(BaseGameEntity&);
 	private:
 		EntityManager();
 
 		EntityManager(const EntityManager&) = delete;
 		EntityManager& operator=(const EntityManager&) = delete;
 
-		std::map<int, std::shared_ptr<BaseGameEntity>> mEntityMap;
+		std::map<int, BaseGameEntity*> mEntityMap;
 		int mEntityCount;
 	};
 }

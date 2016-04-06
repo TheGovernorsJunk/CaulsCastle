@@ -12,12 +12,12 @@ namespace te
 	class Camera
 	{
 	public:
-		Camera(const std::shared_ptr<BaseGameEntity>& pSubject, sf::Vector2f size);
+		Camera(const BaseGameEntity& pSubject, sf::Vector2f size);
 
 		sf::View getView(const sf::Transform& transform = sf::Transform::Identity) const;
 
 	private:
-		std::shared_ptr<BaseGameEntity> mpSubject;
+		const BaseGameEntity& mSubject;
 		sf::Vector2f mSize;
 	};
 }

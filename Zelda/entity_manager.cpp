@@ -14,12 +14,12 @@ namespace te
 		, mEntityCount(0)
 	{}
 
-	void EntityManager::registerEntity(std::shared_ptr<BaseGameEntity> entity)
+	void EntityManager::registerEntity(BaseGameEntity& entity)
 	{
-		if (entity->mID == 0)
+		if (entity.mID == 0)
 		{
-			mEntityMap.insert(std::make_pair(++mEntityCount, entity));
-			entity->mID = mEntityCount;
+			mEntityMap.insert(std::make_pair(++mEntityCount, &entity));
+			entity.mID = mEntityCount;
 		}
 		else
 		{
@@ -27,12 +27,12 @@ namespace te
 		}
 	}
 
-	std::shared_ptr<BaseGameEntity> EntityManager::getEntityFromID(int id) const
+	BaseGameEntity& EntityManager::getEntityFromID(int id) const
 	{
 		auto iter = mEntityMap.find(id);
 		if (iter != mEntityMap.end())
 		{
-			return iter->second;
+			return *iter->second;
 		}
 		else
 		{
@@ -40,13 +40,13 @@ namespace te
 		}
 	}
 
-	void EntityManager::removeEntity(std::shared_ptr<BaseGameEntity> entity)
+	void EntityManager::removeEntity(BaseGameEntity& entity)
 	{
-		auto iter = mEntityMap.find(entity->mID);
+		auto iter = mEntityMap.find(entity.mID);
 		if (iter != mEntityMap.end())
 		{
 			mEntityMap.erase(iter);
-			entity->mID = 0;
+			entity.mID = 0;
 		}
 	}
 }

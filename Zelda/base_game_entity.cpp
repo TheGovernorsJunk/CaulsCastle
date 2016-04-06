@@ -1,5 +1,6 @@
 #include "base_game_entity.h"
 #include "game.h"
+#include "entity_manager.h"
 
 namespace te
 {
@@ -10,6 +11,8 @@ namespace te
 		, mWorld(world)
 		, mpBody(nullptr)
 	{
+		world.getEntityManager().registerEntity(*this);
+
 		b2BodyDef bodyDef;
 		bodyDef.position.Set(position.x, position.y);
 		bodyDef.type = bodyType;
@@ -21,7 +24,10 @@ namespace te
 		if (!mpBody) throw std::runtime_error("Unable to create body in BaseGameEntity ctor.");
 	}
 
-	BaseGameEntity::~BaseGameEntity() {}
+	BaseGameEntity::~BaseGameEntity()
+	{
+		mWorld.getEntityManager().removeEntity(*this);
+	}
 
 	void BaseGameEntity::setPosition(sf::Vector2f position)
 	{

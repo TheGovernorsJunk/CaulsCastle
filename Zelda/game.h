@@ -10,6 +10,8 @@ class b2World;
 namespace te
 {
 	class TileMap;
+	class EntityManager;
+	class MessageDispatcher;
 
 	class Game : public sf::Transformable, public sf::Drawable
 	{
@@ -23,6 +25,9 @@ namespace te
 		virtual void processInput(const sf::Event& evt) = 0;
 		virtual void update(const sf::Time& dt) = 0;
 
+		EntityManager& getEntityManager();
+		MessageDispatcher& getMessageDispatcher();
+
 		b2World& getPhysicsWorld();
 		const b2World& getPhysicsWorld() const;
 
@@ -34,6 +39,9 @@ namespace te
 
 	private:
 		void throwIfNoMap() const;
+
+		std::unique_ptr<EntityManager> mpEntityManager;
+		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
 
 		std::unique_ptr<b2World> mpWorld;
 		std::unique_ptr<TileMap> mpTileMap;

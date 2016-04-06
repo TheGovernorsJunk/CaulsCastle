@@ -3,14 +3,14 @@
 
 namespace te
 {
-	Camera::Camera(const std::shared_ptr<BaseGameEntity>& pSubject, sf::Vector2f size)
-		: mpSubject(pSubject)
+	Camera::Camera(const BaseGameEntity& subject, sf::Vector2f size)
+		: mSubject(subject)
 		, mSize(size)
 	{}
 
 	sf::View Camera::getView(const sf::Transform& transform) const
 	{
-		sf::View view(transform.transformPoint(mpSubject->getPosition()), mSize);
+		sf::View view(transform.transformPoint(mSubject.getPosition()), mSize);
 		return view;
 	}
 }

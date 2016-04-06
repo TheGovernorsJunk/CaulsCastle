@@ -1,11 +1,15 @@
 #include "game.h"
 #include "tile_map.h"
 #include "vector_ops.h"
+#include "entity_manager.h"
+#include "message_dispatcher.h"
 
 namespace te
 {
 	Game::Game()
-		: mpWorld(new b2World(b2Vec2(0, 0)))
+		: mpEntityManager(EntityManager::make())
+		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
+		, mpWorld(new b2World(b2Vec2(0, 0)))
 		, mpTileMap(nullptr)
 	{}
 
@@ -40,6 +44,16 @@ namespace te
 	{
 		throwIfNoMap();
 		return *mpTileMap;
+	}
+
+	EntityManager& Game::getEntityManager()
+	{
+		return *mpEntityManager;
+	}
+
+	MessageDispatcher& Game::getMessageDispatcher()
+	{
+		return *mpMessageDispatcher;
 	}
 
 	b2World& Game::getPhysicsWorld() { return *mpWorld; }
