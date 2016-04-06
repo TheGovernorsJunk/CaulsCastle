@@ -116,7 +116,11 @@ namespace te
 		std::sort(pendingDraws.begin(), pendingDraws.end(), [](PendingDraw& a, PendingDraw b) {
 			return a.pNode->getDrawOrder() < b.pNode->getDrawOrder();
 		});
-		for (auto& draw : pendingDraws) draw.pNode->onDraw(target, states);
+		for (auto& draw : pendingDraws)
+		{
+			states.transform = draw.transform;
+			draw.pNode->onDraw(target, states);
+		}
 	}
 
 	void SceneNode::onDraw(sf::RenderTarget& target, sf::RenderStates states) const {}
