@@ -11,12 +11,14 @@ namespace te
 	class EntityManager
 	{
 	public:
-		EntityManager();
+		static std::unique_ptr<EntityManager> make();
 
 		void registerEntity(std::shared_ptr<BaseGameEntity>);
 		std::shared_ptr<BaseGameEntity> getEntityFromID(int id) const;
 		void removeEntity(std::shared_ptr<BaseGameEntity>);
 	private:
+		EntityManager();
+
 		EntityManager(const EntityManager&) = delete;
 		EntityManager& operator=(const EntityManager&) = delete;
 

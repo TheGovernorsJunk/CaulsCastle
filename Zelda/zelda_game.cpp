@@ -15,8 +15,8 @@ namespace te
 	ZeldaGame::ZeldaGame(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
 		: Game()
 		, mTextureManager(textureManager)
-		, mpEntityManager(std::make_shared<EntityManager>())
-		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(mpEntityManager))
+		, mpEntityManager(EntityManager::make())
+		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(*mpEntityManager))
 		, mpPlayer(nullptr)
 		, mpCamera(nullptr)
 	{

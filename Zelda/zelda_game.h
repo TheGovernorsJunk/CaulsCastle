@@ -27,7 +27,7 @@ namespace te
 
 		TextureManager& mTextureManager;
 
-		std::shared_ptr<EntityManager> mpEntityManager;
+		std::unique_ptr<EntityManager> mpEntityManager;
 		std::shared_ptr<MessageDispatcher> mpMessageDispatcher;
 
 		std::shared_ptr<Player> mpPlayer;

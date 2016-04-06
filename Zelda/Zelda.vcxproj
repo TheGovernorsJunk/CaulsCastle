@@ -124,7 +124,6 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="collider.cpp" />
     <ClCompile Include="composite_collider.cpp" />
-    <ClCompile Include="entity.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="goal_evaluator_move_to_position.cpp" />
@@ -165,7 +164,6 @@
     <ClInclude Include="cell_space_partition.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="composite_collider.h" />
-    <ClInclude Include="entity.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="goal.h" />

@@ -13,8 +13,8 @@ namespace te
 		return a.dispatchTime < b.dispatchTime;
 	}
 
-	MessageDispatcher::MessageDispatcher(const std::shared_ptr<EntityManager>& pEM)
-		: mpEntityManager(pEM)
+	MessageDispatcher::MessageDispatcher(EntityManager& em)
+		: mEntityManager(em)
 		, mPriorityQ()
 	{}
 
@@ -23,7 +23,7 @@ namespace te
 		Telegram telegram{ delay,sender,receiver,msg,extraInfo };
 		if (delay <= 0.0)
 		{
-			auto pReceiver = mpEntityManager->getEntityFromID(receiver);
+			auto pReceiver = mEntityManager.getEntityFromID(receiver);
 			discharge(*pReceiver, telegram);
 		}
 		else
@@ -38,7 +38,7 @@ namespace te
 			telegram.dispatchTime -= dt.asSeconds();
 			if (telegram.dispatchTime < 0)
 			{
-				auto pReceiver = mpEntityManager->getEntityFromID(telegram.receiver);
+				auto pReceiver = mEntityManager.getEntityFromID(telegram.receiver);
 				discharge(*pReceiver, telegram);
 			}
 		});
@@ -47,9 +47,9 @@ namespace te
 		}), mPriorityQ.end());
 	}
 
-	std::shared_ptr<EntityManager> MessageDispatcher::getEntityManager() const
+	EntityManager& MessageDispatcher::getEntityManager() const
 	{
-		return mpEntityManager;
+		return mEntityManager;
 	}
 
 	void MessageDispatcher::discharge(BaseGameEntity& entity, const Telegram& msg)

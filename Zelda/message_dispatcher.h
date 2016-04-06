@@ -28,16 +28,16 @@ namespace te
 	class MessageDispatcher
 	{
 	public:
-		MessageDispatcher(const std::shared_ptr<EntityManager>&);
+		MessageDispatcher(EntityManager&);
 		void dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo);
 		void dispatchDelayedMessages(const sf::Time& dt);
 
-		std::shared_ptr<EntityManager> getEntityManager() const;
+		EntityManager& getEntityManager() const;
 
 	private:
 		void discharge(BaseGameEntity& entity, const Telegram& msg);
 
-		std::shared_ptr<EntityManager> mpEntityManager;
+		EntityManager& mEntityManager;
 		std::vector<Telegram> mPriorityQ;
 	};
 }

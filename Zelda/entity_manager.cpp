@@ -4,6 +4,11 @@
 
 namespace te
 {
+	std::unique_ptr<EntityManager> EntityManager::make()
+	{
+		return std::unique_ptr<EntityManager>(new EntityManager());
+	}
+
 	EntityManager::EntityManager()
 		: mEntityMap()
 		, mEntityCount(0)
