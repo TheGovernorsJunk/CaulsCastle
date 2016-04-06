@@ -13,6 +13,11 @@ namespace te
 		return a.dispatchTime < b.dispatchTime;
 	}
 
+	std::unique_ptr<MessageDispatcher> MessageDispatcher::make(EntityManager& em)
+	{
+		return std::unique_ptr<MessageDispatcher>(new MessageDispatcher(em));
+	}
+
 	MessageDispatcher::MessageDispatcher(EntityManager& em)
 		: mEntityManager(em)
 		, mPriorityQ()

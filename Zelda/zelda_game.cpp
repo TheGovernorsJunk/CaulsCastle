@@ -16,7 +16,7 @@ namespace te
 		: Game()
 		, mTextureManager(textureManager)
 		, mpEntityManager(EntityManager::make())
-		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(*mpEntityManager))
+		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpPlayer(nullptr)
 		, mpCamera(nullptr)
 	{
