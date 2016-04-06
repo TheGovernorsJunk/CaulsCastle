@@ -14,9 +14,8 @@ namespace te
 		bodyDef.position.Set(position.x, position.y);
 		bodyDef.type = bodyType;
 
-		auto pPhysicsWorld = world.getPhysicsWorld();
-		mpBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(pPhysicsWorld->CreateBody(&bodyDef), [pPhysicsWorld](b2Body* pBody) {
-			pPhysicsWorld->DestroyBody(pBody);
+		mpBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) {
+			mWorld.getPhysicsWorld().DestroyBody(pBody);
 		});
 
 		if (!mpBody) throw std::runtime_error("Unable to create body in BaseGameEntity ctor.");

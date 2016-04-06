@@ -24,8 +24,8 @@ namespace te
 		virtual void processInput(const sf::Event& evt) = 0;
 		virtual void update(const sf::Time& dt) = 0;
 
-		std::shared_ptr<b2World> getPhysicsWorld();
-		std::shared_ptr<const b2World> getPhysicsWorld() const;
+		b2World& getPhysicsWorld();
+		const b2World& getPhysicsWorld() const;
 
 	protected:
 		void setTileMap(std::unique_ptr<TileMap>&& pTileMap);
@@ -34,8 +34,8 @@ namespace te
 	private:
 		void throwIfNoMap() const;
 
+		std::unique_ptr<b2World> mpWorld;
 		std::unique_ptr<TileMap> mpTileMap;
-		std::shared_ptr<b2World> mpWorld;
 	};
 }
 

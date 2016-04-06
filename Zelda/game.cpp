@@ -5,8 +5,8 @@
 namespace te
 {
 	Game::Game()
-		: mpTileMap(nullptr)
-		, mpWorld(new b2World(b2Vec2(0, 0)))
+		: mpWorld(new b2World(b2Vec2(0, 0)))
+		, mpTileMap(nullptr)
 	{}
 
 	Game::~Game() {}
@@ -42,8 +42,8 @@ namespace te
 		return *mpTileMap;
 	}
 
-	std::shared_ptr<b2World> Game::getPhysicsWorld() { return mpWorld; }
-	std::shared_ptr<const b2World> Game::getPhysicsWorld() const { return mpWorld; }
+	b2World& Game::getPhysicsWorld() { return *mpWorld; }
+	const b2World& Game::getPhysicsWorld() const { return *mpWorld; }
 
 	void Game::setTileMap(std::unique_ptr<TileMap>&& pTileMap)
 	{

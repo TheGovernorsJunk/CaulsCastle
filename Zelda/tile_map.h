@@ -46,6 +46,8 @@ namespace te
 
 		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
+		Game& mWorld;
+
 		std::vector<std::shared_ptr<sf::Texture>> mTextures;
 		std::vector<std::vector<sf::VertexArray>> mLayers;
 		std::unique_ptr<CompositeCollider> mpCollider;

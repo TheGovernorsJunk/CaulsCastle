@@ -78,7 +78,7 @@ namespace te
 	void ZeldaGame::update(const sf::Time& dt)
 	{
 		mpMessageDispatcher->dispatchDelayedMessages(dt);
-		getPhysicsWorld()->Step(dt.asSeconds(), 8, 3);
+		getPhysicsWorld().Step(dt.asSeconds(), 8, 3);
 		mpPlayer->update(dt);
 	}
 

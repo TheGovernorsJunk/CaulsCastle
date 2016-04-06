@@ -27,7 +27,8 @@ namespace te
 	}
 
 	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
-		: mTextures()
+		: mWorld(world)
+		, mTextures()
 		, mLayers()
 		, mpCollider(nullptr)
 		, mpNavGraph(nullptr)
@@ -62,9 +63,8 @@ namespace te
 
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_staticBody;
-		auto pWorld = world.getPhysicsWorld();
-		mpRigidBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(pWorld->CreateBody(&bodyDef), [pWorld](b2Body* pBody) {
-			pWorld->DestroyBody(pBody);
+		mpRigidBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) {
+			mWorld.getPhysicsWorld().DestroyBody(pBody);
 		});
 
 		std::vector<b2Fixture*> fixtures;
