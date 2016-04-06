@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="box_collider.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="path_planner.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="regulator.h" />
+    <ClInclude Include="scene_node.h" />
     <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
