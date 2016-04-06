@@ -27,7 +27,7 @@ namespace te
 
 		TextureManager& mTextureManager;
 
-		std::unique_ptr<Player> mpPlayer;
+		Player* mpPlayer;
 		std::unique_ptr<Camera> mpCamera;
 	};
 }

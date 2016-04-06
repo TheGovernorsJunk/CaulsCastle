@@ -118,7 +118,6 @@ namespace te
 		});
 		for (auto& draw : pendingDraws)
 		{
-			states.transform = draw.transform;
 			draw.pNode->onDraw(target, states);
 		}
 	}
@@ -128,7 +127,6 @@ namespace te
 	void SceneNode::concatPendingDraws(std::vector<PendingDraw>& outQueue) const
 	{
 		outQueue.push_back({
-			getWorldTransform(),
 			this
 		});
 		for (auto& child : mChildren) child->concatPendingDraws(outQueue);

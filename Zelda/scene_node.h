@@ -44,7 +44,6 @@ namespace te
 	private:
 		struct PendingDraw
 		{
-			sf::Transform transform;
 			const SceneNode* pNode;
 		};
 

@@ -38,6 +38,8 @@ namespace te
 		void setTileMap(std::unique_ptr<TileMap>&& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		SceneNode& getSceneGraph();
+
 	private:
 		void throwIfNoMap() const;
 

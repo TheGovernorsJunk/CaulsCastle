@@ -19,7 +19,6 @@ namespace te
 		, mpCamera(nullptr)
 	{
 		loadMap(fileName, unitToTileX, unitToTileY);
-		mpCamera = std::make_unique<Camera>(*mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
 	}
 
 	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
@@ -46,7 +45,11 @@ namespace te
 
 		sf::Transform transform;
 		transform.scale((float)unitToTileX / tmx.getTileWidth(), (float)unitToTileY / tmx.getTileHeight());
-		mpPlayer = Player::make(*this, *pPlayer, transform);
+		auto rpPlayer = Player::make(*this, *pPlayer, transform);
+		mpPlayer = rpPlayer.get();
+		getSceneGraph().attachNode(std::move(rpPlayer));
+
+		mpCamera = std::make_unique<Camera>(*mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
 	}
 
 	void ZeldaGame::processInput(const sf::Event& evt)
@@ -77,7 +80,7 @@ namespace te
 	{
 		getMessageDispatcher().dispatchDelayedMessages(dt);
 		getPhysicsWorld().Step(dt.asSeconds(), 8, 3);
-		mpPlayer->update(dt);
+		//mpPlayer->update(dt);
 	}
 
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -85,6 +88,6 @@ namespace te
 		states.transform.scale(16.f, 16.f);
 		target.setView(mpCamera->getView(states.transform));
 		Game::draw(target, states);
-		target.draw(*mpPlayer, states);
+		//target.draw(*mpPlayer, states);
 	}
 }

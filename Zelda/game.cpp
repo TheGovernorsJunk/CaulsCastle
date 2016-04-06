@@ -78,6 +78,12 @@ namespace te
 		throwIfNoMap();
 		states.transform *= getTransform();
 		target.draw(*mpTileMap, states);
+		target.draw(*mpSceneGraph, states);
+	}
+
+	SceneNode& Game::getSceneGraph()
+	{
+		return *mpSceneGraph;
 	}
 
 	void Game::throwIfNoMap() const
