@@ -27,7 +27,8 @@ namespace te
 	}
 
 	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
-		: mWorld(world)
+		: BaseGameEntity(world, { 0, 0 }, b2_staticBody)
+		, mWorld(world)
 		, mTextures()
 		, mLayers()
 		, mpCollider(nullptr)
@@ -35,7 +36,6 @@ namespace te
 		, mDrawFlags(0)
 		, mCellSpaceNeighborhoodRange(1)
 		, mpCellSpacePartition(nullptr)
-		, mpRigidBody(nullptr)
 	{
 		tmx.makeVertices(textureManager, mTextures, mLayers, widthUnitsPerTile, heightUnitsPerTile);
 		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
@@ -61,14 +61,8 @@ namespace te
 			mpCellSpacePartition->addEntity(pNode);
 		}
 
-		b2BodyDef bodyDef;
-		bodyDef.type = b2_staticBody;
-		mpRigidBody = std::unique_ptr<b2Body, std::function<void(b2Body*)>>(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) {
-			mWorld.getPhysicsWorld().DestroyBody(pBody);
-		});
-
 		std::vector<b2Fixture*> fixtures;
-		mpCollider->createFixtures(*mpRigidBody, fixtures);
+		mpCollider->createFixtures(getBody(), fixtures);
 	}
 
 	const std::vector<Wall2f>& TileMap::getWalls() const
@@ -105,27 +99,27 @@ namespace te
 
 	bool TileMap::intersects(const BoxCollider& o) const
 	{
-		return mpCollider->transform(getTransform()).intersects(o);
+		return mpCollider->transform(getWorldTransform()).intersects(o);
 	}
 
 	bool TileMap::intersects(const BoxCollider& o, sf::FloatRect& collision) const
 	{
-		return mpCollider->transform(getTransform()).intersects(o, collision);
+		return mpCollider->transform(getWorldTransform()).intersects(o, collision);
 	}
 
 	bool TileMap::intersects(const CompositeCollider& o) const
 	{
-		return mpCollider->transform(getTransform()).intersects(o);
+		return mpCollider->transform(getWorldTransform()).intersects(o);
 	}
 
 	bool TileMap::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
 	{
-		return mpCollider->transform(getTransform()).intersects(o, collision);
+		return mpCollider->transform(getWorldTransform()).intersects(o, collision);
 	}
 
-	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getTransform();
+		states.transform *= getWorldTransform();
 
 		std::for_each(mLayers.begin(), mLayers.end(), [this, &target, &states](const std::vector<sf::VertexArray>& layerComponents) {
 			for (auto iter = layerComponents.begin(); iter != layerComponents.end(); ++iter)

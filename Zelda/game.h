@@ -47,7 +47,8 @@ namespace te
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
 
 		std::unique_ptr<b2World> mpWorld;
-		std::unique_ptr<TileMap> mpTileMap;
+		int mTileMapID;
+		TileMap* mpTileMap;
 
 		std::unique_ptr<SceneNode> mpSceneGraph;
 	};

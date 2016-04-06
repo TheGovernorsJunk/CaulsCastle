@@ -11,6 +11,7 @@ namespace te
 		: mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
+		, mTileMapID(-1)
 		, mpTileMap(nullptr)
 		, mpSceneGraph(SceneNode::make(*this, b2BodyDef()))
 	{}
@@ -65,7 +66,9 @@ namespace te
 	{
 		if (pTileMap)
 		{
-			mpTileMap = std::move(pTileMap);
+			mTileMapID = pTileMap->getID();
+			mpTileMap = pTileMap.get();
+			mpSceneGraph->attachNode(std::move(pTileMap));
 		}
 		else
 		{
@@ -77,7 +80,6 @@ namespace te
 	{
 		throwIfNoMap();
 		states.transform *= getTransform();
-		target.draw(*mpTileMap, states);
 		target.draw(*mpSceneGraph, states);
 	}
 
@@ -88,6 +90,6 @@ namespace te
 
 	void Game::throwIfNoMap() const
 	{
-		if (!mpTileMap) throw std::runtime_error("TileMap not set in Game.");
+		if (!mpEntityManager->hasEntity(mTileMapID)) throw std::runtime_error("TileMap not set in Game.");
 	}
 }

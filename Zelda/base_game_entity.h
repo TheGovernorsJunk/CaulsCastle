@@ -30,7 +30,7 @@ namespace te
 
 		void setBoundingRadius(float radius);
 		float getBoundingRadius() const;
-		virtual void update(const sf::Time& dt) = 0;
+		virtual void update(const sf::Time& dt);
 		virtual bool handleMessage(const Telegram& msg);
 		int getID() const;
 		const Game& getWorld() const;

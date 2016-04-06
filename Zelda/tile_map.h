@@ -5,6 +5,7 @@
 #include "tmx.h"
 #include "composite_collider.h"
 #include "cell_space_partition.h"
+#include "base_game_entity.h"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -15,7 +16,7 @@ namespace te
 	class Game;
 	class TextureManager;
 
-	class TileMap : public sf::Drawable, public sf::Transformable, public Collidable
+	class TileMap : public BaseGameEntity, public Collidable
 	{
 	public:
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
@@ -44,7 +45,7 @@ namespace te
 		TileMap(const TileMap&) = delete;
 		TileMap& operator=(const TileMap&) = delete;
 
-		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
 
 		Game& mWorld;
 
@@ -56,8 +57,6 @@ namespace te
 		int mDrawFlags;
 		float mCellSpaceNeighborhoodRange;
 		std::unique_ptr<NavCellSpace> mpCellSpacePartition;
-
-		std::unique_ptr<b2Body, std::function<void(b2Body*)>> mpRigidBody;
 	};
 }
 
