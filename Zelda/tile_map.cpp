@@ -124,15 +124,7 @@ namespace te
 
 	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		//states.transform *= getWorldTransform();
-
-		//std::for_each(mLayers.begin(), mLayers.end(), [this, &target, &states](const std::vector<sf::VertexArray>& layerComponents) {
-		//	for (auto iter = layerComponents.begin(); iter != layerComponents.end(); ++iter)
-		//	{
-		//		states.texture = mTextures[iter - layerComponents.begin()].get();
-		//		target.draw(*iter, states);
-		//	}
-		//});
+		states.transform *= getWorldTransform();
 
 		states.texture = NULL;
 		if ((mDrawFlags & COLLIDER) > 0)
