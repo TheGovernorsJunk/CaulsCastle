@@ -33,8 +33,6 @@ namespace te
 		void dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo);
 		void dispatchDelayedMessages(const sf::Time& dt);
 
-		EntityManager& getEntityManager() const;
-
 	private:
 		MessageDispatcher(EntityManager&);
 

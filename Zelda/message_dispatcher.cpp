@@ -55,11 +55,6 @@ namespace te
 		}), mPriorityQ.end());
 	}
 
-	EntityManager& MessageDispatcher::getEntityManager() const
-	{
-		return mEntityManager;
-	}
-
 	void MessageDispatcher::discharge(BaseGameEntity& entity, const Telegram& msg)
 	{
 		entity.handleMessage(msg);
