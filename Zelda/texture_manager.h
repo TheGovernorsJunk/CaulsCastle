@@ -11,10 +11,12 @@ namespace te
 	class TextureManager
 	{
 	public:
-		TextureManager();
+		static std::unique_ptr<TextureManager> make();
 
 		std::shared_ptr<sf::Texture> get(const std::string& file);
 	private:
+		TextureManager();
+
 		TextureManager(const TextureManager&) = delete;
 		TextureManager& operator=(const TextureManager&) = delete;
 

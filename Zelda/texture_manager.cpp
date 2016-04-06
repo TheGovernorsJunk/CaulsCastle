@@ -2,6 +2,11 @@
 
 namespace te
 {
+	std::unique_ptr<TextureManager> TextureManager::make()
+	{
+		return std::unique_ptr<TextureManager>(new TextureManager);
+	}
+
 	TextureManager::TextureManager() {}
 
 	std::shared_ptr<sf::Texture> TextureManager::get(const std::string& file)

@@ -7,24 +7,19 @@
 
 namespace te
 {
-	std::unique_ptr<ZeldaGame> ZeldaGame::make(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
+	std::unique_ptr<ZeldaGame> ZeldaGame::make(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
 	{
-		return std::unique_ptr<ZeldaGame>(new ZeldaGame(pTextureManager, fileName, unitToTileX, unitToTileY));
+		return std::unique_ptr<ZeldaGame>(new ZeldaGame(textureManager, fileName, unitToTileX, unitToTileY));
 	}
 
-	ZeldaGame::ZeldaGame(const std::shared_ptr<TextureManager>& pTextureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
+	ZeldaGame::ZeldaGame(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
 		: Game()
-		, mpTextureManager(pTextureManager)
+		, mTextureManager(textureManager)
 		, mpEntityManager(std::make_shared<EntityManager>())
 		, mpMessageDispatcher(std::make_shared<MessageDispatcher>(mpEntityManager))
 		, mpPlayer(nullptr)
 		, mpCamera(nullptr)
 	{
-		if (!pTextureManager)
-		{
-			throw std::runtime_error("Must supply TextureManager in ZeldaGame ctor.");
-		}
-
 		loadMap(fileName, unitToTileX, unitToTileY);
 		mpCamera = std::make_shared<Camera>(mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
 	}
@@ -32,7 +27,7 @@ namespace te
 	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
 	{
 		TMX tmx(fileName);
-		setTileMap(std::make_unique<TileMap>(*this, *mpTextureManager, tmx, unitToTileX, unitToTileY));
+		setTileMap(std::make_unique<TileMap>(*this, mTextureManager, tmx, unitToTileX, unitToTileY));
 		getMap().setDrawColliderEnabled(true);
 		getMap().setDrawNavGraphEnabled(true);
 

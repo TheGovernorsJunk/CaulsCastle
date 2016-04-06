@@ -6,7 +6,7 @@
 namespace te
 {
 	ZeldaApplication::ZeldaApplication(const std::string& filename)
-		: mTextureManager(std::make_shared<TextureManager>())
+		: mTextureManager(TextureManager::make())
 		, mFilename(filename)
 	{
 	}
@@ -18,7 +18,7 @@ namespace te
 
 	std::unique_ptr<Game> ZeldaApplication::makeGame() const
 	{
-		auto pGame = ZeldaGame::make(mTextureManager, mFilename, 1, 1);
+		auto pGame = ZeldaGame::make(*mTextureManager, mFilename, 1, 1);
 		return pGame;
 	}
 }
