@@ -19,7 +19,7 @@ namespace te
 		, mpCamera(nullptr)
 	{
 		loadMap(fileName, unitToTileX, unitToTileY);
-		mpCamera = std::make_shared<Camera>(*mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
+		mpCamera = std::make_unique<Camera>(*mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
 	}
 
 	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
