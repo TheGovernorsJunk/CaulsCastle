@@ -28,13 +28,13 @@ namespace te
 		std::shared_ptr<const b2World> getPhysicsWorld() const;
 
 	protected:
-		void setTileMap(const std::shared_ptr<TileMap>& pTileMap);
+		void setTileMap(std::unique_ptr<TileMap>&& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	private:
 		void throwIfNoMap() const;
 
-		std::shared_ptr<TileMap> mpTileMap;
+		std::unique_ptr<TileMap> mpTileMap;
 		std::shared_ptr<b2World> mpWorld;
 	};
 }

@@ -45,11 +45,11 @@ namespace te
 	std::shared_ptr<b2World> Game::getPhysicsWorld() { return mpWorld; }
 	std::shared_ptr<const b2World> Game::getPhysicsWorld() const { return mpWorld; }
 
-	void Game::setTileMap(const std::shared_ptr<TileMap>& pTileMap)
+	void Game::setTileMap(std::unique_ptr<TileMap>&& pTileMap)
 	{
 		if (pTileMap)
 		{
-			mpTileMap = pTileMap;
+			mpTileMap = std::move(pTileMap);
 		}
 		else
 		{

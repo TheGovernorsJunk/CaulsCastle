@@ -26,7 +26,7 @@ namespace te
 	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
 	{
 		TMX tmx(fileName);
-		setTileMap(std::make_shared<TileMap>(*this, *mpTextureManager, tmx, unitToTileX, unitToTileY));
+		setTileMap(std::make_unique<TileMap>(*this, *mpTextureManager, tmx, unitToTileX, unitToTileY));
 		getMap().setDrawColliderEnabled(true);
 		getMap().setDrawNavGraphEnabled(true);
 
