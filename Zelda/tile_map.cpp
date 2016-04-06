@@ -30,19 +30,24 @@ namespace te
 		: BaseGameEntity(world, { 0, 0 }, b2_staticBody)
 		, mWorld(world)
 		, mTextures()
-		, mLayers()
 		, mpCollider(nullptr)
 		, mpNavGraph(nullptr)
 		, mDrawFlags(0)
 		, mCellSpaceNeighborhoodRange(1)
 		, mpCellSpacePartition(nullptr)
 	{
-		tmx.makeVertices(textureManager, mTextures, mLayers, widthUnitsPerTile, heightUnitsPerTile);
-		std::for_each(mLayers.begin(), mLayers.end(), [this](const auto& layerComponents) {
-			if (layerComponents.size() != mTextures.size()) {
+		std::vector<std::vector<sf::VertexArray>> layers;
+		tmx.makeVertices(textureManager, mTextures, layers, widthUnitsPerTile, heightUnitsPerTile);
+		for (auto it = layers.begin(); it != layers.end(); ++it)
+		{
+			int index = it - layers.begin();
+			if (it->size() != mTextures.size()) {
 				throw std::runtime_error("Texture and layer component counts are inconsistent.");
 			}
-		});
+			auto pLayer = std::make_unique<Layer>(mWorld, std::move(*it), mTextures);
+			pLayer->setDrawOrder(index);
+			attachNode(std::move(pLayer));
+		}
 
 		sf::Transform transform;
 		transform.scale((float)widthUnitsPerTile / tmx.getTileWidth(), (float)heightUnitsPerTile / tmx.getTileHeight());
@@ -119,15 +124,15 @@ namespace te
 
 	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldTransform();
+		//states.transform *= getWorldTransform();
 
-		std::for_each(mLayers.begin(), mLayers.end(), [this, &target, &states](const std::vector<sf::VertexArray>& layerComponents) {
-			for (auto iter = layerComponents.begin(); iter != layerComponents.end(); ++iter)
-			{
-				states.texture = mTextures[iter - layerComponents.begin()].get();
-				target.draw(*iter, states);
-			}
-		});
+		//std::for_each(mLayers.begin(), mLayers.end(), [this, &target, &states](const std::vector<sf::VertexArray>& layerComponents) {
+		//	for (auto iter = layerComponents.begin(); iter != layerComponents.end(); ++iter)
+		//	{
+		//		states.texture = mTextures[iter - layerComponents.begin()].get();
+		//		target.draw(*iter, states);
+		//	}
+		//});
 
 		states.texture = NULL;
 		if ((mDrawFlags & COLLIDER) > 0)
@@ -141,4 +146,20 @@ namespace te
 		}
 	}
 
+	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<std::shared_ptr<sf::Texture>>& textures)
+		: SceneNode(world, b2BodyDef())
+		, mVertexArrays(std::move(vas))
+		, mTextures(&textures)
+	{}
+
+	void TileMap::Layer::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		states.transform *= getWorldTransform();
+
+		for (auto iter = mVertexArrays.begin(); iter != mVertexArrays.end(); ++iter)
+		{
+			states.texture = (*mTextures)[iter - mVertexArrays.begin()].get();
+			target.draw(*iter, states);
+		}
+	}
 }

@@ -39,6 +39,16 @@ namespace te
 		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
 	private:
+		class Layer : public SceneNode
+		{
+		public:
+			Layer(Game& world, std::vector<sf::VertexArray>&&, std::vector<std::shared_ptr<sf::Texture>>&);
+		private:
+			void onDraw(sf::RenderTarget&, sf::RenderStates) const;
+
+			std::vector<sf::VertexArray> mVertexArrays;
+			std::vector<std::shared_ptr<sf::Texture>>* mTextures;
+		};
 		enum DrawFlags
 		{ COLLIDER = 0x01, NAV_GRAPH = 0x02 };
 
@@ -50,7 +60,7 @@ namespace te
 		Game& mWorld;
 
 		std::vector<std::shared_ptr<sf::Texture>> mTextures;
-		std::vector<std::vector<sf::VertexArray>> mLayers;
+		//std::vector<std::vector<sf::VertexArray>> mLayers;
 		std::unique_ptr<CompositeCollider> mpCollider;
 		std::unique_ptr<NavGraph> mpNavGraph;
 
