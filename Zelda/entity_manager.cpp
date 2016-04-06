@@ -40,6 +40,11 @@ namespace te
 		}
 	}
 
+	bool EntityManager::hasEntity(int id) const
+	{
+		return mEntityMap.find(id) != mEntityMap.end();
+	}
+
 	void EntityManager::removeEntity(BaseGameEntity& entity)
 	{
 		auto iter = mEntityMap.find(entity.mID);

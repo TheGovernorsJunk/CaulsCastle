@@ -12,8 +12,15 @@ namespace te
 
 	sf::View Camera::getView(const sf::Transform& transform) const
 	{
-		BaseGameEntity& subject = mEntityManager.getEntityFromID(mSubjectID);
-		sf::View view(transform.transformPoint(subject.getPosition()), mSize);
-		return view;
+		if (mEntityManager.hasEntity(mSubjectID))
+		{
+			BaseGameEntity& subject = mEntityManager.getEntityFromID(mSubjectID);
+			sf::View view(transform.transformPoint(subject.getPosition()), mSize);
+			return view;
+		}
+		else
+		{
+			return sf::View();
+		}
 	}
 }

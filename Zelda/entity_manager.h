@@ -15,6 +15,7 @@ namespace te
 
 		void registerEntity(BaseGameEntity&);
 		BaseGameEntity& getEntityFromID(int id) const;
+		bool hasEntity(int id) const;
 		void removeEntity(BaseGameEntity&);
 	private:
 		EntityManager();

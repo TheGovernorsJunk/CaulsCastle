@@ -28,8 +28,11 @@ namespace te
 		Telegram telegram{ delay,sender,receiver,msg,extraInfo };
 		if (delay <= 0.0)
 		{
-			auto& pReceiver = mEntityManager.getEntityFromID(receiver);
-			discharge(pReceiver, telegram);
+			if (mEntityManager.hasEntity(receiver))
+			{
+				auto& pReceiver = mEntityManager.getEntityFromID(receiver);
+				discharge(pReceiver, telegram);
+			}
 		}
 		else
 		{
@@ -41,7 +44,7 @@ namespace te
 	{
 		std::for_each(mPriorityQ.begin(), mPriorityQ.end(), [this, &dt](Telegram& telegram) {
 			telegram.dispatchTime -= dt.asSeconds();
-			if (telegram.dispatchTime < 0)
+			if (telegram.dispatchTime < 0 && mEntityManager.hasEntity(telegram.receiver))
 			{
 				auto& pReceiver = mEntityManager.getEntityFromID(telegram.receiver);
 				discharge(pReceiver, telegram);
