@@ -8,16 +8,18 @@
 namespace te
 {
 	class BaseGameEntity;
+	class EntityManager;
 
 	class Camera
 	{
 	public:
-		Camera(const BaseGameEntity& pSubject, sf::Vector2f size);
+		Camera(const EntityManager& em, int subjectID, sf::Vector2f size);
 
 		sf::View getView(const sf::Transform& transform = sf::Transform::Identity) const;
 
 	private:
-		const BaseGameEntity& mSubject;
+		const EntityManager& mEntityManager;
+		int mSubjectID;
 		sf::Vector2f mSize;
 	};
 }

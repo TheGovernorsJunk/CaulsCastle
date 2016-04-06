@@ -15,7 +15,7 @@ namespace te
 	ZeldaGame::ZeldaGame(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
 		: Game()
 		, mTextureManager(textureManager)
-		, mpPlayer(nullptr)
+		, mPlayerID(-1)
 		, mpCamera(nullptr)
 	{
 		loadMap(fileName, unitToTileX, unitToTileY);
@@ -45,11 +45,12 @@ namespace te
 
 		sf::Transform transform;
 		transform.scale((float)unitToTileX / tmx.getTileWidth(), (float)unitToTileY / tmx.getTileHeight());
-		auto rpPlayer = Player::make(*this, *pPlayer, transform);
-		mpPlayer = rpPlayer.get();
-		getSceneGraph().attachNode(std::move(rpPlayer));
 
-		mpCamera = std::make_unique<Camera>(*mpPlayer, sf::Vector2f(16 * 24.f, 9 * 24.f));
+		auto upPlayer = Player::make(*this, *pPlayer, transform);
+		mPlayerID = upPlayer->getID();
+		getSceneGraph().attachNode(std::move(upPlayer));
+
+		mpCamera = std::make_unique<Camera>(getEntityManager(), mPlayerID, sf::Vector2f(16 * 24.f, 9 * 24.f));
 	}
 
 	void ZeldaGame::processInput(const sf::Event& evt)
@@ -62,17 +63,17 @@ namespace te
 			bool d = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
 
 			float yAxis = (w && s || !(w || s)) ? 0 : (w ? -1.f : 1.f);
-			getMessageDispatcher().dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, &yAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::Y, &yAxis);
 			float xAxis = (a && d || !(a || d)) ? 0 : (a ? -1.f : 1.f);
-			getMessageDispatcher().dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, &xAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::X, &xAxis);
 
 		}
 		else
 		{
 			float xAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.f;
-			getMessageDispatcher().dispatchMessage(0.0, -1, mpPlayer->getID(), Player::X, (void*)&xAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::X, (void*)&xAxis);
 			float yAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.f;
-			getMessageDispatcher().dispatchMessage(0.0, -1, mpPlayer->getID(), Player::Y, (void*)&yAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::Y, (void*)&yAxis);
 		}
 	}
 
@@ -80,7 +81,6 @@ namespace te
 	{
 		getMessageDispatcher().dispatchDelayedMessages(dt);
 		getPhysicsWorld().Step(dt.asSeconds(), 8, 3);
-		//mpPlayer->update(dt);
 	}
 
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -88,6 +88,5 @@ namespace te
 		states.transform.scale(16.f, 16.f);
 		target.setView(mpCamera->getView(states.transform));
 		Game::draw(target, states);
-		//target.draw(*mpPlayer, states);
 	}
 }
