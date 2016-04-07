@@ -51,8 +51,8 @@ namespace te
 
 	void Game::update(const sf::Time& dt)
 	{
-		getMessageDispatcher().dispatchDelayedMessages(dt);
-		getPhysicsWorld().Step(dt.asSeconds(), 8, 3);
+		mpMessageDispatcher->dispatchDelayedMessages(dt);
+		mpWorld->Step(dt.asSeconds(), 8, 3);
 		mpSceneGraph->update(dt);
 	}
 
