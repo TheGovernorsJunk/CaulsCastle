@@ -4,6 +4,7 @@
 #include "game.h"
 
 #include <algorithm>
+#include <limits>
 
 namespace te
 {
@@ -36,6 +37,8 @@ namespace te
 		, mCellSpaceNeighborhoodRange(1)
 		, mpCellSpacePartition(nullptr)
 	{
+		setDrawOrder(std::numeric_limits<int>::max());
+
 		std::vector<std::vector<sf::VertexArray>> layers;
 		tmx.makeVertices(textureManager, mTextures, layers, widthUnitsPerTile, heightUnitsPerTile);
 		for (auto it = layers.begin(); it != layers.end(); ++it)
