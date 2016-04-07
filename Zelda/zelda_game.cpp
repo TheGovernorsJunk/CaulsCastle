@@ -77,12 +77,6 @@ namespace te
 		}
 	}
 
-	void ZeldaGame::update(const sf::Time& dt)
-	{
-		getMessageDispatcher().dispatchDelayedMessages(dt);
-		getPhysicsWorld().Step(dt.asSeconds(), 8, 3);
-	}
-
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform.scale(16.f, 16.f);

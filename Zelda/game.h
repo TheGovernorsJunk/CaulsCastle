@@ -24,7 +24,7 @@ namespace te
 		TileMap& getMap();
 
 		virtual void processInput(const sf::Event& evt) = 0;
-		virtual void update(const sf::Time& dt) = 0;
+		virtual void update(const sf::Time& dt);
 
 		EntityManager& getEntityManager();
 		MessageDispatcher& getMessageDispatcher();

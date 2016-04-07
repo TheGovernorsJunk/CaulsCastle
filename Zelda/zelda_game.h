@@ -17,7 +17,6 @@ namespace te
 		static std::unique_ptr<ZeldaGame> make(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY);
 
 		void processInput(const sf::Event& evt);
-		void update(const sf::Time& dt);
 
 	private:
 		ZeldaGame(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY);

@@ -38,6 +38,8 @@ namespace te
 		std::unique_ptr<SceneNode> detachNode(const SceneNode& child);
 
 		void attachRigidBody(const b2BodyType&);
+
+		void update(const sf::Time& dt);
 	protected:
 		SceneNode(Game& world, const b2BodyDef&);
 		SceneNode(Game& world, sf::Vector2f position);
@@ -55,6 +57,8 @@ namespace te
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
 		void concatPendingDraws(std::vector<PendingDraw>& outQueue) const;
+
+		virtual void onUpdate(const sf::Time& dt);
 
 		Game& mWorld;
 		SceneNode* mpParent;

@@ -10,7 +10,7 @@ namespace te
 		, mSteering(*this)
 	{}
 
-	void ZeldaEntity::update(const sf::Time& dt)
+	void ZeldaEntity::onUpdate(const sf::Time& dt)
 	{
 		mBrain.process(dt);
 		updateOnForce(dt, mSteering.calculate());
@@ -33,7 +33,7 @@ namespace te
 		return mSteering;
 	}
 
-	void ZeldaEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	void ZeldaEntity::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getWorldTransform();
 		target.draw(sf::CircleShape(getBoundingRadius()), states);

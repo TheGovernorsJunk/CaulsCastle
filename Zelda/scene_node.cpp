@@ -148,6 +148,12 @@ namespace te
 		}
 	}
 
+	void SceneNode::update(const sf::Time& dt)
+	{
+		onUpdate(dt);
+		for (auto& child : mChildren) child->update(dt);
+	}
+
 	b2Body& SceneNode::getBody()
 	{
 		if (mpBody)
@@ -193,6 +199,8 @@ namespace te
 		});
 		for (auto& child : mChildren) child->concatPendingDraws(outQueue);
 	}
+
+	void SceneNode::onUpdate(const sf::Time& dt) {}
 
 	b2BodyDef createBodyDef(sf::Vector2f position, b2BodyType type)
 	{

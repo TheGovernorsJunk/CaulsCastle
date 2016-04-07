@@ -16,13 +16,13 @@ namespace te
 	public:
 		ZeldaEntity(Game& pGame);
 
-		void update(const sf::Time& dt);
 		PathPlanner& getPathPlanner();
 		GoalThink& getBrain();
 		SteeringBehaviors& getSteering();
 
 	private:
-		void draw(sf::RenderTarget&, sf::RenderStates) const;
+		void onDraw(sf::RenderTarget&, sf::RenderStates) const;
+		void onUpdate(const sf::Time& dt);
 
 		PathPlanner mPathPlanner;
 

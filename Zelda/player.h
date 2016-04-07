@@ -26,11 +26,11 @@ namespace te
 		static std::unique_ptr<Player> make(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform = sf::Transform::Identity);
 
 		bool handleMessage(const Telegram& msg);
-		void update(const sf::Time& dt);
 
 	private:
 		Player(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform);
 
+		void onUpdate(const sf::Time& dt);
 		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		float mRadius;

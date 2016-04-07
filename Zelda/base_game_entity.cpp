@@ -37,8 +37,6 @@ namespace te
 		return mBoundingRadius;
 	}
 
-	void BaseGameEntity::update(const sf::Time& dt) {}
-
 	bool BaseGameEntity::handleMessage(const Telegram& msg)
 	{
 		return false;
@@ -58,6 +56,4 @@ namespace te
 	{
 		return mWorld;
 	}
-
-	void BaseGameEntity::onDraw(sf::RenderTarget&, sf::RenderStates) const {}
 }

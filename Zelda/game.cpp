@@ -49,6 +49,13 @@ namespace te
 		return *mpTileMap;
 	}
 
+	void Game::update(const sf::Time& dt)
+	{
+		getMessageDispatcher().dispatchDelayedMessages(dt);
+		getPhysicsWorld().Step(dt.asSeconds(), 8, 3);
+		mpSceneGraph->update(dt);
+	}
+
 	EntityManager& Game::getEntityManager()
 	{
 		return *mpEntityManager;

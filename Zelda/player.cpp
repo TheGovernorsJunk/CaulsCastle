@@ -60,7 +60,11 @@ namespace te
 		return result;
 	}
 
-	void Player::update(const sf::Time& dt) {}
+	void Player::onUpdate(const sf::Time& dt)
+	{
+		sf::Vector2f worldPosition = getWorldTransform().transformPoint({ 0, 0 });
+		std::cout << "Player position: (" << worldPosition.x << ", " << worldPosition.y << ")" << std::endl;
+	}
 
 	void Player::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
