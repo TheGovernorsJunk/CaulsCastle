@@ -11,25 +11,33 @@ namespace te
 
 	SceneNode::~SceneNode() {}
 
-	std::unique_ptr<SceneNode> SceneNode::make(Game& world, const b2BodyDef& bodyDef)
+	std::unique_ptr<SceneNode> SceneNode::make(Game& world, const b2BodyDef* pBodyDef)
 	{
-		return std::unique_ptr<SceneNode>(new SceneNode(world, bodyDef));
+		return std::unique_ptr<SceneNode>(new SceneNode(world, pBodyDef));
 	}
 
-	SceneNode::SceneNode(Game& world, const b2BodyDef& bodyDef)
+	SceneNode::SceneNode(Game& world, const b2BodyDef* bodyDef)
 		: mWorld(world)
 		, mpParent(nullptr)
-		, mpBody(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); })
+		, mLocalTransformable()
+		, mpBody(bodyDef ? std::unique_ptr<b2Body, std::function<void(b2Body*)>>(mWorld.getPhysicsWorld().CreateBody(bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); }) : nullptr)
 		, mChildren()
 		, mZ(0)
 	{
-		if (!mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
+		if (bodyDef && !mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
 	}
 
 	void SceneNode::setPosition(sf::Vector2f position)
 	{
-		position = getParentTransform() * position;
-		mpBody->SetTransform(b2Vec2(position.x, position.y), mpBody->GetAngle());
+		if (mpBody)
+		{
+			position = getParentTransform() * position;
+			mpBody->SetTransform(b2Vec2(position.x, position.y), mpBody->GetAngle());
+		}
+		else
+		{
+			mLocalTransformable.setPosition(position);
+		}
 	}
 
 	void SceneNode::setPosition(float x, float y)
@@ -37,9 +45,9 @@ namespace te
 		setPosition(sf::Vector2f(x, y));
 	}
 
-	void SceneNode::move(sf::Vector2f move)
+	void SceneNode::move(sf::Vector2f offset)
 	{
-		setPosition(getPosition() + move);
+		setPosition(getPosition() + offset);
 	}
 
 	void SceneNode::move(float x, float y)
@@ -49,8 +57,15 @@ namespace te
 
 	sf::Vector2f SceneNode::getPosition() const
 	{
-		b2Vec2 worldPosition = mpBody->GetPosition();
-		return getParentTransform().getInverse() * sf::Vector2f(worldPosition.x, worldPosition.y);
+		if (mpBody)
+		{
+			b2Vec2 worldPosition = mpBody->GetPosition();
+			return getParentTransform().getInverse() * sf::Vector2f(worldPosition.x, worldPosition.y);
+		}
+		else
+		{
+			return mLocalTransformable.getPosition();
+		}
 	}
 
 	void SceneNode::setDrawOrder(int z)
@@ -65,13 +80,20 @@ namespace te
 
 	sf::Transform SceneNode::getWorldTransform() const
 	{
-		sf::Transform transform = sf::Transform::Identity;
+		if (mpBody)
+		{
+			sf::Transform transform = sf::Transform::Identity;
 
-		b2Vec2 position = mpBody->GetPosition();
-		transform.translate(sf::Vector2f(position.x, position.y));
-		transform.rotate(mpBody->GetAngle() * 180.f / PI, sf::Vector2f(position.x, position.y));
+			b2Vec2 position = mpBody->GetPosition();
+			transform.translate(sf::Vector2f(position.x, position.y));
+			transform.rotate(mpBody->GetAngle() * 180.f / PI, sf::Vector2f(position.x, position.y));
 
-		return transform;
+			return transform;
+		}
+		else
+		{
+			return getParentTransform() * mLocalTransformable.getTransform();
+		}
 	}
 
 	void SceneNode::attachNode(std::unique_ptr<SceneNode>&& child)
@@ -92,6 +114,22 @@ namespace te
 		result->mpParent = nullptr;
 		mChildren.erase(found);
 		return result;
+	}
+
+	void SceneNode::attachRigidBody(const b2BodyType& bodyType)
+	{
+		if (!mpBody)
+		{
+			b2BodyDef bodyDef;
+			bodyDef.type = bodyType;
+			sf::Vector2f worldPosition = getWorldTransform().transformPoint({ 0, 0 });
+			bodyDef.position = { worldPosition.x, worldPosition.y };
+			mpBody = { mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); } };
+		}
+		else
+		{
+			throw std::runtime_error("Node already has rigid body.");
+		}
 	}
 
 	b2Body& SceneNode::getBody()

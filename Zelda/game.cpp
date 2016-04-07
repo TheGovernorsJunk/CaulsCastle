@@ -13,7 +13,7 @@ namespace te
 		, mpWorld(new b2World(b2Vec2(0, 0)))
 		, mTileMapID(-1)
 		, mpTileMap(nullptr)
-		, mpSceneGraph(SceneNode::make(*this, b2BodyDef()))
+		, mpSceneGraph(SceneNode::make(*this, &b2BodyDef()))
 	{}
 
 	Game::~Game() {}

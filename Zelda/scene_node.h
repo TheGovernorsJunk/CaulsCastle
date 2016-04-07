@@ -18,7 +18,7 @@ namespace te
 	class SceneNode : public sf::Drawable
 	{
 	public:
-		static std::unique_ptr<SceneNode> make(Game& world, const b2BodyDef&);
+		static std::unique_ptr<SceneNode> make(Game& world, const b2BodyDef*);
 
 		virtual ~SceneNode();
 
@@ -35,8 +35,10 @@ namespace te
 
 		void attachNode(std::unique_ptr<SceneNode>&& child);
 		std::unique_ptr<SceneNode> detachNode(const SceneNode& child);
+
+		void attachRigidBody(const b2BodyType&);
 	protected:
-		SceneNode(Game& world, const b2BodyDef&);
+		SceneNode(Game& world, const b2BodyDef*);
 
 		b2Body& getBody();
 		const b2Body& getBody() const;
@@ -54,6 +56,7 @@ namespace te
 
 		Game& mWorld;
 		SceneNode* mpParent;
+		sf::Transformable mLocalTransformable;
 		std::unique_ptr<b2Body, std::function<void(b2Body*)>> mpBody;
 		std::vector<std::unique_ptr<SceneNode>> mChildren;
 		int mZ;
