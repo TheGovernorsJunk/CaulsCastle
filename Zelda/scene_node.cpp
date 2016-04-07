@@ -11,20 +11,36 @@ namespace te
 
 	SceneNode::~SceneNode() {}
 
-	std::unique_ptr<SceneNode> SceneNode::make(Game& world, const b2BodyDef* pBodyDef)
+	std::unique_ptr<SceneNode> SceneNode::make(Game& world, const b2BodyDef& bodyDef)
 	{
-		return std::unique_ptr<SceneNode>(new SceneNode(world, pBodyDef));
+		return std::unique_ptr<SceneNode>(new SceneNode(world, bodyDef));
 	}
 
-	SceneNode::SceneNode(Game& world, const b2BodyDef* bodyDef)
+	std::unique_ptr<SceneNode> SceneNode::make(Game& world, sf::Vector2f position)
+	{
+		return std::unique_ptr<SceneNode>(new SceneNode(world, position));
+	}
+
+	SceneNode::SceneNode(Game& world, const b2BodyDef& bodyDef)
 		: mWorld(world)
 		, mpParent(nullptr)
 		, mLocalTransformable()
-		, mpBody(bodyDef ? std::unique_ptr<b2Body, std::function<void(b2Body*)>>(mWorld.getPhysicsWorld().CreateBody(bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); }) : nullptr)
+		, mpBody(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); })
 		, mChildren()
 		, mZ(0)
 	{
-		if (bodyDef && !mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
+		if (!mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
+	}
+
+	SceneNode::SceneNode(Game& world, sf::Vector2f position)
+		: mWorld(world)
+		, mpParent(nullptr)
+		, mLocalTransformable()
+		, mpBody(nullptr)
+		, mChildren()
+		, mZ(0)
+	{
+		mLocalTransformable.setPosition(position);
 	}
 
 	void SceneNode::setPosition(sf::Vector2f position)

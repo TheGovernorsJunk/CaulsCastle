@@ -25,7 +25,8 @@ namespace te
 	public:
 		const static int UNREGISTERED_ID = 0;
 
-		BaseGameEntity(Game& pWorld, sf::Vector2f position = { 0, 0 }, b2BodyType = b2_dynamicBody);
+		BaseGameEntity(Game& pWorld, sf::Vector2f position);
+		BaseGameEntity(Game& pWorld, const b2BodyDef&);
 		virtual ~BaseGameEntity();
 
 		void setBoundingRadius(float radius);

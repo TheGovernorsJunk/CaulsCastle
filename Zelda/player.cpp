@@ -15,7 +15,7 @@ namespace te
 		return std::unique_ptr<Player>(new Player(world, playerObject, transform));
 	}
 	Player::Player(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform)
-		: BaseGameEntity(world, transform.transformPoint(sf::Vector2f(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f)))
+		: BaseGameEntity(world, createBodyDef(transform.transformPoint(sf::Vector2f(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f)), b2_dynamicBody))
 		, mRadius(1)
 		, mpFixture(nullptr)
 	{

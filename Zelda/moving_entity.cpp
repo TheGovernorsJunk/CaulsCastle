@@ -4,7 +4,7 @@
 namespace te
 {
 	MovingEntity::MovingEntity(Game& world, float maxSpeed, float maxForce, float maxTurnRate)
-		: BaseGameEntity(world)
+		: BaseGameEntity(world, { 0, 0 })
 		, mMaxSpeed(maxSpeed)
 		, mMaxForce(maxForce)
 		, mMaxTurnRate(maxTurnRate)

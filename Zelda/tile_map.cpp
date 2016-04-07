@@ -27,7 +27,7 @@ namespace te
 	}
 
 	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
-		: BaseGameEntity(world, { 0, 0 }, b2_staticBody)
+		: BaseGameEntity(world, b2BodyDef())
 		, mWorld(world)
 		, mTextures()
 		, mpCollider(nullptr)
@@ -139,7 +139,7 @@ namespace te
 	}
 
 	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<std::shared_ptr<sf::Texture>>& textures)
-		: SceneNode(world, &b2BodyDef())
+		: SceneNode(world, b2BodyDef())
 		, mVertexArrays(std::move(vas))
 		, mTextures(&textures)
 	{}

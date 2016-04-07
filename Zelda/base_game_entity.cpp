@@ -4,8 +4,17 @@
 
 namespace te
 {
-	BaseGameEntity::BaseGameEntity(Game& world, sf::Vector2f position, b2BodyType type)
-		: SceneNode(world, &createBodyDef(position, type))
+	BaseGameEntity::BaseGameEntity(Game& world, sf::Vector2f position)
+		: SceneNode(world, position)
+		, mID(UNREGISTERED_ID)
+		, mBoundingRadius(1.f)
+		, mWorld(world)
+	{
+		world.getEntityManager().registerEntity(*this);
+	}
+
+	BaseGameEntity::BaseGameEntity(Game& world, const b2BodyDef& bodyDef)
+		: SceneNode(world, bodyDef)
 		, mID(UNREGISTERED_ID)
 		, mBoundingRadius(1.f)
 		, mWorld(world)
