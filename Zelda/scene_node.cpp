@@ -150,12 +150,20 @@ namespace te
 
 	b2Body& SceneNode::getBody()
 	{
-		return *mpBody;
+		if (mpBody)
+		{
+			return *mpBody;
+		}
+		throw std::runtime_error("Rigid body not set.");
 	}
 
 	const b2Body& SceneNode::getBody() const
 	{
-		return *mpBody;
+		if (mpBody)
+		{
+			return *mpBody;
+		}
+		throw std::runtime_error("Rigid body not set.");
 	}
 
 	sf::Transform SceneNode::getParentTransform() const
