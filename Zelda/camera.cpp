@@ -15,7 +15,7 @@ namespace te
 		if (mEntityManager.hasEntity(mSubjectID))
 		{
 			BaseGameEntity& subject = mEntityManager.getEntityFromID(mSubjectID);
-			sf::View view(transform.transformPoint(subject.getPosition()), mSize);
+			sf::View view(transform.transformPoint(subject.getWorldTransform().transformPoint(0, 0)), mSize);
 			return view;
 		}
 		else
