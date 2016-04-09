@@ -150,6 +150,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="regulator.cpp" />
     <ClCompile Include="steering_behaviors.cpp" />
+    <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tmx.cpp" />
@@ -201,9 +202,11 @@
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
     <ClInclude Include="steering_behaviors.h" />
+    <ClInclude Include="texture_atlas.h" />
     <ClInclude Include="texture_manager.h" />
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="tmx.h" />
+    <ClInclude Include="typedefs.h" />
     <ClInclude Include="vector_ops.h" />
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />

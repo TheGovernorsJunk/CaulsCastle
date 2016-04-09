@@ -117,6 +117,9 @@
     <ClCompile Include="scene_node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="texture_atlas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -260,6 +263,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scene_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_atlas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="typedefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
