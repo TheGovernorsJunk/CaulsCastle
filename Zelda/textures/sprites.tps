@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.1.0</string>
         <key>fileName</key>
-        <string>C:/Users/Tanner/Desktop/sprites/sprites.tps</string>
+        <string>C:/Users/Tanner/Projects/Zelda/Zelda/textures/sprites.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -195,6 +195,7 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">inigo_en_garde_1.png</key>
+            <key type="filename">inigo_en_garde_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -203,6 +204,7 @@
         <key>fileList</key>
         <array>
             <filename>inigo_en_garde_1.png</filename>
+            <filename>inigo_en_garde_2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
