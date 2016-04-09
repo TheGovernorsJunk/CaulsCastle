@@ -1,6 +1,8 @@
 #ifndef TE_TEXTURE_MANAGER_H
 #define TE_TEXTURE_MANAGER_H
 
+#include "typedefs.h"
+
 #include <SFML/Graphics.hpp>
 
 #include <memory>
@@ -13,14 +15,17 @@ namespace te
 	public:
 		static std::unique_ptr<TextureManager> make();
 
-		std::shared_ptr<sf::Texture> get(const std::string& file);
+		static TextureID getID(const std::string& filename);
+
+		TextureID load(const std::string& filename);
+		std::shared_ptr<sf::Texture> get(TextureID file) const;
 	private:
 		TextureManager();
 
 		TextureManager(const TextureManager&) = delete;
 		TextureManager& operator=(const TextureManager&) = delete;
 
-		std::map<const std::string, std::shared_ptr<sf::Texture>> mTextures;
+		std::map<TextureID, std::shared_ptr<sf::Texture>> mTextures;
 	};
 }
 

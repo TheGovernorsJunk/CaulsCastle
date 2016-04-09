@@ -9,22 +9,39 @@ namespace te
 
 	TextureManager::TextureManager() {}
 
-	std::shared_ptr<sf::Texture> TextureManager::get(const std::string& file)
+	static const std::hash<std::string> hashFn;
+	TextureID TextureManager::getID(const std::string& filename)
+	{
+		return hashFn(filename);
+	}
+
+	TextureID TextureManager::load(const std::string& filename)
+	{
+		TextureID id = getID(filename);
+		auto iter = mTextures.find(id);
+		if (iter == mTextures.end())
+		{
+			auto texture = std::make_shared<sf::Texture>();
+			if (!texture->loadFromFile(filename))
+			{
+				throw std::runtime_error("Texture file not found.");
+			}
+			mTextures.insert({ id, texture });
+			return id;
+		}
+		else
+		{
+			return iter->first;
+		}
+	}
+
+	std::shared_ptr<sf::Texture> TextureManager::get(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
 		if (iter != mTextures.end())
 		{
 			return iter->second;
 		}
-		else
-		{
-			auto texture = std::make_shared<sf::Texture>();
-			if (!texture->loadFromFile(file))
-			{
-				throw std::runtime_error("File not found.");
-			}
-			mTextures.insert(std::make_pair(file, texture));
-			return texture;
-		}
+		throw std::runtime_error("No texture for given ID.");
 	}
 }
