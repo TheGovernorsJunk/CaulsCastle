@@ -22,6 +22,7 @@ namespace te
 
 	void SpriteRenderer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
+		states.transform *= getTransform();
 		if (mpTexture)
 		{
 			target.draw(mSprite, states);

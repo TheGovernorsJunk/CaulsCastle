@@ -11,7 +11,7 @@ namespace te
 {
 	class BaseGameEntity;
 
-	class SpriteRenderer : public sf::Drawable
+	class SpriteRenderer : public sf::Drawable, public sf::Transformable
 	{
 	public:
 		static std::unique_ptr<SpriteRenderer> make(BaseGameEntity&);

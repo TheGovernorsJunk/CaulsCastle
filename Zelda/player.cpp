@@ -36,7 +36,10 @@ namespace te
 		});
 
 		const TextureAtlas& atlas = world.getApplication().getAtlas(TextureManager::getID("textures/inigo_spritesheet.png"));
-		mpSpriteRenderer->setSprite(world.getApplication().getTextureManager().get(TextureManager::getID("textures/inigo_spritesheet.png")), atlas.getSprite(TextureManager::getID("inigo_en_garde_1.png")));
+		TextureAtlas::Sprite spriteInfo = atlas.getSprite(TextureManager::getID("inigo_en_garde_1.png"));
+		mpSpriteRenderer->setSprite(world.getApplication().getTextureManager().get(TextureManager::getID("textures/inigo_spritesheet.png")), spriteInfo);
+		mpSpriteRenderer->scale(1.f / spriteInfo.w, 1.f / spriteInfo.h);
+		mpSpriteRenderer->setOrigin(spriteInfo.w / 2.f, spriteInfo.h / 2.f);
 	}
 
 	bool Player::handleMessage(const Telegram& msg)
@@ -76,21 +79,21 @@ namespace te
 	void Player::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getWorldTransform();
-		sf::CircleShape shape(mRadius);
-		shape.setOrigin(mRadius, mRadius);
-		shape.setFillColor(sf::Color::Blue);
-		target.draw(shape, states);
+		//sf::CircleShape shape(mRadius);
+		//shape.setOrigin(mRadius, mRadius);
+		//shape.setFillColor(sf::Color::Blue);
+		//target.draw(shape, states);
 
 		target.draw(*mpSpriteRenderer, states);
 
 		// Draw collider
-		b2AABB aabb = mpFixture->GetAABB(0);
-		sf::RectangleShape rectShape(sf::Vector2f(aabb.GetExtents().x * 2, aabb.GetExtents().y * 2));
-		rectShape.setOrigin(rectShape.getSize().x / 2.f, rectShape.getSize().y / 2.f);
-		sf::Color color = sf::Color::Red;
-		color.a = 128;
-		rectShape.setFillColor(color);
+		//b2AABB aabb = mpFixture->GetAABB(0);
+		//sf::RectangleShape rectShape(sf::Vector2f(aabb.GetExtents().x * 2, aabb.GetExtents().y * 2));
+		//rectShape.setOrigin(rectShape.getSize().x / 2.f, rectShape.getSize().y / 2.f);
+		//sf::Color color = sf::Color::Red;
+		//color.a = 128;
+		//rectShape.setFillColor(color);
 
-		target.draw(rectShape, states);
+		//target.draw(rectShape, states);
 	}
 }
