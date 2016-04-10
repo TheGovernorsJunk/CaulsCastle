@@ -214,6 +214,9 @@
     <ClInclude Include="zelda_entity.h" />
     <ClInclude Include="zelda_game.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="textures\inigo_spritesheet.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
