@@ -7,13 +7,13 @@
 
 namespace te
 {
-	std::unique_ptr<ZeldaGame> ZeldaGame::make(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
+	std::unique_ptr<ZeldaGame> ZeldaGame::make(Application& app, TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
 	{
-		return std::unique_ptr<ZeldaGame>(new ZeldaGame(textureManager, fileName, unitToTileX, unitToTileY));
+		return std::unique_ptr<ZeldaGame>(new ZeldaGame(app, textureManager, fileName, unitToTileX, unitToTileY));
 	}
 
-	ZeldaGame::ZeldaGame(TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
-		: Game()
+	ZeldaGame::ZeldaGame(Application& app, TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
+		: Game(app)
 		, mTextureManager(textureManager)
 		, mPlayerID(-1)
 		, mpCamera(nullptr)

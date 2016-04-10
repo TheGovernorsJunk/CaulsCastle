@@ -9,10 +9,12 @@ class b2World;
 
 namespace te
 {
+	class Application;
 	class TileMap;
 	class EntityManager;
 	class MessageDispatcher;
 	class SceneNode;
+	class TextureManager;
 
 	class Game : public sf::Transformable, public sf::Drawable
 	{
@@ -26,14 +28,16 @@ namespace te
 		virtual void processInput(const sf::Event& evt) = 0;
 		virtual void update(const sf::Time& dt);
 
-		EntityManager& getEntityManager();
-		MessageDispatcher& getMessageDispatcher();
+		Application& getApplication();
+
+		EntityManager& getEntityManager() const;
+		MessageDispatcher& getMessageDispatcher() const;
 
 		b2World& getPhysicsWorld();
 		const b2World& getPhysicsWorld() const;
 
 	protected:
-		Game();
+		Game(Application& app);
 
 		void setTileMap(std::unique_ptr<TileMap>&& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -42,6 +46,8 @@ namespace te
 
 	private:
 		void throwIfNoMap() const;
+
+		Application& mApp;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;

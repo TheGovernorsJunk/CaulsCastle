@@ -7,8 +7,9 @@
 
 namespace te
 {
-	Game::Game()
-		: mpEntityManager(EntityManager::make())
+	Game::Game(Application& app)
+		: mApp(app)
+		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
 		, mTileMapID(-1)
@@ -56,12 +57,17 @@ namespace te
 		mpSceneGraph->update(dt);
 	}
 
-	EntityManager& Game::getEntityManager()
+	Application& Game::getApplication()
+	{
+		return mApp;
+	}
+
+	EntityManager& Game::getEntityManager() const
 	{
 		return *mpEntityManager;
 	}
 
-	MessageDispatcher& Game::getMessageDispatcher()
+	MessageDispatcher& Game::getMessageDispatcher() const
 	{
 		return *mpMessageDispatcher;
 	}

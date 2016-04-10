@@ -1,7 +1,10 @@
 #ifndef TE_APPLICATION_H
 #define TE_APPLICATION_H
 
+#include "typedefs.h"
+
 #include <memory>
+#include <map>
 
 namespace sf
 {
@@ -13,22 +16,32 @@ namespace sf
 
 namespace te
 {
+	class TextureManager;
+	class TextureAtlas;
 	class Game;
 
 	class Application
 	{
 	public:
+		typedef std::map<TextureID, std::unique_ptr<TextureAtlas>> AtlasMap;
+
+		Application();
 		virtual ~Application();
+
+		TextureManager& getTextureManager() const;
+		const TextureAtlas& getAtlas(TextureID) const;
 
 		void run(int fps = 60);
 	private:
 		virtual std::unique_ptr<sf::RenderWindow> makeWindow() const = 0;
-		virtual std::unique_ptr<Game> makeGame() const = 0;
+		virtual std::unique_ptr<Game> makeGame() = 0;
 
 		virtual void processInput(const sf::Event& evt, Game& game);
 		virtual void update(const sf::Time& dt, Game& game);
 		virtual void render(sf::RenderTarget& target, Game& game);
 
+		std::unique_ptr<TextureManager> mpTextureManager;
+		AtlasMap mTextureAtlasMap;
 		std::unique_ptr<Game> mpGame;
 	};
 }

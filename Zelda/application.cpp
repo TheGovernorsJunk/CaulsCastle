@@ -1,10 +1,20 @@
 #include "application.h"
 #include "game.h"
+#include "texture_manager.h"
+#include "texture_atlas.h"
 
 #include <SFML/Graphics.hpp>
 
 namespace te
 {
+	Application::Application()
+		: mpTextureManager(TextureManager::make())
+		, mTextureAtlasMap()
+	{
+		auto pAtlas = TextureAtlas::make("textures", "inigo_spritesheet.xml", mpTextureManager.get());
+		TextureID id = pAtlas->getTextureID();
+		mTextureAtlasMap.insert({ id, std::move(pAtlas) });
+	}
 	Application::~Application() {}
 
 	void Application::run(int fps)
@@ -46,6 +56,21 @@ namespace te
 			render(*window, *pGame);
 			window->display();
 		}
+	}
+
+	TextureManager& Application::getTextureManager() const
+	{
+		return *mpTextureManager;
+	}
+
+	const TextureAtlas& Application::getAtlas(TextureID id) const
+	{
+		auto it = mTextureAtlasMap.find(id);
+		if (it != mTextureAtlasMap.end())
+		{
+			return *it->second;
+		}
+		throw std::runtime_error("No atlas for given ID.");
 	}
 
 	void Application::processInput(const sf::Event& evt, Game& game)
