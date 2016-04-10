@@ -10,6 +10,7 @@
 namespace te
 {
 	class ZeldaGame;
+	class SpriteRenderer;
 
 	class Player : public BaseGameEntity
 	{
@@ -35,6 +36,7 @@ namespace te
 
 		float mRadius;
 		std::unique_ptr<b2Fixture, std::function<void(b2Fixture*)>> mpFixture;
+		std::unique_ptr<SpriteRenderer> mpSpriteRenderer;
 	};
 }
 

@@ -4,6 +4,9 @@
 #include "game.h"
 #include "tile_map.h"
 #include "zelda_game.h"
+#include "sprite_renderer.h"
+#include "application.h"
+#include "texture_manager.h"
 
 #include <cassert>
 #include <iostream>
@@ -18,6 +21,7 @@ namespace te
 		: BaseGameEntity(world, createBodyDef(transform.transformPoint(sf::Vector2f(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f)), b2_dynamicBody))
 		, mRadius(1)
 		, mpFixture(nullptr)
+		, mpSpriteRenderer(SpriteRenderer::make(*this))
 	{
 		assert(playerObject.name == "Player");
 
@@ -30,6 +34,9 @@ namespace te
 		mpFixture = std::unique_ptr<b2Fixture, std::function<void(b2Fixture*)>>(getBody().CreateFixture(&collider, 0), [this](b2Fixture* pFixture) {
 			getBody().DestroyFixture(pFixture);
 		});
+
+		const TextureAtlas& atlas = world.getApplication().getAtlas(TextureManager::getID("textures/inigo_spritesheet.png"));
+		mpSpriteRenderer->setSprite(world.getApplication().getTextureManager().get(TextureManager::getID("textures/inigo_spritesheet.png")), atlas.getSprite(TextureManager::getID("inigo_en_garde_1.png")));
 	}
 
 	bool Player::handleMessage(const Telegram& msg)
@@ -73,6 +80,8 @@ namespace te
 		shape.setOrigin(mRadius, mRadius);
 		shape.setFillColor(sf::Color::Blue);
 		target.draw(shape, states);
+
+		target.draw(*mpSpriteRenderer, states);
 
 		// Draw collider
 		b2AABB aabb = mpFixture->GetAABB(0);
