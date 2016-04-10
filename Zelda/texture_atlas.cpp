@@ -6,6 +6,12 @@
 
 namespace te
 {
+
+	std::unique_ptr<TextureAtlas> TextureAtlas::make(const std::string& dir, const std::string& filename, TextureManager* pTM)
+	{
+		return std::unique_ptr<TextureAtlas>(new TextureAtlas(dir, filename, pTM));
+	}
+
 	TextureAtlas::TextureAtlas(const std::string& dir, const std::string& filename, TextureManager* pTM)
 		: mWidth(0)
 		, mHeight(0)
