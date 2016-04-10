@@ -3,6 +3,7 @@
 
 #include "application.h"
 #include "texture_manager.h"
+#include "texture_atlas.h"
 
 #include <string>
 
@@ -16,11 +17,8 @@ namespace te
 		std::unique_ptr<sf::RenderWindow> makeWindow() const;
 		std::unique_ptr<Game> makeGame() const;
 
-		//void processInput(const sf::Event& evt);
-		//void update(const sf::Time& dt);
-		//void render(sf::RenderTarget& target);
-
-		std::shared_ptr<TextureManager> mTextureManager;
+		std::unique_ptr<TextureManager> mpTextureManager;
+		std::map<TextureID, TextureAtlas> mTextureAtlasMap;
 		std::string mFilename;
 	};
 }

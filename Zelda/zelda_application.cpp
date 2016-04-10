@@ -6,9 +6,13 @@
 namespace te
 {
 	ZeldaApplication::ZeldaApplication(const std::string& filename)
-		: mTextureManager(TextureManager::make())
+		: mpTextureManager(TextureManager::make())
+		, mTextureAtlasMap()
 		, mFilename(filename)
 	{
+		TextureAtlas atlas("textures", "inigo_spritesheet.xml", mpTextureManager.get());
+		TextureID id = atlas.getTextureID();
+		mTextureAtlasMap.insert({ id, atlas });
 	}
 
 	std::unique_ptr<sf::RenderWindow> ZeldaApplication::makeWindow() const
@@ -18,7 +22,7 @@ namespace te
 
 	std::unique_ptr<Game> ZeldaApplication::makeGame() const
 	{
-		auto pGame = ZeldaGame::make(*mTextureManager, mFilename, 1, 1);
+		auto pGame = ZeldaGame::make(*mpTextureManager, mFilename, 1, 1);
 		return pGame;
 	}
 }
