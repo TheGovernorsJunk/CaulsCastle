@@ -28,7 +28,7 @@ namespace te
 			TextureID n;
 		};
 
-		TextureAtlas(const std::string& filename, TextureManager* = nullptr);
+		TextureAtlas(const std::string& dir, const std::string& filename, TextureManager* = nullptr);
 
 		TextureID getTextureID() const;
 		Sprite getSprite(TextureID id) const;

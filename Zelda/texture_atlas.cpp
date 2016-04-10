@@ -6,13 +6,13 @@
 
 namespace te
 {
-	TextureAtlas::TextureAtlas(const std::string& filename, TextureManager* pTM)
+	TextureAtlas::TextureAtlas(const std::string& dir, const std::string& filename, TextureManager* pTM)
 		: mWidth(0)
 		, mHeight(0)
 		, mImagePathID(0)
 		, mSprites()
 	{
-		rapidxml::file<> atlasFile(filename.c_str());
+		rapidxml::file<> atlasFile((dir + "/" + filename).c_str());
 		rapidxml::xml_document<> atlasXML;
 		atlasXML.parse<0>(atlasFile.data());
 
@@ -20,7 +20,7 @@ namespace te
 
 		mWidth = std::stoi(pAtlasNode->first_attribute("width")->value());
 		mHeight = std::stoi(pAtlasNode->first_attribute("height")->value());
-		std::string imagePath = pAtlasNode->first_attribute("imagePath")->value();
+		std::string imagePath = dir + "/" + pAtlasNode->first_attribute("imagePath")->value();
 		if (pTM) pTM->load(imagePath);
 		mImagePathID = TextureManager::getID(imagePath);
 
