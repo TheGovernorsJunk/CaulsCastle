@@ -147,7 +147,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>inigo_spritesheet.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
