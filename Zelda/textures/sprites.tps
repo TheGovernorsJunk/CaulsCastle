@@ -194,14 +194,13 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">inigo45_en_garde_1.png</key>
-            <key type="filename">inigo45_en_garde_1_small.png</key>
-            <key type="filename">inigo45_teal_en_garde_1.png</key>
-            <key type="filename">inigo45_teal_en_garde_2.png</key>
-            <key type="filename">inigo45_teal_en_garde_3.png</key>
-            <key type="filename">inigo_en_garde_1.png</key>
-            <key type="filename">inigo_en_garde_2.png</key>
-            <key type="filename">inigo_spritesheet.png</key>
+            <key type="filename">sprites/inigo45_en_garde_1.png</key>
+            <key type="filename">sprites/inigo45_en_garde_1_small.png</key>
+            <key type="filename">sprites/inigo45_teal_en_garde_1.png</key>
+            <key type="filename">sprites/inigo45_teal_en_garde_2.png</key>
+            <key type="filename">sprites/inigo45_teal_en_garde_3.png</key>
+            <key type="filename">sprites/inigo_en_garde_1.png</key>
+            <key type="filename">sprites/inigo_en_garde_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -209,7 +208,7 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>.</filename>
+            <filename>sprites</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

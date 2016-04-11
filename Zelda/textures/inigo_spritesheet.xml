@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:27928d4c23a8fa5ca7207e6dd345d882:83bf4749450f5f75a6fc036784c5072a:28fceb431044dd49d9b2c5b1655658ab$ -->
+<!-- $TexturePacker:SmartUpdate:c7acc7e4f1975e8c19e6cf6b8d56101a:a588b076a25194089fcd4319ed2d5b6a:28fceb431044dd49d9b2c5b1655658ab$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,13 +19,12 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="inigo_spritesheet.png" width="233" height="249">
-    <sprite n="inigo45_en_garde_1.png" x="1" y="111" w="78" h="105" pX="0.5" pY="0.5" oX="44" oY="12" oW="128" oH="128"/>
-    <sprite n="inigo45_en_garde_1_small.png" x="191" y="1" w="41" h="53" pX="0.5" pY="0.5" oX="21" oY="6" oW="64" oH="64"/>
-    <sprite n="inigo45_teal_en_garde_1.png" x="191" y="56" w="41" h="53" pX="0.5" pY="0.5" oX="14" oY="6" oW="64" oH="64"/>
-    <sprite n="inigo45_teal_en_garde_2.png" x="181" y="163" w="45" h="52" pX="0.5" pY="0.5" oX="14" oY="7" oW="64" oH="64"/>
-    <sprite n="inigo45_teal_en_garde_3.png" x="181" y="111" w="51" h="50" pX="0.5" pY="0.5" oX="12" oY="9" oW="64" oH="64"/>
-    <sprite n="inigo_en_garde_1.png" x="81" y="86" w="98" h="77" pX="0.5" pY="0.5" oX="10" oY="11" oW="128" oH="128" r="y"/>
-    <sprite n="inigo_en_garde_2.png" x="81" y="165" w="88" h="83" pX="0.5" pY="0.5" oX="9" oY="20" oW="128" oH="128" r="y"/>
-    <sprite n="inigo_spritesheet.png" x="1" y="1" w="188" h="83" pX="0.5" pY="0.5" oX="1" oY="1" oW="85" oH="190" r="y"/>
+<TextureAtlas imagePath="inigo_spritesheet.png" width="340" height="110">
+    <sprite n="inigo45_en_garde_1.png" x="1" y="1" w="78" h="105" pX="0.5" pY="0.5" oX="44" oY="12" oW="128" oH="128"/>
+    <sprite n="inigo45_en_garde_1_small.png" x="298" y="1" w="41" h="53" pX="0.5" pY="0.5" oX="21" oY="6" oW="64" oH="64"/>
+    <sprite n="inigo45_teal_en_garde_1.png" x="292" y="56" w="41" h="53" pX="0.5" pY="0.5" oX="14" oY="6" oW="64" oH="64"/>
+    <sprite n="inigo45_teal_en_garde_2.png" x="245" y="53" w="45" h="52" pX="0.5" pY="0.5" oX="14" oY="7" oW="64" oH="64"/>
+    <sprite n="inigo45_teal_en_garde_3.png" x="245" y="1" w="51" h="50" pX="0.5" pY="0.5" oX="12" oY="9" oW="64" oH="64"/>
+    <sprite n="inigo_en_garde_1.png" x="81" y="1" w="77" h="98" pX="0.5" pY="0.5" oX="10" oY="11" oW="128" oH="128"/>
+    <sprite n="inigo_en_garde_2.png" x="160" y="1" w="83" h="88" pX="0.5" pY="0.5" oX="9" oY="20" oW="128" oH="128"/>
 </TextureAtlas>
