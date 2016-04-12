@@ -4,6 +4,7 @@
 #include "entity_manager.h"
 #include "message_dispatcher.h"
 #include "camera.h"
+#include "texture_manager.h"
 
 namespace te
 {
@@ -18,6 +19,7 @@ namespace te
 		, mPlayerID(-1)
 		, mpCamera(nullptr)
 	{
+		mTextureManager.loadSpritesheet("textures", "inigo_spritesheet.xml");
 		loadMap(fileName, unitToTileX, unitToTileY);
 	}
 
