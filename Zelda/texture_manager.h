@@ -18,14 +18,14 @@ namespace te
 		static TextureID getID(const std::string& filename);
 
 		TextureID load(const std::string& filename);
-		std::shared_ptr<sf::Texture> get(TextureID file) const;
+		sf::Texture& get(TextureID file) const;
 	private:
 		TextureManager();
 
 		TextureManager(const TextureManager&) = delete;
 		TextureManager& operator=(const TextureManager&) = delete;
 
-		std::map<TextureID, std::shared_ptr<sf::Texture>> mTextures;
+		std::map<TextureID, std::unique_ptr<sf::Texture>> mTextures;
 	};
 }
 

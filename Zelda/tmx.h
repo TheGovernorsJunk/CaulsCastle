@@ -39,7 +39,7 @@ namespace te
 		};
 
 		TMX(const std::string& filename);
-		void makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0) const;
+		void makeVertices(TextureManager& textureManager, std::vector<sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0) const;
 		CompositeCollider* makeCollider(const sf::Transform& transform = sf::Transform::Identity) const;
 
 		SparseGraph<NavGraphNode, NavGraphEdge>* makeNavGraph(const sf::Transform& transform = sf::Transform::Identity) const;

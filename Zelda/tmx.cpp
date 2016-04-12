@@ -169,7 +169,7 @@ namespace te
 		return retIt;
 	}
 
-	void TMX::makeVertices(TextureManager& textureManager, std::vector<std::shared_ptr<sf::Texture>>& textures, std::vector<std::vector<sf::VertexArray>>& layers, int widthUnitsPerTile, int heightUnitsPerTile) const
+	void TMX::makeVertices(TextureManager& textureManager, std::vector<sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, int widthUnitsPerTile, int heightUnitsPerTile) const
 	{
 		if (widthUnitsPerTile < 0 || heightUnitsPerTile < 0) throw std::runtime_error("Invalid units per tile passed to TMX::makeVertices.");
 		if (widthUnitsPerTile == 0) widthUnitsPerTile = mTilewidth;
@@ -177,7 +177,7 @@ namespace te
 
 		textures.clear();
 		std::for_each(mTilesets.begin(), mTilesets.end(), [&textures, &textureManager](const Tileset& tileset) {
-			textures.push_back(textureManager.get(textureManager.load(tileset.image.source)));
+			textures.push_back(&textureManager.get(textureManager.load(tileset.image.source)));
 		});
 
 		layers.clear();

@@ -21,12 +21,12 @@ namespace te
 		auto iter = mTextures.find(id);
 		if (iter == mTextures.end())
 		{
-			auto texture = std::make_shared<sf::Texture>();
+			auto texture = std::make_unique<sf::Texture>();
 			if (!texture->loadFromFile(filename))
 			{
 				throw std::runtime_error("Texture file not found.");
 			}
-			mTextures.insert({ id, texture });
+			mTextures.insert({ id, std::move(texture) });
 			return id;
 		}
 		else
@@ -35,12 +35,12 @@ namespace te
 		}
 	}
 
-	std::shared_ptr<sf::Texture> TextureManager::get(TextureID file) const
+	sf::Texture& TextureManager::get(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
 		if (iter != mTextures.end())
 		{
-			return iter->second;
+			return *iter->second;
 		}
 		throw std::runtime_error("No texture for given ID.");
 	}

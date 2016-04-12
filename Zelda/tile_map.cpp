@@ -141,7 +141,7 @@ namespace te
 		}
 	}
 
-	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<std::shared_ptr<sf::Texture>>& textures)
+	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<sf::Texture*>& textures)
 		: SceneNode(world, b2BodyDef())
 		, mVertexArrays(std::move(vas))
 		, mTextures(&textures)
@@ -153,7 +153,7 @@ namespace te
 
 		for (auto iter = mVertexArrays.begin(); iter != mVertexArrays.end(); ++iter)
 		{
-			states.texture = (*mTextures)[iter - mVertexArrays.begin()].get();
+			states.texture = (*mTextures)[iter - mVertexArrays.begin()];
 			target.draw(*iter, states);
 		}
 	}

@@ -9,22 +9,20 @@ namespace te
 
 	SpriteRenderer::SpriteRenderer(BaseGameEntity& owner)
 		: mOwner(owner)
-		, mpTexture(nullptr)
 		, mSprite()
 	{}
 
-	void SpriteRenderer::setSprite(std::shared_ptr<sf::Texture> pTexture, const TextureAtlas::Sprite& spriteInfo)
+	void SpriteRenderer::setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo)
 	{
-		mpTexture = pTexture;
-		mSprite.setTexture(*pTexture);
+		mSprite.setTexture(texture);
 		mSprite.setTextureRect(sf::IntRect(spriteInfo.x, spriteInfo.y, spriteInfo.w, spriteInfo.h));
 	}
 
 	void SpriteRenderer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getTransform();
-		if (mpTexture)
+		if (mSprite.getTexture() != NULL)
 		{
+			states.transform *= getTransform();
 			target.draw(mSprite, states);
 		}
 	}

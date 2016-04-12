@@ -16,14 +16,13 @@ namespace te
 	public:
 		static std::unique_ptr<SpriteRenderer> make(BaseGameEntity&);
 
-		void setSprite(std::shared_ptr<sf::Texture> pTexture, const TextureAtlas::Sprite& spriteInfo);
+		void setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo);
 	private:
 		SpriteRenderer(BaseGameEntity&);
 
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 		BaseGameEntity& mOwner;
-		std::shared_ptr<sf::Texture> mpTexture;
 		sf::Sprite mSprite;
 	};
 }
