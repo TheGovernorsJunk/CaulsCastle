@@ -35,11 +35,11 @@ namespace te
 			getBody().DestroyFixture(pFixture);
 		});
 
-		const TextureAtlas& atlas = world.getApplication().getAtlas(TextureManager::getID("textures/inigo_spritesheet.png"));
-		TextureAtlas::Sprite spriteInfo = atlas.getSprite(TextureManager::getID("inigo_en_garde_1.png"));
-		mpSpriteRenderer->setSprite(world.getApplication().getTextureManager().get(TextureManager::getID("textures/inigo_spritesheet.png")), spriteInfo);
-		mpSpriteRenderer->scale(1.f / spriteInfo.w, 1.f / spriteInfo.h);
-		mpSpriteRenderer->setOrigin(spriteInfo.w / 2.f, spriteInfo.h / 2.f);
+		sf::Sprite sprite = world.getApplication().getTextureManager().getSprite(TextureManager::getID("textures/inigo_en_garde_1.png"));
+		mpSpriteRenderer->setSprite(sprite);
+		float width = sprite.getLocalBounds().width, height = sprite.getLocalBounds().height;
+		mpSpriteRenderer->scale(1.f / width, 1.f / height);
+		mpSpriteRenderer->setOrigin(width / 2.f, height / 2.f);
 	}
 
 	bool Player::handleMessage(const Telegram& msg)

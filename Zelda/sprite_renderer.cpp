@@ -12,10 +12,15 @@ namespace te
 		, mSprite()
 	{}
 
-	void SpriteRenderer::setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo)
+	//void SpriteRenderer::setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo)
+	//{
+	//	mSprite.setTexture(texture);
+	//	mSprite.setTextureRect(sf::IntRect(spriteInfo.x, spriteInfo.y, spriteInfo.w, spriteInfo.h));
+	//}
+
+	void SpriteRenderer::setSprite(const sf::Sprite& sprite)
 	{
-		mSprite.setTexture(texture);
-		mSprite.setTextureRect(sf::IntRect(spriteInfo.x, spriteInfo.y, spriteInfo.w, spriteInfo.h));
+		mSprite = sprite;
 	}
 
 	void SpriteRenderer::draw(sf::RenderTarget& target, sf::RenderStates states) const

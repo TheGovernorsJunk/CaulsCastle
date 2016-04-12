@@ -16,7 +16,8 @@ namespace te
 	public:
 		static std::unique_ptr<SpriteRenderer> make(BaseGameEntity&);
 
-		void setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo);
+		//void setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo);
+		void setSprite(const sf::Sprite& sprite);
 	private:
 		SpriteRenderer(BaseGameEntity&);
 
