@@ -32,7 +32,7 @@ namespace te
 
 		for (auto* pSprite = pAtlasNode->first_node("sprite"); pSprite != 0; pSprite = pSprite->next_sibling("sprite"))
 		{
-			size_t filenameHash = TextureManager::getID(std::string(pSprite->first_attribute("n")->value()));
+			size_t filenameHash = TextureManager::getID(dir + "/" + std::string(pSprite->first_attribute("n")->value()));
 			mSprites.insert(std::make_pair(filenameHash, Sprite{
 				std::stoi(pSprite->first_attribute("oW")->value()),
 				std::stoi(pSprite->first_attribute("oH")->value()),
@@ -57,5 +57,10 @@ namespace te
 	TextureAtlas::Sprite TextureAtlas::getSprite(TextureID hash) const
 	{
 		return mSprites.at(hash);
+	}
+
+	size_t TextureAtlas::getSpriteCount() const
+	{
+		return mSprites.size();
 	}
 }

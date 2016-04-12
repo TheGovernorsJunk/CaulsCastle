@@ -34,6 +34,18 @@ namespace te
 		TextureID getTextureID() const;
 		Sprite getSprite(TextureID id) const;
 
+		size_t getSpriteCount() const;
+
+		template <typename Iter>
+		void insertSprites(Iter outIt)
+		{
+			for (auto spriteIt = mSprites.begin(); spriteIt != mSprites.end(); ++spriteIt)
+			{
+				*outIt = spriteIt->second;
+				++outIt;
+			}
+		}
+
 	private:
 		TextureAtlas(const std::string& dir, const std::string& filename, TextureManager*);
 
