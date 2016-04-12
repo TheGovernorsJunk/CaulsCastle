@@ -4,7 +4,6 @@
 #include "typedefs.h"
 
 #include <memory>
-#include <map>
 
 namespace sf
 {
@@ -23,13 +22,10 @@ namespace te
 	class Application
 	{
 	public:
-		typedef std::map<TextureID, std::unique_ptr<TextureAtlas>> AtlasMap;
-
 		Application();
 		virtual ~Application();
 
 		TextureManager& getTextureManager() const;
-		const TextureAtlas& getAtlas(TextureID) const;
 
 		void run(int fps = 60);
 	private:
@@ -41,7 +37,6 @@ namespace te
 		virtual void render(sf::RenderTarget& target, Game& game);
 
 		std::unique_ptr<TextureManager> mpTextureManager;
-		AtlasMap mTextureAtlasMap;
 		std::unique_ptr<Game> mpGame;
 	};
 }
