@@ -35,6 +35,18 @@ namespace te
 		}
 	}
 
+	TextureID TextureManager::loadSpritesheet(const std::string& dir, const std::string& filename)
+	{
+		auto atlas = TextureAtlas::make(dir, filename, this);
+		TextureID textureID = atlas->getTextureID();
+		std::vector<TextureAtlas::Sprite> sprites(atlas->getSpriteCount());
+		atlas->insertSprites(sprites.begin());
+
+		for (auto& sprite : sprites) mSpriteMap.insert({ sprite.n, { textureID, sprite } });
+
+		return atlas->getTextureID();
+	}
+
 	sf::Texture& TextureManager::get(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
@@ -43,5 +55,16 @@ namespace te
 			return *iter->second;
 		}
 		throw std::runtime_error("No texture for given ID.");
+	}
+
+	sf::Sprite TextureManager::getSprite(TextureID sprite) const
+	{
+		auto iter = mSpriteMap.find(sprite);
+		if (iter != mSpriteMap.end())
+		{
+			TextureAtlas::Sprite s = iter->second.sprite;
+			return sf::Sprite(get(iter->second.textureID), { s.x, s.y, s.w, s.h });
+		}
+		throw std::runtime_error("No sprite for given ID.");
 	}
 }
