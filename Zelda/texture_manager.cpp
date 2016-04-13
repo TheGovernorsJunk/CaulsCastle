@@ -1,5 +1,7 @@
 #include "texture_manager.h"
 
+#include <SFML/Graphics.hpp>
+
 namespace te
 {
 	std::unique_ptr<TextureManager> TextureManager::make()
@@ -42,7 +44,11 @@ namespace te
 		std::vector<TextureAtlas::Sprite> sprites(atlas->getSpriteCount());
 		atlas->insertSprites(sprites.begin());
 
-		for (auto& sprite : sprites) mSpriteMap.insert({ sprite.n, { textureID, sprite } });
+		for (auto& s : sprites)
+		{
+			auto pSprite = std::make_unique<sf::Sprite>(get(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
+			mSpriteMap.insert({ s.n, std::move(pSprite) });
+		}
 
 		return atlas->getTextureID();
 	}
@@ -56,7 +62,7 @@ namespace te
 		return getID(filename);
 	}
 
-	sf::Texture& TextureManager::get(TextureID file) const
+	const sf::Texture& TextureManager::get(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
 		if (iter != mTextures.end())
@@ -66,13 +72,14 @@ namespace te
 		throw std::runtime_error("No texture for given ID.");
 	}
 
-	sf::Sprite TextureManager::getSprite(TextureID sprite) const
+	const sf::Sprite& TextureManager::getSprite(TextureID sprite) const
 	{
 		auto iter = mSpriteMap.find(sprite);
 		if (iter != mSpriteMap.end())
 		{
-			TextureAtlas::Sprite s = iter->second.sprite;
-			return sf::Sprite(get(iter->second.textureID), { s.x, s.y, s.w, s.h });
+			//TextureAtlas::Sprite s = iter->second.sprite;
+			//return sf::Sprite(get(iter->second.textureID), { s.x, s.y, s.w, s.h });
+			return *iter->second;
 		}
 		throw std::runtime_error("No sprite for given ID.");
 	}

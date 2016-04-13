@@ -42,12 +42,12 @@ namespace te
 		class Layer : public SceneNode
 		{
 		public:
-			Layer(Game& world, std::vector<sf::VertexArray>&&, std::vector<sf::Texture*>&);
+			Layer(Game& world, std::vector<sf::VertexArray>&&, std::vector<const sf::Texture*>&);
 		private:
 			void onDraw(sf::RenderTarget&, sf::RenderStates) const;
 
 			std::vector<sf::VertexArray> mVertexArrays;
-			std::vector<sf::Texture*>* mTextures;
+			std::vector<const sf::Texture*>* mTextures;
 		};
 		enum DrawFlags
 		{ COLLIDER = 0x01, NAV_GRAPH = 0x02 };
@@ -59,7 +59,7 @@ namespace te
 
 		Game& mWorld;
 
-		std::vector<sf::Texture*> mTextures;
+		std::vector<const sf::Texture*> mTextures;
 		//std::vector<std::vector<sf::VertexArray>> mLayers;
 		std::unique_ptr<CompositeCollider> mpCollider;
 		std::unique_ptr<NavGraph> mpNavGraph;

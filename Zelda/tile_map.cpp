@@ -141,7 +141,7 @@ namespace te
 		}
 	}
 
-	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<sf::Texture*>& textures)
+	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<const sf::Texture*>& textures)
 		: SceneNode(world, b2BodyDef())
 		, mVertexArrays(std::move(vas))
 		, mTextures(&textures)

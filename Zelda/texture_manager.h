@@ -5,10 +5,14 @@
 #include "texture_atlas.h"
 #include "animation.h"
 
-#include <SFML/Graphics.hpp>
-
 #include <memory>
 #include <map>
+
+namespace sf
+{
+	class Texture;
+	class Sprite;
+}
 
 namespace te
 {
@@ -23,8 +27,8 @@ namespace te
 		TextureID loadSpritesheet(const std::string& dir, const std::string& xmlFile);
 		TextureID loadAnimations(const std::string& filename);
 
-		sf::Texture& get(TextureID file) const;
-		sf::Sprite getSprite(TextureID sprite) const;
+		const sf::Texture& get(TextureID file) const;
+		const sf::Sprite& getSprite(TextureID sprite) const;
 		const Animation& getAnimation(TextureID animation) const;
 	private:
 		TextureManager();
@@ -33,13 +37,7 @@ namespace te
 		TextureManager& operator=(const TextureManager&) = delete;
 
 		std::map<TextureID, std::unique_ptr<sf::Texture>> mTextures;
-
-		struct SpriteData
-		{
-			TextureID textureID;
-			TextureAtlas::Sprite sprite;
-		};
-		std::map<TextureID, SpriteData> mSpriteMap;
+		std::map<TextureID, std::unique_ptr<sf::Sprite>> mSpriteMap;
 		std::map<TextureID, std::unique_ptr<Animation>> mAnimationMap;
 	};
 }
