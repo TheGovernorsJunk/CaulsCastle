@@ -47,7 +47,7 @@ namespace te
 		for (auto& s : sprites)
 		{
 			auto pSprite = std::make_unique<sf::Sprite>(getTexture(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
-			pSprite->setOrigin((float)s.pX, (float)s.pY);
+			pSprite->setOrigin((float)s.pX * s.w, (float)s.pY * s.h);
 			mSpriteMap.insert({ s.n, std::move(pSprite) });
 		}
 
