@@ -16,12 +16,8 @@ namespace te
 	public:
 		struct Sprite
 		{
-			int oW;
-			int oH;
-			int oX;
-			int oY;
-			int pX;
-			int pY;
+			float pX;
+			float pY;
 			int w;
 			int h;
 			int x;

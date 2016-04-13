@@ -34,12 +34,8 @@ namespace te
 		{
 			size_t filenameHash = TextureManager::getID(dir + "/" + std::string(pSprite->first_attribute("n")->value()));
 			mSprites.insert(std::make_pair(filenameHash, Sprite{
-				std::stoi(pSprite->first_attribute("oW")->value()),
-				std::stoi(pSprite->first_attribute("oH")->value()),
-				std::stoi(pSprite->first_attribute("oX")->value()),
-				std::stoi(pSprite->first_attribute("oY")->value()),
-				std::stoi(pSprite->first_attribute("pX")->value()),
-				std::stoi(pSprite->first_attribute("pY")->value()),
+				std::stof(pSprite->first_attribute("pX")->value()),
+				std::stof(pSprite->first_attribute("pY")->value()),
 				std::stoi(pSprite->first_attribute("w")->value()),
 				std::stoi(pSprite->first_attribute("h")->value()),
 				std::stoi(pSprite->first_attribute("x")->value()),
