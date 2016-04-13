@@ -7,6 +7,7 @@
 #include "sprite_renderer.h"
 #include "application.h"
 #include "texture_manager.h"
+#include "animator.h"
 
 #include <cassert>
 #include <iostream>
@@ -22,6 +23,7 @@ namespace te
 		, mRadius(1)
 		, mpFixture(nullptr)
 		, mpSpriteRenderer(SpriteRenderer::make(*this))
+		, mpAnimator(Animator::make(world.getApplication().getTextureManager(), *mpSpriteRenderer))
 	{
 		assert(playerObject.name == "Player");
 
@@ -35,11 +37,7 @@ namespace te
 			getBody().DestroyFixture(pFixture);
 		});
 
-		sf::Sprite sprite = world.getApplication().getTextureManager().getSprite(TextureManager::getID("textures/inigo_en_garde_1.png"));
-		mpSpriteRenderer->setSprite(sprite);
-		float width = sprite.getLocalBounds().width, height = sprite.getLocalBounds().height;
-		mpSpriteRenderer->scale(1.f / width, 1.f / height);
-		mpSpriteRenderer->setOrigin(width / 2.f, height / 2.f);
+		mpAnimator->setAnimation(TextureManager::getID("inigo45_en_garde"));
 	}
 
 	bool Player::handleMessage(const Telegram& msg)
@@ -74,6 +72,7 @@ namespace te
 	{
 		sf::Vector2f worldPosition = getWorldTransform().transformPoint({ 0, 0 });
 		std::cout << "Player position: (" << worldPosition.x << ", " << worldPosition.y << ")" << std::endl;
+		mpAnimator->update(dt);
 	}
 
 	void Player::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
