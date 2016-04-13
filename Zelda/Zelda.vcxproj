@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
@@ -167,6 +168,7 @@
     <None Include="map2.tmx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="base_game_entity.h" />
     <ClInclude Include="box_collider.h" />
@@ -218,6 +220,11 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="textures\inigo_spritesheet.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="textures\inigo_animation.xml">
+      <SubType>Designer</SubType>
+    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

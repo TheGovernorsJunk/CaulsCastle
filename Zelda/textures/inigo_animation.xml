@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animation name="inigo45_en_garde">
-  <clip sprite="inigo45_teal_en_garde_1.png" />
-  <clip sprite="inigo45_teal_en_garde_2.png" />
-  <clip sprite="inigo45_teal_en_garde_3.png" />
-</animation>
+<animations dir="textures">
+  <animation name="inigo45_en_garde" millisecondsPerClip="500">
+    <clip sprite="inigo45_teal_en_garde_1.png" />
+    <clip sprite="inigo45_teal_en_garde_2.png" />
+    <clip sprite="inigo45_teal_en_garde_3.png" />
+  </animation>
+</animations>

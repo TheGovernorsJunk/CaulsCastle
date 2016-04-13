@@ -3,6 +3,7 @@
 
 #include "typedefs.h"
 #include "texture_atlas.h"
+#include "animation.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -20,9 +21,11 @@ namespace te
 
 		TextureID load(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& dir, const std::string& xmlFile);
+		TextureID loadAnimations(const std::string& filename);
 
 		sf::Texture& get(TextureID file) const;
 		sf::Sprite getSprite(TextureID sprite) const;
+		const Animation& getAnimation(TextureID animation) const;
 	private:
 		TextureManager();
 
@@ -37,6 +40,7 @@ namespace te
 			TextureAtlas::Sprite sprite;
 		};
 		std::map<TextureID, SpriteData> mSpriteMap;
+		std::map<TextureID, std::unique_ptr<Animation>> mAnimationMap;
 	};
 }
 

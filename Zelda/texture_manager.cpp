@@ -47,6 +47,15 @@ namespace te
 		return atlas->getTextureID();
 	}
 
+	TextureID TextureManager::loadAnimations(const std::string& filename)
+	{
+		std::vector<Animation> animations = Animation::load(filename, *this);
+
+		for (auto& anim : animations) mAnimationMap.insert({ anim.getID(), std::make_unique<Animation>(std::move(anim)) });
+
+		return getID(filename);
+	}
+
 	sf::Texture& TextureManager::get(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
@@ -66,5 +75,12 @@ namespace te
 			return sf::Sprite(get(iter->second.textureID), { s.x, s.y, s.w, s.h });
 		}
 		throw std::runtime_error("No sprite for given ID.");
+	}
+
+	const Animation& TextureManager::getAnimation(TextureID id) const
+	{
+		auto found = mAnimationMap.find(id);
+		if (found != mAnimationMap.end()) return *found->second;
+		throw std::runtime_error("No animation for given ID.");
 	}
 }
