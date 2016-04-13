@@ -46,7 +46,7 @@ namespace te
 
 		for (auto& s : sprites)
 		{
-			auto pSprite = std::make_unique<sf::Sprite>(get(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
+			auto pSprite = std::make_unique<sf::Sprite>(getTexture(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
 			mSpriteMap.insert({ s.n, std::move(pSprite) });
 		}
 
@@ -62,7 +62,7 @@ namespace te
 		return getID(filename);
 	}
 
-	const sf::Texture& TextureManager::get(TextureID file) const
+	const sf::Texture& TextureManager::getTexture(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
 		if (iter != mTextures.end())
@@ -75,12 +75,7 @@ namespace te
 	const sf::Sprite& TextureManager::getSprite(TextureID sprite) const
 	{
 		auto iter = mSpriteMap.find(sprite);
-		if (iter != mSpriteMap.end())
-		{
-			//TextureAtlas::Sprite s = iter->second.sprite;
-			//return sf::Sprite(get(iter->second.textureID), { s.x, s.y, s.w, s.h });
-			return *iter->second;
-		}
+		if (iter != mSpriteMap.end()) return *iter->second;
 		throw std::runtime_error("No sprite for given ID.");
 	}
 

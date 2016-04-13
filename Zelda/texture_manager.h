@@ -27,7 +27,7 @@ namespace te
 		TextureID loadSpritesheet(const std::string& dir, const std::string& xmlFile);
 		TextureID loadAnimations(const std::string& filename);
 
-		const sf::Texture& get(TextureID file) const;
+		const sf::Texture& getTexture(TextureID file) const;
 		const sf::Sprite& getSprite(TextureID sprite) const;
 		const Animation& getAnimation(TextureID animation) const;
 	private:

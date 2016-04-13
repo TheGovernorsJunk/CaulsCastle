@@ -177,7 +177,7 @@ namespace te
 
 		textures.clear();
 		std::for_each(mTilesets.begin(), mTilesets.end(), [&textures, &textureManager](const Tileset& tileset) {
-			textures.push_back(&textureManager.get(textureManager.load(tileset.image.source)));
+			textures.push_back(&textureManager.getTexture(textureManager.load(tileset.image.source)));
 		});
 
 		layers.clear();
