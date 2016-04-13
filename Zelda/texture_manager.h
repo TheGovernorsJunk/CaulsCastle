@@ -25,11 +25,11 @@ namespace te
 
 		TextureID load(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& dir, const std::string& xmlFile);
-		TextureID loadAnimations(const std::string& filename);
+		void loadAnimations(const std::string& filename);
 
 		const sf::Texture& getTexture(TextureID file) const;
-		const sf::Sprite& getSprite(TextureID sprite) const;
-		const Animation& getAnimation(TextureID animation) const;
+		const sf::Sprite& getSprite(SpriteID sprite) const;
+		const Animation& getAnimation(AnimationID animation) const;
 	private:
 		TextureManager();
 
