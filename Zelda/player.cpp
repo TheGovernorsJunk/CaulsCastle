@@ -37,6 +37,7 @@ namespace te
 			getBody().DestroyFixture(pFixture);
 		});
 
+		mpSpriteRenderer->scale(1.f / 16, 1.f / 16);
 		mpAnimator->setAnimation(TextureManager::getID("inigo45_en_garde"));
 	}
 
