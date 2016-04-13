@@ -7,7 +7,7 @@
 
 namespace te
 {
-	Game::Game(Application& app)
+	Game::Game(Application& app, const sf::Transform& pixelToWorldTransform)
 		: mApp(app)
 		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
@@ -15,6 +15,8 @@ namespace te
 		, mTileMapID(-1)
 		, mpTileMap(nullptr)
 		, mpSceneGraph(SceneNode::make(*this, { 0, 0 }))
+		, mPixelToWorld(pixelToWorldTransform)
+		, mWorldToPixel(pixelToWorldTransform.getInverse())
 	{}
 
 	Game::~Game() {}
@@ -74,6 +76,9 @@ namespace te
 
 	b2World& Game::getPhysicsWorld() { return *mpWorld; }
 	const b2World& Game::getPhysicsWorld() const { return *mpWorld; }
+
+	const sf::Transform& Game::getPixelToWorldTransform() const { return mPixelToWorld; }
+	const sf::Transform& Game::getWorldToPixelTransform() const { return mWorldToPixel; }
 
 	void Game::setTileMap(std::unique_ptr<TileMap>&& pTileMap)
 	{

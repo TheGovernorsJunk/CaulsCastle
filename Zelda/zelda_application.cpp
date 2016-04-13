@@ -16,7 +16,9 @@ namespace te
 
 	std::unique_ptr<Game> ZeldaApplication::makeGame()
 	{
-		auto pGame = ZeldaGame::make(*this, getTextureManager(), mFilename, 1, 1);
+		sf::Transform transform;
+		transform.scale(1.f / 16, 1.f / 16);
+		auto pGame = ZeldaGame::make(*this, getTextureManager(), mFilename, transform);
 		return pGame;
 	}
 }

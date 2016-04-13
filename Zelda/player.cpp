@@ -14,12 +14,12 @@
 
 namespace te
 {
-	std::unique_ptr<Player> Player::make(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform)
+	std::unique_ptr<Player> Player::make(ZeldaGame& world, const TMX::Object& playerObject)
 	{
-		return std::unique_ptr<Player>(new Player(world, playerObject, transform));
+		return std::unique_ptr<Player>(new Player(world, playerObject));
 	}
-	Player::Player(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform)
-		: BaseGameEntity(world, createBodyDef(transform.transformPoint(sf::Vector2f(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f)), b2_dynamicBody))
+	Player::Player(ZeldaGame& world, const TMX::Object& playerObject)
+		: BaseGameEntity(world, createBodyDef(world.getPixelToWorldTransform().transformPoint(sf::Vector2f(playerObject.x + playerObject.width / 2.f, playerObject.y + playerObject.height / 2.f)), b2_dynamicBody))
 		, mRadius(1)
 		, mpFixture(nullptr)
 		, mpSpriteRenderer(SpriteRenderer::make(*this))
@@ -27,17 +27,18 @@ namespace te
 	{
 		assert(playerObject.name == "Player");
 
-		sf::Vector2f radiusVector = transform.transformPoint({ playerObject.width / 2.f, playerObject.height / 2.f });
+		const sf::Transform& pixelToWorldTransform = world.getPixelToWorldTransform();
+
+		sf::Vector2f radiusVector = pixelToWorldTransform.transformPoint({ playerObject.width / 2.f, playerObject.height / 2.f });
 		mRadius = std::max(radiusVector.x, radiusVector.y);
 
 		b2PolygonShape collider;
-		sf::Vector2f boxExtents = transform.transformPoint({ playerObject.width / 2.f - 2.f, playerObject.height / 2.f - 2.f });
+		sf::Vector2f boxExtents = pixelToWorldTransform.transformPoint({ playerObject.width / 2.f - 2.f, playerObject.height / 2.f - 2.f });
 		collider.SetAsBox(boxExtents.x, boxExtents.y);
 		mpFixture = std::unique_ptr<b2Fixture, std::function<void(b2Fixture*)>>(getBody().CreateFixture(&collider, 0), [this](b2Fixture* pFixture) {
 			getBody().DestroyFixture(pFixture);
 		});
 
-		mpSpriteRenderer->scale(1.f / 16, 1.f / 16);
 		mpAnimator->setAnimation(TextureManager::getID("inigo45_en_garde"));
 	}
 
@@ -84,6 +85,7 @@ namespace te
 		//shape.setFillColor(sf::Color::Blue);
 		//target.draw(shape, states);
 
+		states.transform *= getWorld().getPixelToWorldTransform();
 		target.draw(*mpSpriteRenderer, states);
 
 		// Draw collider

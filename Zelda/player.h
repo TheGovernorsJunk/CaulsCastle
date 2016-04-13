@@ -25,12 +25,12 @@ namespace te
 			Y     = 0x04
 		};
 
-		static std::unique_ptr<Player> make(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform = sf::Transform::Identity);
+		static std::unique_ptr<Player> make(ZeldaGame& world, const TMX::Object& playerObject);
 
 		bool handleMessage(const Telegram& msg);
 
 	private:
-		Player(ZeldaGame& world, const TMX::Object& playerObject, sf::Transform transform);
+		Player(ZeldaGame& world, const TMX::Object& playerObject);
 
 		void onUpdate(const sf::Time& dt);
 		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;

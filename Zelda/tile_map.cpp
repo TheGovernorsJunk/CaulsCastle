@@ -27,7 +27,7 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
-	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile, int heightUnitsPerTile)
+	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx)
 		: BaseGameEntity(world, b2BodyDef())
 		, mWorld(world)
 		, mTextures()
@@ -40,7 +40,7 @@ namespace te
 		setDrawOrder(std::numeric_limits<int>::max());
 
 		std::vector<std::vector<sf::VertexArray>> layers;
-		tmx.makeVertices(textureManager, mTextures, layers, widthUnitsPerTile, heightUnitsPerTile);
+		tmx.makeVertices(textureManager, mTextures, layers);
 		for (auto it = layers.begin(); it != layers.end(); ++it)
 		{
 			int index = it - layers.begin();
@@ -52,8 +52,7 @@ namespace te
 			attachNode(std::move(pLayer));
 		}
 
-		sf::Transform transform;
-		transform.scale((float)widthUnitsPerTile / tmx.getTileWidth(), (float)heightUnitsPerTile / tmx.getTileHeight());
+		const sf::Transform& transform = getWorld().getPixelToWorldTransform();
 
 		mpCollider = std::unique_ptr<CompositeCollider>(tmx.makeCollider(transform));
 
@@ -61,7 +60,7 @@ namespace te
 
 		mCellSpaceNeighborhoodRange = calculateAverageGraphEdgeLength(*mpNavGraph) + 1;
 
-		mpCellSpacePartition = std::make_unique<NavCellSpace>((float)widthUnitsPerTile / tmx.getWidth() * tmx.getTileWidth(), (float)heightUnitsPerTile / tmx.getHeight() * tmx.getTileHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mpNavGraph->numNodes());
+		mpCellSpacePartition = std::make_unique<NavCellSpace>((float)tmx.getTileWidth() / tmx.getWidth(), (float)tmx.getTileHeight() * tmx.getHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mpNavGraph->numNodes());
 
 		TileMap::NavGraph::ConstNodeIterator nodeIter(*mpNavGraph);
 		for (const TileMap::NavGraph::Node* pNode = nodeIter.begin(); !nodeIter.end(); pNode = nodeIter.next())
@@ -142,14 +141,14 @@ namespace te
 	}
 
 	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<const sf::Texture*>& textures)
-		: SceneNode(world, b2BodyDef())
+		: BaseGameEntity(world, b2BodyDef())
 		, mVertexArrays(std::move(vas))
 		, mTextures(&textures)
 	{}
 
 	void TileMap::Layer::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldTransform();
+		states.transform *= getWorldTransform() * getWorld().getPixelToWorldTransform();
 
 		for (auto iter = mVertexArrays.begin(); iter != mVertexArrays.end(); ++iter)
 		{

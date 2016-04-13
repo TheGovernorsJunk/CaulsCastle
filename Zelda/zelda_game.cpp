@@ -9,26 +9,26 @@
 
 namespace te
 {
-	std::unique_ptr<ZeldaGame> ZeldaGame::make(Application& app, TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
+	std::unique_ptr<ZeldaGame> ZeldaGame::make(Application& app, TextureManager& textureManager, const std::string& fileName, const sf::Transform& pixelToWorld)
 	{
-		return std::unique_ptr<ZeldaGame>(new ZeldaGame(app, textureManager, fileName, unitToTileX, unitToTileY));
+		return std::unique_ptr<ZeldaGame>(new ZeldaGame(app, textureManager, fileName, pixelToWorld));
 	}
 
-	ZeldaGame::ZeldaGame(Application& app, TextureManager& textureManager, const std::string& fileName, int unitToTileX, int unitToTileY)
-		: Game(app)
+	ZeldaGame::ZeldaGame(Application& app, TextureManager& textureManager, const std::string& fileName, const sf::Transform& pixelToWorld)
+		: Game(app, pixelToWorld)
 		, mTextureManager(textureManager)
 		, mPlayerID(-1)
 		, mpCamera(nullptr)
 	{
 		mTextureManager.loadSpritesheet("textures", "inigo_spritesheet.xml");
 		mTextureManager.loadAnimations("textures/inigo_animation.xml");
-		loadMap(fileName, unitToTileX, unitToTileY);
+		loadMap(fileName);
 	}
 
-	void ZeldaGame::loadMap(const std::string& fileName, int unitToTileX, int unitToTileY)
+	void ZeldaGame::loadMap(const std::string& fileName)
 	{
 		TMX tmx(fileName);
-		setTileMap(std::make_unique<TileMap>(*this, mTextureManager, tmx, unitToTileX, unitToTileY));
+		setTileMap(std::make_unique<TileMap>(*this, mTextureManager, tmx));
 		getMap().setDrawColliderEnabled(true);
 		getMap().setDrawNavGraphEnabled(true);
 
@@ -47,10 +47,7 @@ namespace te
 		}
 		if (pPlayer == nullptr) { throw std::runtime_error("No Player object found."); }
 
-		sf::Transform transform;
-		transform.scale((float)unitToTileX / tmx.getTileWidth(), (float)unitToTileY / tmx.getTileHeight());
-
-		auto upPlayer = Player::make(*this, *pPlayer, transform);
+		auto upPlayer = Player::make(*this, *pPlayer);
 		mPlayerID = upPlayer->getID();
 		getSceneGraph().attachNode(std::move(upPlayer));
 
@@ -83,7 +80,7 @@ namespace te
 
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform.scale(16.f, 16.f);
+		states.transform *= getWorldToPixelTransform();
 		target.setView(mpCamera->getView(states.transform));
 		Game::draw(target, states);
 	}

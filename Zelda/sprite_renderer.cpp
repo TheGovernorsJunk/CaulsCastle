@@ -12,12 +12,6 @@ namespace te
 		, mSprite()
 	{}
 
-	//void SpriteRenderer::setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo)
-	//{
-	//	mSprite.setTexture(texture);
-	//	mSprite.setTextureRect(sf::IntRect(spriteInfo.x, spriteInfo.y, spriteInfo.w, spriteInfo.h));
-	//}
-
 	void SpriteRenderer::setSprite(const sf::Sprite& sprite)
 	{
 		mSprite = sprite;
@@ -27,7 +21,6 @@ namespace te
 	{
 		if (mSprite.getTexture() != NULL)
 		{
-			states.transform *= getTransform();
 			target.draw(mSprite, states);
 		}
 	}

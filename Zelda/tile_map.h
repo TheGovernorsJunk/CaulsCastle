@@ -22,7 +22,7 @@ namespace te
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
-		TileMap(Game& world, TextureManager& textureManager, const TMX& tmx, int widthUnitsPerTile = 0, int heightUnitsPerTile = 0);
+		TileMap(Game& world, TextureManager& textureManager, const TMX& tmx);
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
@@ -39,7 +39,7 @@ namespace te
 		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
 	private:
-		class Layer : public SceneNode
+		class Layer : public BaseGameEntity
 		{
 		public:
 			Layer(Game& world, std::vector<sf::VertexArray>&&, std::vector<const sf::Texture*>&);
