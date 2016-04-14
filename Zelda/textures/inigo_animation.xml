@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animations dir="textures">
+<animations>
   <animation name="inigo45_en_garde" millisecondsPerClip="300">
     <clip sprite="inigo45_teal_en_garde_1.png" />
     <clip sprite="inigo45_teal_en_garde_2.png" />

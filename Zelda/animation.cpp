@@ -13,8 +13,6 @@ namespace te
 		animXML.parse<0>(animFile.data());
 		rapidxml::xml_node<char>* pListNode = animXML.first_node("animations");
 
-		std::string dir = pListNode->first_attribute("dir")->value() + std::string("/");
-
 		std::vector<Animation> animations;
 		for (auto pAnimNode = pListNode->first_node("animation"); pAnimNode != 0; pAnimNode = pAnimNode->next_sibling("animation"))
 		{
@@ -26,7 +24,7 @@ namespace te
 			{
 				//std::string textureStr = dir + pClipNode->first_attribute("texture")->value();
 				//textureManager.load(textureStr);
-				TextureID id = TextureManager::getID(dir + pClipNode->first_attribute("sprite")->value());
+				TextureID id = TextureManager::getID(pClipNode->first_attribute("sprite")->value());
 				clips.push_back({
 					//TextureManager::getID(textureStr),
 					id,

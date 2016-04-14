@@ -37,9 +37,9 @@ namespace te
 		}
 	}
 
-	TextureID TextureManager::loadSpritesheet(const std::string& dir, const std::string& filename)
+	TextureID TextureManager::loadSpritesheet(const std::string& filename)
 	{
-		auto atlas = TextureAtlas::make(dir, filename, this);
+		auto atlas = TextureAtlas::make(filename, this);
 		TextureID textureID = atlas->getTextureID();
 		std::vector<TextureAtlas::Sprite> sprites(atlas->getSpriteCount());
 		atlas->insertSprites(sprites.begin());

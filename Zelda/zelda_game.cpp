@@ -20,7 +20,7 @@ namespace te
 		, mPlayerID(-1)
 		, mpCamera(nullptr)
 	{
-		mTextureManager.loadSpritesheet("textures", "inigo_spritesheet.xml");
+		mTextureManager.loadSpritesheet("textures/inigo_spritesheet.xml");
 		mTextureManager.loadAnimations("textures/inigo_animation.xml");
 		loadMap(fileName);
 	}

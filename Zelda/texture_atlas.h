@@ -25,7 +25,7 @@ namespace te
 			TextureID n;
 		};
 
-		static std::unique_ptr<TextureAtlas> make(const std::string& dir, const std::string& filename, TextureManager* = nullptr);
+		static std::unique_ptr<TextureAtlas> make(const std::string& filename, TextureManager* = nullptr);
 
 		TextureID getTextureID() const;
 		Sprite getSprite(TextureID id) const;
@@ -43,7 +43,7 @@ namespace te
 		}
 
 	private:
-		TextureAtlas(const std::string& dir, const std::string& filename, TextureManager*);
+		TextureAtlas(const std::string& filename, TextureManager*);
 
 		int mWidth;
 		int mHeight;
