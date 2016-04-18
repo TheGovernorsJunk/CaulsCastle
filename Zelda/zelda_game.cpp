@@ -80,7 +80,7 @@ namespace te
 
 	void ZeldaGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldToPixelTransform();
+		states.transform.scale(0.5f, 0.5f) *= getWorldToPixelTransform();
 		target.setView(mpCamera->getView(states.transform));
 		Game::draw(target, states);
 	}
