@@ -209,6 +209,11 @@
                 <key>pivotPoint</key>
                 <point_f>0.390625,0.796875</point_f>
             </struct>
+            <key type="filename">sprites/inigo90_teal_en_garde_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.421875,0.734375</point_f>
+            </struct>
         </map>
         <key>fileList</key>
         <array>

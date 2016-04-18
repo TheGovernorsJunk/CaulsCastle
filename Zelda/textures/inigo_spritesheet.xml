@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:d566e3666a35e21911998c32d83e3077:a588b076a25194089fcd4319ed2d5b6a:28fceb431044dd49d9b2c5b1655658ab$ -->
+<!-- $TexturePacker:SmartUpdate:bc975a83c349a29b7922357a5181b57e:949af4eb7a3ed6dfac90d15327f115a7:28fceb431044dd49d9b2c5b1655658ab$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -25,6 +25,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="inigo45_teal_en_garde_1.png" x="67" y="131" w="64" h="64" pX="0.390625" pY="0.796875"/>
     <sprite n="inigo45_teal_en_garde_2.png" x="133" y="131" w="64" h="64" pX="0.390625" pY="0.796875"/>
     <sprite n="inigo45_teal_en_garde_3.png" x="199" y="131" w="64" h="64" pX="0.390625" pY="0.796875"/>
+    <sprite n="inigo90_teal_en_garde_1.png" x="265" y="131" w="64" h="64" pX="0.421875" pY="0.734375"/>
     <sprite n="inigo_en_garde_1.png" x="131" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
     <sprite n="inigo_en_garde_2.png" x="261" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
 </TextureAtlas>
