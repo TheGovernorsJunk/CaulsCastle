@@ -171,22 +171,21 @@ namespace te
 
 	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const
 	{
-		textures.clear();
-		std::for_each(mTilesets.begin(), mTilesets.end(), [&textures, &textureManager](const Tileset& tileset) {
-			textures.push_back(&textureManager.getTexture(textureManager.load(tileset.image.source)));
+		textures.resize(mTilesets.size());
+		std::transform(mTilesets.begin(), mTilesets.end(), textures.begin(), [&textureManager](const Tileset& tileset) {
+			return &textureManager.getTexture(textureManager.load(tileset.image.source));
 		});
 
-		layers.clear();
-		std::for_each(mLayers.begin(), mLayers.end(), [this, &layers](const Layer& layer) {
+		layers.resize(mLayers.size());
+		std::transform(mLayers.begin(), mLayers.end(), layers.begin(), [this](const Layer& layer) {
 			std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
-			std::for_each(vertexArrays.begin(), vertexArrays.end(), [](sf::VertexArray& va) {
-				va.setPrimitiveType(sf::Quads);
-			});
+			for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
 
-			for (auto tileIter = layer.data.tiles.begin(); tileIter != layer.data.tiles.end(); ++tileIter) {
-				if (tileIter->gid != 0)
+			int tileIndex = 0;
+			for (auto tile : layer.data.tiles)
+			{
+				if (tile.gid != 0)
 				{
-					int tileIndex = tileIter - layer.data.tiles.begin();
 					int x = tileIndex % mWidth;
 					int y = tileIndex / mWidth;
 
@@ -196,8 +195,8 @@ namespace te
 					quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
 					quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
 
-					auto tilesetIter = getTilesetIterator(tileIter->gid, mTilesets);
-					int localId = tileIter->gid - tilesetIter->firstgid;
+					auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
+					int localId = tile.gid - tilesetIter->firstgid;
 					int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
 					int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
 
@@ -211,12 +210,11 @@ namespace te
 						vertexArrays[tilesetIndex].append(v);
 					});
 				}
+				++tileIndex;
 			}
 
-			layers.push_back(vertexArrays);
+			return vertexArrays;
 		});
-
-		//TileMap tm(pTextures, layers);
 	}
 
 	const TMX::TileData& TMX::getTileData(int x, int y, const TMX::Layer& layer) const
