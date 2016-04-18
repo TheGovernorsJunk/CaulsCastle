@@ -171,13 +171,13 @@ namespace te
 
 	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const
 	{
-		textures.resize(mTilesets.size());
-		std::transform(mTilesets.begin(), mTilesets.end(), textures.begin(), [&textureManager](const Tileset& tileset) {
+		textures.clear();
+		std::transform(mTilesets.begin(), mTilesets.end(), std::back_inserter(textures), [&textureManager](const Tileset& tileset) {
 			return &textureManager.getTexture(textureManager.load(tileset.image.source));
 		});
 
-		layers.resize(mLayers.size());
-		std::transform(mLayers.begin(), mLayers.end(), layers.begin(), [this](const Layer& layer) {
+		layers.clear();
+		std::transform(mLayers.begin(), mLayers.end(), std::back_inserter(layers), [this](const Layer& layer) {
 			std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
 			for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
 
