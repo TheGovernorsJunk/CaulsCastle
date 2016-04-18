@@ -59,6 +59,7 @@ namespace te
 			float yAxis = *(float*)msg.extraInfo;
 			body.SetLinearVelocity(b2Vec2(body.GetLinearVelocity().x, yAxis * speed));
 			result = true;
+			mpAnimator->setAnimation(TextureManager::getID(yAxis > 0 ? "inigo90_en_garde" : "inigo45_en_garde"));
 		}
 
 		b2Vec2 velocity = body.GetLinearVelocity();
