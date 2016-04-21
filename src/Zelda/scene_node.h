@@ -60,7 +60,8 @@ namespace te
 		Game& mWorld;
 		SceneNode* mpParent;
 		sf::Transformable mLocalTransformable;
-		std::unique_ptr<b2Body, std::function<void(b2Body*)>> mpBody;
+		using BodyDeleter = std::function<void(b2Body*)>;
+		std::unique_ptr<b2Body, BodyDeleter> mpBody;
 		std::vector<std::unique_ptr<SceneNode>> mChildren;
 		int mZ;
 	};
