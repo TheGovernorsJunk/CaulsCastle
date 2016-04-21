@@ -48,15 +48,12 @@ namespace te
 		const b2Body& getBody() const;
 
 	private:
-		struct PendingDraw
-		{
-			const SceneNode* pNode;
-		};
-
 		sf::Transform getParentTransform() const;
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
-		void concatPendingDraws(std::vector<PendingDraw>& outQueue) const;
+
+		template<typename Iter>
+		void concatPendingDraws(Iter out) const;
 
 		virtual void onUpdate(const sf::Time& dt);
 

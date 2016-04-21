@@ -4,6 +4,7 @@
 #include <Box2D/Box2D.h>
 
 #include <algorithm>
+#include <iterator>
 
 namespace te
 {
@@ -179,25 +180,21 @@ namespace te
 
 	void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		std::vector<PendingDraw> pendingDraws;
-		concatPendingDraws(pendingDraws);
-		std::sort(pendingDraws.begin(), pendingDraws.end(), [](PendingDraw& a, PendingDraw b) {
-			return a.pNode->getDrawOrder() < b.pNode->getDrawOrder();
+		std::vector<const SceneNode*> pendingDraws;
+		concatPendingDraws(std::back_inserter(pendingDraws));
+		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const SceneNode* a, const SceneNode* b) {
+			return a->getDrawOrder() < b->getDrawOrder();
 		});
-		for (auto& draw : pendingDraws)
-		{
-			draw.pNode->onDraw(target, states);
-		}
+		for (auto& draw : pendingDraws) draw->onDraw(target, states);
 	}
 
 	void SceneNode::onDraw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
-	void SceneNode::concatPendingDraws(std::vector<PendingDraw>& outQueue) const
+	template<typename Iter>
+	void SceneNode::concatPendingDraws(Iter out) const
 	{
-		outQueue.push_back({
-			this
-		});
-		for (auto& child : mChildren) child->concatPendingDraws(outQueue);
+		*out++ = this;
+		for (auto& child : mChildren) child->concatPendingDraws(out);
 	}
 
 	void SceneNode::onUpdate(const sf::Time& dt) {}
