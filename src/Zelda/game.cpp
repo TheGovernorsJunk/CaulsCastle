@@ -97,7 +97,6 @@ namespace te
 	void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		throwIfNoMap();
-		states.transform *= getTransform();
 		target.draw(*mpSceneGraph, states);
 	}
 

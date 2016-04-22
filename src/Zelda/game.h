@@ -16,7 +16,7 @@ namespace te
 	class SceneNode;
 	class TextureManager;
 
-	class Game : public sf::Transformable, public sf::Drawable
+	class Game : public sf::Drawable
 	{
 	public:
 		virtual ~Game();
