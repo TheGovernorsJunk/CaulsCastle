@@ -20,6 +20,8 @@ namespace te
 	class TMX
 	{
 	public:
+		using Index = size_t;
+
 		struct Polygon {
 			std::vector<sf::Vector2i> points;
 		};
@@ -36,10 +38,11 @@ namespace te
 			std::string name;
 			std::string draworder;
 			std::vector<Object> objects;
+			Index index;
 		};
 
 		TMX(const std::string& filename);
-		void makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const;
+		void makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const;
 		CompositeCollider* makeCollider(const sf::Transform& transform = sf::Transform::Identity) const;
 
 		SparseGraph<NavGraphNode, NavGraphEdge>* makeNavGraph(const sf::Transform& transform = sf::Transform::Identity) const;
@@ -81,6 +84,7 @@ namespace te
 			int width;
 			int height;
 			Data data;
+			Index index;
 		};
 
 		static const int NULL_TILE;

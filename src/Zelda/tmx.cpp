@@ -92,7 +92,8 @@ namespace te
 					ObjectGroup {
 						"",
 						pObjectGroup->first_attribute("draworder")->value(),
-						std::move(objects)
+						std::move(objects),
+						0
 					}
 				});
 			}
@@ -113,6 +114,22 @@ namespace te
 			});
 		}
 
+		rapidxml::xml_node<char>* pLastTileset = nullptr;
+		for (auto* pTileset = tmx.first_node("map")->first_node("tileset"); pTileset != 0; pTileset = pTileset->next_sibling("tileset"))
+			pLastTileset = pTileset;
+		Index currIndex = 0;
+		std::vector<Index> tileLayerIndices;
+		std::vector<Index> objectLayerIndices;
+		for (auto* pLayer = pLastTileset->next_sibling(); pLayer != 0; pLayer = pLayer->next_sibling())
+		{
+			if (std::string(pLayer->name()) == "layer")
+				tileLayerIndices.push_back(currIndex);
+			if (std::string(pLayer->name()) == "objectgroup")
+				objectLayerIndices.push_back(currIndex);
+			++currIndex;
+		}
+
+		auto layerIndexIter = tileLayerIndices.begin();
 		for (rapidxml::xml_node<char>* pLayer = tmx.first_node("map")->first_node("layer"); pLayer != 0; pLayer = pLayer->next_sibling("layer"))
 		{
 			std::vector<Tile> tiles;
@@ -126,10 +143,12 @@ namespace te
 				pLayer->first_attribute("name")->value(),
 				std::stoi(pLayer->first_attribute("width")->value()),
 				std::stoi(pLayer->first_attribute("height")->value()),
-				{std::move(tiles)}
+				{std::move(tiles)},
+				*layerIndexIter++
 			});
 		}
 
+		auto objectIndexIter = objectLayerIndices.begin();
 		for (rapidxml::xml_node<char>* pObjectgroup = tmx.first_node("map")->first_node("objectgroup"); pObjectgroup != 0; pObjectgroup = pObjectgroup->next_sibling("objectgroup"))
 		{
 			std::vector<Object> objects;
@@ -147,7 +166,8 @@ namespace te
 			mObjectGroups.push_back({
 				pObjectgroup->first_attribute("name")->value(),
 				"",
-				std::move(objects)
+				std::move(objects),
+				*objectIndexIter++
 			});
 		}
 	}
@@ -169,7 +189,7 @@ namespace te
 		return retIt;
 	}
 
-	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers) const
+	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const
 	{
 		textures.clear();
 		std::transform(mTilesets.begin(), mTilesets.end(), std::back_inserter(textures), [&textureManager](const Tileset& tileset) {
@@ -215,6 +235,9 @@ namespace te
 
 			return vertexArrays;
 		});
+
+		drawOrders.clear();
+		std::transform(mLayers.begin(), mLayers.end(), std::back_inserter(drawOrders), [](auto& layer) { return static_cast<int>(layer.index); });
 	}
 
 	const TMX::TileData& TMX::getTileData(int x, int y, const TMX::Layer& layer) const
