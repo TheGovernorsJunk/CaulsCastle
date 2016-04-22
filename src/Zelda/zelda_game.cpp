@@ -28,11 +28,9 @@ namespace te
 	void ZeldaGame::loadMap(const std::string& fileName)
 	{
 		TMX tmx(fileName);
-		setTileMap(std::make_unique<TileMap>(*this, mTextureManager, tmx));
-		getMap().setDrawColliderEnabled(true);
-		getMap().setDrawNavGraphEnabled(true);
 
 		TMX::Object* pPlayer = nullptr;
+		int playerSortOrder = 0;
 		std::vector<TMX::ObjectGroup> objectGroups = tmx.getObjectGroups();
 		for (auto& objectGroup : objectGroups)
 		{
@@ -42,16 +40,22 @@ namespace te
 				{
 					if (pPlayer != nullptr) { throw std::runtime_error("Multiple Player objects found."); }
 					pPlayer = &object;
+					playerSortOrder = objectGroup.index;
 				}
 			}
 		}
 		if (pPlayer == nullptr) { throw std::runtime_error("No Player object found."); }
 
 		auto upPlayer = Player::make(*this, *pPlayer);
+		upPlayer->setDrawOrder(playerSortOrder);
 		mPlayerID = upPlayer->getID();
 		getSceneGraph().attachNode(std::move(upPlayer));
 
 		mpCamera = std::make_unique<Camera>(getEntityManager(), mPlayerID, sf::Vector2f(16 * 24.f, 9 * 24.f));
+
+		setTileMap(std::make_unique<TileMap>(*this, mTextureManager, std::move(tmx)));
+		getMap().setDrawColliderEnabled(true);
+		getMap().setDrawNavGraphEnabled(true);
 	}
 
 	void ZeldaGame::processInput(const sf::Event& evt)
