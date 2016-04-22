@@ -17,4 +17,8 @@ int main(int argc, char* argv[])
 	{
 		std::cerr << ex.what() << std::endl;
 	}
+	catch (...)
+	{
+		std::cerr << "An unknown error occurred." << std::endl;
+	}
 }

@@ -10,7 +10,6 @@
 #include "animator.h"
 
 #include <cassert>
-#include <iostream>
 
 namespace te
 {
@@ -73,8 +72,6 @@ namespace te
 
 	void Player::onUpdate(const sf::Time& dt)
 	{
-		sf::Vector2f worldPosition = getWorldTransform().transformPoint({ 0, 0 });
-		std::cout << "Player position: (" << worldPosition.x << ", " << worldPosition.y << ")" << std::endl;
 		mpAnimator->update(dt);
 	}
 
