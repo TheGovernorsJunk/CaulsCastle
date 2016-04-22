@@ -27,8 +27,9 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
-	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx)
+	TileMap::TileMap(Game& world, TextureManager& textureManager, TMX&& tmx)
 		: BaseGameEntity(world, b2BodyDef())
+		, mTMX(std::move(tmx))
 		, mWorld(world)
 		, mTextures()
 		, mpCollider(nullptr)
@@ -40,27 +41,29 @@ namespace te
 		setDrawOrder(std::numeric_limits<int>::max());
 
 		std::vector<std::vector<sf::VertexArray>> layers;
-		tmx.makeVertices(textureManager, mTextures, layers);
-		for (auto it = layers.begin(); it != layers.end(); ++it)
+		std::vector<int> drawOrders;
+		mTMX.makeVertices(textureManager, mTextures, layers, drawOrders);
+
+		auto orderIter = drawOrders.begin();
+		for (auto& layer : layers)
 		{
-			int index = it - layers.begin();
-			if (it->size() != mTextures.size()) {
+			if (layer.size() != mTextures.size()) {
 				throw std::runtime_error("Texture and layer component counts are inconsistent.");
 			}
-			auto pLayer = std::make_unique<Layer>(mWorld, std::move(*it), mTextures);
-			pLayer->setDrawOrder(index);
+			auto pLayer = std::make_unique<Layer>(mWorld, std::move(layer), mTextures);
+			pLayer->setDrawOrder(*orderIter++);
 			attachNode(std::move(pLayer));
 		}
 
 		const sf::Transform& transform = getWorld().getPixelToWorldTransform();
 
-		mpCollider = std::unique_ptr<CompositeCollider>(tmx.makeCollider(transform));
+		mpCollider = std::unique_ptr<CompositeCollider>(mTMX.makeCollider(transform));
 
-		mpNavGraph = std::unique_ptr<NavGraph>(tmx.makeNavGraph(transform));
+		mpNavGraph = std::unique_ptr<NavGraph>(mTMX.makeNavGraph(transform));
 
 		mCellSpaceNeighborhoodRange = calculateAverageGraphEdgeLength(*mpNavGraph) + 1;
 
-		mpCellSpacePartition = std::make_unique<NavCellSpace>((float)tmx.getTileWidth() / tmx.getWidth(), (float)tmx.getTileHeight() * tmx.getHeight(), tmx.getWidth() / 4, tmx.getHeight() / 4, mpNavGraph->numNodes());
+		mpCellSpacePartition = std::make_unique<NavCellSpace>((float)mTMX.getTileWidth() / mTMX.getWidth(), (float)mTMX.getTileHeight() * mTMX.getHeight(), mTMX.getWidth() / 4, mTMX.getHeight() / 4, mpNavGraph->numNodes());
 
 		TileMap::NavGraph::ConstNodeIterator nodeIter(*mpNavGraph);
 		for (const TileMap::NavGraph::Node* pNode = nodeIter.begin(); !nodeIter.end(); pNode = nodeIter.next())

@@ -19,10 +19,12 @@ namespace te
 	class TileMap : public BaseGameEntity, public Collidable
 	{
 	public:
+		using Component = int;
+
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
-		TileMap(Game& world, TextureManager& textureManager, const TMX& tmx);
+		TileMap(Game& world, TextureManager& textureManager, TMX&& tmx);
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
@@ -56,6 +58,8 @@ namespace te
 		TileMap& operator=(const TileMap&) = delete;
 
 		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
+
+		TMX mTMX;
 
 		Game& mWorld;
 
