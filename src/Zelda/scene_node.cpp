@@ -51,10 +51,8 @@ namespace te
 			position = getParentTransform() * position;
 			mpBody->SetTransform(b2Vec2(position.x, position.y), mpBody->GetAngle());
 		}
-		else
-		{
-			mLocalTransformable.setPosition(position);
-		}
+		mLocalTransformable.setPosition(position);
+		transformChildren();
 	}
 
 	void SceneNode::setPosition(float x, float y)
@@ -171,6 +169,14 @@ namespace te
 			return *mpBody;
 		}
 		throw std::runtime_error("Rigid body not set.");
+	}
+
+	void SceneNode::transformChildren()
+	{
+		for (auto& child : mChildren)
+			if (child->mpBody)
+				// Box2D needs refreshed coordinates
+				child->setPosition(child->mLocalTransformable.getPosition());
 	}
 
 	sf::Transform SceneNode::getParentTransform() const

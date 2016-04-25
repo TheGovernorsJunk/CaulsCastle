@@ -48,6 +48,8 @@ namespace te
 		const b2Body& getBody() const;
 
 	private:
+		void transformChildren();
+
 		sf::Transform getParentTransform() const;
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
