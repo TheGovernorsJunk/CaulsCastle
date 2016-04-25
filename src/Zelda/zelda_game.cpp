@@ -63,11 +63,13 @@ namespace te
 		upMap2->setDrawNavGraphEnabled(true);
 		getMap().stitch(sf::Vector2i{ 0, 0 }, *upMap2, sf::Vector2i{ 0, 20 });
 		auto* pMap = upMap2.get();
-		getSceneGraph().attachNode(std::move(upMap2));
+		getMap().attachNode(std::move(upMap2));
 
 		auto upMap3 = TileMap::make(*this, mTextureManager, TMX{fileName});
 		pMap->stitch({ 0, 0 }, *upMap3, { 30, 0 });
-		getSceneGraph().attachNode(std::move(upMap3));
+		getMap().attachNode(std::move(upMap3));
+
+		//getMap().move({ -4, 0 });
 	}
 
 	void ZeldaGame::processInput(const sf::Event& evt)
