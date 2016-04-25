@@ -129,7 +129,8 @@ namespace te
 
 	void TileMap::stitch(sf::Vector2i tileCoordsA, TileMap& o, sf::Vector2i tileCoordsB) const
 	{
-		sf::Vector2f a = getTileToWorldTransform().transformPoint((float)tileCoordsA.x, (float)tileCoordsA.y);
+		const auto& pos = getWorldTransform().transformPoint({ 0, 0 });
+		sf::Vector2f a = pos + getTileToWorldTransform().transformPoint((float)tileCoordsA.x, (float)tileCoordsA.y);
 		sf::Vector2f b = o.getTileToWorldTransform().transformPoint((float)tileCoordsB.x, (float)tileCoordsB.y);
 		o.setPosition(a - b);
 	}
