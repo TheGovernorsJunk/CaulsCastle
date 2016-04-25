@@ -127,6 +127,18 @@ namespace te
 		return mpCollider->transform(getWorldTransform()).intersects(o, collision);
 	}
 
+	void TileMap::stitch(sf::Vector2i tileCoordsA, TileMap& o, sf::Vector2i tileCoordsB) const
+	{
+		sf::Vector2f a = getTileToWorldTransform().transformPoint((float)tileCoordsA.x, (float)tileCoordsA.y);
+		sf::Vector2f b = o.getTileToWorldTransform().transformPoint((float)tileCoordsB.x, (float)tileCoordsB.y);
+		o.setPosition(a - b);
+	}
+
+	sf::Transform TileMap::getTileToWorldTransform() const
+	{
+		return sf::Transform{}.scale(mTMX.getTileWidth(), mTMX.getTileHeight()) * mWorld.getPixelToWorldTransform();
+	}
+
 	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getWorldTransform();

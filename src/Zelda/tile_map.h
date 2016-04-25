@@ -40,6 +40,10 @@ namespace te
 		bool intersects(const CompositeCollider&) const;
 		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
+		void stitch(sf::Vector2i coords, TileMap& o, sf::Vector2i oCoords) const;
+
+		sf::Transform getTileToWorldTransform() const;
+
 	private:
 		class Layer : public BaseGameEntity
 		{
