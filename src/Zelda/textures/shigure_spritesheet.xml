@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="shigure_spritesheet.png" width="1634" height="908">
+    <sprite n="shigure_relaxed" x="392" y="262" w="128" h="128" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -294,6 +294,9 @@
     <Xml Include="textures\inigo_spritesheet.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="textures\shigure_spritesheet.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Text Include="textures\inigo_animation.xml">

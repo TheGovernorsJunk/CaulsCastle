@@ -222,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="textures\inigo_spritesheet.xml" />
+    <Xml Include="textures\shigure_spritesheet.xml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="textures\inigo_animation.xml">
