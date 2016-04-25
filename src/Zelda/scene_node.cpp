@@ -31,6 +31,8 @@ namespace te
 		, mZ(0)
 	{
 		if (!mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
+		b2Vec2 pos = mpBody->GetPosition();
+		mLocalTransformable.setPosition(pos.x, pos.y);
 	}
 
 	SceneNode::SceneNode(Game& world, sf::Vector2f position)
@@ -48,8 +50,8 @@ namespace te
 	{
 		if (mpBody)
 		{
-			position = getParentTransform() * position;
-			mpBody->SetTransform(b2Vec2(position.x, position.y), mpBody->GetAngle());
+			sf::Vector2f worldPosition = getParentTransform() * position;
+			mpBody->SetTransform(b2Vec2(worldPosition.x, worldPosition.y), mpBody->GetAngle());
 		}
 		mLocalTransformable.setPosition(position);
 		transformChildren();
@@ -114,6 +116,7 @@ namespace te
 	void SceneNode::attachNode(std::unique_ptr<SceneNode>&& child)
 	{
 		child->mpParent = this;
+		child->setPosition(child->mLocalTransformable.getPosition());
 		mChildren.push_back(std::move(child));
 	}
 
@@ -174,9 +177,8 @@ namespace te
 	void SceneNode::transformChildren()
 	{
 		for (auto& child : mChildren)
-			if (child->mpBody)
-				// Box2D needs refreshed coordinates
-				child->setPosition(child->mLocalTransformable.getPosition());
+			// Box2D needs refreshed coordinates
+			child->setPosition(child->mLocalTransformable.getPosition());
 	}
 
 	sf::Transform SceneNode::getParentTransform() const
