@@ -48,6 +48,7 @@ namespace te
 		const b2Body& getBody() const;
 
 	private:
+		void refresh();
 		void transformChildren();
 
 		sf::Transform getParentTransform() const;

@@ -116,7 +116,7 @@ namespace te
 	void SceneNode::attachNode(std::unique_ptr<SceneNode>&& child)
 	{
 		child->mpParent = this;
-		child->setPosition(child->mLocalTransformable.getPosition());
+		child->refresh();
 		mChildren.push_back(std::move(child));
 	}
 
@@ -130,6 +130,7 @@ namespace te
 
 		std::unique_ptr<SceneNode> result = std::move(*found);
 		result->mpParent = nullptr;
+		result->refresh();
 		mChildren.erase(found);
 		return result;
 	}
@@ -174,11 +175,16 @@ namespace te
 		throw std::runtime_error("Rigid body not set.");
 	}
 
+	void SceneNode::refresh()
+	{
+		// Triggers any needed Box2D updates
+		setPosition(mLocalTransformable.getPosition());
+	}
+
 	void SceneNode::transformChildren()
 	{
 		for (auto& child : mChildren)
-			// Box2D needs refreshed coordinates
-			child->setPosition(child->mLocalTransformable.getPosition());
+			child->refresh();
 	}
 
 	sf::Transform SceneNode::getParentTransform() const
