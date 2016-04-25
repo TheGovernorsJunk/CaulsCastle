@@ -24,7 +24,7 @@ namespace te
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
-		TileMap(Game& world, TextureManager& textureManager, TMX&& tmx);
+		static std::unique_ptr<TileMap> make(Game& world, TextureManager& textureManager, TMX&& tmx);
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
@@ -45,6 +45,8 @@ namespace te
 		sf::Transform getTileToWorldTransform() const;
 
 	private:
+		TileMap(Game& world, TextureManager& textureManager, TMX&& tmx);
+
 		class Layer : public BaseGameEntity
 		{
 		public:

@@ -53,9 +53,21 @@ namespace te
 
 		mpCamera = std::make_unique<Camera>(getEntityManager(), mPlayerID, sf::Vector2f(16 * 24.f, 9 * 24.f));
 
-		setTileMap(std::make_unique<TileMap>(*this, mTextureManager, std::move(tmx)));
+		setTileMap(TileMap::make(*this, mTextureManager, std::move(tmx)));
 		getMap().setDrawColliderEnabled(true);
 		getMap().setDrawNavGraphEnabled(true);
+
+		// TODO: DELETE SECOND MAP
+		auto upMap2 = TileMap::make(*this, mTextureManager, TMX{fileName});
+		upMap2->setDrawColliderEnabled(true);
+		upMap2->setDrawNavGraphEnabled(true);
+		getMap().stitch(sf::Vector2i{ 0, 0 }, *upMap2, sf::Vector2i{ 0, 20 });
+		auto* pMap = upMap2.get();
+		getSceneGraph().attachNode(std::move(upMap2));
+
+		auto upMap3 = TileMap::make(*this, mTextureManager, TMX{fileName});
+		pMap->stitch({ 0, 0 }, *upMap3, { 30, 0 });
+		getSceneGraph().attachNode(std::move(upMap3));
 	}
 
 	void ZeldaGame::processInput(const sf::Event& evt)

@@ -27,6 +27,11 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
+	std::unique_ptr<TileMap> TileMap::make(Game& world, TextureManager& textureManager, TMX&& tmx)
+	{
+		return std::unique_ptr<TileMap>(new TileMap(world, textureManager, std::move(tmx)));
+	}
+
 	TileMap::TileMap(Game& world, TextureManager& textureManager, TMX&& tmx)
 		: BaseGameEntity(world, b2BodyDef())
 		, mTMX(std::move(tmx))
