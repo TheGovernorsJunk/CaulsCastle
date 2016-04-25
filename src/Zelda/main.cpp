@@ -12,13 +12,16 @@ int main(int argc, char* argv[])
 		}
 		te::ZeldaApplication app(argv[1]);
 		app.run();
+		return 0;
 	}
 	catch (std::exception& ex)
 	{
 		std::cerr << ex.what() << std::endl;
+		return -1;
 	}
 	catch (...)
 	{
 		std::cerr << "An unknown error occurred." << std::endl;
+		return -1;
 	}
 }
