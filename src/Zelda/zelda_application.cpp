@@ -14,7 +14,7 @@ namespace te
 		return std::make_unique<sf::RenderWindow>(sf::VideoMode(600, 400), "Zelda");
 	}
 
-	std::unique_ptr<Game> ZeldaApplication::makeGame()
+	std::unique_ptr<Runnable> ZeldaApplication::makeRunnable()
 	{
 		sf::Transform transform;
 		transform.scale(1.f / 16, 1.f / 16);

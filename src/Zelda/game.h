@@ -1,6 +1,8 @@
 #ifndef TE_GAME_H
 #define TE_GAME_H
 
+#include "runnable.h"
+
 #include <SFML/Graphics.hpp>
 
 #include <memory>
@@ -16,7 +18,7 @@ namespace te
 	class SceneNode;
 	class TextureManager;
 
-	class Game : public sf::Drawable
+	class Game : public Runnable
 	{
 	public:
 		virtual ~Game();
@@ -25,7 +27,6 @@ namespace te
 		const TileMap& getMap() const;
 		TileMap& getMap();
 
-		virtual void processInput(const sf::Event& evt) = 0;
 		virtual void update(const sf::Time& dt);
 
 		Application& getApplication();

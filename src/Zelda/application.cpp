@@ -1,5 +1,5 @@
 #include "application.h"
-#include "game.h"
+#include "runnable.h"
 #include "texture_manager.h"
 #include "texture_atlas.h"
 
@@ -17,7 +17,7 @@ namespace te
 		auto window = makeWindow();
 		window->setKeyRepeatEnabled(false);
 
-		auto pGame = makeGame();
+		auto pGame = makeRunnable();
 
 		sf::Clock clock;
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -58,16 +58,16 @@ namespace te
 		return *mpTextureManager;
 	}
 
-	void Application::processInput(const sf::Event& evt, Game& game)
+	void Application::processInput(const sf::Event& evt, Runnable& runnable)
 	{
-		game.processInput(evt);
+		runnable.processInput(evt);
 	}
-	void Application::update(const sf::Time& dt, Game& game)
+	void Application::update(const sf::Time& dt, Runnable& runnable)
 	{
-		game.update(dt);
+		runnable.update(dt);
 	}
-	void Application::render(sf::RenderTarget& target, Game& game)
+	void Application::render(sf::RenderTarget& target, Runnable& runnable)
 	{
-		target.draw(game);
+		target.draw(runnable);
 	}
 }

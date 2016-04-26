@@ -17,7 +17,7 @@ namespace te
 {
 	class TextureManager;
 	class TextureAtlas;
-	class Game;
+	class Runnable;
 
 	class Application
 	{
@@ -30,14 +30,13 @@ namespace te
 		void run(int fps = 60);
 	private:
 		virtual std::unique_ptr<sf::RenderWindow> makeWindow() const = 0;
-		virtual std::unique_ptr<Game> makeGame() = 0;
+		virtual std::unique_ptr<Runnable> makeRunnable() = 0;
 
-		virtual void processInput(const sf::Event& evt, Game& game);
-		virtual void update(const sf::Time& dt, Game& game);
-		virtual void render(sf::RenderTarget& target, Game& game);
+		virtual void processInput(const sf::Event& evt, Runnable& game);
+		virtual void update(const sf::Time& dt, Runnable& game);
+		virtual void render(sf::RenderTarget& target, Runnable& game);
 
 		std::unique_ptr<TextureManager> mpTextureManager;
-		std::unique_ptr<Game> mpGame;
 	};
 }
 

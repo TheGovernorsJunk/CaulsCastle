@@ -13,7 +13,7 @@ namespace te
 		ZeldaApplication(const std::string& filename);
 	private:
 		std::unique_ptr<sf::RenderWindow> makeWindow() const;
-		std::unique_ptr<Game> makeGame();
+		std::unique_ptr<Runnable> makeRunnable();
 
 		std::string mFilename;
 	};
