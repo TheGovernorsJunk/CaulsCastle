@@ -142,7 +142,7 @@ namespace te
 
 	sf::Transform TileMap::getTileToWorldTransform() const
 	{
-		return sf::Transform{}.scale(mTMX.getTileWidth(), mTMX.getTileHeight()) * mWorld.getPixelToWorldTransform();
+		return sf::Transform{}.scale((float)mTMX.getTileWidth(), (float)mTMX.getTileHeight()) * mWorld.getPixelToWorldTransform();
 	}
 
 	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
