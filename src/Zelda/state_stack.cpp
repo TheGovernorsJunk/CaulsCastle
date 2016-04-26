@@ -35,4 +35,25 @@ namespace te
 	{
 		for (auto& state : mStack) target.draw(*state, states);
 	}
+
+	void StateStack::processPendingActions()
+	{
+		for (auto& action : mPendingActions)
+		{
+			switch (action.type)
+			{
+			case ActionType::Push:
+				mStack.push_back(std::move(action.pState));
+				break;
+			case ActionType::Pop:
+				mStack.pop_back();
+				break;
+			case ActionType::Clear:
+				mStack.clear();
+				break;
+			}
+		}
+
+		mPendingActions.clear();
+	}
 }
