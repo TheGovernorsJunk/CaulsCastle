@@ -20,7 +20,7 @@ namespace te
 		template<typename T, typename... Args>
 		void pushState(Args&&... args)
 		{
-			mStateStack.queuePush(std::forward<Args>(args));
+			mStateStack.queuePush<T>(std::forward<Args>(args)...);
 		}
 		void popState();
 		void clearStates();
