@@ -1,4 +1,4 @@
-#include "zelda_application.h"
+#include "zelda_stack_application.h"
 
 #include <iostream>
 
@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 		{
 			throw std::runtime_error("Initial map file must be supplied.");
 		}
-		te::ZeldaApplication app(argv[1]);
+		te::ZeldaStackApplication app(argv[1]);
 		app.run();
 		return 0;
 	}
