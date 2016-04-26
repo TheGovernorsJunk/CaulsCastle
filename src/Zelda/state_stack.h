@@ -13,23 +13,28 @@ namespace te
 	{
 	public:
 		template<typename T, typename... Args>
-		void queuePush(Args&&... args)
+		static std::unique_ptr<StateStack> make(Args&&... args)
 		{
-			mPendingActions.push_back(Action{
-				ActionType::Push,
-				T::make(std::forward<Args>(args)...)
-			});
+			std::unique_ptr<StateStack> pStack{new StateStack{}};
+			pStack->mStack.push_back(T::make(std::forward<Args>(args)...));
+			pStack->mStack[0]->mStateStack = pStack.get();
+			return pStack;
 		}
-
-		void queuePop();
-		void queueClear();
 
 		void processInput(const sf::Event&);
 		void update(const sf::Time&);
 
+	private:
+		friend class GameState;
+
+		StateStack();
+
+		void queuePush(std::unique_ptr<GameState>&&);
+		void queuePop();
+		void queueClear();
+
 		void processPendingActions();
 
-	private:
 		enum class ActionType { Push, Pop, Clear };
 		struct Action
 		{

@@ -18,18 +18,19 @@ namespace te
 
 	std::unique_ptr<Runnable> ZeldaStackApplication::makeRunnable()
 	{
-		auto pStack = std::make_unique<StateStack>();
-
+		class OverlayState;
 		class ZeldaState : public GameState
 		{
 		public:
-			static std::unique_ptr<ZeldaState> make(StateStack& ss, Application& app, const std::string& filename)
+			static std::unique_ptr<ZeldaState> make(Application& app, const std::string& filename)
 			{
-				return std::unique_ptr<ZeldaState>(new ZeldaState(ss, app, filename));
+				return std::unique_ptr<ZeldaState>(new ZeldaState(app, filename));
 			}
 			bool processInput(const sf::Event& evt)
 			{
 				mpGame->processInput(evt);
+				if (evt.key.code == sf::Keyboard::Space && evt.type == sf::Event::KeyPressed)
+					pushState<OverlayState>();
 				return true; 
 			}
 			bool update(const sf::Time& dt)
@@ -39,8 +40,8 @@ namespace te
 			}
 
 		private:
-			ZeldaState(StateStack& ss, Application& app, const std::string& filename)
-				: GameState(ss)
+			ZeldaState(Application& app, const std::string& filename)
+				: GameState()
 				, mpGame(ZeldaGame::make(app, app.getTextureManager(), filename, sf::Transform{}.scale(1.f / 16, 1.f / 16)))
 			{}
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -51,7 +52,38 @@ namespace te
 			std::unique_ptr<ZeldaGame> mpGame;
 		};
 
-		pStack->queuePush<ZeldaState>(*pStack, *this, mFilename);
+		class OverlayState : public GameState
+		{
+		public:
+			static std::unique_ptr<OverlayState> make()
+			{
+				return std::unique_ptr<OverlayState>(new OverlayState{});
+			}
+			bool processInput(const sf::Event& evt)
+			{
+				if (evt.key.code == sf::Keyboard::Escape && evt.type == sf::Event::KeyPressed)
+				{
+					popState();
+					return true;
+				}
+				else if (evt.key.code == sf::Keyboard::Space)
+				{
+					return true;
+				}
+				return false;
+			}
+			bool update(const sf::Time& dt) { return false; }
+		private:
+			void draw(sf::RenderTarget& target, sf::RenderStates) const
+			{
+				sf::Vector2f viewSize = target.getView().getSize();
+				sf::RectangleShape rect{viewSize};
+				rect.setFillColor(sf::Color{255,0,0,50});
+				target.draw(rect);
+			}
+		};
+
+		auto pStack = StateStack::make<ZeldaState>(*this, mFilename);
 		return pStack;
 	}
 }

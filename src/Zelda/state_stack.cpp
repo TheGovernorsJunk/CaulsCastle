@@ -2,6 +2,15 @@
 
 namespace te
 {
+	StateStack::StateStack() {}
+
+	void StateStack::queuePush(std::unique_ptr<GameState>&& pState)
+	{
+		mPendingActions.push_back(Action{
+			ActionType::Push,
+			std::move(pState)
+		});
+	}
 	void StateStack::queuePop()
 	{
 		mPendingActions.push_back(Action{
@@ -43,6 +52,7 @@ namespace te
 			switch (action.type)
 			{
 			case ActionType::Push:
+				action.pState->mStateStack = this;
 				mStack.push_back(std::move(action.pState));
 				break;
 			case ActionType::Pop:

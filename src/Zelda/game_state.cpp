@@ -3,16 +3,13 @@
 
 namespace te
 {
-	GameState::GameState(StateStack& stack)
-		: mStateStack(stack) {}
-
 	void GameState::popState()
 	{
-		mStateStack.queuePop();
+		mStateStack->queuePop();
 	}
 
 	void GameState::clearStates()
 	{
-		mStateStack.queueClear();
+		mStateStack->queueClear();
 	}
 }
