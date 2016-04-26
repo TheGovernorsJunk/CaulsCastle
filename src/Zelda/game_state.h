@@ -17,6 +17,15 @@ namespace te
 	protected:
 		GameState(StateStack&);
 
+		template<typename T, typename... Args>
+		void pushState(Args&&... args)
+		{
+			mStateStack.queuePush(std::forward<Args>(args));
+		}
+		void popState();
+		void clearStates();
+
+	private:
 		StateStack& mStateStack;
 	};
 }

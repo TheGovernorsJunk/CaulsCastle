@@ -21,6 +21,9 @@ namespace te
 			});
 		}
 
+		void queuePop();
+		void queueClear();
+
 		void processInput(const sf::Event&);
 		void update(const sf::Time&);
 
@@ -35,8 +38,10 @@ namespace te
 					break;
 				case ActionType::Pop:
 					mStack.pop_back();
+					break;
 				case ActionType::Clear:
 					mStack.clear();
+					break;
 				}
 			}
 

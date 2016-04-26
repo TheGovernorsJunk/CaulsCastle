@@ -2,6 +2,22 @@
 
 namespace te
 {
+	void StateStack::queuePop()
+	{
+		mPendingActions.push_back(Action{
+			ActionType::Pop,
+			nullptr
+		});
+	}
+
+	void StateStack::queueClear()
+	{
+		mPendingActions.push_back(Action{
+			ActionType::Clear,
+			nullptr
+		});
+	}
+
 	void StateStack::processInput(const sf::Event& evt)
 	{
 		for (auto iter = mStack.rbegin(); iter != mStack.rend(); ++iter)
