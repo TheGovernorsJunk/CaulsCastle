@@ -128,6 +128,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="game_state.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="box_collider.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="regulator.cpp" />
     <ClCompile Include="sprite_renderer.cpp" />
+    <ClCompile Include="state_stack.cpp" />
     <ClCompile Include="steering_behaviors.cpp" />
     <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="texture_manager.cpp" />
@@ -163,6 +165,7 @@
     <ClCompile Include="zelda_application.cpp" />
     <ClCompile Include="zelda_entity.cpp" />
     <ClCompile Include="zelda_game.cpp" />
+    <ClCompile Include="zelda_stack_application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx" />
@@ -180,6 +183,7 @@
     <ClInclude Include="composite_collider.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="game_state.h" />
     <ClInclude Include="goal.h" />
     <ClInclude Include="goal_composite.h" />
     <ClInclude Include="goal_evaluator.h" />
@@ -202,11 +206,13 @@
     <ClInclude Include="path_planner.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="regulator.h" />
+    <ClInclude Include="runnable.h" />
     <ClInclude Include="scene_node.h" />
     <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="sprite_renderer.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
+    <ClInclude Include="state_stack.h" />
     <ClInclude Include="steering_behaviors.h" />
     <ClInclude Include="texture_atlas.h" />
     <ClInclude Include="texture_manager.h" />
@@ -219,6 +225,7 @@
     <ClInclude Include="zelda_application.h" />
     <ClInclude Include="zelda_entity.h" />
     <ClInclude Include="zelda_game.h" />
+    <ClInclude Include="zelda_stack_application.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="textures\inigo_spritesheet.xml" />

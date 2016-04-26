@@ -129,6 +129,15 @@
     <ClCompile Include="animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="state_stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zelda_stack_application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -287,6 +296,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="animator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="state_stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="runnable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zelda_stack_application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
