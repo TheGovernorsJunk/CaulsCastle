@@ -2,7 +2,11 @@
 
 namespace te
 {
-	StateStack::StateStack() {}
+	StateStack::StateStack(Application& app)
+		: mApp(app)
+		, mStack()
+		, mPendingActions()
+	{}
 
 	void StateStack::queuePush(std::unique_ptr<GameState>&& pState)
 	{
@@ -43,6 +47,11 @@ namespace te
 	void StateStack::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		for (auto& state : mStack) target.draw(*state, states);
+	}
+
+	Application& StateStack::getApplication()
+	{
+		return mApp;
 	}
 
 	void StateStack::processPendingActions()

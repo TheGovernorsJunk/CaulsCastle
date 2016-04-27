@@ -9,13 +9,15 @@
 
 namespace te
 {
+	class Application;
+
 	class StateStack : public Runnable
 	{
 	public:
 		template<typename T, typename... Args>
-		static std::unique_ptr<StateStack> make(Args&&... args)
+		static std::unique_ptr<StateStack> make(Application& app, Args&&... args)
 		{
-			std::unique_ptr<StateStack> pStack{new StateStack{}};
+			std::unique_ptr<StateStack> pStack{new StateStack{app}};
 			pStack->mStack.push_back(T::make(std::forward<Args>(args)...));
 			pStack->mStack[0]->mStateStack = pStack.get();
 			return pStack;
@@ -27,7 +29,7 @@ namespace te
 	private:
 		friend class GameState;
 
-		StateStack();
+		StateStack(Application& app);
 
 		void queuePush(std::unique_ptr<GameState>&&);
 		void queuePop();
@@ -43,9 +45,10 @@ namespace te
 		};
 
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
+		Application& getApplication();
 
+		Application& mApp;
 		std::vector<std::unique_ptr<GameState>> mStack;
-
 		std::vector<Action> mPendingActions;
 	};
 }

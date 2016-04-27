@@ -6,6 +6,7 @@
 namespace te
 {
 	class StateStack;
+	class TextureManager;
 
 	class GameState : public sf::Drawable
 	{
@@ -22,6 +23,7 @@ namespace te
 		}
 		void popState();
 		void clearStates();
+		TextureManager& getTextureManager();
 
 	private:
 		friend class StateStack;

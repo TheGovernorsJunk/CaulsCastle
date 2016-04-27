@@ -83,7 +83,7 @@ namespace te
 			}
 		};
 
-		auto pStack = StateStack::make<ZeldaState>(*this, mFilename);
+		auto pStack = StateStack::make<ZeldaState>(*this, *this, mFilename);
 		return pStack;
 	}
 }
