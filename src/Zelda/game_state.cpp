@@ -6,21 +6,22 @@
 
 namespace te
 {
+	GameState::GameState(StateStack& ss)
+		: mStateStack(ss)
+	{}
+
 	void GameState::popState()
 	{
-		assert(mStateStack);
-		mStateStack->queuePop();
+		mStateStack.queuePop();
 	}
 
 	void GameState::clearStates()
 	{
-		assert(mStateStack);
-		mStateStack->queueClear();
+		mStateStack.queueClear();
 	}
 
 	TextureManager& GameState::getTextureManager()
 	{
-		assert(mStateStack);
-		return mStateStack->getApplication().getTextureManager();
+		return mStateStack.getApplication().getTextureManager();
 	}
 }

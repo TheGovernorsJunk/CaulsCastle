@@ -16,10 +16,11 @@ namespace te
 		virtual bool processInput(const sf::Event& evt) = 0;
 		virtual bool update(const sf::Time& dt) = 0;
 	protected:
+		GameState(StateStack& ss);
 		template<typename T, typename... Args>
 		void pushState(Args&&... args)
 		{
-			mStateStack->queuePush(T::make(std::forward<Args>(args)...));
+			mStateStack.queuePush(mStateStack.getStateFactory().makeState<T>(std::forward<Args>(args)...));
 		}
 		void popState();
 		void clearStates();
@@ -28,7 +29,7 @@ namespace te
 	private:
 		friend class StateStack;
 
-		StateStack* mStateStack;
+		StateStack& mStateStack;
 	};
 }
 

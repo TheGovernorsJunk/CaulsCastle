@@ -11,6 +11,20 @@ namespace te
 {
 	class Application;
 
+	class StateFactory
+	{
+	public:
+		StateFactory(StateStack&);
+
+		template <typename State, typename... Args>
+		std::unique_ptr<State> makeState(Args&&... args) const
+		{
+			return std::unique_ptr<State>{new State{mStack, std::forward<Args>(args)...}};
+		}
+	private:
+		StateStack& mStack;
+	};
+
 	class StateStack : public Runnable
 	{
 	public:
@@ -18,8 +32,7 @@ namespace te
 		static std::unique_ptr<StateStack> make(Application& app, Args&&... args)
 		{
 			std::unique_ptr<StateStack> pStack{new StateStack{app}};
-			pStack->mStack.push_back(T::make(std::forward<Args>(args)...));
-			pStack->mStack[0]->mStateStack = pStack.get();
+			pStack->mStack.push_back(pStack->mStateFactory.makeState<T>(std::forward<Args>(args)...));
 			return pStack;
 		}
 
@@ -46,8 +59,10 @@ namespace te
 
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 		Application& getApplication();
+		const StateFactory& getStateFactory() const;
 
 		Application& mApp;
+		StateFactory mStateFactory;
 		std::vector<std::unique_ptr<GameState>> mStack;
 		std::vector<Action> mPendingActions;
 	};

@@ -2,8 +2,13 @@
 
 namespace te
 {
+	StateFactory::StateFactory(StateStack& ss)
+		: mStack(ss)
+	{}
+
 	StateStack::StateStack(Application& app)
 		: mApp(app)
+		, mStateFactory(*this)
 		, mStack()
 		, mPendingActions()
 	{}
@@ -54,6 +59,11 @@ namespace te
 		return mApp;
 	}
 
+	const StateFactory& StateStack::getStateFactory() const
+	{
+		return mStateFactory;
+	}
+
 	void StateStack::processPendingActions()
 	{
 		for (auto& action : mPendingActions)
@@ -61,7 +71,6 @@ namespace te
 			switch (action.type)
 			{
 			case ActionType::Push:
-				action.pState->mStateStack = this;
 				mStack.push_back(std::move(action.pState));
 				break;
 			case ActionType::Pop:
