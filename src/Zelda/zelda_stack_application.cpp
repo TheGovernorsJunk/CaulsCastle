@@ -14,7 +14,7 @@ namespace te
 
 	std::unique_ptr<sf::RenderWindow> ZeldaStackApplication::makeWindow() const
 	{
-		return std::make_unique<sf::RenderWindow>(sf::VideoMode(600, 400), "Zelda Stack");
+		return std::make_unique<sf::RenderWindow>(sf::VideoMode(1600, 900), "Zelda Stack");
 	}
 
 	std::unique_ptr<Runnable> ZeldaStackApplication::makeRunnable()

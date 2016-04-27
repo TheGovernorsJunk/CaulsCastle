@@ -16,7 +16,7 @@ namespace te
 		mText.setFont(getTextureManager().getFont(fontID));
 		mText.setString("Battle Time!");
 		mText.setCharacterSize(24);
-		mText.setColor(sf::Color::Red);
+		mText.setColor(sf::Color::White);
 	}
 
 	bool BattleState::processInput(const sf::Event& evt)
@@ -31,6 +31,10 @@ namespace te
 
 	void BattleState::draw(sf::RenderTarget& target, sf::RenderStates) const
 	{
+		sf::Vector2u size{target.getSize()};
+		sf::RectangleShape rect{sf::Vector2f{(float)size.x, (float)size.y}};
+		rect.setFillColor(sf::Color{255,0,0,50});
+		target.draw(rect);
 		target.draw(mText);
 	}
 }
