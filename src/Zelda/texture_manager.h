@@ -26,10 +26,12 @@ namespace te
 		TextureID load(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& xmlFile);
 		void loadAnimations(const std::string& filename);
+		FontID loadFont(const std::string& filename);
 
 		const sf::Texture& getTexture(TextureID file) const;
 		const sf::Sprite& getSprite(SpriteID sprite) const;
 		const Animation& getAnimation(AnimationID animation) const;
+		const sf::Font& getFont(FontID font) const;
 	private:
 		TextureManager();
 
@@ -39,6 +41,7 @@ namespace te
 		std::map<TextureID, std::unique_ptr<sf::Texture>> mTextures;
 		std::map<TextureID, std::unique_ptr<sf::Sprite>> mSpriteMap;
 		std::map<TextureID, std::unique_ptr<Animation>> mAnimationMap;
+		std::map<FontID, std::unique_ptr<sf::Font>> mFontMap;
 	};
 }
 

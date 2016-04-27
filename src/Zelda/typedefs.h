@@ -6,6 +6,7 @@ namespace te
 	typedef size_t TextureID;
 	typedef size_t SpriteID;
 	typedef size_t AnimationID;
+	typedef size_t FontID;
 }
 
 #endif

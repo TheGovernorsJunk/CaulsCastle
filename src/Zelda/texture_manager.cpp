@@ -61,6 +61,26 @@ namespace te
 		for (auto& anim : animations) mAnimationMap.insert({ anim.getID(), std::make_unique<Animation>(std::move(anim)) });
 	}
 
+	FontID TextureManager::loadFont(const std::string& filename)
+	{
+		FontID id = getID(filename);
+		auto iter = mFontMap.find(id);
+		if (iter == mFontMap.end())
+		{
+			auto pFont = std::make_unique<sf::Font>();
+			if (!pFont->loadFromFile(filename))
+			{
+				throw std::runtime_error{"Font file not found."};
+			}
+			mFontMap.insert({id, std::move(pFont)});
+			return id;
+		}
+		else
+		{
+			return iter->first;
+		}
+	}
+
 	const sf::Texture& TextureManager::getTexture(TextureID file) const
 	{
 		auto iter = mTextures.find(file);
@@ -83,5 +103,12 @@ namespace te
 		auto found = mAnimationMap.find(id);
 		if (found != mAnimationMap.end()) return *found->second;
 		throw std::runtime_error("No animation for given ID.");
+	}
+
+	const sf::Font& TextureManager::getFont(FontID id) const
+	{
+		auto found = mFontMap.find(id);
+		if (found != mFontMap.end()) return *found->second;
+		throw std::runtime_error{"No font for given ID."};
 	}
 }
