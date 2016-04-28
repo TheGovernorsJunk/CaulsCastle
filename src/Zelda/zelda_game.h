@@ -24,8 +24,6 @@ namespace te
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void loadMap(const std::string& fileName);
 
-		TextureManager& mTextureManager;
-
 		int mPlayerID;
 		std::unique_ptr<Camera> mpCamera;
 	};

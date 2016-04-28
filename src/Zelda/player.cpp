@@ -22,7 +22,7 @@ namespace te
 		, mRadius(1)
 		, mpFixture(nullptr)
 		, mpSpriteRenderer(SpriteRenderer::make(*this))
-		, mpAnimator(Animator::make(world.getApplication().getTextureManager(), *mpSpriteRenderer))
+		, mpAnimator(Animator::make(world.getTextureManager(), *mpSpriteRenderer))
 	{
 		assert(playerObject.name == "Player");
 

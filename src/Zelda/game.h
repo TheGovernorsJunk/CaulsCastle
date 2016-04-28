@@ -29,7 +29,8 @@ namespace te
 
 		virtual void update(const sf::Time& dt);
 
-		Application& getApplication();
+		//Application& getApplication();
+		TextureManager& getTextureManager();
 
 		EntityManager& getEntityManager() const;
 		MessageDispatcher& getMessageDispatcher() const;

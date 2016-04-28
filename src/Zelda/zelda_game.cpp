@@ -17,13 +17,12 @@ namespace te
 
 	ZeldaGame::ZeldaGame(Application& app, const std::string& fileName, const sf::Transform& pixelToWorld)
 		: Game(app)
-		, mTextureManager(app.getTextureManager())
 		, mPlayerID(-1)
 		, mpCamera(nullptr)
 	{
 		setPixelToWorldTransform(pixelToWorld);
-		mTextureManager.loadSpritesheet("textures/inigo_spritesheet.xml");
-		mTextureManager.loadAnimations("textures/inigo_animation.xml");
+		getTextureManager().loadSpritesheet("textures/inigo_spritesheet.xml");
+		getTextureManager().loadAnimations("textures/inigo_animation.xml");
 		loadMap(fileName);
 	}
 
@@ -55,19 +54,19 @@ namespace te
 
 		mpCamera = std::make_unique<Camera>(getEntityManager(), mPlayerID, sf::Vector2f(16 * 24.f, 9 * 24.f));
 
-		setTileMap(TileMap::make(*this, mTextureManager, std::move(tmx)));
+		setTileMap(TileMap::make(*this, getTextureManager(), std::move(tmx)));
 		getMap().setDrawColliderEnabled(true);
 		getMap().setDrawNavGraphEnabled(true);
 
 		// TODO: DELETE SECOND MAP
-		auto upMap2 = TileMap::make(*this, mTextureManager, TMX{fileName});
+		auto upMap2 = TileMap::make(*this, getTextureManager(), TMX{fileName});
 		upMap2->setDrawColliderEnabled(true);
 		upMap2->setDrawNavGraphEnabled(true);
 		getMap().stitch(sf::Vector2i{ 0, 0 }, *upMap2, sf::Vector2i{ 0, 20 });
 		auto* pMap = upMap2.get();
 		getMap().attachNode(std::move(upMap2));
 
-		auto upMap3 = TileMap::make(*this, mTextureManager, TMX{fileName});
+		auto upMap3 = TileMap::make(*this, getTextureManager(), TMX{fileName});
 		pMap->stitch({ 0, 0 }, *upMap3, { 30, 0 });
 		getMap().attachNode(std::move(upMap3));
 

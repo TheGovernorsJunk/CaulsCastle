@@ -4,6 +4,7 @@
 #include "entity_manager.h"
 #include "message_dispatcher.h"
 #include "scene_node.h"
+#include "application.h"
 
 namespace te
 {
@@ -59,9 +60,14 @@ namespace te
 		mpSceneGraph->update(dt);
 	}
 
-	Application& Game::getApplication()
+	//Application& Game::getApplication()
+	//{
+	//	return mApp;
+	//}
+
+	TextureManager& Game::getTextureManager()
 	{
-		return mApp;
+		return mApp.getTextureManager();
 	}
 
 	EntityManager& Game::getEntityManager() const
