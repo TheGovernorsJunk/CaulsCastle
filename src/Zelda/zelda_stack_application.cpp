@@ -39,7 +39,7 @@ namespace te
 			friend class StateFactory;
 			ZeldaState(StateStack& ss, Application& app, const std::string& filename)
 				: GameState(ss)
-				, mpGame(ZeldaGame::make(app, app.getTextureManager(), filename, sf::Transform{}.scale(1.f / 16, 1.f / 16)))
+				, mpGame(ZeldaGame::make(app, filename, sf::Transform{}.scale(1.f / 16, 1.f / 16)))
 			{}
 			void draw(sf::RenderTarget& target, sf::RenderStates states) const
 			{

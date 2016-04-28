@@ -37,11 +37,12 @@ namespace te
 		b2World& getPhysicsWorld();
 		const b2World& getPhysicsWorld() const;
 
+		void setPixelToWorldTransform(const sf::Transform&);
 		const sf::Transform& getPixelToWorldTransform() const;
 		const sf::Transform& getWorldToPixelTransform() const;
 
 	protected:
-		Game(Application& app, const sf::Transform& pixelToWorldTransform);
+		Game(Application& app);
 
 		void setTileMap(std::unique_ptr<TileMap>&& pTileMap);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

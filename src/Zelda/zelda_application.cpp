@@ -18,7 +18,7 @@ namespace te
 	{
 		sf::Transform transform;
 		transform.scale(1.f / 16, 1.f / 16);
-		auto pGame = ZeldaGame::make(*this, getTextureManager(), mFilename, transform);
+		auto pGame = ZeldaGame::make(*this, mFilename, transform);
 		return pGame;
 	}
 }

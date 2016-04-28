@@ -224,6 +224,7 @@
     <ClInclude Include="vector_ops.h" />
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="world_state.h" />
     <ClInclude Include="zelda_application.h" />
     <ClInclude Include="zelda_entity.h" />
     <ClInclude Include="zelda_game.h" />

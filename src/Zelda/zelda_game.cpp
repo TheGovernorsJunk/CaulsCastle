@@ -6,20 +6,22 @@
 #include "camera.h"
 #include "texture_manager.h"
 #include "animation.h"
+#include "application.h"
 
 namespace te
 {
-	std::unique_ptr<ZeldaGame> ZeldaGame::make(Application& app, TextureManager& textureManager, const std::string& fileName, const sf::Transform& pixelToWorld)
+	std::unique_ptr<ZeldaGame> ZeldaGame::make(Application& state, const std::string& fileName, const sf::Transform& pixelToWorld)
 	{
-		return std::unique_ptr<ZeldaGame>(new ZeldaGame(app, textureManager, fileName, pixelToWorld));
+		return std::unique_ptr<ZeldaGame>(new ZeldaGame(state, fileName, pixelToWorld));
 	}
 
-	ZeldaGame::ZeldaGame(Application& app, TextureManager& textureManager, const std::string& fileName, const sf::Transform& pixelToWorld)
-		: Game(app, pixelToWorld)
-		, mTextureManager(textureManager)
+	ZeldaGame::ZeldaGame(Application& app, const std::string& fileName, const sf::Transform& pixelToWorld)
+		: Game(app)
+		, mTextureManager(app.getTextureManager())
 		, mPlayerID(-1)
 		, mpCamera(nullptr)
 	{
+		setPixelToWorldTransform(pixelToWorld);
 		mTextureManager.loadSpritesheet("textures/inigo_spritesheet.xml");
 		mTextureManager.loadAnimations("textures/inigo_animation.xml");
 		loadMap(fileName);

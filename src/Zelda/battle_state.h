@@ -2,26 +2,30 @@
 #define TE_BATTLE_STATE_H
 
 #include "game_state.h"
+#include "scene_node.h"
+#include "game.h"
+#include "world_state.h"
 
 #include <memory>
 
 namespace te
 {
 	class Fighter {};
-	class BattleState : public GameState
+	class BattleGame : public Game
 	{
 	public:
-		bool processInput(const sf::Event&);
-		bool update(const sf::Time&);
-	private:
-		friend class StateFactory;
-		BattleState(StateStack& ss, Fighter& playerFighter, Fighter& opponent);
+		static std::unique_ptr<BattleGame> make(Application& app, Fighter&, Fighter&);
+		void processInput(const sf::Event&);
+		void update(const sf::Time&);
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
+	private:
+		BattleGame(Application& app, Fighter&, Fighter&);
 
 		Fighter& mPlayerFighter;
 		Fighter& mOpponent;
-		sf::Text mText;
 	};
+
+	using BattleState = WorldState<true, true, BattleGame, Fighter, Fighter>;
 }
 
 #endif

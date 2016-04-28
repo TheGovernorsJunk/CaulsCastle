@@ -7,11 +7,14 @@ namespace te
 {
 	class StateStack;
 	class TextureManager;
+	class Application;
 
 	class GameState : public sf::Drawable
 	{
 	public:
 		virtual ~GameState() {}
+
+		Application& getApplication();
 
 		virtual bool processInput(const sf::Event& evt) = 0;
 		virtual bool update(const sf::Time& dt) = 0;

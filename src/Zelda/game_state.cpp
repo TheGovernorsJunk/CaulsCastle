@@ -24,4 +24,9 @@ namespace te
 	{
 		return mStateStack.getApplication().getTextureManager();
 	}
+
+	Application& GameState::getApplication()
+	{
+		return mStateStack.getApplication();
+	}
 }

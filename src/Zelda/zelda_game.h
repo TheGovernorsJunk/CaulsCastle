@@ -14,12 +14,12 @@ namespace te
 	class ZeldaGame : public Game
 	{
 	public:
-		static std::unique_ptr<ZeldaGame> make(Application& app, TextureManager& textureManager, const std::string& fileName, const sf::Transform& pixelToWorldTransform);
+		static std::unique_ptr<ZeldaGame> make(Application& app, const std::string& fileName, const sf::Transform& pixelToWorldTransform);
 
 		void processInput(const sf::Event& evt);
 
 	private:
-		ZeldaGame(Application& app, TextureManager& textureManager, const std::string& fileName, const sf::Transform& pixelToWorld);
+		ZeldaGame(Application& app, const std::string& fileName, const sf::Transform& pixelToWorld);
 
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void loadMap(const std::string& fileName);
