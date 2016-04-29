@@ -31,6 +31,7 @@ namespace te
 
 		//Application& getApplication();
 		TextureManager& getTextureManager();
+		const TextureManager& getTextureManager() const;
 
 		EntityManager& getEntityManager() const;
 		MessageDispatcher& getMessageDispatcher() const;

@@ -70,6 +70,11 @@ namespace te
 		return mApp.getTextureManager();
 	}
 
+	const TextureManager& Game::getTextureManager() const
+	{
+		return mApp.getTextureManager();
+	}
+
 	EntityManager& Game::getEntityManager() const
 	{
 		return *mpEntityManager;
