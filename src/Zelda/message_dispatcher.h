@@ -30,7 +30,7 @@ namespace te
 	public:
 		static std::unique_ptr<MessageDispatcher> make(EntityManager&);
 
-		void dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo);
+		void dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo = NULL);
 		void dispatchDelayedMessages(const sf::Time& dt);
 
 	private:
