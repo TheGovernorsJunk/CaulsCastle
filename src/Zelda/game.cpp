@@ -112,7 +112,7 @@ namespace te
 
 	void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		throwIfNoMap();
+		//throwIfNoMap();
 		target.draw(*mpSceneGraph, states);
 	}
 
