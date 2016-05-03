@@ -26,7 +26,7 @@ namespace te
 			{
 				mpGame->processInput(evt);
 				if (evt.key.code == sf::Keyboard::Space && evt.type == sf::Event::KeyPressed)
-					pushState<BattleState>(Fighter{}, Fighter{});
+					pushState<BattleState>();
 				return true; 
 			}
 			bool update(const sf::Time& dt)
