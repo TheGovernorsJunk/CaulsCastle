@@ -21,6 +21,7 @@ namespace te
 		TextureID getID() const;
 		int getMillisecondsPerClip() const;
 		const sf::Sprite& getSprite(size_t index) const;
+		sf::Time getDuration() const;
 
 	private:
 		struct Clip

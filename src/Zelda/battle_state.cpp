@@ -53,23 +53,26 @@ namespace te
 	{
 		if (telegram.msg == Fighter::Attack)
 		{
-			entity.getStateMachine().changeState<AttackState>();
+			entity.getStateMachine().changeState<AttackState>(TextureManager::getID("inigo90_en_garde"));
 			return true;
 		}
 		return false;
 	}
 
-	AttackState::AttackState()
+	AttackState::AttackState(AnimationID attackAnimation)
 		: State{}
-		, mDuration{sf::seconds(1.f)}
-		, mCommitPoint{sf::seconds(0.5f)}
+		, mAnimationID{attackAnimation}
+		, mDuration{sf::Time::Zero}
+		, mCommitPoint{sf::Time::Zero}
 		, mElapsed{sf::Time::Zero}
 	{}
 
 	void AttackState::enter(Fighter& entity)
 	{
+		mDuration = entity.getWorld().getTextureManager().getAnimation(mAnimationID).getDuration();
+		mCommitPoint = sf::Time::Zero;
 		mElapsed = sf::Time::Zero;
-		entity.getAnimator().setAnimation(TextureManager::getID("inigo90_en_garde"));
+		entity.getAnimator().setAnimation(mAnimationID);
 	}
 
 	void AttackState::execute(Fighter& entity, const sf::Time& dt)

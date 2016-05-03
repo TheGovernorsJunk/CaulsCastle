@@ -46,13 +46,14 @@ namespace te
 	class AttackState : public State<Fighter>
 	{
 	public:
-		AttackState();
+		AttackState(AnimationID attackAnimation);
 	private:
 		void enter(Fighter& entity);
 		void execute(Fighter& entity, const sf::Time& dt);
 		bool onMessage(Fighter& entity, const Telegram& telegram);
-		const sf::Time mDuration;
-		const sf::Time mCommitPoint;
+		AnimationID mAnimationID;
+		sf::Time mDuration;
+		sf::Time mCommitPoint;
 		sf::Time mElapsed;
 	};
 

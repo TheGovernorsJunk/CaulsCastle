@@ -58,6 +58,11 @@ namespace te
 		return mClips[i].sprite;
 	}
 
+	sf::Time Animation::getDuration() const
+	{
+		return sf::milliseconds(mMillisecondsPerClip * mClips.size());
+	}
+
 	Animation::Animation(TextureID name, int millisecondsPerClip, std::vector<Clip>&& clips)
 		: mName(name)
 		, mMillisecondsPerClip(millisecondsPerClip)
