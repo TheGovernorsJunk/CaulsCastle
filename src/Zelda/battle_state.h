@@ -20,7 +20,6 @@ namespace te
 	{
 	public:
 		enum Command { Attack, Dodge };
-		enum class Status { Waiting, Attacking };
 		static std::unique_ptr<Fighter> make(BattleGame& world, sf::Vector2f pos = {0, 0});
 		bool handleMessage(const Telegram&);
 		void onUpdate(const sf::Time&);
