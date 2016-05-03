@@ -51,7 +51,6 @@ namespace te
 	private:
 		void enter(Fighter& entity);
 		void execute(Fighter& entity, const sf::Time& dt);
-		void exit(Fighter& entity);
 		bool onMessage(Fighter& entity, const Telegram& telegram);
 		const sf::Time mDuration;
 		const sf::Time mCommitPoint;

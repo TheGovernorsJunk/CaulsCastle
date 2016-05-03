@@ -68,6 +68,7 @@ namespace te
 
 	void AttackState::enter(Fighter& entity)
 	{
+		mElapsed = sf::Time::Zero;
 		entity.getAnimator().setAnimation(TextureManager::getID("inigo90_en_garde"));
 	}
 
@@ -75,11 +76,6 @@ namespace te
 	{
 		mElapsed += dt;
 		if (mElapsed >= mDuration) entity.getStateMachine().changeState<WaitState>();
-	}
-
-	void AttackState::exit(Fighter& entity)
-	{
-		mElapsed = sf::Time::Zero;
 	}
 
 	bool AttackState::onMessage(Fighter& entity, const Telegram& telegram)
