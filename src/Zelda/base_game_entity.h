@@ -9,11 +9,6 @@
 #include <memory>
 #include <functional>
 
-namespace sf
-{
-	class Time;
-}
-
 namespace te
 {
 	struct Telegram;
@@ -25,7 +20,7 @@ namespace te
 	public:
 		const static int UNREGISTERED_ID = 0;
 
-		BaseGameEntity(Game& pWorld, sf::Vector2f position);
+		BaseGameEntity(Game& pWorld, sf::Vector2f position = sf::Vector2f{0, 0});
 		BaseGameEntity(Game& pWorld, const b2BodyDef&);
 		virtual ~BaseGameEntity();
 

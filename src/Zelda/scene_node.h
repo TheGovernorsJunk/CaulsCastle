@@ -19,7 +19,7 @@ namespace te
 	{
 	public:
 		static std::unique_ptr<SceneNode> make(Game& world, const b2BodyDef&);
-		static std::unique_ptr<SceneNode> make(Game& world, sf::Vector2f position);
+		static std::unique_ptr<SceneNode> make(Game& world, sf::Vector2f position = sf::Vector2f{0, 0});
 
 		virtual ~SceneNode();
 
