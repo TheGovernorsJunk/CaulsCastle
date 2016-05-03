@@ -13,12 +13,15 @@ namespace te
 	class StateMachine
 	{
 	public:
-		StateMachine(EntityType& owner, const std::shared_ptr<State<EntityType>>& currentState, const std::shared_ptr<State<EntityType>>& globalState = nullptr)
+		StateMachine(EntityType& owner, std::unique_ptr<State<EntityType>>&& currentState, std::unique_ptr<State<EntityType>>&& globalState = nullptr)
 			: mpOwner(owner)
-			, mpCurrentState(currentState)
+			, mpCurrentState(std::move(currentState))
 			, mpPreviousState(nullptr)
-			, mpGlobalState(globalState)
-		{}
+			, mpGlobalState(std::move(globalState))
+		{
+			if (mpCurrentState) mpCurrentState->enter(mpOwner);
+			if (mpGlobalState) mpGlobalState->enter(mpOwner);
+		}
 
 		//void setCurrentState(State<EntityType>* state) { mpCurrentState = state; }
 		//void setGlobalState(State<EntityType>* state) { mpGlobalState = state; }
@@ -46,23 +49,28 @@ namespace te
 			return (mpGlobalState && mpGlobalState->onMessage(mpOwner, telegram));
 		}
 
-		void changeState(State<EntityType>& pNewState)
+		template <typename State, typename... Args>
+		void changeState(Args&&... args)
 		{
-			mpPreviousState = mpCurrentState;
-			mpCurrentState->exit(mpOwner);
-			mpCurrentState = &pNewState;
+			mpPreviousState = std::move(mpCurrentState);
+			mpPreviousState->exit(mpOwner);
+			mpCurrentState = std::make_unique<State>(std::forward<Args>(args)...);
 			mpCurrentState->enter(mpOwner);
 		}
 
 		void revertToPreviousState()
 		{
-			changeState(mpPreviousState);
+			mpCurrentState->exit(mpOwner);
+			auto upRevertState = std::move(mpPreviouState);
+			mpPreviousState = std::move(mpCurrentState);
+			mpCurrentState = std::move(upRevertState);
+			mpCurrentState->enter(mpOwner);
 		}
 	private:
 		EntityType& mpOwner;
-		std::shared_ptr<State<EntityType>> mpCurrentState;
-		std::shared_ptr<State<EntityType>> mpPreviousState;
-		std::shared_ptr<State<EntityType>> mpGlobalState;
+		std::unique_ptr<State<EntityType>> mpCurrentState;
+		std::unique_ptr<State<EntityType>> mpPreviousState;
+		std::unique_ptr<State<EntityType>> mpGlobalState;
 	};
 }
 
