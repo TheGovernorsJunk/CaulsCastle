@@ -22,17 +22,20 @@ namespace te
 	{
 	public:
 		virtual ~Fighter() {}
-		enum Message { Attack, Dodge, IncomingAttack };
+		enum Message { Attack, Dodge, ImminentAttack, IncomingAttack };
 		static std::unique_ptr<Fighter> make(BattleGame& world, sf::Vector2f pos = {0, 0});
 		bool handleMessage(const Telegram&);
 		void setFoe(EntityID id) { mFoeID = id; }
 		EntityID getFoe() const { return mFoeID; }
-		StateMachine<Fighter>& getStateMachine() { return mStateMachine; }
 		Animator& getAnimator() { return *mpAnimator; }
 	protected:
 		Fighter(BattleGame& world, sf::Vector2f pos);
 		void onUpdate(const sf::Time&);
 	private:
+		friend class WaitState;
+		friend class AttackState;
+		friend class DodgeState;
+		StateMachine<Fighter>& getStateMachine() { return mStateMachine; }
 		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 		EntityID mFoeID;
 		std::unique_ptr<SpriteRenderer> mpRenderer;
@@ -67,7 +70,9 @@ namespace te
 	public:
 		DodgeState();
 	private:
+		void enter(Fighter& entity);
 		void execute(Fighter& entity, const sf::Time& dt);
+		void exit(Fighter& entity);
 		bool onMessage(Fighter& entity, const Telegram& telegram);
 		sf::Time mDuration;
 		sf::Time mElapsed;
