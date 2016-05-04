@@ -18,6 +18,14 @@ namespace te
 			mSubgoals.push_front(std::make_unique<U>(std::forward<Args>(args)...));
 		}
 
+		bool handleMessage(const Telegram& telegram)
+		{
+			if (!mSubgoals.empty() && !mSubgoals.front()->isCompleted() && !mSubgoals.front()->hasFailed())
+				return mSubgoals.front()->handleMessage(telegram);
+			else
+				return false;
+		}
+
 	protected:
 		Status processSubgoals(const sf::Time& dt)
 		{
