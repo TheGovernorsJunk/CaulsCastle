@@ -11,6 +11,116 @@ namespace te
 	static const std::string fontStr = "textures/fonts/OpenSans-Regular.ttf";
 	static const FontID fontID = TextureManager::getID(fontStr);
 
+	class WaitState;
+	class AttackState;
+	class DodgeState;
+
+	class WaitState : public State<Fighter>
+	{
+		void enter(Fighter& entity, StateMachine<Fighter>&)
+		{
+			entity.getAnimator().setAnimation(TextureManager::getID("inigo45_en_garde"));
+		}
+
+		void execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt) {}
+
+		bool onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
+		{
+			switch (telegram.msg)
+			{
+			case Fighter::Attack:
+				sm.changeState<AttackState>(TextureManager::getID("inigo90_en_garde"));
+				return true;
+			case Fighter::Dodge:
+				sm.changeState<DodgeState>();
+				return true;
+			}
+			return false;
+		}
+	};
+
+	class AttackState : public State<Fighter>
+	{
+	public:
+		AttackState(AnimationID attackAnimation)
+			: State{}
+			, mAnimationID{ attackAnimation }
+			, mDuration{ sf::Time::Zero }
+			, mDamageStart{ sf::Time::Zero }
+			, mDamageEnd{ sf::Time::Zero }
+			, mElapsed{ sf::Time::Zero }
+		{}
+
+	private:
+		void enter(Fighter& entity, StateMachine<Fighter>& sm)
+		{
+			mDuration = entity.getWorld().getTextureManager().getAnimation(mAnimationID).getDuration();
+			mDamageStart = sf::milliseconds(mDuration.asMilliseconds() / 2);
+			mDamageEnd = mDuration;
+			mElapsed = sf::Time::Zero;
+			entity.getAnimator().setAnimation(mAnimationID);
+			entity.getWorld().getMessageDispatcher().dispatchMessage(0.0, entity.getID(), entity.getFoe(), Fighter::ImminentAttack);
+		}
+
+		void execute(Fighter& entity, StateMachine<Fighter>& sm, const sf::Time& dt)
+		{
+			mElapsed += dt;
+			if (mElapsed >= mDamageStart && mElapsed < mDamageEnd)
+				entity.getWorld().getMessageDispatcher().dispatchMessage(0.0, entity.getID(), entity.getFoe(), Fighter::IncomingAttack);
+			if (mElapsed >= mDuration) sm.changeState<WaitState>();
+		}
+
+		bool onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
+		{
+			return false;
+		}
+
+		AnimationID mAnimationID;
+		sf::Time mDuration;
+		sf::Time mDamageStart;
+		sf::Time mDamageEnd;
+		sf::Time mElapsed;
+	};
+
+	class DodgeState : public State<Fighter>
+	{
+	public:
+		DodgeState()
+			: mDuration(sf::seconds(5.f))
+			, mElapsed(sf::Time::Zero)
+		{}
+
+	private:
+		void enter(Fighter& entity, StateMachine<Fighter>& sm)
+		{
+			std::cout << "Fighter " << entity.getID() << " entered dodge state." << std::endl;
+		}
+
+		void execute(Fighter& entity, StateMachine<Fighter>& sm, const sf::Time& dt)
+		{
+			mElapsed += dt;
+			if (mElapsed >= mDuration) sm.changeState<WaitState>();
+		}
+
+		void exit(Fighter& entity, StateMachine<Fighter>& sm)
+		{
+			std::cout << "Fighter " << entity.getID() << " exited dodge state." << std::endl;
+		}
+
+		bool onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
+		{
+			if (telegram.msg == Fighter::IncomingAttack)
+			{
+				std::cout << "Dodge!" << std::endl;
+				return true;
+			}
+			return false;
+		}
+
+		sf::Time mDuration;
+		sf::Time mElapsed;
+	};
+
 	std::unique_ptr<Fighter> Fighter::make(BattleGame& world, sf::Vector2f pos)
 	{
 		return std::unique_ptr<Fighter>{new Fighter{world, pos}};
@@ -39,90 +149,6 @@ namespace te
 	{
 		states.transform *= getWorldTransform();
 		target.draw(*mpRenderer, states);
-	}
-
-	void WaitState::enter(Fighter& entity, StateMachine<Fighter>&)
-	{
-		entity.getAnimator().setAnimation(TextureManager::getID("inigo45_en_garde"));
-	}
-
-	void WaitState::execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt) {}
-
-	bool WaitState::onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
-	{
-		switch (telegram.msg)
-		{
-		case Fighter::Attack:
-			sm.changeState<AttackState>(TextureManager::getID("inigo90_en_garde"));
-			return true;
-		case Fighter::Dodge:
-			sm.changeState<DodgeState>();
-			return true;
-		}
-		return false;
-	}
-
-	AttackState::AttackState(AnimationID attackAnimation)
-		: State{}
-		, mAnimationID{attackAnimation}
-		, mDuration{sf::Time::Zero}
-		, mDamageStart{sf::Time::Zero}
-		, mDamageEnd{sf::Time::Zero}
-		, mElapsed{sf::Time::Zero}
-	{}
-
-	void AttackState::enter(Fighter& entity, StateMachine<Fighter>& sm)
-	{
-		mDuration = entity.getWorld().getTextureManager().getAnimation(mAnimationID).getDuration();
-		mDamageStart = sf::milliseconds(mDuration.asMilliseconds() / 2);
-		mDamageEnd = mDuration;
-		mElapsed = sf::Time::Zero;
-		entity.getAnimator().setAnimation(mAnimationID);
-		entity.getWorld().getMessageDispatcher().dispatchMessage(0.0, entity.getID(), entity.getFoe(), Fighter::ImminentAttack);
-	}
-
-	void AttackState::execute(Fighter& entity, StateMachine<Fighter>& sm, const sf::Time& dt)
-	{
-		mElapsed += dt;
-		if (mElapsed >= mDamageStart && mElapsed < mDamageEnd)
-			entity.getWorld().getMessageDispatcher().dispatchMessage(0.0, entity.getID(), entity.getFoe(), Fighter::IncomingAttack);
-		if (mElapsed >= mDuration) sm.changeState<WaitState>();
-	}
-
-	bool AttackState::onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
-	{
-		return false;
-	}
-
-	DodgeState::DodgeState()
-		: mDuration(sf::seconds(5.f))
-		, mElapsed(sf::Time::Zero)
-	{}
-
-	void DodgeState::enter(Fighter& entity, StateMachine<Fighter>& sm)
-	{
-		std::cout << "Fighter " << entity.getID() << " entered dodge state." << std::endl;
-	}
-
-	void DodgeState::execute(Fighter& entity, StateMachine<Fighter>& sm, const sf::Time& dt)
-	{
-		mElapsed += dt;
-		if (mElapsed >= mDuration) sm.changeState<WaitState>();
-	}
-
-	void DodgeState::exit(Fighter& entity, StateMachine<Fighter>& sm)
-	{
-		std::cout << "Fighter " << entity.getID() << " exited dodge state." << std::endl;
-	}
-
-	bool DodgeState::onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
-	{
-		if (telegram.msg == Fighter::IncomingAttack)
-		{
-			std::cout << "Dodge!" << std::endl;
-			return true;
-		}
-		return false;
 	}
 
 	std::unique_ptr<BattleGame> BattleGame::make(Application& app)
