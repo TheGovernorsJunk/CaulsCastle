@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ai_fighter.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
@@ -173,6 +174,7 @@
     <None Include="map2.tmx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ai_fighter.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="animator.h" />
     <ClInclude Include="application.h" />

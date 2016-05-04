@@ -8,6 +8,8 @@
 #include "typedefs.h"
 #include "state_machine.h"
 #include "state.h"
+#include "animator.h"
+#include "sprite_renderer.h"
 
 #include <memory>
 
@@ -19,16 +21,18 @@ namespace te
 	class Fighter : public BaseGameEntity
 	{
 	public:
+		virtual ~Fighter() {}
 		enum Message { Attack, Dodge, IncomingAttack };
 		static std::unique_ptr<Fighter> make(BattleGame& world, sf::Vector2f pos = {0, 0});
 		bool handleMessage(const Telegram&);
-		void onUpdate(const sf::Time&);
 		void setFoe(EntityID id) { mFoeID = id; }
 		EntityID getFoe() const { return mFoeID; }
 		StateMachine<Fighter>& getStateMachine() { return mStateMachine; }
 		Animator& getAnimator() { return *mpAnimator; }
-	private:
+	protected:
 		Fighter(BattleGame& world, sf::Vector2f pos);
+		void onUpdate(const sf::Time&);
+	private:
 		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 		EntityID mFoeID;
 		std::unique_ptr<SpriteRenderer> mpRenderer;

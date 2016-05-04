@@ -2,8 +2,7 @@
 #include "texture_manager.h"
 #include "state_stack.h"
 #include "message_dispatcher.h"
-#include "sprite_renderer.h"
-#include "animator.h"
+#include "ai_fighter.h"
 
 #include <iostream>
 
@@ -124,7 +123,7 @@ namespace te
 	{
 		auto upPlayer = Fighter::make(*this);
 		mPlayerID = upPlayer->getID();
-		auto upOpponent = Fighter::make(*this, {100, 0});
+		auto upOpponent = AIFighter::make(*this, {100, 0});
 		mOpponentID = upOpponent->getID();
 
 		upPlayer->setFoe(mOpponentID);
