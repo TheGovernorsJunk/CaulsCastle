@@ -22,9 +22,6 @@ namespace te
 				std::cout << "Watch out!" << std::endl;
 				mOwner.getWorld().getMessageDispatcher().dispatchMessage(0.0, mOwner.getID(), mOwner.getID(), Fighter::Dodge);
 				return true;
-			case Fighter::IncomingAttack:
-				std::cout << "AI received attack!" << std::endl;
-				return true;
 			}
 			return false;
 		}
