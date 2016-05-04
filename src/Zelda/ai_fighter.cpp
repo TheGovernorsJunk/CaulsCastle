@@ -7,6 +7,31 @@
 
 namespace te
 {
+	class GoalSurvive : public Goal<AIFighter>
+	{
+	public:
+		GoalSurvive(AIFighter& owner) : mOwner(owner) {}
+		void activate() { setStatus(Status::ACTIVE); }
+		Status process(const sf::Time& dt) { return getStatus(); }
+		void terminate() {}
+		bool handleMessage(const Telegram& telegram)
+		{
+			switch (telegram.msg)
+			{
+			case Fighter::ImminentAttack:
+				std::cout << "Watch out!" << std::endl;
+				mOwner.getWorld().getMessageDispatcher().dispatchMessage(0.0, mOwner.getID(), mOwner.getID(), Fighter::Dodge);
+				return true;
+			case Fighter::IncomingAttack:
+				std::cout << "AI received attack!" << std::endl;
+				return true;
+			}
+			return false;
+		}
+	private:
+		AIFighter& mOwner;
+	};
+
 	class FighterBrain : public GoalComposite<AIFighter>
 	{
 	public:
@@ -29,16 +54,6 @@ namespace te
 
 		void arbitrate() {}
 
-		bool handleMessage(const Telegram& telegram)
-		{
-			if (telegram.msg == Fighter::IncomingAttack)
-			{
-				std::cout << "AI received attack!" << std::endl;
-				return true;
-			}
-			return false;
-		}
-
 	private:
 		AIFighter& mOwner;
 		std::vector<std::unique_ptr<GoalEvaluator<AIFighter>>> mEvaluators;
@@ -52,7 +67,9 @@ namespace te
 	AIFighter::AIFighter(BattleGame& world, sf::Vector2f pos)
 		: Fighter{world, pos}
 		, mpBrain{std::make_unique<FighterBrain>(*this)}
-	{}
+	{
+		mpBrain->addSubgoal<GoalSurvive>(*this);
+	}
 
 	bool AIFighter::handleMessage(const Telegram& telegram)
 	{
