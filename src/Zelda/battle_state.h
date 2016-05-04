@@ -19,7 +19,7 @@ namespace te
 	class Fighter : public BaseGameEntity
 	{
 	public:
-		enum Command { Attack, Dodge };
+		enum Message { Attack, Dodge, IncomingAttack };
 		static std::unique_ptr<Fighter> make(BattleGame& world, sf::Vector2f pos = {0, 0});
 		bool handleMessage(const Telegram&);
 		void onUpdate(const sf::Time&);
@@ -53,7 +53,19 @@ namespace te
 		bool onMessage(Fighter& entity, const Telegram& telegram);
 		AnimationID mAnimationID;
 		sf::Time mDuration;
-		sf::Time mCommitPoint;
+		sf::Time mDamageStart;
+		sf::Time mDamageEnd;
+		sf::Time mElapsed;
+	};
+
+	class DodgeState : public State<Fighter>
+	{
+	public:
+		DodgeState();
+	private:
+		void execute(Fighter& entity, const sf::Time& dt);
+		bool onMessage(Fighter& entity, const Telegram& telegram);
+		sf::Time mDuration;
 		sf::Time mElapsed;
 	};
 
