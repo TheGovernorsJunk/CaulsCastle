@@ -32,10 +32,7 @@ namespace te
 		Fighter(BattleGame& world, sf::Vector2f pos);
 		void onUpdate(const sf::Time&);
 	private:
-		friend class WaitState;
-		friend class AttackState;
-		friend class DodgeState;
-		StateMachine<Fighter>& getStateMachine() { return mStateMachine; }
+		//StateMachine<Fighter>& getStateMachine() { return mStateMachine; }
 		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 		EntityID mFoeID;
 		std::unique_ptr<SpriteRenderer> mpRenderer;
@@ -45,9 +42,9 @@ namespace te
 
 	class WaitState : public State<Fighter>
 	{
-		void enter(Fighter& entity);
-		void execute(Fighter& entity, const sf::Time& dt);
-		bool onMessage(Fighter& entity, const Telegram& telegram);
+		void enter(Fighter& entity, StateMachine<Fighter>&);
+		void execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt);
+		bool onMessage(Fighter& entity, StateMachine<Fighter>&, const Telegram& telegram);
 	};
 
 	class AttackState : public State<Fighter>
@@ -55,9 +52,9 @@ namespace te
 	public:
 		AttackState(AnimationID attackAnimation);
 	private:
-		void enter(Fighter& entity);
-		void execute(Fighter& entity, const sf::Time& dt);
-		bool onMessage(Fighter& entity, const Telegram& telegram);
+		void enter(Fighter& entity, StateMachine<Fighter>&);
+		void execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt);
+		bool onMessage(Fighter& entity, StateMachine<Fighter>&, const Telegram& telegram);
 		AnimationID mAnimationID;
 		sf::Time mDuration;
 		sf::Time mDamageStart;
@@ -70,10 +67,10 @@ namespace te
 	public:
 		DodgeState();
 	private:
-		void enter(Fighter& entity);
-		void execute(Fighter& entity, const sf::Time& dt);
-		void exit(Fighter& entity);
-		bool onMessage(Fighter& entity, const Telegram& telegram);
+		void enter(Fighter& entity, StateMachine<Fighter>&);
+		void execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt);
+		void exit(Fighter& entity, StateMachine<Fighter>&);
+		bool onMessage(Fighter& entity, StateMachine<Fighter>&, const Telegram& telegram);
 		sf::Time mDuration;
 		sf::Time mElapsed;
 	};

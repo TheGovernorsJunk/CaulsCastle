@@ -9,6 +9,8 @@ namespace sf
 namespace te
 {
 	struct Telegram;
+	template <typename EntityType>
+	class StateMachine;
 
 	template <class EntityType>
 	class State
@@ -16,11 +18,11 @@ namespace te
 	public:
 		virtual ~State() {}
 
-		virtual void enter(EntityType& entity) {}
-		virtual void execute(EntityType& entity, const sf::Time& dt) = 0;
-		virtual void exit(EntityType& entity) {}
+		virtual void enter(EntityType& entity, StateMachine<EntityType>&) {}
+		virtual void execute(EntityType& entity, StateMachine<EntityType>&, const sf::Time& dt) = 0;
+		virtual void exit(EntityType& entity, StateMachine<EntityType>&) {}
 
-		virtual bool onMessage(EntityType& entity, const Telegram& telegram) = 0;
+		virtual bool onMessage(EntityType& entity, StateMachine<EntityType>&, const Telegram& telegram) = 0;
 	};
 }
 

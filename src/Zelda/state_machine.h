@@ -19,43 +19,43 @@ namespace te
 			, mpPreviousState(nullptr)
 			, mpGlobalState(std::move(globalState))
 		{
-			if (mpCurrentState) mpCurrentState->enter(mpOwner);
-			if (mpGlobalState) mpGlobalState->enter(mpOwner);
+			if (mpCurrentState) mpCurrentState->enter(mpOwner, *this);
+			if (mpGlobalState) mpGlobalState->enter(mpOwner, *this);
 		}
 
 		//void setCurrentState(State<EntityType>* state) { mpCurrentState = state; }
 		//void setGlobalState(State<EntityType>* state) { mpGlobalState = state; }
 		//void setPreviousState(State<EntityType>* state) { mpPreviousState = state; }
 
-		void update(const sf::Time& dt) const
+		void update(const sf::Time& dt)
 		{
 			if (mpGlobalState)
 			{
-				mpGlobalState->execute(mpOwner, dt);
+				mpGlobalState->execute(mpOwner, *this, dt);
 			}
 			if (mpCurrentState)
 			{
-				mpCurrentState->execute(mpOwner, dt);
+				mpCurrentState->execute(mpOwner, *this, dt);
 			}
 		}
 
-		bool handleMessage(const Telegram& telegram) const
+		bool handleMessage(const Telegram& telegram)
 		{
-			if (mpCurrentState && mpCurrentState->onMessage(mpOwner, telegram))
+			if (mpCurrentState && mpCurrentState->onMessage(mpOwner, *this, telegram))
 			{
 				return true;
 			}
 
-			return (mpGlobalState && mpGlobalState->onMessage(mpOwner, telegram));
+			return (mpGlobalState && mpGlobalState->onMessage(mpOwner, *this, telegram));
 		}
 
 		template <typename State, typename... Args>
 		void changeState(Args&&... args)
 		{
 			mpPreviousState = std::move(mpCurrentState);
-			mpPreviousState->exit(mpOwner);
+			mpPreviousState->exit(mpOwner, *this);
 			mpCurrentState = std::make_unique<State>(std::forward<Args>(args)...);
-			mpCurrentState->enter(mpOwner);
+			mpCurrentState->enter(mpOwner, *this);
 		}
 
 		void revertToPreviousState()

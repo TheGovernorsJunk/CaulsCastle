@@ -41,22 +41,22 @@ namespace te
 		target.draw(*mpRenderer, states);
 	}
 
-	void WaitState::enter(Fighter& entity)
+	void WaitState::enter(Fighter& entity, StateMachine<Fighter>&)
 	{
 		entity.getAnimator().setAnimation(TextureManager::getID("inigo45_en_garde"));
 	}
 
-	void WaitState::execute(Fighter& entity, const sf::Time& dt) {}
+	void WaitState::execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt) {}
 
-	bool WaitState::onMessage(Fighter& entity, const Telegram& telegram)
+	bool WaitState::onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
 	{
 		switch (telegram.msg)
 		{
 		case Fighter::Attack:
-			entity.getStateMachine().changeState<AttackState>(TextureManager::getID("inigo90_en_garde"));
+			sm.changeState<AttackState>(TextureManager::getID("inigo90_en_garde"));
 			return true;
 		case Fighter::Dodge:
-			entity.getStateMachine().changeState<DodgeState>();
+			sm.changeState<DodgeState>();
 			return true;
 		}
 		return false;
@@ -71,7 +71,7 @@ namespace te
 		, mElapsed{sf::Time::Zero}
 	{}
 
-	void AttackState::enter(Fighter& entity)
+	void AttackState::enter(Fighter& entity, StateMachine<Fighter>& sm)
 	{
 		mDuration = entity.getWorld().getTextureManager().getAnimation(mAnimationID).getDuration();
 		mDamageStart = sf::milliseconds(mDuration.asMilliseconds() / 2);
@@ -81,15 +81,15 @@ namespace te
 		entity.getWorld().getMessageDispatcher().dispatchMessage(0.0, entity.getID(), entity.getFoe(), Fighter::ImminentAttack);
 	}
 
-	void AttackState::execute(Fighter& entity, const sf::Time& dt)
+	void AttackState::execute(Fighter& entity, StateMachine<Fighter>& sm, const sf::Time& dt)
 	{
 		mElapsed += dt;
 		if (mElapsed >= mDamageStart && mElapsed < mDamageEnd)
 			entity.getWorld().getMessageDispatcher().dispatchMessage(0.0, entity.getID(), entity.getFoe(), Fighter::IncomingAttack);
-		if (mElapsed >= mDuration) entity.getStateMachine().changeState<WaitState>();
+		if (mElapsed >= mDuration) sm.changeState<WaitState>();
 	}
 
-	bool AttackState::onMessage(Fighter& entity, const Telegram& telegram)
+	bool AttackState::onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
 	{
 		return false;
 	}
@@ -99,23 +99,23 @@ namespace te
 		, mElapsed(sf::Time::Zero)
 	{}
 
-	void DodgeState::enter(Fighter& entity)
+	void DodgeState::enter(Fighter& entity, StateMachine<Fighter>& sm)
 	{
 		std::cout << "Fighter " << entity.getID() << " entered dodge state." << std::endl;
 	}
 
-	void DodgeState::execute(Fighter& entity, const sf::Time& dt)
+	void DodgeState::execute(Fighter& entity, StateMachine<Fighter>& sm, const sf::Time& dt)
 	{
 		mElapsed += dt;
-		if (mElapsed >= mDuration) entity.getStateMachine().changeState<WaitState>();
+		if (mElapsed >= mDuration) sm.changeState<WaitState>();
 	}
 
-	void DodgeState::exit(Fighter& entity)
+	void DodgeState::exit(Fighter& entity, StateMachine<Fighter>& sm)
 	{
 		std::cout << "Fighter " << entity.getID() << " exited dodge state." << std::endl;
 	}
 
-	bool DodgeState::onMessage(Fighter& entity, const Telegram& telegram)
+	bool DodgeState::onMessage(Fighter& entity, StateMachine<Fighter>& sm, const Telegram& telegram)
 	{
 		if (telegram.msg == Fighter::IncomingAttack)
 		{
