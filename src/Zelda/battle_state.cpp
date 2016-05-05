@@ -29,7 +29,7 @@ namespace te
 			switch (telegram.msg)
 			{
 			case Fighter::Attack:
-				sm.changeState<AttackState>(TextureManager::getID("inigo90_en_garde"));
+				sm.changeState<AttackState>(TextureManager::getID("inigo_attack"));
 				return true;
 			case Fighter::Dodge:
 				sm.changeState<DodgeState>();
@@ -194,6 +194,7 @@ namespace te
 	}
 	void BattleGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
+		states.transform.scale(2.f, 2.f);
 		target.clear();
 		Game::draw(target, states);
 	}

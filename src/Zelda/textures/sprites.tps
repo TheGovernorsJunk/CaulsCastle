@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.1.0</string>
         <key>fileName</key>
-        <string>C:/Users/Tanner/Projects/Zelda/Zelda/textures/sprites.tps</string>
+        <string>C:/Users/Tanner/Projects/CaulsCastle/src/Zelda/textures/sprites.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -207,12 +207,28 @@
             <key type="filename">sprites/inigo45_teal_en_garde_3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
-                <point_f>0.390625,0.796875</point_f>
+                <point_f>0.3125,0.765625</point_f>
             </struct>
             <key type="filename">sprites/inigo90_teal_en_garde_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.421875,0.734375</point_f>
+            </struct>
+            <key type="filename">sprites/inigo_attack_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.4375,0.765625</point_f>
+            </struct>
+            <key type="filename">sprites/inigo_attack_2.png</key>
+            <key type="filename">sprites/inigo_attack_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.1875,0.765625</point_f>
+            </struct>
+            <key type="filename">sprites/inigo_attack_4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.09375,0.890625</point_f>
             </struct>
         </map>
         <key>fileList</key>
