@@ -161,6 +161,7 @@
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
     <ClCompile Include="tmx.cpp" />
+    <ClCompile Include="utilities.cpp" />
     <ClCompile Include="vector_ops.cpp" />
     <ClCompile Include="vehicle.cpp" />
     <ClCompile Include="wall.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="tile_map.h" />
     <ClInclude Include="tmx.h" />
     <ClInclude Include="typedefs.h" />
+    <ClInclude Include="utilities.h" />
     <ClInclude Include="vector_ops.h" />
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />
