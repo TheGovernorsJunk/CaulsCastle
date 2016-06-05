@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:fa0115677df9667d8851c37d1a5a9a42:66b8571050876cf880ff8e80d1d1daeb:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="hero.png" width="102" height="102">
+    <sprite n="1-HWR.png" x="1" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="3-HWR.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="5-HWR.png" x="35" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="7-HWR.png" x="35" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="9-HWR.png" x="69" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="11-HWR.png" x="1" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="13-HWR.png" x="1" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="15-HWR.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
+</TextureAtlas>
