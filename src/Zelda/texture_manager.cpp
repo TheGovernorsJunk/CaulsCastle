@@ -41,8 +41,8 @@ namespace te
 	{
 		auto atlas = TextureAtlas::make(filename, this);
 		TextureID textureID = atlas->getTextureID();
-		std::vector<TextureAtlas::Sprite> sprites(atlas->getSpriteCount());
-		atlas->insertSprites(sprites.begin());
+		std::vector<TextureAtlas::Sprite> sprites;
+		atlas->insertSprites(std::back_inserter(sprites));
 
 		for (auto& s : sprites)
 		{
