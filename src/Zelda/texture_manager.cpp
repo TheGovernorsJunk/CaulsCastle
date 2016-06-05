@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <iterator>
+
 namespace te
 {
 	std::unique_ptr<TextureManager> TextureManager::make()
