@@ -1,5 +1,6 @@
 #include "texture_atlas.h"
 #include "texture_manager.h"
+#include "utilities.h"
 
 #include <rapidxml.hpp>
 #include <rapidxml_utils.hpp>
@@ -26,10 +27,7 @@ namespace te
 
 		rapidxml::xml_node<char>* pAtlasNode = atlasXML.first_node("TextureAtlas");
 
-		std::string dir = "";
-		std::string delim = "/";
-		auto result = std::find_end(filename.begin(), filename.end(), delim.begin(), delim.end());
-		if (result != filename.end()) dir = std::string(filename.begin(), result + 1);
+		std::string dir = getDir(filename);
 
 		mWidth = std::stoi(pAtlasNode->first_attribute("width")->value());
 		mHeight = std::stoi(pAtlasNode->first_attribute("height")->value());

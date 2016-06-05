@@ -6,6 +6,7 @@
 #include "nav_graph_node.h"
 #include "nav_graph_edge.h"
 #include "vector_ops.h"
+#include "utilities.h"
 
 #include <SFML/Graphics.hpp>
 #include <rapidxml.hpp>
@@ -35,6 +36,7 @@ namespace te
 	const TMX::TileData TMX::NULL_DATA = TMX::TileData{ NULL_TILE, TMX::ObjectGroup() };
 
 	TMX::TMX(const std::string& filename)
+		: mFilename{filename}, mWidth{0}, mHeight{0}, mTilewidth{0}, mTileheight{0}, mTilesets{}, mLayers{}, mObjectGroups{}
 	{
 		rapidxml::file<> tmxFile(filename.c_str());
 		rapidxml::xml_document<> tmx;
@@ -191,9 +193,10 @@ namespace te
 
 	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const
 	{
+		std::string dir = getDir(mFilename);
 		textures.clear();
-		std::transform(mTilesets.begin(), mTilesets.end(), std::back_inserter(textures), [&textureManager](const Tileset& tileset) {
-			return &textureManager.getTexture(textureManager.load(tileset.image.source));
+		std::transform(mTilesets.begin(), mTilesets.end(), std::back_inserter(textures), [&textureManager, &dir](const Tileset& tileset) {
+			return &textureManager.getTexture(textureManager.load(dir + tileset.image.source));
 		});
 
 		layers.clear();
