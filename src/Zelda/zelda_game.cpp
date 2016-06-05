@@ -21,8 +21,9 @@ namespace te
 		, mpCamera(nullptr)
 	{
 		setPixelToWorldTransform(pixelToWorld);
-		getTextureManager().loadSpritesheet("textures/inigo_spritesheet.xml");
-		getTextureManager().loadAnimations("textures/inigo_animation.xml");
+		getTextureManager().loadSpritesheet("src/Zelda/textures/inigo_spritesheet.xml");
+		getTextureManager().loadAnimations("src/Zelda/textures/inigo_animation.xml");
+		getTextureManager().loadSpritesheet("assets/spritesheets/hero/hero.xml");
 		loadMap(fileName);
 	}
 
