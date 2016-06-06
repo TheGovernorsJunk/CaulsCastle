@@ -44,14 +44,12 @@ namespace te
 		virtual ~Animation() {}
 
 		TextureID getID() const;
-		virtual int getMillisecondsPerClip() const = 0;
-		const sf::Sprite& getSprite(size_t index) const;
-		sf::Time getDuration() const;
+		virtual const sf::Sprite& getSprite(sf::Time& dt) const = 0;
+		virtual sf::Time getDuration() const = 0;
 
 	private:
 		struct Clip
 		{
-			//TextureID texture;
 			TextureID id;
 			sf::Sprite sprite;
 		};
@@ -59,10 +57,9 @@ namespace te
 
 		static std::unique_ptr<Animation> make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips);
 
-		Animation(TextureID name, std::vector<Clip>&& clips);
+		Animation(TextureID name);
 
 		TextureID mName;
-		std::vector<Clip> mClips;
 	};
 }
 

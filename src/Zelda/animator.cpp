@@ -15,20 +15,16 @@ namespace te
 		: mTextureManager(tm)
 		, mSpriteRenderer(sr)
 		, mpAnimation(nullptr)
-		, mClipTime(sf::Time::Zero)
 		, mCurrPlayTime(sf::Time::Zero)
-		, mClipIndex(0)
 	{}
 
 	void Animator::setAnimation(TextureID animation)
 	{
 		mpAnimation = &mTextureManager.getAnimation(animation);
 
-		mSpriteRenderer.setSprite(mpAnimation->getSprite(0));
-
-		mClipTime = sf::milliseconds(mpAnimation->getMillisecondsPerClip());
-		mCurrPlayTime = sf::Time::Zero;
-		mClipIndex = 0;
+		sf::Time zero = sf::Time::Zero;
+		mSpriteRenderer.setSprite(mpAnimation->getSprite(zero));
+		mCurrPlayTime = zero;
 	}
 
 	void Animator::update(const sf::Time& dt)
@@ -36,10 +32,8 @@ namespace te
 		if (!mpAnimation) return;
 
 		mCurrPlayTime += dt;
-		if (mCurrPlayTime >= mClipTime)
-		{
-			mSpriteRenderer.setSprite(mpAnimation->getSprite(++mClipIndex));
-			mCurrPlayTime -= mClipTime;
-		}
+		sf::Time duration = mpAnimation->getDuration();
+		if (mCurrPlayTime >= duration) mCurrPlayTime -= duration;
+		mSpriteRenderer.setSprite(mpAnimation->getSprite(mCurrPlayTime));
 	}
 }

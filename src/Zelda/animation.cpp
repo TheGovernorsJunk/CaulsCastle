@@ -10,17 +10,25 @@ namespace te
 	{
 	public:
 		FixedIntervalAnimation(TextureID name, int millisecondsPerClip, std::vector<Clip>&& clips)
-			: Animation{ name, std::move(clips) }
-			, mMillisecondsPerClip(millisecondsPerClip)
+			: Animation{name}
+			, mTimePerClip{sf::milliseconds(millisecondsPerClip)}
+			, mClips{std::move(clips)}
 		{}
 
-		int getMillisecondsPerClip() const
+		sf::Time getDuration() const
 		{
-			return mMillisecondsPerClip;
+			return sf::milliseconds(mTimePerClip.asMilliseconds() * mClips.size());
+		}
+
+		const sf::Sprite& getSprite(sf::Time& dt) const
+		{
+			size_t index = (size_t)(dt / mTimePerClip) % mClips.size();
+			return mClips[index].sprite;
 		}
 
 	private:
-		int mMillisecondsPerClip;
+		sf::Time mTimePerClip;
+		std::vector<Clip> mClips;
 	};
 
 	std::unique_ptr<Animation> Animation::make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips)
@@ -65,19 +73,7 @@ namespace te
 		return mName;
 	}
 
-	const sf::Sprite& Animation::getSprite(size_t index) const
-	{
-		size_t i = index % mClips.size();
-		return mClips[i].sprite;
-	}
-
-	sf::Time Animation::getDuration() const
-	{
-		return sf::milliseconds(getMillisecondsPerClip() * mClips.size());
-	}
-
-	Animation::Animation(TextureID name, std::vector<Clip>&& clips)
+	Animation::Animation(TextureID name)
 		: mName(name)
-		, mClips(std::move(clips))
 	{}
 }

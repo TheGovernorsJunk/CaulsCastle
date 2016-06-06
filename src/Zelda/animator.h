@@ -28,9 +28,7 @@ namespace te
 		SpriteRenderer& mSpriteRenderer;
 
 		const Animation* mpAnimation;
-		sf::Time mClipTime;
 		sf::Time mCurrPlayTime;
-		size_t mClipIndex;
 	};
 }
 
