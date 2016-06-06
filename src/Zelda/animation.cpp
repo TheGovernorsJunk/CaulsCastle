@@ -31,9 +31,51 @@ namespace te
 		std::vector<Clip> mClips;
 	};
 
+	class Animation::VariableIntervalAnimation : public Animation
+	{
+	public:
+		VariableIntervalAnimation(const TextureAtlas::Animation& animationData, const TextureManager& textureManager)
+			: Animation(animationData.id)
+		{
+			const std::vector<TextureAtlas::Clip>& clips = animationData.clips;
+			const TextureAtlas::Clip* lastClip = clips.size() > 0 ? &clips[0] : nullptr;
+			for (auto& clip : clips)
+			{
+				for (int nextIndex = lastClip->index + 1; nextIndex < clip.index; ++nextIndex)
+				{
+					mClipSprites.push_back(textureManager.getSprite(lastClip->spriteID));
+				}
+				mClipSprites.push_back(textureManager.getSprite(clip.spriteID));
+				lastClip = &clip;
+			}
+		}
+
+		sf::Time getDuration() const
+		{
+			return sf::milliseconds(mClipSprites.size() * MillisecondsPerClip);
+		}
+
+		const sf::Sprite& getSprite(const sf::Time& dt) const
+		{
+			size_t index = (size_t)(dt / sf::milliseconds(MillisecondsPerClip)) % mClipSprites.size();
+			return mClipSprites[index];
+		}
+
+	private:
+		const static float MillisecondsPerClip;
+		std::vector<sf::Sprite> mClipSprites;
+	};
+
+	const float Animation::VariableIntervalAnimation::MillisecondsPerClip = 41.7f;
+
 	std::unique_ptr<Animation> Animation::make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips)
 	{
-		return std::unique_ptr<Animation>{new FixedIntervalAnimation{ animationID, millisecondsPerClip, std::move(clips) }};
+		return std::unique_ptr<Animation>{new FixedIntervalAnimation{animationID, millisecondsPerClip, std::move(clips)}};
+	}
+
+	std::unique_ptr<Animation> Animation::make(const TextureAtlas::Animation& animationData, const TextureManager& textureManager)
+	{
+		return std::unique_ptr<Animation>{new VariableIntervalAnimation{animationData, textureManager}};
 	}
 
 	std::vector<std::unique_ptr<Animation>> Animation::load(const std::string& filename, TextureManager& textureManager)

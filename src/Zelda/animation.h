@@ -28,16 +28,7 @@ namespace te
 			std::vector<TextureAtlas::Animation> animationData;
 			atlas.getAnimations(std::back_inserter(animationData));
 			std::transform(animationData.begin(), animationData.end(), out, [&textureManager](auto& anim) {
-				std::vector<Clip> clips;
-				for (auto& clip : anim.clips)
-				{
-					int index = clip.index;
-					TextureID spriteID = clip.spriteID;
-					sf::Sprite sprite = textureManager.getSprite(spriteID);
-					clips.push_back({spriteID, sprite});
-				}
-
-				return make(anim.id, 83, std::move(clips));
+				return make(anim, textureManager);
 			});
 		}
 
@@ -54,8 +45,10 @@ namespace te
 			sf::Sprite sprite;
 		};
 		class FixedIntervalAnimation;
+		class VariableIntervalAnimation;
 
 		static std::unique_ptr<Animation> make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips);
+		static std::unique_ptr<Animation> make(const TextureAtlas::Animation& animationData, const TextureManager& textureManager);
 
 		Animation(TextureID name);
 
