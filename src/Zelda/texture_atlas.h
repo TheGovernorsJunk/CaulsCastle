@@ -49,6 +49,12 @@ namespace te
 		int mHeight;
 		TextureID mImagePathID;
 		std::map<TextureID, Sprite> mSprites;
+		struct Animation
+		{
+			TextureID id;
+			std::map<int, TextureID> sprites;
+		};
+		std::map<TextureID, Animation> mAnimations;
 	};
 }
 
