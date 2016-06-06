@@ -22,7 +22,7 @@ namespace te
 		static std::vector<Animation> load(const std::string& filename, TextureManager& textureManager);
 
 		template <typename Iter>
-		static void load(const TextureAtlas& atlas, TextureManager& textureManager, Iter out)
+		static void load(const TextureAtlas& atlas, const TextureManager& textureManager, Iter out)
 		{
 			std::vector<TextureAtlas::Animation> animationData;
 			atlas.getAnimations(std::back_inserter(animationData));
