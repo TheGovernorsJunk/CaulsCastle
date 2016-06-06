@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <vector>
 
 namespace te
 {
@@ -23,6 +24,16 @@ namespace te
 			int x;
 			int y;
 			TextureID n;
+		};
+		struct Clip
+		{
+			int index;
+			TextureID spriteID;
+		};
+		struct Animation
+		{
+			TextureID id;
+			std::vector<Clip> clips;
 		};
 
 		static std::unique_ptr<TextureAtlas> make(const std::string& filename, TextureManager* = nullptr);
@@ -49,11 +60,6 @@ namespace te
 		int mHeight;
 		TextureID mImagePathID;
 		std::map<TextureID, Sprite> mSprites;
-		struct Animation
-		{
-			TextureID id;
-			std::map<int, TextureID> sprites;
-		};
 		std::map<TextureID, Animation> mAnimations;
 	};
 }

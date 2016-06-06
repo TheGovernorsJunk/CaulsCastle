@@ -52,7 +52,7 @@ namespace te
 				TextureID animationID = TextureManager::getID(match[2]);
 				Animation& animation = mAnimations[animationID];
 				animation.id = animationID;
-				animation.sprites.insert(std::make_pair(index, spriteID));
+				animation.clips.push_back(Clip{index, spriteID});
 			}
 
 			mSprites.insert(std::make_pair(spriteID, Sprite{
