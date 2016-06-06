@@ -66,7 +66,7 @@ namespace te
 		std::vector<sf::Sprite> mClipSprites;
 	};
 
-	const float Animation::VariableIntervalAnimation::MillisecondsPerClip = 41.7f;
+	const float Animation::VariableIntervalAnimation::MillisecondsPerClip = 1000.f / 24.f;
 
 	std::unique_ptr<Animation> Animation::make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips)
 	{
