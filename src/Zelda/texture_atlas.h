@@ -33,7 +33,7 @@ namespace te
 		size_t getSpriteCount() const;
 
 		template <typename Iter>
-		void insertSprites(Iter outIt)
+		void insertSprites(Iter outIt) const
 		{
 			for (auto spriteIt = mSprites.begin(); spriteIt != mSprites.end(); ++spriteIt)
 			{
