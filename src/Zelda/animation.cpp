@@ -6,14 +6,36 @@
 
 namespace te
 {
-	std::vector<Animation> Animation::load(const std::string& filename, TextureManager& textureManager)
+	class Animation::FixedIntervalAnimation : public Animation
+	{
+	public:
+		FixedIntervalAnimation(TextureID name, int millisecondsPerClip, std::vector<Clip>&& clips)
+			: Animation{ name, std::move(clips) }
+			, mMillisecondsPerClip(millisecondsPerClip)
+		{}
+
+		int getMillisecondsPerClip() const
+		{
+			return mMillisecondsPerClip;
+		}
+
+	private:
+		int mMillisecondsPerClip;
+	};
+
+	std::unique_ptr<Animation> Animation::make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips)
+	{
+		return std::unique_ptr<Animation>{new FixedIntervalAnimation{ animationID, millisecondsPerClip, std::move(clips) }};
+	}
+
+	std::vector<std::unique_ptr<Animation>> Animation::load(const std::string& filename, TextureManager& textureManager)
 	{
 		rapidxml::file<> animFile(filename.c_str());
 		rapidxml::xml_document<> animXML;
 		animXML.parse<0>(animFile.data());
 		rapidxml::xml_node<char>* pListNode = animXML.first_node("animations");
 
-		std::vector<Animation> animations;
+		std::vector<std::unique_ptr<Animation>> animations;
 		for (auto pAnimNode = pListNode->first_node("animation"); pAnimNode != 0; pAnimNode = pAnimNode->next_sibling("animation"))
 		{
 			TextureID name = TextureManager::getID(pAnimNode->first_attribute("name")->value());
@@ -32,11 +54,7 @@ namespace te
 				});
 			}
 
-			animations.push_back({
-				name,
-				mpc,
-				std::move(clips)
-			});
+			animations.push_back(make(name, mpc, std::move(clips)));
 		}
 
 		return animations;
@@ -47,11 +65,6 @@ namespace te
 		return mName;
 	}
 
-	int Animation::getMillisecondsPerClip() const
-	{
-		return mMillisecondsPerClip;
-	}
-
 	const sf::Sprite& Animation::getSprite(size_t index) const
 	{
 		size_t i = index % mClips.size();
@@ -60,13 +73,11 @@ namespace te
 
 	sf::Time Animation::getDuration() const
 	{
-		return sf::milliseconds(mMillisecondsPerClip * mClips.size());
+		return sf::milliseconds(getMillisecondsPerClip() * mClips.size());
 	}
 
-	Animation::Animation(TextureID name, int millisecondsPerClip, std::vector<Clip>&& clips)
+	Animation::Animation(TextureID name, std::vector<Clip>&& clips)
 		: mName(name)
-		, mMillisecondsPerClip(millisecondsPerClip)
 		, mClips(std::move(clips))
-	{
-	}
+	{}
 }

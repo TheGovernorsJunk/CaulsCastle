@@ -55,10 +55,10 @@ namespace te
 
 		if (findAnimations)
 		{
-			std::vector<Animation> animations;
+			std::vector<std::unique_ptr<Animation>> animations;
 			Animation::load(*atlas, *this, std::back_inserter(animations));
-			for (auto& anim : animations)
-				mAnimationMap.insert({anim.getID(), std::make_unique<Animation>(std::move(anim))});
+			for (auto& pAnim : animations)
+				mAnimationMap.insert({pAnim->getID(), std::move(pAnim)});
 		}
 
 		return atlas->getTextureID();
@@ -66,9 +66,9 @@ namespace te
 
 	void TextureManager::loadAnimations(const std::string& filename)
 	{
-		std::vector<Animation> animations = Animation::load(filename, *this);
+		std::vector<std::unique_ptr<Animation>> animations = Animation::load(filename, *this);
 
-		for (auto& anim : animations) mAnimationMap.insert({ anim.getID(), std::make_unique<Animation>(std::move(anim)) });
+		for (auto& pAnim : animations) mAnimationMap.insert({pAnim->getID(), std::move(pAnim)});
 	}
 
 	FontID TextureManager::loadFont(const std::string& filename)

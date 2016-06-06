@@ -11,6 +11,7 @@
 #include <list>
 #include <iterator>
 #include <algorithm>
+#include <memory>
 
 namespace te
 {
@@ -19,7 +20,7 @@ namespace te
 	class Animation
 	{
 	public:
-		static std::vector<Animation> load(const std::string& filename, TextureManager& textureManager);
+		static std::vector<std::unique_ptr<Animation>> load(const std::string& filename, TextureManager& textureManager);
 
 		template <typename Iter>
 		static void load(const TextureAtlas& atlas, const TextureManager& textureManager, Iter out)
@@ -36,12 +37,14 @@ namespace te
 					clips.push_back({spriteID, sprite});
 				}
 
-				return Animation{anim.id, 83, std::move(clips)};
+				return make(anim.id, 83, std::move(clips));
 			});
 		}
 
+		virtual ~Animation() {}
+
 		TextureID getID() const;
-		int getMillisecondsPerClip() const;
+		virtual int getMillisecondsPerClip() const = 0;
 		const sf::Sprite& getSprite(size_t index) const;
 		sf::Time getDuration() const;
 
@@ -52,11 +55,13 @@ namespace te
 			TextureID id;
 			sf::Sprite sprite;
 		};
+		class FixedIntervalAnimation;
 
-		Animation(TextureID name, int millisecondsPerClip, std::vector<Clip>&& clips);
+		static std::unique_ptr<Animation> make(TextureID animationID, int millisecondsPerClip, std::vector<Clip>&& clips);
+
+		Animation(TextureID name, std::vector<Clip>&& clips);
 
 		TextureID mName;
-		int mMillisecondsPerClip;
 		std::vector<Clip> mClips;
 	};
 }
