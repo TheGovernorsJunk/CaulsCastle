@@ -65,6 +65,13 @@ namespace te
 				spriteID
 			}));
 		}
+
+		for (auto& anim : mAnimations)
+		{
+			std::sort(anim.second.clips.begin(), anim.second.clips.end(), [](Clip a, Clip b) {
+				return a.index < b.index;
+			});
+		}
 	}
 
 	TextureID TextureAtlas::getTextureID() const
