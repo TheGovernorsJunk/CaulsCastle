@@ -24,7 +24,7 @@ namespace te
 		static TextureID getID(const std::string& filename);
 
 		TextureID load(const std::string& filename);
-		TextureID loadSpritesheet(const std::string& xmlFile);
+		TextureID loadSpritesheet(const std::string& xmlFile, bool findAnimations = true);
 		void loadAnimations(const std::string& filename);
 		FontID loadFont(const std::string& filename);
 

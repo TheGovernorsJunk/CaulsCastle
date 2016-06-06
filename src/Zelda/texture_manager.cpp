@@ -39,7 +39,7 @@ namespace te
 		}
 	}
 
-	TextureID TextureManager::loadSpritesheet(const std::string& filename)
+	TextureID TextureManager::loadSpritesheet(const std::string& filename, bool findAnimations)
 	{
 		auto atlas = TextureAtlas::make(filename, this);
 		TextureID textureID = atlas->getTextureID();
@@ -51,6 +51,14 @@ namespace te
 			auto pSprite = std::make_unique<sf::Sprite>(getTexture(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
 			pSprite->setOrigin((float)s.pX * s.w, (float)s.pY * s.h);
 			mSpriteMap.insert({ s.n, std::move(pSprite) });
+		}
+
+		if (findAnimations)
+		{
+			std::vector<Animation> animations;
+			Animation::load(*atlas, *this, std::back_inserter(animations));
+			for (auto& anim : animations)
+				mAnimationMap.insert({anim.getID(), std::make_unique<Animation>(std::move(anim))});
 		}
 
 		return atlas->getTextureID();
