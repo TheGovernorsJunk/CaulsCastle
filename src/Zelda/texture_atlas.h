@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 namespace te
 {
@@ -51,6 +52,14 @@ namespace te
 				*outIt = spriteIt->second;
 				++outIt;
 			}
+		}
+
+		template <typename Iter>
+		void getAnimations(Iter out) const
+		{
+			std::transform(mAnimations.begin(), mAnimations.end(), out, [](auto& kv) {
+				return kv.second;
+			});
 		}
 
 	private:
