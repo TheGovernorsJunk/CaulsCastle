@@ -22,9 +22,8 @@ namespace te
 	{
 		mpAnimation = &mTextureManager.getAnimation(animation);
 
-		sf::Time zero = sf::Time::Zero;
-		mSpriteRenderer.setSprite(mpAnimation->getSprite(zero));
-		mCurrPlayTime = zero;
+		mSpriteRenderer.setSprite(mpAnimation->getSprite(sf::Time::Zero));
+		mCurrPlayTime = sf::Time::Zero;
 	}
 
 	void Animator::update(const sf::Time& dt)

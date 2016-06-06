@@ -44,7 +44,7 @@ namespace te
 		virtual ~Animation() {}
 
 		TextureID getID() const;
-		virtual const sf::Sprite& getSprite(sf::Time& dt) const = 0;
+		virtual const sf::Sprite& getSprite(const sf::Time& dt) const = 0;
 		virtual sf::Time getDuration() const = 0;
 
 	private:

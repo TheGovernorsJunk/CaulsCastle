@@ -20,7 +20,7 @@ namespace te
 			return sf::milliseconds(mTimePerClip.asMilliseconds() * mClips.size());
 		}
 
-		const sf::Sprite& getSprite(sf::Time& dt) const
+		const sf::Sprite& getSprite(const sf::Time& dt) const
 		{
 			size_t index = (size_t)(dt / mTimePerClip) % mClips.size();
 			return mClips[index].sprite;
