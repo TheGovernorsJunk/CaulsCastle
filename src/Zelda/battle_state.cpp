@@ -29,7 +29,7 @@ namespace te
 			switch (telegram.msg)
 			{
 			case Fighter::Attack:
-				sm.changeState<AttackState>(TextureManager::getID("inigo_attack"));
+				sm.changeState<AttackState>(TextureManager::getID("HWR"));
 				return true;
 			case Fighter::Dodge:
 				sm.changeState<DodgeState>();
