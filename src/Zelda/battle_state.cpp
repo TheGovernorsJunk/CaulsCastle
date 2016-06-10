@@ -19,7 +19,7 @@ namespace te
 	{
 		void enter(Fighter& entity, StateMachine<Fighter>&)
 		{
-			entity.getAnimator().setAnimation(TextureManager::getID("PriestWalkDown"));
+			entity.getAnimator().setAnimation(TextureManager::getID("PriestWalkRight"));
 		}
 
 		void execute(Fighter& entity, StateMachine<Fighter>&, const sf::Time& dt) {}
