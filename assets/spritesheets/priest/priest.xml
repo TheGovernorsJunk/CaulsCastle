@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:27f2a01eccd97ee6417c42d93f324b1d:416c55a6030245e7df73200dfad329dd:6c9fecddd5e0635551858f67e4298c52$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="priest.png" width="752" height="130">
+    <sprite n="1-PriestWalkBottomRight.png" x="1" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="1-PriestWalkDown.png" x="651" y="1" w="49" h="32" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="5-PriestWalkBottomRight.png" x="391" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="5-PriestWalkDown.png" x="702" y="86" w="49" h="32" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="9-PriestWalkBottomRight.png" x="521" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="9-PriestWalkDown.png" x="685" y="35" w="32" h="49" pX="0.5" pY="0.5"/>
+    <sprite n="13-PriestWalkBottomRight.png" x="131" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="13-PriestWalkDown.png" x="702" y="1" w="49" h="32" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="17-PriestWalkBottomRight.png" x="261" y="1" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="17-PriestWalkDown.png" x="651" y="35" w="32" h="49" pX="0.5" pY="0.5"/>
+    <sprite n="21-PriestWalkDown.png" x="651" y="86" w="49" h="32" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="25-PriestWalkDown.png" x="685" y="35" w="32" h="49" pX="0.5" pY="0.5"/>
+    <sprite n="29-PriestWalkDown.png" x="702" y="1" w="49" h="32" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="32-PriestWalkDown.png" x="702" y="1" w="49" h="32" pX="0.5" pY="0.5" r="y"/>
+</TextureAtlas>
