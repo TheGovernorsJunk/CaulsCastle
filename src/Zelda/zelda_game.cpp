@@ -24,6 +24,7 @@ namespace te
 		getTextureManager().loadSpritesheet("src/Zelda/textures/inigo_spritesheet.xml");
 		getTextureManager().loadAnimations("src/Zelda/textures/inigo_animation.xml");
 		getTextureManager().loadSpritesheet("assets/spritesheets/hero/hero.xml");
+		getTextureManager().loadSpritesheet("assets/spritesheets/priest/priest.xml");
 		loadMap(fileName);
 	}
 
