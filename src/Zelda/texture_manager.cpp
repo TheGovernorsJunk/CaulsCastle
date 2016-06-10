@@ -50,6 +50,7 @@ namespace te
 		{
 			auto pSprite = std::make_unique<sf::Sprite>(getTexture(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
 			pSprite->setOrigin((float)s.pX * s.w, (float)s.pY * s.h);
+			if (s.r) pSprite->rotate(-90.f);
 			mSpriteMap.insert({ s.n, std::move(pSprite) });
 		}
 

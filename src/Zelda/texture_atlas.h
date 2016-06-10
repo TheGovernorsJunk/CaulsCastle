@@ -25,6 +25,7 @@ namespace te
 			int x;
 			int y;
 			TextureID n;
+			bool r;
 		};
 		struct Clip
 		{

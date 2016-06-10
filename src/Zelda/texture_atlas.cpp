@@ -55,6 +55,13 @@ namespace te
 				animation.clips.push_back(Clip{index, spriteID});
 			}
 
+			bool r = false;
+			auto* pR = pSprite->first_attribute("r");
+			if (pR && std::string(pR->value()) == "y")
+			{
+				r = true;
+			}
+
 			mSprites.insert(std::make_pair(spriteID, Sprite{
 				std::stof(pSprite->first_attribute("pX")->value()),
 				std::stof(pSprite->first_attribute("pY")->value()),
@@ -62,7 +69,8 @@ namespace te
 				std::stoi(pSprite->first_attribute("h")->value()),
 				std::stoi(pSprite->first_attribute("x")->value()),
 				std::stoi(pSprite->first_attribute("y")->value()),
-				spriteID
+				spriteID,
+				r
 			}));
 		}
 
