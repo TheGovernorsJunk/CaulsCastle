@@ -51,6 +51,9 @@ namespace te
 		BattleGame(Application& app);
 		EntityID mPlayerID;
 		EntityID mOpponentID;
+
+		sf::Texture mIsometricTexture;
+		sf::Sprite mIsometricSprite;
 	};
 
 	using BattleState = WorldState<true, true, BattleGame>;

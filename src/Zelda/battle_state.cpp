@@ -3,6 +3,7 @@
 #include "state_stack.h"
 #include "message_dispatcher.h"
 #include "ai_fighter.h"
+#include "utilities.h"
 
 #include <iostream>
 
@@ -160,6 +161,8 @@ namespace te
 		: Game{app}
 		, mPlayerID{0}
 		, mOpponentID{0}
+		, mIsometricTexture{makeIsometricPlaceholder(3)}
+		, mIsometricSprite{sf::Sprite{mIsometricTexture, sf::IntRect{0, 0, 2000, 2000}}}
 	{
 		auto upPlayer = Fighter::make(*this);
 		mPlayerID = upPlayer->getID();
@@ -196,6 +199,7 @@ namespace te
 	{
 		states.transform.scale(2.f, 2.f);
 		target.clear();
+		target.draw(mIsometricSprite);
 		Game::draw(target, states);
 	}
 }
