@@ -18,10 +18,10 @@ namespace te
 		texture.setRepeated(true);
 
 		std::array<sf::Vertex, 8> lines = {
-			sf::Vertex(sf::Vector2f(16.f, 0)), sf::Vertex(sf::Vector2f(33.f, 8.f)),
-			sf::Vertex(sf::Vector2f(33.f, 8.f)), sf::Vertex(sf::Vector2f(16.f, 16.f)),
-			sf::Vertex(sf::Vector2f(17.f, 16.f)), sf::Vertex(sf::Vector2f(0, 8.f)),
-			sf::Vertex(sf::Vector2f(0, 8.f)), sf::Vertex(sf::Vector2f(17.f, 0))
+			sf::Vertex(sf::Vector2f(17.f, 0)), sf::Vertex(sf::Vector2f(33.f, 8.f)),
+			sf::Vertex(sf::Vector2f(32.f, 8.f)), sf::Vertex(sf::Vector2f(16.f, 16.f)),
+			sf::Vertex(sf::Vector2f(17.f, 16.f)), sf::Vertex(sf::Vector2f(1, 8.f)),
+			sf::Vertex(sf::Vector2f(0, 8.f)), sf::Vertex(sf::Vector2f(16.f, 0))
 		};
 		std::for_each(lines.begin(), lines.end(), [scale](sf::Vertex& v) {
 			v.position = v.position * (float)scale;
