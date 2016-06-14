@@ -3,6 +3,7 @@
 #include "game_state.h"
 #include "zelda_game.h"
 #include "battle_state.h"
+#include "scripted_game.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -27,6 +28,8 @@ namespace te
 				mpGame->processInput(evt);
 				if (evt.key.code == sf::Keyboard::Space && evt.type == sf::Event::KeyPressed)
 					pushState<BattleState>();
+				if (evt.key.code == sf::Keyboard::Return && evt.type == sf::Event::KeyPressed)
+					pushState<ScriptedState>("assets/scripts/sample_state.lua");
 				return true; 
 			}
 			bool update(const sf::Time& dt)
