@@ -12,7 +12,7 @@ namespace te
 		int status = luaL_dofile(mpL.get(), filename.c_str());
 		if (status)
 		{
-			throw std::runtime_error("Could not load Lua script.");
+			throw std::runtime_error(lua_tostring(mpL.get(), -1));
 		}
 
 		luabridge::LuaRef main = luabridge::getGlobal(mpL.get(), "main");
