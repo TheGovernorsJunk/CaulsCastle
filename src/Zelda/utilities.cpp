@@ -1,5 +1,7 @@
 #include "utilities.h"
 
+#include <lua.hpp>
+
 #include <algorithm>
 #include <array>
 
@@ -31,5 +33,10 @@ namespace te
 		texture.display();
 
 		return texture.getTexture();
+	}
+
+	void doLuaFile(lua_State& L, const std::string& filename)
+	{
+		if (luaL_dofile(&L, filename.c_str())) throw std::runtime_error(lua_tostring(&L, -1));
 	}
 }
