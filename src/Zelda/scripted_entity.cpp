@@ -1,5 +1,6 @@
 #include "scripted_entity.h"
 #include "message_dispatcher.h"
+#include "utilities.h"
 
 namespace te
 {
@@ -10,11 +11,7 @@ namespace te
 
 	void ScriptedEntity::loadScript(const std::string& filename)
 	{
-		int status = luaL_dofile(mpL.get(), filename.c_str());
-		if (status)
-		{
-			throw std::runtime_error(lua_tostring(mpL.get(), -1));
-		}
+		doLuaFile(*mpL, filename);
 
 		luabridge::LuaRef main = luabridge::getGlobal(mpL.get(), "main");
 		if (!main.isFunction()) throw std::runtime_error("Must provide main function.");
