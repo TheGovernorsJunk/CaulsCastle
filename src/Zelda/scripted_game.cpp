@@ -32,6 +32,8 @@ namespace te
 	{
 	}
 
-	void ScriptedGame::draw(sf::RenderTarget&, sf::RenderStates) const
-	{}
+	void ScriptedGame::draw(sf::RenderTarget& target, sf::RenderStates) const
+	{
+		target.clear();
+	}
 }
