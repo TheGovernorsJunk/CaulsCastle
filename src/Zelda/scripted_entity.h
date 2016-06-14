@@ -23,22 +23,34 @@ namespace te
 			, mOwner{owner}
 		{}
 
-		void changeState(luabridge::LuaRef state)
+		void initState(luabridge::LuaRef state)
 		{
-			if (!state.isTable()) throw std::runtime_error{"Must pass table to changeState."};
-			if (!state["execute"].isFunction()) throw std::runtime_error{"Must implement `execute' method."};
-
-			if (!mState.isNil() && mState["exit"].isFunction()) mState["exit"](&mOwner);
+			verifyState(state);
 			mState = state;
-			if (mState["enter"].isFunction()) mState["enter"](&mOwner);
 		}
 
 		void update(const sf::Time& dt)
 		{
-			if (!mState.isNil()) mState["execute"](&mOwner, dt.asSeconds());
+			if (!mState.isNil())
+			{
+				luabridge::LuaRef newState = mState["execute"](&mOwner, dt.asSeconds());
+				if (!newState.isNil())
+				{
+					verifyState(newState);
+					if (mState["exit"].isFunction()) mState["exit"](&mOwner);
+					mState = newState;
+					if (mState["enter"].isFunction()) mState["enter"](&mOwner);
+				}
+			}
 		}
 
 	private:
+		static void verifyState(luabridge::LuaRef state)
+		{
+			if (!state.isTable()) throw std::runtime_error{"Must pass table to changeState."};
+			if (!state["execute"].isFunction()) throw std::runtime_error{"Must implement `execute' method."};
+		}
+
 		luabridge::LuaRef mState;
 		EntityType& mOwner;
 	};

@@ -32,7 +32,7 @@ namespace te
 				.addFunction("getFSM", &ScriptedEntity::getFSM)
 			.endClass()
 			.beginClass<FSM>("ScriptedStateMachine")
-				.addFunction("changeState", &FSM::changeState)
+				.addFunction("initState", &FSM::initState)
 			.endClass();
 	}
 
