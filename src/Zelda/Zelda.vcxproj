@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\SFML-2.3.2\lib;$(SolutionDir)..\lib\Box2D\lib\x86\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(SolutionDir)..\lib\Lua;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib\SFML-2.3.2\lib;$(SolutionDir)..\lib\Box2D\lib\x86\Debug;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)Box2D\include;$(SolutionDir)rapidxml-1.13;$(SolutionDir)SFML-2.3.2\include;$(IncludePath)</IncludePath>
@@ -84,7 +84,7 @@
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;Box2D.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -154,6 +154,7 @@
     <ClCompile Include="path_planner.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="regulator.cpp" />
+    <ClCompile Include="scripted_entity.cpp" />
     <ClCompile Include="sprite_renderer.cpp" />
     <ClCompile Include="state_stack.cpp" />
     <ClCompile Include="steering_behaviors.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="regulator.h" />
     <ClInclude Include="runnable.h" />
     <ClInclude Include="scene_node.h" />
+    <ClInclude Include="scripted_entity.h" />
     <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="sprite_renderer.h" />
     <ClInclude Include="state.h" />
