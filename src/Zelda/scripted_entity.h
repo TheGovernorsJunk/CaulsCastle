@@ -44,6 +44,15 @@ namespace te
 			}
 		}
 
+		bool handleMessage(const Telegram& telegram)
+		{
+			if (!mState.isNil() && mState["onMessage"].isFunction())
+			{
+				return mState["onMessage"](&mOwner, &telegram);
+			}
+			return false;
+		}
+
 	private:
 		static void verifyState(luabridge::LuaRef state)
 		{
@@ -69,6 +78,7 @@ namespace te
 		ScriptedEntity(Game& world, sf::Vector2f position);
 
 		void onUpdate(const sf::Time& dt);
+		bool handleMessage(const Telegram& msg);
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		FSM mStateMachine;

@@ -1,4 +1,5 @@
 #include "scripted_entity.h"
+#include "message_dispatcher.h"
 
 namespace te
 {
@@ -33,11 +34,22 @@ namespace te
 			.endClass()
 			.beginClass<FSM>("ScriptedStateMachine")
 				.addFunction("initState", &FSM::initState)
+			.endClass()
+			.beginClass<Telegram>("Telegram")
+				.addData("dispatchTime", &Telegram::dispatchTime)
+				.addData("sender", &Telegram::sender)
+				.addData("receiver", &Telegram::receiver)
+				.addData("msg", &Telegram::msg)
 			.endClass();
 	}
 
 	void ScriptedEntity::onUpdate(const sf::Time& dt)
 	{
 		mStateMachine.update(dt);
+	}
+
+	bool ScriptedEntity::handleMessage(const Telegram& msg)
+	{
+		return mStateMachine.handleMessage(msg);
 	}
 }
