@@ -3,6 +3,7 @@
 
 #include "game.h"
 #include "world_state.h"
+#include "typedefs.h"
 
 #include <lua.hpp>
 
@@ -22,6 +23,7 @@ namespace te
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 	private:
 		ScriptedGame(Application& app, const std::string& initFilename);
+		EntityID loadMap(const std::string& filename);
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 	};

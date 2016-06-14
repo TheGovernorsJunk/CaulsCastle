@@ -1,3 +1,4 @@
 function init(game)
-   print("Loaded.")
+   local mapID = game:loadMap('src/Zelda/map.tmx')
+   print(mapID)
 end
