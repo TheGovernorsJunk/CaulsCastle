@@ -1,14 +1,22 @@
 #include "scripted_game.h"
 #include "utilities.h"
 
+#include <LuaBridge.h>
+
 namespace te
 {
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
 	{
-		luaL_openlibs(mpL.get());
-		doLuaFile(*mpL, initFilename);
+		lua_State* L = mpL.get();
+
+		luaL_openlibs(L);
+		doLuaFile(*L, initFilename);
+		luabridge::LuaRef init = luabridge::getGlobal(L, "init");
+
+		if (!init.isFunction()) throw std::runtime_error{"Must supply init function."};
+		init();
 	}
 
 	std::unique_ptr<ScriptedGame> ScriptedGame::make(Application& app, const std::string& initFilename)
