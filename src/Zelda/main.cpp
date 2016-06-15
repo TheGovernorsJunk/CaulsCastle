@@ -1,4 +1,4 @@
-#include "zelda_stack_application.h"
+#include "scripted_application.h"
 
 #include <iostream>
 
@@ -6,12 +6,8 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		if (argc < 2)
-		{
-			throw std::runtime_error("Initial map file must be supplied.");
-		}
-		te::ZeldaStackApplication app(argv[1]);
-		app.run();
+		te::ScriptedApplication app("assets/scripts/config.lua");
+		app.run(app.getConfig().fps);
 		return 0;
 	}
 	catch (std::exception& ex)
