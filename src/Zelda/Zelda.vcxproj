@@ -154,6 +154,7 @@
     <ClCompile Include="path_planner.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="regulator.cpp" />
+    <ClCompile Include="scripted_application.cpp" />
     <ClCompile Include="scripted_entity.cpp" />
     <ClCompile Include="scripted_game.cpp" />
     <ClCompile Include="sprite_renderer.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="regulator.h" />
     <ClInclude Include="runnable.h" />
     <ClInclude Include="scene_node.h" />
+    <ClInclude Include="scripted_application.h" />
     <ClInclude Include="scripted_entity.h" />
     <ClInclude Include="scripted_game.h" />
     <ClInclude Include="sparse_graph.h" />
