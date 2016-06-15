@@ -44,8 +44,9 @@ namespace te
 	{
 	}
 
-	void ScriptedGame::update(const sf::Time&)
+	void ScriptedGame::update(const sf::Time& dt)
 	{
+		Game::update(dt);
 	}
 
 	void ScriptedGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
