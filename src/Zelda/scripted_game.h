@@ -26,6 +26,7 @@ namespace te
 	private:
 		ScriptedGame(Application& app, const std::string& initFilename);
 		EntityID loadMap(const std::string& filename);
+		TextureID loadSpritesheet(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable);
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;

@@ -2,6 +2,8 @@
 #define TE_SCRIPTED_ENTITY_H
 
 #include "base_game_entity.h"
+#include "sprite_renderer.h"
+#include "animator.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -13,7 +15,7 @@
 
 namespace te
 {
-	class Game;
+	class ScriptedGame;
 
 	template <class EntityType>
 	class ScriptedStateMachine
@@ -64,19 +66,27 @@ namespace te
 	class ScriptedEntity : public BaseGameEntity
 	{
 	public:
-		static std::unique_ptr<ScriptedEntity> make(Game& world, luabridge::LuaRef entityTable, sf::Vector2f position);
+		static std::unique_ptr<ScriptedEntity> make(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position);
 
 		void initMachine(luabridge::LuaRef);
+
+		void setAnimation(const std::string& anim);
 
 	private:
 		using FSM = ScriptedStateMachine<ScriptedEntity>;
 
-		ScriptedEntity(Game& world, luabridge::LuaRef entityTable, sf::Vector2f position);
+		ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position);
 
 		void onUpdate(const sf::Time& dt);
 		bool handleMessage(const Telegram& msg);
+		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		void initAnimator();
+
+		ScriptedGame& mWorld;
 		std::vector<FSM> mStateMachines;
+		std::unique_ptr<SpriteRenderer> mpSpriteRenderer;
+		std::unique_ptr<Animator> mpAnimator;
 	};
 }
 
