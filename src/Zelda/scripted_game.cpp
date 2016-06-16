@@ -2,8 +2,7 @@
 #include "utilities.h"
 #include "tmx.h"
 #include "tile_map.h"
-
-#include <LuaBridge.h>
+#include "scripted_entity.h"
 
 namespace te
 {
@@ -18,6 +17,10 @@ namespace te
 		luabridge::getGlobalNamespace(L)
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadMap", &ScriptedGame::loadMap)
+				.addFunction("makeEntity", &ScriptedGame::makeEntity)
+			.endClass()
+			.beginClass<ScriptedEntity>("Entity")
+				.addFunction("initMachine", &ScriptedEntity::initMachine)
 			.endClass();
 
 		doLuaFile(*L, initFilename);
@@ -27,11 +30,25 @@ namespace te
 		init(this);
 	}
 
+	ScriptedGame::~ScriptedGame()
+	{
+		storeLuaState(std::move(mpL));
+	}
+
 	EntityID ScriptedGame::loadMap(const std::string& filename)
 	{
 		auto upTileMap = TileMap::make(*this, getTextureManager(), TMX{filename});
 		EntityID id = upTileMap->getID();
 		getSceneGraph().attachNode(std::move(upTileMap));
+		return id;
+	}
+
+	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable)
+	{
+		auto upEntity = ScriptedEntity::make(*this, entityTable, {0, 0});
+		EntityID id = upEntity->getID();
+		ScriptedEntity* pEntity = upEntity.get();
+		getSceneGraph().attachNode(std::move(upEntity));
 		return id;
 	}
 
