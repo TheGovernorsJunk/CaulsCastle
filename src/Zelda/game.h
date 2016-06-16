@@ -4,8 +4,10 @@
 #include "runnable.h"
 
 #include <SFML/Graphics.hpp>
+#include <lua.hpp>
 
 #include <memory>
+#include <functional>
 
 class b2World;
 
@@ -51,11 +53,15 @@ namespace te
 
 		SceneNode& getSceneGraph();
 
+		// For safe resource freeing in ScriptedGame
+		void storeLuaState(std::unique_ptr<lua_State, std::function<void(lua_State*)>>&& pL) { mpL = std::move(pL); }
+
 	private:
 		void throwIfNoMap() const;
 
 		Application& mApp;
 
+		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
 
