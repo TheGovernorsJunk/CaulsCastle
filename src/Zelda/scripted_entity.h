@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <functional>
+#include <vector>
 
 namespace te
 {
@@ -18,15 +19,11 @@ namespace te
 	class ScriptedStateMachine
 	{
 	public:
-		ScriptedStateMachine(lua_State& L, EntityType& owner)
-			: mState{&L}
+		ScriptedStateMachine(luabridge::LuaRef state, EntityType& owner)
+			: mState{state}
 			, mOwner{owner}
-		{}
-
-		void initState(luabridge::LuaRef state)
 		{
-			verifyState(state);
-			mState = state;
+			verifyState(mState);
 		}
 
 		void update(const sf::Time& dt)
@@ -67,21 +64,19 @@ namespace te
 	class ScriptedEntity : public BaseGameEntity
 	{
 	public:
-		static std::unique_ptr<ScriptedEntity> make(Game& world, sf::Vector2f position);
+		static std::unique_ptr<ScriptedEntity> make(Game& world, luabridge::LuaRef entityTable, sf::Vector2f position);
 
-		void loadScript(const std::string& filename);
-		ScriptedStateMachine<ScriptedEntity>& getFSM() { return mStateMachine; }
+		void initMachine(luabridge::LuaRef);
 
 	private:
 		using FSM = ScriptedStateMachine<ScriptedEntity>;
 
-		ScriptedEntity(Game& world, sf::Vector2f position);
+		ScriptedEntity(Game& world, luabridge::LuaRef entityTable, sf::Vector2f position);
 
 		void onUpdate(const sf::Time& dt);
 		bool handleMessage(const Telegram& msg);
 
-		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
-		FSM mStateMachine;
+		std::vector<FSM> mStateMachines;
 	};
 }
 
