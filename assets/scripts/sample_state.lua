@@ -3,5 +3,6 @@ require 'assets/scripts/entity'
 function init(game)
    local mapID = game:loadMap('src/Zelda/map.tmx')
    local entityID = game:makeEntity(entity)
-   print(mapID)
+   local entity = game:getScriptedEntity(entityID)
+   entity:setPosition(50, 50)
 end

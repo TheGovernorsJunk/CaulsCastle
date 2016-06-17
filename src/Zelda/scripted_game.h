@@ -14,6 +14,7 @@
 namespace te
 {
 	class Application;
+	class ScriptedEntity;
 
 	class ScriptedGame : public Game
 	{
@@ -28,6 +29,7 @@ namespace te
 		EntityID loadMap(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable);
+		ScriptedEntity& getScriptedEntity(EntityID id) const;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 	};

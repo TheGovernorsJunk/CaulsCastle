@@ -4,6 +4,7 @@
 #include "tile_map.h"
 #include "scripted_entity.h"
 #include "texture_manager.h"
+#include "entity_manager.h"
 
 namespace te
 {
@@ -20,8 +21,14 @@ namespace te
 				.addFunction("loadMap", &ScriptedGame::loadMap)
 				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
+				.addFunction("getScriptedEntity", &ScriptedGame::getScriptedEntity)
 			.endClass()
-			.beginClass<ScriptedEntity>("Entity")
+			.beginClass<SceneNode>("SceneNode")
+				.addFunction<void(SceneNode::*)(float,float)>("setPosition", &SceneNode::setPosition)
+			.endClass()
+			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
+			.endClass()
+			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
 				.addFunction("setAnimation", &ScriptedEntity::setAnimation)
 			.endClass();
@@ -58,6 +65,13 @@ namespace te
 		ScriptedEntity* pEntity = upEntity.get();
 		getSceneGraph().attachNode(std::move(upEntity));
 		return id;
+	}
+
+	ScriptedEntity& ScriptedGame::getScriptedEntity(EntityID id) const
+	{
+		auto& entity = getEntityManager().getEntityFromID(id);
+		assert(dynamic_cast<ScriptedEntity*>(&entity) != nullptr);
+		return (ScriptedEntity&)entity;
 	}
 
 	std::unique_ptr<ScriptedGame> ScriptedGame::make(Application& app, const std::string& initFilename)
