@@ -45,6 +45,8 @@ namespace te
 
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
+	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
+
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
@@ -70,6 +72,7 @@ namespace te
 				.addData("x", &sf::Vector2f::x)
 				.addData("y", &sf::Vector2f::y)
 			.endClass()
+			.addFunction("addVec", &addVec)
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
@@ -93,7 +96,7 @@ namespace te
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
 				.addProperty("data", &ScriptedEntity::getUserData)
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
-				.addFunction("setAnimation", &ScriptedEntity::setAnimation)
+				.addProperty("animation", &ScriptedEntity::getAnimation, &ScriptedEntity::setAnimation)
 			.endClass();
 
 		doLuaFile(*L, initFilename);

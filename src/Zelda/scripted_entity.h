@@ -72,6 +72,7 @@ namespace te
 		luabridge::LuaRef getUserData() const;
 		void initMachine(luabridge::LuaRef);
 		void setAnimation(const std::string& anim);
+		const std::string& getAnimation() const;
 
 	private:
 		using FSM = ScriptedStateMachine<ScriptedEntity>;
@@ -89,6 +90,7 @@ namespace te
 		std::vector<FSM> mStateMachines;
 		std::unique_ptr<SpriteRenderer> mpSpriteRenderer;
 		std::unique_ptr<Animator> mpAnimator;
+		std::string mAnimationStr;
 	};
 }
 

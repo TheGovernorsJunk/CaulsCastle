@@ -18,6 +18,7 @@ namespace te
 		, mStateMachines{}
 		, mpSpriteRenderer{}
 		, mpAnimator{}
+		, mAnimationStr{}
 	{
 		if (entityTable.isTable())
 		{
@@ -72,5 +73,11 @@ namespace te
 	{
 		if (!mpAnimator) initAnimator();
 		mpAnimator->setAnimation(TextureManager::getID(anim));
+		mAnimationStr = anim;
+	}
+
+	const std::string& ScriptedEntity::getAnimation() const
+	{
+		return mAnimationStr;
 	}
 }
