@@ -94,7 +94,7 @@ namespace te
 		}
 
 		luabridge::LuaRef pkg = luabridge::getGlobal(L, packageName.c_str());
-		if (!pkg.isTable()) throw std::runtime_error{"Package not found. Package name must match filename."};
+		if (!pkg.isTable()) throw std::runtime_error{"Package `" + packageName + "' not found. Package name must match filename."};
 
 		mInputFn = pkg["processInput"];
 		if (!mInputFn.isNil() && !mInputFn.isFunction()) throw std::runtime_error{"processInput must be a function."};
