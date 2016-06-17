@@ -3,9 +3,14 @@ require 'assets/scripts/bindings'
 
 local function init(game)
    local mapID = game:loadMap('src/Zelda/map.tmx')
-   entityID = game:makeEntity(entity)
-   local entity = game:getScriptedEntity(entityID)
-   entity:setPosition(50, 50)
+   local entityID = game:makeEntity(entity)
+   local entityNode = game:getScriptedEntity(entityID)
+   entityNode:setPosition(50, 50)
+
+   local childEntityID = game:makeEntity(entity)
+   entityNode:attachNode(childEntityID)
+   game:getScriptedEntity(childEntityID):setPosition(25, 0)
+
    game:dispatchMessage(0, -1, entityID, 0, {a=3})
 end
 
