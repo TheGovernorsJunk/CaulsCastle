@@ -71,6 +71,7 @@ namespace te
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
 				.addFunction<void(SceneNode::*)(float,float)>("setPosition", &SceneNode::setPosition)
+				.addFunction<void(SceneNode::*)(float,float)>("move", &SceneNode::move)
 			.endClass()
 			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
 				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)
