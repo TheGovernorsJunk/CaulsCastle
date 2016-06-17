@@ -1,13 +1,13 @@
-require 'assets/scripts/mystate'
+require 'assets.scripts.MyState'
 
 local function init(entity, game)
    game:loadSpritesheet('assets/spritesheets/priest/priest.xml')
-   entity:initMachine(mystate)
+   entity:initMachine(MyState)
    entity:setAnimation('PriestWalkDown')
 end
 
-entity = {
+Entity = {
    init = init
 }
 
-return entity
+return Entity

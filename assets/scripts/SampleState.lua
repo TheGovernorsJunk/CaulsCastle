@@ -1,15 +1,15 @@
-require 'assets/scripts/entity'
-require 'assets/scripts/bindings'
+require 'assets.scripts.Entity'
+require 'assets.scripts.Bindings'
 
 local entityID
 
 local function init(game)
    local mapID = game:loadMap('src/Zelda/map.tmx')
-   entityID = game:makeEntity(entity)
+   entityID = game:makeEntity(Entity)
    local entityNode = game:getScriptedEntity(entityID)
    entityNode:setPosition(50, 50)
 
-   local childEntityID = game:makeEntity(entity)
+   local childEntityID = game:makeEntity(Entity)
    entityNode:attachNode(childEntityID)
    game:getScriptedEntity(childEntityID):setPosition(25, 0)
 
@@ -17,14 +17,14 @@ local function init(game)
 end
 
 local function processInput(game, key)
-   if (key == bindings.Left) then
+   if (key == Bindings.Left) then
       game:dispatchMessage(0, -1, entityID, 0, {a=2})
    end
 end
 
-sample_state = {
+SampleState = {
    init = init,
    processInput = processInput
 }
 
-return sample_state
+return SampleState

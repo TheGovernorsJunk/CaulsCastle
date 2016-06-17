@@ -14,11 +14,11 @@ local function onMessage(entity, telegram)
    print("Message received:" .. telegram.info.a)
 end
 
-mystate = {
+MyState = {
    enter = enter,
    execute = execute,
    exit = exit,
    onMessage = onMessage
 }
 
-return mystate
+return MyState
