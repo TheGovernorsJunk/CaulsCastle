@@ -3,15 +3,15 @@ local function enter()
 end
 
 local function execute(entity, dt)
-   local vel = entity.data.velocity
-   entity:move(vel.x, vel.y)
+   local ds = mulVec(dt, entity.data.velocity)
+   entity:move(ds.x, ds.y)
 
    local anim
-   if vel.y > 0 then anim = 'PriestWalkDown'
-   elseif vel.y < 0 then anim = 'PriestWalkUp'
+   if ds.y > 0 then anim = 'PriestWalkDown'
+   elseif ds.y < 0 then anim = 'PriestWalkUp'
    end
-   if vel.x > 0 then anim = 'PriestWalkRight'
-   elseif vel.x < 0 then anim = 'PriestWalkLeft'
+   if ds.x > 0 then anim = 'PriestWalkRight'
+   elseif ds.x < 0 then anim = 'PriestWalkLeft'
    end
 
    if anim and anim ~= entity.animation then
