@@ -42,7 +42,7 @@ namespace te
 		return false;
 	}
 
-	int BaseGameEntity::getID() const
+	EntityID BaseGameEntity::getID() const
 	{
 		return mID;
 	}
@@ -55,5 +55,12 @@ namespace te
 	Game& BaseGameEntity::getWorld()
 	{
 		return mWorld;
+	}
+
+	void BaseGameEntity::attachNodeByID(EntityID child)
+	{
+		BaseGameEntity& entity = getWorld().getEntityManager().getEntityFromID(child);
+		std::unique_ptr<SceneNode> pEntity = entity.getParent().detachNode(entity);
+		SceneNode::attachNode(std::move(pEntity));
 	}
 }

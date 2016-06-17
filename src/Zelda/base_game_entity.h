@@ -2,6 +2,7 @@
 #define TE_BASE_GAME_ENTITY_H
 
 #include "scene_node.h"
+#include "typedefs.h"
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
@@ -27,9 +28,10 @@ namespace te
 		void setBoundingRadius(float radius);
 		float getBoundingRadius() const;
 		virtual bool handleMessage(const Telegram& msg);
-		int getID() const;
+		EntityID getID() const;
 		const Game& getWorld() const;
 		Game& getWorld();
+		void attachNodeByID(EntityID child);
 
 	private:
 		friend class EntityManager;
