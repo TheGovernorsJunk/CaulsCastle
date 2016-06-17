@@ -74,6 +74,7 @@ namespace te
 				.addFunction<void(SceneNode::*)(float,float)>("setPosition", &SceneNode::setPosition)
 			.endClass()
 			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
+				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)
 			.endClass()
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
