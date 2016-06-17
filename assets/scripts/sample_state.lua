@@ -1,9 +1,11 @@
 require 'assets/scripts/entity'
 require 'assets/scripts/bindings'
 
+local entityID
+
 local function init(game)
    local mapID = game:loadMap('src/Zelda/map.tmx')
-   local entityID = game:makeEntity(entity)
+   entityID = game:makeEntity(entity)
    local entityNode = game:getScriptedEntity(entityID)
    entityNode:setPosition(50, 50)
 
