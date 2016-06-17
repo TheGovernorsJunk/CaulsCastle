@@ -14,7 +14,7 @@ namespace te
 	ScriptedEntity::ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position)
 		: BaseGameEntity{world, position}
 		, mWorld{world}
-		, mUserData{entityTable}
+		, mUserData{luabridge::newTable(entityTable)}
 		, mStateMachines{}
 		, mpSpriteRenderer{}
 		, mpAnimator{}
@@ -23,8 +23,6 @@ namespace te
 		{
 			if (entityTable["init"].isFunction()) entityTable["init"](this, &mWorld);
 			else throw std::runtime_error{"Entity package must include init function."};
-			if (entityTable["data"].isTable()) mUserData = entityTable["data"];
-			else throw std::runtime_error{"Entity package must include data table."};
 		}
 		else
 		{
