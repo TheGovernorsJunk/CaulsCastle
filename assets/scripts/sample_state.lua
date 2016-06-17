@@ -1,4 +1,5 @@
 require 'assets/scripts/entity'
+require 'assets/scripts/bindings'
 
 function init(game)
    local mapID = game:loadMap('src/Zelda/map.tmx')
@@ -9,7 +10,7 @@ function init(game)
 end
 
 function processInput(game, key)
-   if (key == Key.W) then
+   if (key == bindings.Left) then
       game:dispatchMessage(0, -1, entityID, 0, {a=2})
    end
 end
