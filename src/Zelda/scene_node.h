@@ -36,6 +36,7 @@ namespace te
 
 		void attachNode(std::unique_ptr<SceneNode>&& child);
 		std::unique_ptr<SceneNode> detachNode(const SceneNode& child);
+		SceneNode& getParent() const;
 
 		void attachRigidBody(const b2BodyType&);
 

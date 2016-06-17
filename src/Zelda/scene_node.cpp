@@ -135,6 +135,12 @@ namespace te
 		return result;
 	}
 
+	SceneNode& SceneNode::getParent() const
+	{
+		if (mpParent) return *mpParent;
+		throw std::runtime_error{"No parent on node."};
+	}
+
 	void SceneNode::attachRigidBody(const b2BodyType& bodyType)
 	{
 		if (!mpBody)
