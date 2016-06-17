@@ -46,6 +46,7 @@ namespace te
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
+	static sf::Vector2f mulVec(float scalar, sf::Vector2f v) { return scalar * v; }
 
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
@@ -73,6 +74,7 @@ namespace te
 				.addData("y", &sf::Vector2f::y)
 			.endClass()
 			.addFunction("addVec", &addVec)
+			.addFunction("mulVec", &mulVec)
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
