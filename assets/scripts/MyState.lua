@@ -3,7 +3,20 @@ local function enter()
 end
 
 local function execute(entity, dt)
-   --print("Executing")
+   local vel = entity.data.velocity
+   entity:move(vel.x, vel.y)
+
+   local anim
+   if vel.y > 0 then anim = 'PriestWalkDown'
+   elseif vel.y < 0 then anim = 'PriestWalkUp'
+   end
+   if vel.x > 0 then anim = 'PriestWalkRight'
+   elseif vel.x < 0 then anim = 'PriestWalkLeft'
+   end
+
+   if anim and anim ~= entity.animation then
+      entity.animation = anim
+   end
 end
 
 local function exit()
@@ -16,9 +29,9 @@ local anims = {
 }
 
 local function onMessage(entity, telegram)
-   local anim = anims['x'][telegram.info.x] or anims['y'][telegram.info.y]
-   entity:setAnimation(anim)
-   entity:move(telegram.info.x, telegram.info.y)
+   -- local anim = anims['x'][telegram.info.x] or anims['y'][telegram.info.y]
+   -- entity:setAnimation(anim)
+   entity.data.velocity = addVec(entity.data.velocity, Vec(telegram.info.x, telegram.info.y))
 end
 
 MyState = {

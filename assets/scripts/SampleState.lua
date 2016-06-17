@@ -14,14 +14,22 @@ local function init(game)
    game:getScriptedEntity(childEntityID):setPosition(25, 0)
 end
 
+local presses = {}
+presses[Bindings.Left] = { x = -1, y = 0 }
+presses[Bindings.Right] = { x = 1, y = 0 }
+presses[Bindings.Up] = { x = 0, y = -1 }
+presses[Bindings.Down] = { x = 0, y = 1 }
+local releases = {}
+releases[Bindings.Left] = { x = 1, y = 0 }
+releases[Bindings.Right] = { x = -1, y = 0 }
+releases[Bindings.Up] = { x = 0, y = 1 }
+releases[Bindings.Down] = { x = 0, y = -1 }
 local messages = {}
-messages[Bindings.Left] = { x = -1, y = 0 }
-messages[Bindings.Right] = { x = 1, y = 0 }
-messages[Bindings.Up] = { x = 0, y = -1 }
-messages[Bindings.Down] = { x = 0, y = 1 }
+messages[Event.KeyPressed] = presses
+messages[Event.KeyReleased] = releases
 
-local function processInput(game, key)
-   local data = messages[key]
+local function processInput(game, key, event)
+   local data = messages[event] and messages[event][key]
    if data ~= nil then
       game:dispatchMessage(0, -1, entityID, data)
    end
