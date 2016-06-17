@@ -6,6 +6,8 @@
 #include "texture_manager.h"
 #include "entity_manager.h"
 
+#include <regex>
+
 namespace te
 {
 	// LuaBridge does not support enum
@@ -35,6 +37,8 @@ namespace te
 	static int X = 23;
 	static int Y = 24;
 	static int Z = 25;
+
+	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
@@ -78,10 +82,24 @@ namespace te
 
 		doLuaFile(*L, initFilename);
 
-		mInputFn = luabridge::getGlobal(L, "processInput");
+		std::string packageName{};
+		std::smatch match;
+		if (std::regex_match(initFilename, match, packageExpr))
+		{
+			packageName = match[1];
+		}
+		else
+		{
+			throw std::runtime_error{"Could not match Lua script name."};
+		}
+
+		luabridge::LuaRef pkg = luabridge::getGlobal(L, packageName.c_str());
+		if (!pkg.isTable()) throw std::runtime_error{"Package not found. Package name must match filename."};
+
+		mInputFn = pkg["processInput"];
 		if (!mInputFn.isNil() && !mInputFn.isFunction()) throw std::runtime_error{"processInput must be a function."};
 
-		luabridge::LuaRef init = luabridge::getGlobal(L, "init");
+		luabridge::LuaRef init = pkg["init"];
 		if (!init.isFunction()) throw std::runtime_error{"Must supply init function."};
 		try
 		{
