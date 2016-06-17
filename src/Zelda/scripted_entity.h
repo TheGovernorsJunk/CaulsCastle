@@ -69,8 +69,8 @@ namespace te
 	public:
 		static std::unique_ptr<ScriptedEntity> make(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position);
 
+		luabridge::LuaRef getUserData() const;
 		void initMachine(luabridge::LuaRef);
-
 		void setAnimation(const std::string& anim);
 
 	private:
@@ -85,6 +85,7 @@ namespace te
 		void initAnimator();
 
 		ScriptedGame& mWorld;
+		luabridge::LuaRef mUserData;
 		std::vector<FSM> mStateMachines;
 		std::unique_ptr<SpriteRenderer> mpSpriteRenderer;
 		std::unique_ptr<Animator> mpAnimator;

@@ -14,14 +14,22 @@ namespace te
 	ScriptedEntity::ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position)
 		: BaseGameEntity{world, position}
 		, mWorld{world}
+		, mUserData{entityTable}
 		, mStateMachines{}
 		, mpSpriteRenderer{}
 		, mpAnimator{}
 	{
-		if (entityTable.isTable() && entityTable["init"].isFunction())
-			entityTable["init"](this, &mWorld);
+		if (entityTable.isTable())
+		{
+			if (entityTable["init"].isFunction()) entityTable["init"](this, &mWorld);
+			else throw std::runtime_error{"Entity package must include init function."};
+			if (entityTable["data"].isTable()) mUserData = entityTable["data"];
+			else throw std::runtime_error{"Entity package must include data table."};
+		}
 		else
-			throw std::runtime_error{"Invalid entity table for ScriptedEntity."};
+		{
+			throw std::runtime_error{"Invalid entity package for ScriptedEntity."};
+		}
 	}
 
 	void ScriptedEntity::onUpdate(const sf::Time& dt)
@@ -44,6 +52,11 @@ namespace te
 	{
 		states.transform *= getWorldTransform();
 		target.draw(*mpSpriteRenderer, states);
+	}
+
+	luabridge::LuaRef ScriptedEntity::getUserData() const
+	{
+		return mUserData;
 	}
 
 	void ScriptedEntity::initMachine(luabridge::LuaRef state)

@@ -6,11 +6,16 @@
 #include "texture_manager.h"
 #include "entity_manager.h"
 
+#include <SFML/Window.hpp>
+
 #include <regex>
 
 namespace te
 {
 	// LuaBridge does not support enum
+	static int KeyPressed = sf::Event::KeyPressed;
+	static int KeyReleased = sf::Event::KeyReleased;
+
 	static int A = 0;
 	static int B = 1;
 	static int C = 2;
@@ -50,6 +55,10 @@ namespace te
 		luaL_openlibs(L);
 
 		luabridge::getGlobalNamespace(L)
+			.beginNamespace("Event")
+				.addVariable("KeyPressed", &KeyPressed, false)
+				.addVariable("KeyReleased", &KeyReleased, false)
+			.endNamespace()
 			.beginNamespace("Key")
 				.addVariable("W", &W, false)
 				.addVariable("A", &A, false)
@@ -77,6 +86,7 @@ namespace te
 				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)
 			.endClass()
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
+				.addProperty("data", &ScriptedEntity::getUserData)
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
 				.addFunction("setAnimation", &ScriptedEntity::setAnimation)
 			.endClass();
@@ -164,8 +174,8 @@ namespace te
 
 	void ScriptedGame::processInput(const sf::Event& evt)
 	{
-		if (evt.type == sf::Event::KeyPressed && mInputFn.isFunction())
-			mInputFn(this, (int)evt.key.code);
+		if (mInputFn.isFunction())
+			mInputFn(this, (int)evt.key.code, (int)evt.type);
 	}
 
 	void ScriptedGame::update(const sf::Time& dt)
