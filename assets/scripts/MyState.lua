@@ -10,8 +10,15 @@ local function exit()
    print("Exiting.")
 end
 
+local anims = {
+   ['x'] = { [-1] = 'PriestWalkLeft', [1] = 'PriestWalkRight' },
+   ['y'] = { [-1] = 'PriestWalkUp',   [1] = 'PriestWalkDown' }
+}
+
 local function onMessage(entity, telegram)
-   print("Message received:" .. telegram.info.a)
+   local anim = anims['x'][telegram.info.x] or anims['y'][telegram.info.y]
+   entity:setAnimation(anim)
+   entity:move(telegram.info.x, telegram.info.y)
 end
 
 MyState = {

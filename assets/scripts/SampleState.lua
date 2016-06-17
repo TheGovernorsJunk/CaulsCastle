@@ -12,13 +12,18 @@ local function init(game)
    local childEntityID = game:makeEntity(Entity)
    entityNode:attachNode(childEntityID)
    game:getScriptedEntity(childEntityID):setPosition(25, 0)
-
-   game:dispatchMessage(0, -1, entityID, 0, {a=3})
 end
 
+local messages = {}
+messages[Bindings.Left] = { x = -1, y = 0 }
+messages[Bindings.Right] = { x = 1, y = 0 }
+messages[Bindings.Up] = { x = 0, y = -1 }
+messages[Bindings.Down] = { x = 0, y = 1 }
+
 local function processInput(game, key)
-   if (key == Bindings.Left) then
-      game:dispatchMessage(0, -1, entityID, 0, {a=2})
+   local data = messages[key]
+   if data ~= nil then
+      game:dispatchMessage(0, -1, entityID, data)
    end
 end
 
