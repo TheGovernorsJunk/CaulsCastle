@@ -105,7 +105,7 @@ namespace te
 		{
 			init(this);
 		}
-		catch (std::exception& ex)
+		catch (luabridge::LuaException& ex)
 		{
 			storeLuaState(std::move(mpL));
 			throw ex;
