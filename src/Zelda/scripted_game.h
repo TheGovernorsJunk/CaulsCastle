@@ -22,8 +22,8 @@ namespace te
 	public:
 		struct ScriptedInfo : public Telegram::Info
 		{
-			int dummy;
-			ScriptedInfo(int d) : dummy(d) {}
+			luabridge::LuaRef ref;
+			ScriptedInfo(luabridge::LuaRef r) : ref(r) {}
 		};
 		struct ScriptedTelegram
 		{
@@ -31,7 +31,7 @@ namespace te
 			int sender;
 			int receiver;
 			int msg;
-			ScriptedInfo info;
+			luabridge::LuaRef info;
 		};
 
 		~ScriptedGame();
@@ -46,7 +46,7 @@ namespace te
 		TextureID loadSpritesheet(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable);
 		ScriptedEntity& getScriptedEntity(EntityID id) const;
-		void dispatchMessage(double delay, EntityID sender, EntityID receiver, int msg, ScriptedInfo info);
+		void dispatchMessage(double delay, EntityID sender, EntityID receiver, int msg, luabridge::LuaRef info);
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mInputFn;

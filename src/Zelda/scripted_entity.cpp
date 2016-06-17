@@ -34,7 +34,7 @@ namespace te
 	{
 		if (dynamic_cast<ScriptedGame::ScriptedInfo*>(msg.pInfo.get()) == nullptr) return false;
 
-		ScriptedGame::ScriptedTelegram scriptedGram{msg.dispatchTime, msg.sender, msg.receiver, msg.msg, *(ScriptedGame::ScriptedInfo*)msg.pInfo.get()};
+		ScriptedGame::ScriptedTelegram scriptedGram{msg.dispatchTime, msg.sender, msg.receiver, msg.msg, ((ScriptedGame::ScriptedInfo*)msg.pInfo.get())->ref};
 		bool result = false;
 		for (auto& fsm : mStateMachines) result = fsm.handleMessage(scriptedGram) || result;
 		return result;

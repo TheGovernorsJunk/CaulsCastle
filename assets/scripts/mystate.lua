@@ -11,7 +11,7 @@ local function exit()
 end
 
 local function onMessage(entity, telegram)
-   print("Message received:" .. telegram.info.dummy)
+   print("Message received:" .. telegram.info.a)
 end
 
 mystate = {

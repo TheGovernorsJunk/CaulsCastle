@@ -52,10 +52,6 @@ namespace te
 				.addVariable("S", &S, false)
 				.addVariable("D", &D, false)
 			.endNamespace()
-			.beginClass<ScriptedInfo>("Info")
-				.addData("dummy", &ScriptedInfo::dummy)
-				.addConstructor<void(*)(int)>()
-			.endClass()
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
@@ -132,7 +128,7 @@ namespace te
 		return (ScriptedEntity&)entity;
 	}
 
-	void ScriptedGame::dispatchMessage(double delay, EntityID sender, EntityID receiver, int msg, ScriptedInfo info)
+	void ScriptedGame::dispatchMessage(double delay, EntityID sender, EntityID receiver, int msg, luabridge::LuaRef info)
 	{
 		getMessageDispatcher().dispatchMessage(delay, sender, receiver, msg, std::make_unique<ScriptedInfo>(info));
 	}
