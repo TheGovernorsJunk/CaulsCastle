@@ -60,7 +60,6 @@ namespace te
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
 				.addData("receiver", &ScriptedTelegram::receiver)
-				.addData("msg", &ScriptedTelegram::msg)
 				.addData("info", &ScriptedTelegram::info)
 			.endClass()
 			.beginClass<ScriptedGame>("Game")
@@ -152,9 +151,9 @@ namespace te
 		return (ScriptedEntity&)entity;
 	}
 
-	void ScriptedGame::dispatchMessage(double delay, EntityID sender, EntityID receiver, int msg, luabridge::LuaRef info)
+	void ScriptedGame::dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info)
 	{
-		getMessageDispatcher().dispatchMessage(delay, sender, receiver, msg, std::make_unique<ScriptedInfo>(info));
+		getMessageDispatcher().dispatchMessage(delay, sender, receiver, 0, std::make_unique<ScriptedInfo>(info));
 	}
 
 	std::unique_ptr<ScriptedGame> ScriptedGame::make(Application& app, const std::string& initFilename)
