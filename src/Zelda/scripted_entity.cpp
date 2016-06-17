@@ -1,8 +1,8 @@
 #include "scripted_entity.h"
-#include "message_dispatcher.h"
 #include "utilities.h"
 #include "texture_manager.h"
 #include "scripted_game.h"
+#include "message_dispatcher.h"
 
 namespace te
 {
@@ -32,8 +32,11 @@ namespace te
 
 	bool ScriptedEntity::handleMessage(const Telegram& msg)
 	{
+		if (dynamic_cast<ScriptedGame::ScriptedInfo*>(msg.pInfo.get()) == nullptr) return false;
+
+		ScriptedGame::ScriptedTelegram scriptedGram{msg.dispatchTime, msg.sender, msg.receiver, msg.msg, *(ScriptedGame::ScriptedInfo*)msg.pInfo.get()};
 		bool result = false;
-		for (auto& fsm : mStateMachines) result = fsm.handleMessage(msg) || result;
+		for (auto& fsm : mStateMachines) result = fsm.handleMessage(scriptedGram) || result;
 		return result;
 	}
 

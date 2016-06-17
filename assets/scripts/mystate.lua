@@ -3,17 +3,22 @@ local function enter()
 end
 
 local function execute(entity, dt)
-   print("Executing")
+   --print("Executing")
 end
 
 local function exit()
    print("Exiting.")
 end
 
+local function onMessage(entity, telegram)
+   print("Message received:" .. telegram.info.dummy)
+end
+
 mystate = {
    enter = enter,
    execute = execute,
-   exit = exit
+   exit = exit,
+   onMessage = onMessage
 }
 
 return mystate

@@ -23,9 +23,9 @@ namespace te
 		, mPriorityQ()
 	{}
 
-	void MessageDispatcher::dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo)
+	void MessageDispatcher::dispatchMessage(double delay, int sender, int receiver, int msg, std::unique_ptr<Telegram::Info>&& extraInfo)
 	{
-		Telegram telegram{ delay,sender,receiver,msg,extraInfo };
+		Telegram telegram{delay, sender, receiver, msg, std::move(extraInfo) };
 		if (delay <= 0.0)
 		{
 			if (mEntityManager.hasEntity(receiver))
@@ -36,7 +36,7 @@ namespace te
 		}
 		else
 		{
-			mPriorityQ.push_back(telegram);
+			mPriorityQ.push_back(std::move(telegram));
 		}
 	}
 

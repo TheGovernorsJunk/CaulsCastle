@@ -20,17 +20,20 @@ namespace te
 		int sender;
 		int receiver;
 		int msg;
-		void* extraInfo;
-	};
 
-	bool operator<(const Telegram& a, const Telegram& b);
+		struct Info { virtual ~Info() {} };
+		std::unique_ptr<Info> pInfo;
+
+		Telegram(double dt, int s, int r, int msg, std::unique_ptr<Info>&& info = nullptr)
+			: dispatchTime(dt), sender(s), receiver(r), msg(msg), pInfo(std::move(info)) {}
+	};
 
 	class MessageDispatcher
 	{
 	public:
 		static std::unique_ptr<MessageDispatcher> make(EntityManager&);
 
-		void dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo = NULL);
+		void dispatchMessage(double delay, int sender, int receiver, int msg, std::unique_ptr<Telegram::Info>&& extraInfo = nullptr);
 		void dispatchDelayedMessages(const sf::Time& dt);
 
 	private:

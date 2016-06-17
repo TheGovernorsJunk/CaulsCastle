@@ -49,16 +49,16 @@ namespace te
 		const float speed = 5.f;
 		if ((msg.msg & X) > 0)
 		{
-			float xAxis = *(float*)msg.extraInfo;
-			body.SetLinearVelocity(b2Vec2(xAxis * speed, body.GetLinearVelocity().y));
-			result = true;
+			//float xAxis = *(float*)msg.extraInfo;
+			//body.SetLinearVelocity(b2Vec2(xAxis * speed, body.GetLinearVelocity().y));
+			//result = true;
 		}
 		if ((msg.msg & Y) > 0)
 		{
-			float yAxis = *(float*)msg.extraInfo;
-			body.SetLinearVelocity(b2Vec2(body.GetLinearVelocity().x, yAxis * speed));
-			result = true;
-			mpAnimator->setAnimation(TextureManager::getID(yAxis > 0 ? "inigo90_en_garde" : "inigo45_en_garde"));
+			//float yAxis = *(float*)msg.extraInfo;
+			//body.SetLinearVelocity(b2Vec2(body.GetLinearVelocity().x, yAxis * speed));
+			//result = true;
+			//mpAnimator->setAnimation(TextureManager::getID(yAxis > 0 ? "inigo90_en_garde" : "inigo45_en_garde"));
 		}
 
 		b2Vec2 velocity = body.GetLinearVelocity();

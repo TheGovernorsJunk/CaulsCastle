@@ -75,6 +75,14 @@ namespace te
 		//getMap().move({ -4, 0 });
 	}
 
+	// this code is old, and the telegram structure obsolete;
+	// hacky struct allows project to compile
+	struct AxisInfo : public Telegram::Info
+	{
+		float value;
+		AxisInfo(float v) : Info{}, value{v} {}
+	};
+
 	void ZeldaGame::processInput(const sf::Event& evt)
 	{
 		if (!sf::Joystick::isConnected(0))
@@ -85,17 +93,17 @@ namespace te
 			bool d = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
 
 			float yAxis = (w && s || !(w || s)) ? 0 : (w ? -1.f : 1.f);
-			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::Y, &yAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::Y, std::make_unique<AxisInfo>(yAxis));
 			float xAxis = (a && d || !(a || d)) ? 0 : (a ? -1.f : 1.f);
-			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::X, &xAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::X, std::make_unique<AxisInfo>(xAxis));
 
 		}
 		else
 		{
 			float xAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.f;
-			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::X, (void*)&xAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::X, std::make_unique<AxisInfo>(xAxis));
 			float yAxis = sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.f;
-			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::Y, (void*)&yAxis);
+			getMessageDispatcher().dispatchMessage(0.0, -1, mPlayerID, Player::Y, std::make_unique<AxisInfo>(yAxis));
 		}
 	}
 
