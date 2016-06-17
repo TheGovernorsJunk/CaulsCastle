@@ -111,6 +111,11 @@ namespace te
 			storeLuaState(std::move(mpL));
 			throw ex;
 		}
+		catch (std::exception& ex)
+		{
+			storeLuaState(std::move(mpL));
+			throw ex;
+		}
 	}
 
 	ScriptedGame::~ScriptedGame()
