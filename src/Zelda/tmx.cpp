@@ -247,6 +247,16 @@ namespace te
 				std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
 				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
 
+				double rotationAngle = std::atan((double)mTileheight / mTilewidth);
+				double shearSlope = std::tan(2.0 * rotationAngle);
+				float finalScale = std::sqrt(0.25f * mTilewidth * mTilewidth + 0.25 * mTileheight * mTileheight);
+				sf::Transform transform{1.f,0,0,0,1.f,0,0,0,1.f};
+				transform
+					.rotate(rotationAngle * 180.f / PI)
+					.scale(finalScale, finalScale);
+				transform *= sf::Transform{1.f,-1.f/(float)shearSlope,0,0,1.f,0,0,0,1.f}
+					.scale(1.f, std::sin(2 * rotationAngle));
+
 				int tileIndex = 0;
 				for (auto tile : layer.data.tiles)
 				{
@@ -260,15 +270,6 @@ namespace te
 						quad[1].position = sf::Vector2f(x + 1, y);
 						quad[2].position = sf::Vector2f(x + 1, y + 1);
 						quad[3].position = sf::Vector2f(x, y + 1);
-
-						double rotationAngle = std::atan((double)mTileheight / mTilewidth);
-						double shearSlope = std::tan(2.0 * rotationAngle);
-						sf::Transform transform{1.f,0,0,0,1.f,0,0,0,1.f};
-						transform
-							.rotate(rotationAngle * 180.f / PI)
-							.scale(64.f, 64.f);
-						transform *= sf::Transform{1.f,-1.f/(float)shearSlope,0,0,1.f,0,0,0,1.f}
-							.scale(1.f, std::sin(2 * rotationAngle));
 
 						std::for_each(quad.begin(), quad.end(), [&transform](sf::Vertex& v) {
 							v.position = transform.transformPoint(v.position);
