@@ -89,6 +89,6 @@ namespace te
 	{
 		auto& map = getWorld().getEntityManager().getEntityFromID(mapID);
 		assert(dynamic_cast<TileMap*>(&map) != nullptr);
-		setPosition(static_cast<TileMap&>(map).getTileToWorldTransform().transformPoint((float)x, (float)y));
+		setPosition(static_cast<TileMap&>(map).getTileToWorldTransform().transformPoint(0.5f + x, 0.5f + y));
 	}
 }
