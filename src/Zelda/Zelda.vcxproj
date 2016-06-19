@@ -176,6 +176,7 @@
   <ItemGroup>
     <None Include="map.tmx" />
     <None Include="map2.tmx" />
+    <None Include="map3.tmx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai_fighter.h" />
