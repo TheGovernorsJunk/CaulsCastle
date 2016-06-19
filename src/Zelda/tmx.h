@@ -52,6 +52,7 @@ namespace te
 
 		SparseGraph<NavGraphNode, NavGraphEdge>* makeNavGraph(const sf::Transform& transform = sf::Transform::Identity) const;
 
+		Orientation getOrienation() const;
 		int getWidth() const;
 		int getHeight() const;
 		int getTileWidth() const;
