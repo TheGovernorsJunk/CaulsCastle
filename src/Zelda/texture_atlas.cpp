@@ -16,7 +16,7 @@ namespace te
 		return std::unique_ptr<TextureAtlas>(new TextureAtlas(filename, pTM));
 	}
 
-	const static std::regex animationEx{"([0-9]+)-([a-z]+)\\.png", std::regex::icase};
+	const static std::regex animationEx{"(?:.*/)*([0-9]+)-([a-z]+)\\.png", std::regex::icase};
 
 	TextureAtlas::TextureAtlas(const std::string& filename, TextureManager* pTM)
 		: mWidth(0)
