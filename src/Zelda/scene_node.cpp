@@ -1,5 +1,6 @@
 #include "scene_node.h"
 #include "game.h"
+#include "utilities.h"
 
 #include <Box2D/Box2D.h>
 
@@ -8,8 +9,6 @@
 
 namespace te
 {
-	static const float PI = 3.14159265358979323846f;
-
 	SceneNode::~SceneNode() {}
 
 	std::unique_ptr<SceneNode> SceneNode::make(Game& world, const b2BodyDef& bodyDef)
