@@ -3,6 +3,10 @@
 #include "texture_manager.h"
 #include "scripted_game.h"
 #include "message_dispatcher.h"
+#include "tile_map.h"
+#include "entity_manager.h"
+
+#include <cassert>
 
 namespace te
 {
@@ -79,5 +83,12 @@ namespace te
 	const std::string& ScriptedEntity::getAnimation() const
 	{
 		return mAnimationStr;
+	}
+
+	void ScriptedEntity::setPositionByTile(int x, int y, EntityID mapID)
+	{
+		auto& map = getWorld().getEntityManager().getEntityFromID(mapID);
+		assert(dynamic_cast<TileMap*>(&map) != nullptr);
+		setPosition(static_cast<TileMap&>(map).getTileToWorldTransform().transformPoint((float)x, (float)y));
 	}
 }
