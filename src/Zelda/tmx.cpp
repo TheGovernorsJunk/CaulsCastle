@@ -199,11 +199,13 @@ namespace te
 
 	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const
 	{
+		sf::Transform transform = getTileToPixelTransform();
+
 		std::function<std::vector<sf::VertexArray>(const Layer& layer)> makeLayers;
 		switch (mOrientation)
 		{
 		case Orientation::Orthogonal:
-			makeLayers = [this](const Layer& layer) {
+			makeLayers = [this, transform](const Layer& layer) {
 				std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
 				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
 
@@ -216,10 +218,14 @@ namespace te
 						int y = tileIndex / mWidth;
 
 						std::array<sf::Vertex, 4> quad;
-						quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
-						quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
-						quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
-						quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
+						quad[0].position = sf::Vector2f((float)x, (float)y);
+						quad[1].position = sf::Vector2f(x + 1.f, (float)y);
+						quad[2].position = sf::Vector2f(x + 1.f, y + 1.f);
+						quad[3].position = sf::Vector2f((float)x, y + 1.f);
+
+						std::for_each(quad.begin(), quad.end(), [&transform](sf::Vertex& v) {
+							v.position = transform.transformPoint(v.position);
+						});
 
 						auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
 						int localId = tile.gid - tilesetIter->firstgid;
@@ -243,19 +249,9 @@ namespace te
 			};
 			break;
 		case Orientation::Isometric:
-			makeLayers = [this](const Layer& layer) {
+			makeLayers = [this, transform](const Layer& layer) {
 				std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
 				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
-
-				float rotationAngle = std::atan((float)mTileheight / mTilewidth);
-				float shearSlope = std::tan(2.f * rotationAngle);
-				float finalScale = std::sqrt(0.25f * mTilewidth * mTilewidth + 0.25f * mTileheight * mTileheight);
-				sf::Transform transform{1.f,0,0,0,1.f,0,0,0,1.f};
-				transform
-					.rotate(rotationAngle * 180.f / PI)
-					.scale(finalScale, finalScale);
-				transform *= sf::Transform{1.f,-1.f/(float)shearSlope,0,0,1.f,0,0,0,1.f}
-					.scale(1.f, std::sin(2 * rotationAngle));
 
 				int tileIndex = 0;
 				for (auto tile : layer.data.tiles)
@@ -495,6 +491,31 @@ namespace te
 	int TMX::getTileHeight() const
 	{
 		return mTileheight;
+	}
+
+	sf::Transform TMX::getTileToPixelTransform() const
+	{
+		switch (mOrientation)
+		{
+		case Orientation::Orthogonal:
+			return sf::Transform{}.scale((float)mTilewidth, (float)mTileheight);
+		case Orientation::Isometric:
+		{
+			float rotationAngle = std::atan((float)mTileheight / mTilewidth);
+			float shearSlope = std::tan(2.f * rotationAngle);
+			float finalScale = std::sqrt(0.25f * mTilewidth * mTilewidth + 0.25f * mTileheight * mTileheight);
+			sf::Transform transform{};
+			transform
+				.rotate(rotationAngle * 180.f / PI)
+				.scale(finalScale, finalScale);
+			transform *= sf::Transform{ 1.f,-1.f / (float)shearSlope,0,0,1.f,0,0,0,1.f };
+			transform.scale(1.f, std::sin(2 * rotationAngle));
+
+			return transform;
+		}
+		default:
+			throw std::runtime_error{"TMX::getTileToPixelTransform: Unsupported orienation."};
+		}
 	}
 
 	std::vector<TMX::ObjectGroup> TMX::getObjectGroups() const

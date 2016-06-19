@@ -57,6 +57,7 @@ namespace te
 		int getHeight() const;
 		int getTileWidth() const;
 		int getTileHeight() const;
+		sf::Transform getTileToPixelTransform() const;
 
 		std::vector<ObjectGroup> getObjectGroups() const;
 
