@@ -4,26 +4,22 @@ require 'assets.scripts.Bindings'
 local entityID
 
 local function init(game)
-   local mapID = game:loadMap('src/Zelda/map.tmx')
+   local mapID = game:loadMap('src/Zelda/map3.tmx')
    entityID = game:makeEntity(Entity)
-   local entityNode = game:getScriptedEntity(entityID)
-   entityNode:setPosition(50, 50)
-
-   local childEntityID = game:makeEntity(Entity)
-   entityNode:attachNode(childEntityID)
-   game:getScriptedEntity(childEntityID):setPosition(25, 0)
+   local entity = game:getScriptedEntity(entityID)
+   entity:setPositionByTile(15, 0, mapID)
 end
 
 local presses = {}
 presses[Bindings.Left] = { x = -30, y = 0 }
 presses[Bindings.Right] = { x = 30, y = 0 }
-presses[Bindings.Up] = { x = 0, y = -30 }
-presses[Bindings.Down] = { x = 0, y = 30 }
+presses[Bindings.Up] = { x = 0, y = -15 }
+presses[Bindings.Down] = { x = 0, y = 15 }
 local releases = {}
 releases[Bindings.Left] = { x = 30, y = 0 }
 releases[Bindings.Right] = { x = -30, y = 0 }
-releases[Bindings.Up] = { x = 0, y = 30 }
-releases[Bindings.Down] = { x = 0, y = -30 }
+releases[Bindings.Up] = { x = 0, y = 15 }
+releases[Bindings.Down] = { x = 0, y = -15 }
 local messages = {}
 messages[Event.KeyPressed] = presses
 messages[Event.KeyReleased] = releases
