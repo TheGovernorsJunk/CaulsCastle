@@ -22,6 +22,11 @@ namespace te
 	public:
 		using Index = size_t;
 
+		enum class Orientation {
+			Orthogonal,
+			Isometric
+		};
+
 		struct Polygon {
 			std::vector<sf::Vector2i> points;
 		};
@@ -96,6 +101,7 @@ namespace te
 		int index(int x, int y) const;
 
 		std::string mFilename;
+		Orientation mOrientation;
 		int mWidth;
 		int mHeight;
 		int mTilewidth;

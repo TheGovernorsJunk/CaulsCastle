@@ -36,13 +36,19 @@ namespace te
 	const TMX::TileData TMX::NULL_DATA = TMX::TileData{ NULL_TILE, TMX::ObjectGroup() };
 
 	TMX::TMX(const std::string& filename)
-		: mFilename{filename}, mWidth{0}, mHeight{0}, mTilewidth{0}, mTileheight{0}, mTilesets{}, mLayers{}, mObjectGroups{}
+		: mFilename{filename}, mOrientation{Orientation::Orthogonal}, mWidth{0}, mHeight{0}, mTilewidth{0}, mTileheight{0}, mTilesets{}, mLayers{}, mObjectGroups{}
 	{
 		rapidxml::file<> tmxFile(filename.c_str());
 		rapidxml::xml_document<> tmx;
 		tmx.parse<0>(tmxFile.data());
 
 		rapidxml::xml_node<char>* pMapNode = tmx.first_node("map");
+
+		std::string orientationStr = pMapNode->first_attribute("orientation")->value();
+		if (orientationStr == "orthogonal") mOrientation = Orientation::Orthogonal;
+		else if (orientationStr == "isometric") mOrientation = Orientation::Isometric;
+		else throw std::runtime_error{"Unsupported TMX orientation."};
+
 		mWidth = std::stoi(pMapNode->first_attribute("width")->value());
 		mHeight = std::stoi(pMapNode->first_attribute("height")->value());
 		mTilewidth = std::stoi(pMapNode->first_attribute("tilewidth")->value());
@@ -193,6 +199,107 @@ namespace te
 
 	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const
 	{
+		std::function<std::vector<sf::VertexArray>(const Layer& layer)> makeLayers;
+		switch (mOrientation)
+		{
+		case Orientation::Orthogonal:
+			makeLayers = [this](const Layer& layer) {
+				std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
+				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
+
+				int tileIndex = 0;
+				for (auto tile : layer.data.tiles)
+				{
+					if (tile.gid != 0)
+					{
+						int x = tileIndex % mWidth;
+						int y = tileIndex / mWidth;
+
+						std::array<sf::Vertex, 4> quad;
+						quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
+						quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
+						quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
+						quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
+
+						auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
+						int localId = tile.gid - tilesetIter->firstgid;
+						int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
+						int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
+
+						quad[0].texCoords = sf::Vector2f((float)tu * mTilewidth, (float)tv * mTileheight);
+						quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (float)tv * mTileheight);
+						quad[2].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 1.f) * mTileheight);
+						quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 1.f) * mTileheight);
+
+						int tilesetIndex = tilesetIter - mTilesets.begin();
+						std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
+							vertexArrays[tilesetIndex].append(v);
+						});
+					}
+					++tileIndex;
+				}
+
+				return vertexArrays;
+			};
+			break;
+		case Orientation::Isometric:
+			makeLayers = [this](const Layer& layer) {
+				std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
+				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
+
+				int tileIndex = 0;
+				for (auto tile : layer.data.tiles)
+				{
+					if (tile.gid != 0)
+					{
+						int x = tileIndex % mWidth;
+						int y = tileIndex / mWidth;
+
+						std::array<sf::Vertex, 4> quad;
+						quad[0].position = sf::Vector2f(x, y);
+						quad[1].position = sf::Vector2f(x + 1, y);
+						quad[2].position = sf::Vector2f(x + 1, y + 1);
+						quad[3].position = sf::Vector2f(x, y + 1);
+
+						double rotationAngle = std::atan((double)mTileheight / mTilewidth);
+						double shearSlope = std::tan(2.0 * rotationAngle);
+						sf::Transform transform{1.f,0,0,0,1.f,0,0,0,1.f};
+						transform
+							.rotate(rotationAngle * 180.f / PI)
+							.scale(64.f, 64.f);
+						transform *= sf::Transform{1.f,-1.f/(float)shearSlope,0,0,1.f,0,0,0,1.f}
+							.scale(1.f, std::sin(2 * rotationAngle));
+
+						std::for_each(quad.begin(), quad.end(), [&transform](sf::Vertex& v) {
+							v.position = transform.transformPoint(v.position);
+						});
+
+						auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
+						int localId = tile.gid - tilesetIter->firstgid;
+						int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
+						int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
+
+						quad[0].texCoords = sf::Vector2f((tu + 0.5f) * mTilewidth, (float)tv * mTileheight);
+						quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 0.5f) * mTileheight);
+						quad[2].texCoords = sf::Vector2f((tu + 0.5f) * mTilewidth, (tv + 1.f) * mTileheight);
+						quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 0.5f) * mTileheight);
+
+						int tilesetIndex = tilesetIter - mTilesets.begin();
+						std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
+							vertexArrays[tilesetIndex].append(v);
+						});
+					}
+					++tileIndex;
+				}
+
+				return vertexArrays;
+			};
+			break;
+		default:
+			throw std::runtime_error{"Unsupported orientation for vertices."};
+			break;
+		}
+
 		std::string dir = getDir(mFilename);
 		textures.clear();
 		std::transform(mTilesets.begin(), mTilesets.end(), std::back_inserter(textures), [&textureManager, &dir](const Tileset& tileset) {
@@ -200,44 +307,7 @@ namespace te
 		});
 
 		layers.clear();
-		std::transform(mLayers.begin(), mLayers.end(), std::back_inserter(layers), [this](const Layer& layer) {
-			std::vector<sf::VertexArray> vertexArrays(mTilesets.size());
-			for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
-
-			int tileIndex = 0;
-			for (auto tile : layer.data.tiles)
-			{
-				if (tile.gid != 0)
-				{
-					int x = tileIndex % mWidth;
-					int y = tileIndex / mWidth;
-
-					std::array<sf::Vertex, 4> quad;
-					quad[0].position = sf::Vector2f((float)x * mTilewidth, (float)y * mTileheight);
-					quad[1].position = sf::Vector2f((x + 1.f) * mTilewidth, (float)y * mTileheight);
-					quad[2].position = sf::Vector2f((x + 1.f) * mTilewidth, (y + 1.f) * mTileheight);
-					quad[3].position = sf::Vector2f((float)x * mTilewidth, (y + 1.f) * mTileheight);
-
-					auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
-					int localId = tile.gid - tilesetIter->firstgid;
-					int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
-					int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
-
-					quad[0].texCoords = sf::Vector2f((float)tu * mTilewidth, (float)tv * mTileheight);
-					quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (float)tv * mTileheight);
-					quad[2].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 1.f) * mTileheight);
-					quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 1.f) * mTileheight);
-
-					int tilesetIndex = tilesetIter - mTilesets.begin();
-					std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
-						vertexArrays[tilesetIndex].append(v);
-					});
-				}
-				++tileIndex;
-			}
-
-			return vertexArrays;
-		});
+		std::transform(mLayers.begin(), mLayers.end(), std::back_inserter(layers), makeLayers);
 
 		drawOrders.clear();
 		std::transform(mLayers.begin(), mLayers.end(), std::back_inserter(drawOrders), [](auto& layer) { return static_cast<int>(layer.index); });
