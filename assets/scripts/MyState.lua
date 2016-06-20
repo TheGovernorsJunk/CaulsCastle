@@ -2,27 +2,34 @@ local function enter()
    print("Entering.")
 end
 
+local function getAnimation(lookup, ds)
+   if ds.y > 0 then return lookup['down']
+   elseif ds.y < 0 then return lookup['up']
+   end
+   if ds.x > 0 then return lookup['right']
+   elseif ds.x < 0 then return lookup['left']
+   end
+end
+
+local walkAnims = {
+   up = 'PriestWalkUp',
+   down = 'PriestWalkDown',
+   right = 'PriestWalkRight',
+   left = 'PriestWalkLeft'
+}
+local idleAnims = {
+   up = 'PriestIdleUp',
+   down = 'PriestIdleDown',
+   right = 'PriestIdleRight',
+   left = 'PriestIdleLeft'
+}
+
 local function execute(entity, dt)
    local ds = mulVec(dt, entity.data.velocity)
    entity:move(ds.x, ds.y)
 
-   local anim
-   if ds.y > 0 then anim = 'PriestWalkDown'
-   elseif ds.y < 0 then anim = 'PriestWalkUp'
-   end
-   if ds.x > 0 then anim = 'PriestWalkRight'
-   elseif ds.x < 0 then anim = 'PriestWalkLeft'
-   end
-
    local lastDs = entity.data.lastDs
-   if anim == nil and lastDs then
-      if lastDs.y > 0 then anim = 'PriestIdleDown'
-      elseif lastDs.y < 0 then anim = 'PriestIdleUp'
-      end
-      if lastDs.x > 0 then anim = 'PriestIdleRight'
-      elseif lastDs.x < 0 then anim = 'PriestIdleLeft'
-      end
-   end
+   local anim = getAnimation(walkAnims, ds) or lastDs and getAnimation(idleAnims, lastDs)
 
    if anim and anim ~= entity.animation then
       entity.animation = anim
