@@ -1,9 +1,8 @@
 require 'assets.scripts.MyState'
 
 local function init(entity, game)
-   entity.data.velocity = Vec(0, 0)
+   entity.data.heading = Vec(0, 0)
    entity.data.lastDs = Vec(0, 0)
-   entity.data.camera = game:getCamera()
 
    game:loadSpritesheet('assets/spritesheets/priest/priest.xml')
    entity:initMachine(MyState)

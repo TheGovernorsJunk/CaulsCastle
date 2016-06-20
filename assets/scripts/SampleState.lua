@@ -10,20 +10,19 @@ local function init(game)
    local entity = game:getScriptedEntity(entityID)
    entity:setPositionByTile(15, 0, mapID)
 
-   local camera = game:getCamera()
-   camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+   game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
 
 local presses = {}
-presses[Bindings.Left] = { x = -30, y = 0 }
-presses[Bindings.Right] = { x = 30, y = 0 }
-presses[Bindings.Up] = { x = 0, y = -15 }
-presses[Bindings.Down] = { x = 0, y = 15 }
+presses[Bindings.Left] = { x = -1 }
+presses[Bindings.Right] = { x = 1 }
+presses[Bindings.Up] = { y = -1 }
+presses[Bindings.Down] = { y = 1 }
 local releases = {}
-releases[Bindings.Left] = { x = 30, y = 0 }
-releases[Bindings.Right] = { x = -30, y = 0 }
-releases[Bindings.Up] = { x = 0, y = 15 }
-releases[Bindings.Down] = { x = 0, y = -15 }
+releases[Bindings.Left] = { x = 1 }
+releases[Bindings.Right] = { x = -1 }
+releases[Bindings.Up] = { y = 1 }
+releases[Bindings.Down] = { y = -1 }
 local messages = {}
 messages[Event.KeyPressed] = presses
 messages[Event.KeyReleased] = releases

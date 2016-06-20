@@ -21,7 +21,7 @@ local idleAnims = {
 }
 
 local function execute(entity, dt)
-   local ds = mulVec(dt, entity.data.velocity)
+   local ds = mulVec(dt, mulVec(30, normalizeVec(entity.data.heading)))
    entity:move(ds.x, ds.y)
 
    local lastDs = entity.data.lastDs
@@ -33,11 +33,14 @@ local function execute(entity, dt)
 
    entity.data.lastDs = ds
 
-   entity.data.camera.position = entity.position
+   entity.world.camera.position = entity.position
 end
 
 local function onMessage(entity, telegram)
-   entity.data.velocity = addVec(entity.data.velocity, Vec(telegram.info.x, telegram.info.y))
+   local v = telegram.info
+   if v.x then entity.data.heading.x = entity.data.heading.x + v.x end
+   if v.y then entity.data.heading.y = entity.data.heading.y + v.y end
+   --entity.data.velocity = addVec(entity.data.velocity, Vec(telegram.info.x, telegram.info.y))
 end
 
 MyState = {
