@@ -2,8 +2,7 @@
 use strict;
 
 if (scalar @ARGV == 0) {
-    print "Must supply component name.\n";
-    exit;
+    die "Must supply component name.\n";
 }
 
 my $component = $ARGV[0];
