@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:1b4e1c4c144fa16c80623cdecafba4e5:69ffc7cd89c953f4ce5bf5d88aa1392d:6c9fecddd5e0635551858f67e4298c52$ -->
+<!-- $TexturePacker:SmartUpdate:68777c8f68805653270d0ffd21080b25:a583560bf9d9abc1ec86116d6b723ced:6c9fecddd5e0635551858f67e4298c52$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,41 +19,45 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="priest.png" width="918" height="51">
-    <sprite n="clips/1-PriestWalkDown.png" x="1" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/1-PriestWalkLeft.png" x="35" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/1-PriestWalkRight.png" x="69" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/1-PriestWalkUp.png" x="103" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/5-PriestWalkDown.png" x="783" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/5-PriestWalkLeft.png" x="817" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/5-PriestWalkRight.png" x="851" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/5-PriestWalkUp.png" x="885" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/9-PriestWalkDown.png" x="545" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/9-PriestWalkLeft.png" x="579" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/9-PriestWalkRight.png" x="613" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/9-PriestWalkUp.png" x="647" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/13-PriestWalkDown.png" x="137" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/13-PriestWalkLeft.png" x="171" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/13-PriestWalkRight.png" x="205" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/13-PriestWalkUp.png" x="239" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/17-PriestWalkDown.png" x="273" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/17-PriestWalkLeft.png" x="307" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/17-PriestWalkRight.png" x="341" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/17-PriestWalkUp.png" x="375" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/21-PriestWalkDown.png" x="409" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/21-PriestWalkLeft.png" x="443" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/21-PriestWalkRight.png" x="477" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/21-PriestWalkUp.png" x="511" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/25-PriestWalkDown.png" x="545" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/25-PriestWalkLeft.png" x="579" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/25-PriestWalkRight.png" x="613" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/25-PriestWalkUp.png" x="647" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/29-PriestWalkDown.png" x="137" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/29-PriestWalkLeft.png" x="681" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/29-PriestWalkRight.png" x="715" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/29-PriestWalkUp.png" x="749" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/32-PriestWalkDown.png" x="137" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/32-PriestWalkLeft.png" x="35" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/32-PriestWalkRight.png" x="69" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
-    <sprite n="clips/32-PriestWalkUp.png" x="103" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+<TextureAtlas imagePath="priest.png" width="986" height="51">
+    <sprite n="clips/1-PriestIdleDown.png" x="1" y="1" w="32" h="49" pX="0.5" pY="0.918367"/>
+    <sprite n="clips/1-PriestIdleLeft.png" x="35" y="1" w="32" h="49" pX="0.5" pY="0.918367"/>
+    <sprite n="clips/1-PriestIdleRight.png" x="69" y="1" w="32" h="49" pX="0.5" pY="0.918367"/>
+    <sprite n="clips/1-PriestIdleUp.png" x="103" y="1" w="32" h="49" pX="0.5" pY="0.918367"/>
+    <sprite n="clips/1-PriestWalkDown.png" x="137" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/1-PriestWalkLeft.png" x="171" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/1-PriestWalkRight.png" x="205" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/1-PriestWalkUp.png" x="239" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/5-PriestWalkDown.png" x="851" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/5-PriestWalkLeft.png" x="885" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/5-PriestWalkRight.png" x="919" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/5-PriestWalkUp.png" x="953" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/9-PriestWalkDown.png" x="1" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/9-PriestWalkLeft.png" x="681" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/9-PriestWalkRight.png" x="715" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/9-PriestWalkUp.png" x="103" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/13-PriestWalkDown.png" x="273" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/13-PriestWalkLeft.png" x="307" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/13-PriestWalkRight.png" x="341" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/13-PriestWalkUp.png" x="375" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/17-PriestWalkDown.png" x="409" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/17-PriestWalkLeft.png" x="443" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/17-PriestWalkRight.png" x="477" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/17-PriestWalkUp.png" x="511" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/21-PriestWalkDown.png" x="545" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/21-PriestWalkLeft.png" x="579" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/21-PriestWalkRight.png" x="613" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/21-PriestWalkUp.png" x="647" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/25-PriestWalkDown.png" x="1" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/25-PriestWalkLeft.png" x="681" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/25-PriestWalkRight.png" x="715" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/25-PriestWalkUp.png" x="103" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/29-PriestWalkDown.png" x="273" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/29-PriestWalkLeft.png" x="749" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/29-PriestWalkRight.png" x="783" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/29-PriestWalkUp.png" x="817" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/32-PriestWalkDown.png" x="273" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/32-PriestWalkLeft.png" x="171" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/32-PriestWalkRight.png" x="205" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
+    <sprite n="clips/32-PriestWalkUp.png" x="239" y="1" w="32" h="49" pX="0.5" pY="0.91837"/>
 </TextureAtlas>
