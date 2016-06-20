@@ -3,11 +3,11 @@ local function enter()
 end
 
 local function getAnimation(lookup, ds)
-   if ds.y > 0 then return lookup['down']
-   elseif ds.y < 0 then return lookup['up']
-   end
    if ds.x > 0 then return lookup['right']
    elseif ds.x < 0 then return lookup['left']
+   end
+   if ds.y > 0 then return lookup['down']
+   elseif ds.y < 0 then return lookup['up']
    end
 end
 
