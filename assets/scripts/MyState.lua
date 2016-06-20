@@ -14,9 +14,21 @@ local function execute(entity, dt)
    elseif ds.x < 0 then anim = 'PriestWalkLeft'
    end
 
+   local lastDs = entity.data.lastDs
+   if anim == nil and lastDs then
+      if lastDs.y > 0 then anim = 'PriestIdleDown'
+      elseif lastDs.y < 0 then anim = 'PriestIdleUp'
+      end
+      if lastDs.x > 0 then anim = 'PriestIdleRight'
+      elseif lastDs.x < 0 then anim = 'PriestIdleLeft'
+      end
+   end
+
    if anim and anim ~= entity.animation then
       entity.animation = anim
    end
+
+   entity.data.lastDs = ds
 end
 
 local function exit()
