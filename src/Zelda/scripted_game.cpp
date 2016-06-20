@@ -5,6 +5,7 @@
 #include "scripted_entity.h"
 #include "texture_manager.h"
 #include "entity_manager.h"
+#include "camera_entity.h"
 
 #include <SFML/Window.hpp>
 
@@ -52,7 +53,12 @@ namespace te
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
 		, mInputFn{mpL.get()}
+		, mpCamera{nullptr}
 	{
+		auto pCamera = CameraEntity::make(*this);
+		mpCamera = pCamera.get();
+		getSceneGraph().attachNode(std::move(pCamera));
+
 		lua_State* L = mpL.get();
 
 		luaL_openlibs(L);
@@ -86,14 +92,18 @@ namespace te
 				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getScriptedEntity", &ScriptedGame::getScriptedEntity)
+				.addFunction("getCamera", &ScriptedGame::getCamera)
 				.addFunction("dispatchMessage", &ScriptedGame::dispatchMessage)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
-				.addFunction<void(SceneNode::*)(float,float)>("setPosition", &SceneNode::setPosition)
+				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
 				.addFunction<void(SceneNode::*)(float,float)>("move", &SceneNode::move)
 			.endClass()
 			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
 				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)
+			.endClass()
+			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
+				.addFunction("setViewSize", &CameraEntity::setViewSize)
 			.endClass()
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
 				.addProperty("data", &ScriptedEntity::getUserData)
@@ -173,6 +183,11 @@ namespace te
 		return (ScriptedEntity&)entity;
 	}
 
+	CameraEntity& ScriptedGame::getCamera() const
+	{
+		return *mpCamera;
+	}
+
 	void ScriptedGame::dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info)
 	{
 		getMessageDispatcher().dispatchMessage(delay, sender, receiver, 0, std::make_unique<ScriptedInfo>(info));
@@ -197,6 +212,10 @@ namespace te
 	void ScriptedGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		target.clear();
+		sf::View cameraView = mpCamera->getView();
+		sf::View originalView = target.getView();
+		target.setView(cameraView);
 		Game::draw(target, states);
+		target.setView(originalView);
 	}
 }

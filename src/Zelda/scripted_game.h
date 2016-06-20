@@ -16,6 +16,7 @@ namespace te
 {
 	class Application;
 	class ScriptedEntity;
+	class CameraEntity;
 
 	class ScriptedGame : public Game
 	{
@@ -45,10 +46,12 @@ namespace te
 		TextureID loadSpritesheet(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable);
 		ScriptedEntity& getScriptedEntity(EntityID id) const;
+		CameraEntity& getCamera() const;
 		void dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info);
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mInputFn;
+		CameraEntity* mpCamera;
 	};
 
 	using ScriptedState = WorldState<true, true, ScriptedGame, const std::string&>;
