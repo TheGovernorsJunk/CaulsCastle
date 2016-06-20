@@ -48,6 +48,11 @@ namespace te
 
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
 	static sf::Vector2f mulVec(float scalar, sf::Vector2f v) { return scalar * v; }
+	static sf::Vector2f normalizeVec(sf::Vector2f v)
+	{
+		if (v.x == 0 && v.y == 0) return v;
+		return v / std::sqrt(v.x * v.x + v.y * v.y);
+	}
 
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
@@ -81,6 +86,7 @@ namespace te
 			.endClass()
 			.addFunction("addVec", &addVec)
 			.addFunction("mulVec", &mulVec)
+			.addFunction("normalizeVec", &normalizeVec)
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
@@ -92,7 +98,7 @@ namespace te
 				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getScriptedEntity", &ScriptedGame::getScriptedEntity)
-				.addFunction("getCamera", &ScriptedGame::getCamera)
+				.addProperty("camera", &ScriptedGame::getCamera)
 				.addFunction("dispatchMessage", &ScriptedGame::dispatchMessage)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
@@ -106,6 +112,7 @@ namespace te
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
 			.endClass()
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
+				.addProperty("world", &ScriptedEntity::getWorld)
 				.addProperty("data", &ScriptedEntity::getUserData)
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
 				.addProperty("animation", &ScriptedEntity::getAnimation, &ScriptedEntity::setAnimation)
