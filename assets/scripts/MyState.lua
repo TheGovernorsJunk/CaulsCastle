@@ -36,6 +36,8 @@ local function execute(entity, dt)
    end
 
    entity.data.lastDs = ds
+
+   entity.data.camera.position = entity.position
 end
 
 local function exit()

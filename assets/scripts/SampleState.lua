@@ -1,5 +1,6 @@
 require 'assets.scripts.Entity'
 require 'assets.scripts.Bindings'
+require 'assets.scripts.config'
 
 local entityID
 
@@ -8,6 +9,9 @@ local function init(game)
    entityID = game:makeEntity(Entity)
    local entity = game:getScriptedEntity(entityID)
    entity:setPositionByTile(15, 0, mapID)
+
+   local camera = game:getCamera()
+   camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
 
 local presses = {}
