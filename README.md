@@ -1,3 +1,3 @@
 # Caul's Castle
 
-This repository is for a Metroid clone game. The purpose of it is not to innovate, but to give a bunch of hobbyists a neutral playground for collaboration.
+This repository is for an action RPG. It draws from a number of influences, including *Zelda: A Link to the Past*, *Super Metroid*, the *Castlevania* series, *Dark Souls*, and *Bloodborne*.
