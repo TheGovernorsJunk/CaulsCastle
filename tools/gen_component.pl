@@ -2,7 +2,7 @@
 use strict;
 
 my $usage = "usage: gen_component.pl component_name\n";
-die $usage if scalar @ARGV == 0;
+die $usage if @ARGV == 0;
 
 my $component = $ARGV[0];
 
