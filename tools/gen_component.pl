@@ -1,9 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 
-if (scalar @ARGV == 0) {
-    die "Must supply component name.\n";
-}
+die "Must supply component name.\n" if scalar @ARGV == 0;
 
 my $component = $ARGV[0];
 
