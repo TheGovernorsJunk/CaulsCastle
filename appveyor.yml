@@ -9,11 +9,13 @@ after_build:
 - ps: >-
     # Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_"))} | Copy-Item -Destination "src\Debug"
 
-    # Copy-Item assets src\Debug -recurse
+    Move-Item assets src\Release
+
+    Move-Item Start.bat src\Release
 
     # Copy-Item samples src\Debug -recurse
 
     Move-Item src\Release .\bin
 artifacts:
 - path: bin
-  name: Zelda
+  name: CaulsCastle
