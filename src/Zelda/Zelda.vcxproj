@@ -73,8 +73,8 @@
     <LibraryPath>$(SolutionDir)..\lib\SFML-2.3.2\lib;$(SolutionDir)..\lib\Box2D\lib\x86\Debug;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Box2D\include;$(SolutionDir)rapidxml-1.13;$(SolutionDir)SFML-2.3.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Box2D\lib\x86\Release;$(SolutionDir)SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(SolutionDir)..\lib\Lua;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib\Box2D\lib\x86\Release;$(SolutionDir)..\lib\SFML-2.3.2\lib;$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -107,8 +107,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;Box2D.lib;Lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

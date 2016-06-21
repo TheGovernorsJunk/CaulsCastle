@@ -3,6 +3,7 @@
 #include <LuaBridge.h>
 
 #include <iostream>
+#include <Windows.h>
 
 int main(int argc, char* argv[])
 {
@@ -27,4 +28,9 @@ int main(int argc, char* argv[])
 		std::cerr << "An unknown error occurred." << std::endl;
 		return -1;
 	}
+}
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+{
+	return main(0, nullptr);
 }
