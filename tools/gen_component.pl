@@ -1,7 +1,8 @@
 #!/usr/bin/perl -w
 use strict;
 
-die "Must supply component name.\n" if scalar @ARGV == 0;
+my $usage = "usage: gen_component.pl component_name\n";
+die $usage if scalar @ARGV == 0;
 
 my $component = $ARGV[0];
 
