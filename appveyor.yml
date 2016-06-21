@@ -1,18 +1,18 @@
 version: 0.0.{build}
-os: Visual Studio 2013
+os: Visual Studio 2015
 platform: Win32
 build:
-  project: src\MetroidClone.sln
+  project: src\CaulsCastle.sln
   verbosity: minimal
 after_build:
 - ps: >-
-    Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_"))} | Copy-Item -Destination "src\Debug"
+    # Get-ChildItem "lib" *.dll -Recurse | ?{-not ($_.PSIsContainer -or (Test-Path "src\Debug\$_"))} | Copy-Item -Destination "src\Debug"
 
-    Copy-Item assets src\Debug -recurse
+    # Copy-Item assets src\Debug -recurse
 
-    Copy-Item samples src\Debug -recurse
+    # Copy-Item samples src\Debug -recurse
 
-    Move-Item src\Debug .
+    Move-Item src\Release .\bin
 artifacts:
-- path: Debug
-  name: metroid_clone
+- path: bin
+  name: Zelda
