@@ -19,6 +19,13 @@ exit 0 if $ARGV[0] eq "--help" && print $help;
 
 my $component = $ARGV[0];
 
+my $validation_error_message = <<EOF;
+Invalid component name. Must start with letter and only contain
+letters, numbers, or underscores. Spaces are not allowed.
+EOF
+die $validation_error_message
+    if $component !~ /^[a-z][a-z0-9_]*$/i;
+
 my $script = <<EOF;
 local function execute(entity, dt)
 end
