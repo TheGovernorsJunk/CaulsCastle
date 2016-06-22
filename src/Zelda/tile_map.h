@@ -10,6 +10,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <vector>
+#include <algorithm>
 
 namespace te
 {
@@ -24,7 +25,32 @@ namespace te
 		typedef SparseGraph<NavGraphNode, NavGraphEdge> NavGraph;
 		typedef CellSpacePartition<const NavGraph::Node*> NavCellSpace;
 
+		struct Area
+		{
+			int id;
+			std::string name;
+			sf::IntRect rect;
+		};
+
 		static std::unique_ptr<TileMap> make(Game& world, TextureManager& textureManager, TMX&& tmx);
+
+		template <typename Iter>
+		void getAreasInGroup(const std::string& groupName, Iter out) const
+		{
+			std::vector<TMX::ObjectGroup> objectGroups{mTMX.getObjectGroups()};
+			std::for_each(objectGroups.begin(), objectGroups.end(), [&groupName, &out](TMX::ObjectGroup& objectGroup) {
+				if (groupName == objectGroup.name)
+				{
+					std::for_each(objectGroup.objects.begin(), objectGroup.objects.end(), [&out](TMX::Object& object) {
+						(out++) = Area{
+							object.id,
+							object.name,
+							sf::IntRect{object.x, object.y, object.width, object.height}
+						};
+					});
+				}
+			});
+		}
 
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
