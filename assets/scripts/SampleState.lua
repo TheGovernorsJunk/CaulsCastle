@@ -12,13 +12,13 @@ local function init(game)
    print(map.position.x, map.position.y)
 
    local objects = game:getObjects(mapID, "Objects")
-   for _,obj in ipairs(objects) do
+   for _,obj in pairs(objects) do
       print(obj.x, obj.y)
    end
 
    entityID = game:makeEntity(Entity)
    local entity = game:getScriptedEntity(entityID)
-   entity.position = Vec(objects[1].x, objects[1].y)
+   entity.position = Vec(objects['Player'].x, objects['Player'].y)
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
