@@ -15,6 +15,7 @@ should be named like the argument passed here.
 EOF
 
 die $usage, "\n" unless @ARGV;
+die "Option `$ARGV[0]' not supported.\n" if $ARGV[0] =~ /^-/ and not $ARGV[0] eq "--help";
 exit 0 if $ARGV[0] eq "--help" && print $help;
 
 my $component = $ARGV[0];
