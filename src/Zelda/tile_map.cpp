@@ -142,7 +142,7 @@ namespace te
 
 	sf::Transform TileMap::getTileToWorldTransform() const
 	{
-		return mTMX.getTileToPixelTransform() * mWorld.getPixelToWorldTransform();
+		return getWorldTransform() * mWorld.getPixelToWorldTransform() * mTMX.getTileToPixelTransform();
 	}
 
 	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
