@@ -6,6 +6,9 @@ local entityID
 
 local function init(game)
    local mapID = game:loadMap('assets/maps/grassy.tmx')
+   local objects = game:getObjects(mapID, "Objects")
+   for i,obj in ipairs(objects) do print(obj.name) end
+
    entityID = game:makeEntity(Entity)
    local entity = game:getScriptedEntity(entityID)
    entity:setPositionByTile(15, 0, mapID)
