@@ -22,7 +22,7 @@ local idleAnims = {
 
 local function execute(entity, dt)
    local ds = mulVec(dt, mulVec(entity.data.speed, normalizeVec(entity.data.heading)))
-   ds.y = ds.y / 2
+   --ds.y = ds.y / 2
    entity:move(ds.x, ds.y)
 
    local lastDs = entity.data.lastDs

@@ -5,7 +5,7 @@ require 'assets.scripts.config'
 local entityID
 
 local function init(game)
-   local mapID = game:loadMap('assets/maps/map3.tmx')
+   local mapID = game:loadMap('assets/maps/grassy.tmx')
    entityID = game:makeEntity(Entity)
    local entity = game:getScriptedEntity(entityID)
    entity:setPositionByTile(15, 0, mapID)
