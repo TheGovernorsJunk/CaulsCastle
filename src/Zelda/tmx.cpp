@@ -60,50 +60,60 @@ namespace te
 			for (rapidxml::xml_node<char>* pTile = pTileset->first_node("tile"); pTile != 0; pTile = pTile->next_sibling("tile"))
 			{
 				rapidxml::xml_node<char>* pObjectGroup = pTile->first_node("objectgroup");
-				std::vector<Object> objects;
-				for (rapidxml::xml_node<char>* pObject = pObjectGroup->first_node("object"); pObject != 0; pObject = pObject->next_sibling("object"))
+				if (pObjectGroup != 0)
 				{
-					std::vector<Polygon> polygons;
-					for (rapidxml::xml_node<char>* pPolygon = pObject->first_node("polygon"); pPolygon != 0; pPolygon = pPolygon->next_sibling("polygon"))
+					std::vector<Object> objects;
+					for (rapidxml::xml_node<char>* pObject = pObjectGroup->first_node("object"); pObject != 0; pObject = pObject->next_sibling("object"))
 					{
-						std::vector<sf::Vector2i> pointsVec;
-
-						std::string pointsStr(pPolygon->first_attribute("points")->value());
-						std::istringstream iss(pointsStr);
-						std::vector<std::string> points{ std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{} };
-						for (auto& point : points)
+						std::vector<Polygon> polygons;
+						for (rapidxml::xml_node<char>* pPolygon = pObject->first_node("polygon"); pPolygon != 0; pPolygon = pPolygon->next_sibling("polygon"))
 						{
-							std::stringstream ss(point);
-							std::string xCoord;
-							std::getline(ss, xCoord, ',');
-							std::string yCoord;
-							std::getline(ss, yCoord);
-							pointsVec.push_back({ std::stoi(xCoord), std::stoi(yCoord) });
+							std::vector<sf::Vector2i> pointsVec;
+
+							std::string pointsStr(pPolygon->first_attribute("points")->value());
+							std::istringstream iss(pointsStr);
+							std::vector<std::string> points{ std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{} };
+							for (auto& point : points)
+							{
+								std::stringstream ss(point);
+								std::string xCoord;
+								std::getline(ss, xCoord, ',');
+								std::string yCoord;
+								std::getline(ss, yCoord);
+								pointsVec.push_back({ std::stoi(xCoord), std::stoi(yCoord) });
+							}
+
+							polygons.push_back({ std::move(pointsVec) });
 						}
 
-						polygons.push_back({ std::move(pointsVec) });
+						objects.push_back(Object{
+							std::stoi(pObject->first_attribute("id")->value()),
+							"",
+							std::stoi(pObject->first_attribute("x")->value()),
+							std::stoi(pObject->first_attribute("y")->value()),
+							pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
+							pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0,
+							std::move(polygons)
+						});
 					}
 
-					objects.push_back(Object{
-						std::stoi(pObject->first_attribute("id")->value()),
-						"",
-						std::stoi(pObject->first_attribute("x")->value()),
-						std::stoi(pObject->first_attribute("y")->value()),
-						pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
-						pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0,
-						std::move(polygons)
+					tiles.push_back({
+						std::stoi(pTile->first_attribute("id")->value()),
+						ObjectGroup {
+							"",
+							pObjectGroup->first_attribute("draworder")->value(),
+							std::move(objects),
+							0
+						}
 					});
 				}
-
-				tiles.push_back({
-					std::stoi(pTile->first_attribute("id")->value()),
-					ObjectGroup {
-						"",
-						pObjectGroup->first_attribute("draworder")->value(),
-						std::move(objects),
-						0
-					}
-				});
+				else
+				{
+					tiles.push_back({
+						std::stoi(pTile->first_attribute("id")->value()),
+						ObjectGroup {}
+					});
+				}
 			}
 
 			rapidxml::xml_node<char>* pImage = pTileset->first_node("image");
