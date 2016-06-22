@@ -114,10 +114,6 @@ namespace te
 			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
 			.endClass()
-			.beginClass<TileMap::Area>("Object")
-				.addData("id", &TileMap::Area::id, false)
-				.addData("name", &TileMap::Area::name, false)
-			.endClass()
 			.deriveClass<TileMap, BaseGameEntity>("TileMap")
 			.endClass()
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
@@ -215,7 +211,14 @@ namespace te
 		luabridge::LuaRef table = luabridge::newTable(mpL.get());
 		size_t index = 1;
 		std::for_each(areas.begin(), areas.end(), [this, &table, &index](TileMap::Area& area) {
-			table[index++] = TileMap::Area{area};
+			luabridge::LuaRef obj = luabridge::newTable(mpL.get());
+			obj["id"] = area.id;
+			obj["name"] = area.name;
+			obj["x"] = area.rect.left;
+			obj["y"] = area.rect.top;
+			obj["w"] = area.rect.width;
+			obj["h"] = area.rect.height;
+			table[index++] = obj;
 		});
 
 		return table;
