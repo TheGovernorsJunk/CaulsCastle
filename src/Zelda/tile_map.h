@@ -29,7 +29,7 @@ namespace te
 		{
 			int id;
 			std::string name;
-			sf::IntRect rect;
+			sf::FloatRect rect;
 		};
 
 		static std::unique_ptr<TileMap> make(Game& world, TextureManager& textureManager, TMX&& tmx);
@@ -38,14 +38,14 @@ namespace te
 		void getAreasInGroup(const std::string& groupName, Iter out) const
 		{
 			std::vector<TMX::ObjectGroup> objectGroups{mTMX.getObjectGroups()};
-			std::for_each(objectGroups.begin(), objectGroups.end(), [&groupName, &out](TMX::ObjectGroup& objectGroup) {
+			std::for_each(objectGroups.begin(), objectGroups.end(), [this, &groupName, &out](TMX::ObjectGroup& objectGroup) {
 				if (groupName == objectGroup.name)
 				{
-					std::for_each(objectGroup.objects.begin(), objectGroup.objects.end(), [&out](TMX::Object& object) {
+					std::for_each(objectGroup.objects.begin(), objectGroup.objects.end(), [this, &out](TMX::Object& object) {
 						(out++) = Area{
 							object.id,
 							object.name,
-							sf::IntRect{object.x, object.y, object.width, object.height}
+							(getWorldTransform() * mWorld.getPixelToWorldTransform()).transformRect(sf::FloatRect{(float)object.x, (float)object.y, (float)object.width, (float)object.height})
 						};
 					});
 				}
