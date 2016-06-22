@@ -48,6 +48,8 @@ namespace te
 		ScriptedEntity& getScriptedEntity(EntityID id) const;
 		CameraEntity& getCamera() const;
 		void dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info);
+		TileMap& getMap(EntityID mapID) const;
+		luabridge::LuaRef getObjects(EntityID mapID, const std::string& groupName) const;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mInputFn;

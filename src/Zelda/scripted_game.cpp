@@ -10,6 +10,7 @@
 #include <SFML/Window.hpp>
 
 #include <regex>
+#include <iterator>
 
 namespace te
 {
@@ -100,6 +101,8 @@ namespace te
 				.addFunction("getScriptedEntity", &ScriptedGame::getScriptedEntity)
 				.addProperty("camera", &ScriptedGame::getCamera)
 				.addFunction("dispatchMessage", &ScriptedGame::dispatchMessage)
+				//.addFunction("getMap", &ScriptedGame::getMap)
+				.addFunction("getObjects", &ScriptedGame::getObjects)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
@@ -110,6 +113,10 @@ namespace te
 			.endClass()
 			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
+			.endClass()
+			.beginClass<TileMap::Area>("Object")
+				.addData("id", &TileMap::Area::id, false)
+				.addData("name", &TileMap::Area::name, false)
 			.endClass()
 			.deriveClass<ScriptedEntity, BaseGameEntity>("Entity")
 				.addProperty("world", &ScriptedEntity::getWorld)
@@ -188,6 +195,28 @@ namespace te
 		auto& entity = getEntityManager().getEntityFromID(id);
 		assert(dynamic_cast<ScriptedEntity*>(&entity) != nullptr);
 		return (ScriptedEntity&)entity;
+	}
+
+	TileMap& ScriptedGame::getMap(EntityID id) const
+	{
+		auto& entity = getEntityManager().getEntityFromID(id);
+		assert(dynamic_cast<TileMap*>(&entity) != nullptr);
+		return static_cast<TileMap&>(entity);
+	}
+
+	luabridge::LuaRef ScriptedGame::getObjects(EntityID mapID, const std::string& groupName) const
+	{
+		TileMap& map = getMap(mapID);
+		std::vector<TileMap::Area> areas;
+		map.getAreasInGroup(groupName, std::back_inserter(areas));
+
+		luabridge::LuaRef table = luabridge::newTable(mpL.get());
+		size_t index = 1;
+		std::for_each(areas.begin(), areas.end(), [this, &table, &index](TileMap::Area& area) {
+			table[index++] = TileMap::Area{area};
+		});
+
+		return table;
 	}
 
 	CameraEntity& ScriptedGame::getCamera() const
