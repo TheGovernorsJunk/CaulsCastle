@@ -28,6 +28,7 @@ namespace te
 		, mpBody(mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); })
 		, mChildren()
 		, mZ(0)
+		, mMarkedForRemoval(false)
 	{
 		if (!mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
 		b2Vec2 pos = mpBody->GetPosition();
@@ -159,7 +160,20 @@ namespace te
 	void SceneNode::update(const sf::Time& dt)
 	{
 		onUpdate(dt);
-		for (auto& child : mChildren) child->update(dt);
+		std::vector<SceneNode*> pendingRemovals;
+		for (auto& child : mChildren)
+		{
+			child->update(dt);
+			if (child->mMarkedForRemoval) pendingRemovals.push_back(child.get());
+		}
+		std::for_each(pendingRemovals.begin(), pendingRemovals.end(), [this](auto* pendingRemoval) {
+			detachNode(*pendingRemoval);
+		});
+	}
+
+	void SceneNode::die()
+	{
+		mMarkedForRemoval = true;
 	}
 
 	b2Body& SceneNode::getBody()
@@ -200,7 +214,7 @@ namespace te
 	void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		std::vector<const SceneNode*> pendingDraws;
-		concatPendingDraws(std::back_inserter(pendingDraws));
+		flatten(std::back_inserter(pendingDraws));
 		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const SceneNode* a, const SceneNode* b) {
 			return a->getDrawOrder() < b->getDrawOrder() || (a->getDrawOrder() == b->getDrawOrder() && a->getWorldTransform().transformPoint({0, 0}).y < b->getWorldTransform().transformPoint({0, 0}).y);
 		});
@@ -210,10 +224,10 @@ namespace te
 	void SceneNode::onDraw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
 	template<typename Iter>
-	void SceneNode::concatPendingDraws(Iter out) const
+	void SceneNode::flatten(Iter out) const
 	{
 		*out++ = this;
-		for (auto& child : mChildren) child->concatPendingDraws(out);
+		for (auto& child : mChildren) child->flatten(out);
 	}
 
 	void SceneNode::onUpdate(const sf::Time& dt) {}

@@ -112,6 +112,7 @@ namespace te
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
 				.addFunction<void(SceneNode::*)(float,float)>("move", &SceneNode::move)
 				.addProperty("drawOrder", &SceneNode::getDrawOrder, &SceneNode::setDrawOrder)
+				.addFunction("die", &SceneNode::die)
 			.endClass()
 			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
 				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)

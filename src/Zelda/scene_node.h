@@ -41,6 +41,8 @@ namespace te
 		void attachRigidBody(const b2BodyType&);
 
 		void update(const sf::Time& dt);
+
+		void die();
 	protected:
 		SceneNode(Game& world, const b2BodyDef&);
 		SceneNode(Game& world, sf::Vector2f position);
@@ -57,7 +59,7 @@ namespace te
 		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
 
 		template<typename Iter>
-		void concatPendingDraws(Iter out) const;
+		void flatten(Iter out) const;
 
 		virtual void onUpdate(const sf::Time& dt);
 
@@ -68,6 +70,7 @@ namespace te
 		std::unique_ptr<b2Body, BodyDeleter> mpBody;
 		std::vector<std::unique_ptr<SceneNode>> mChildren;
 		int mZ;
+		float mMarkedForRemoval;
 	};
 
 	b2BodyDef createBodyDef(sf::Vector2f position, b2BodyType type);

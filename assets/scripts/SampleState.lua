@@ -33,10 +33,16 @@ local function init(game)
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
 
+local totalDt = 0
 local function update(game, dt)
    local entity = game:getScriptedEntity(playerID)
    if entity then
       game.camera.position = entity.position
+   end
+
+   totalDt = totalDt + dt
+   if totalDt > 5 and entity then
+      entity:die()
    end
 end
 
