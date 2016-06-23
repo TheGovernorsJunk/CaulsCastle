@@ -14,10 +14,12 @@ local function init(game)
    local entity = game:getScriptedEntity(entityID)
    entity:initMachine(MyState)
    entity.position = Vec(Utils.getCenter(objects['Player']))
+   entity.drawOrder = 1
 
    local enemyID = game:makeEntity(Entity)
    local enemy = game:getScriptedEntity(enemyID)
    enemy.position = Vec(Utils.getCenter(objects['Enemy']))
+   enemy.drawOrder = 1
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
