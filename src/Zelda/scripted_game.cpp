@@ -214,7 +214,8 @@ namespace te
 		std::for_each(areas.begin(), areas.end(), [this, &table](TileMap::Area& area) {
 			luabridge::LuaRef obj = luabridge::newTable(mpL.get());
 			obj["id"] = area.id;
-			obj["name"] = area.name;
+			if (area.name != "") obj["name"] = area.name;
+			if (area.type != "") obj["type"] = area.type;
 			obj["x"] = area.rect.left;
 			obj["y"] = area.rect.top;
 			obj["w"] = area.rect.width;

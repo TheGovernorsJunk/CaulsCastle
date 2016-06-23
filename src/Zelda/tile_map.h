@@ -29,6 +29,7 @@ namespace te
 		{
 			int id;
 			std::string name;
+			std::string type;
 			sf::FloatRect rect;
 		};
 
@@ -45,6 +46,7 @@ namespace te
 						(out++) = Area{
 							object.id,
 							object.name,
+							object.type,
 							(getWorldTransform() * mWorld.getPixelToWorldTransform()).transformRect(sf::FloatRect{(float)object.x, (float)object.y, (float)object.width, (float)object.height})
 						};
 					});

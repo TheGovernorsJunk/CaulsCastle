@@ -34,6 +34,7 @@ namespace te
 		struct Object {
 			int id;
 			std::string name;
+			std::string type;
 			int x;
 			int y;
 			int width;

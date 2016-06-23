@@ -89,6 +89,7 @@ namespace te
 						objects.push_back(Object{
 							std::stoi(pObject->first_attribute("id")->value()),
 							"",
+							"",
 							std::stoi(pObject->first_attribute("x")->value()),
 							std::stoi(pObject->first_attribute("y")->value()),
 							pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
@@ -174,7 +175,8 @@ namespace te
 			{
 				objects.push_back({
 					std::stoi(pObject->first_attribute("id")->value()),
-					pObject->first_attribute("name") != 0 ? pObject->first_attribute("name")->value() : 0,
+					pObject->first_attribute("name") != 0 ? pObject->first_attribute("name")->value() : "",
+					pObject->first_attribute("type") != 0 ? pObject->first_attribute("type")->value() : "",
 					std::stoi(pObject->first_attribute("x")->value()),
 					std::stoi(pObject->first_attribute("y")->value()),
 					pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
@@ -189,6 +191,7 @@ namespace te
 			});
 		}
 
+		// This is some accidental duplication
 		rapidxml::xml_node<char>* pLayerOrObjectNode = tmx.first_node("map")->first_node("tileset")->next_sibling();
 		while (pLayerOrObjectNode != 0)
 		{
