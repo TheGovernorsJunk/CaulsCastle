@@ -6,7 +6,6 @@ local function init(entity, game)
    entity.data.speed = 48
 
    game:loadSpritesheet('assets/spritesheets/priest/priest.xml')
-   entity:initMachine(MyState)
    entity.animation = 'PriestIdleDown'
 end
 

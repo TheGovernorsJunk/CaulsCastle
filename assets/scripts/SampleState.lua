@@ -8,18 +8,16 @@ local entityID
 local function init(game)
    local mapID = game:loadMap('assets/maps/grassy.tmx')
 
-   local map = game:getMap(mapID)
-   map:move(0, 20)
-   print(map.position.x, map.position.y)
-
    local objects = game:getObjects(mapID, "Objects")
-   for _,obj in pairs(objects) do
-      print(Utils.getCenter(obj))
-   end
 
    entityID = game:makeEntity(Entity)
    local entity = game:getScriptedEntity(entityID)
+   entity:initMachine(MyState)
    entity.position = Vec(Utils.getCenter(objects['Player']))
+
+   local enemyID = game:makeEntity(Entity)
+   local enemy = game:getScriptedEntity(enemyID)
+   enemy.position = Vec(Utils.getCenter(objects['Enemy']))
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
