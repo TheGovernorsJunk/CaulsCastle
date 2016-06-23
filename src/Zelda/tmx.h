@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 class b2Shape;
 
@@ -61,6 +62,12 @@ namespace te
 
 		std::vector<ObjectGroup> getObjectGroups() const;
 
+		template <typename Iter>
+		void getLayerNames(Iter out) const
+		{
+			std::transform(mLayerNames.begin(), mLayerNames.end(), out, [](auto& name) { return name; });
+		}
+
 	private:
 		struct Image {
 			std::string source;
@@ -111,6 +118,7 @@ namespace te
 		std::vector<Tileset> mTilesets;
 		std::vector<Layer> mLayers;
 		std::vector<ObjectGroup> mObjectGroups;
+		std::vector<std::string> mLayerNames;
 	};
 }
 

@@ -103,6 +103,7 @@ namespace te
 				.addFunction("dispatchMessage", &ScriptedGame::dispatchMessage)
 				.addFunction("getMap", &ScriptedGame::getMap)
 				.addFunction("getObjects", &ScriptedGame::getObjects)
+				.addFunction("getLayerNames", &ScriptedGame::getLayerNames)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
@@ -219,6 +220,21 @@ namespace te
 			obj["w"] = area.rect.width;
 			obj["h"] = area.rect.height;
 			table[area.name] = obj;
+		});
+
+		return table;
+	}
+
+	luabridge::LuaRef ScriptedGame::getLayerNames(EntityID mapID) const
+	{
+		TileMap& map = getMap(mapID);
+		std::vector<std::string> layerNames;
+		map.getLayerNames(std::back_inserter(layerNames));
+
+		luabridge::LuaRef table = luabridge::newTable(mpL.get());
+		size_t index = 1;
+		std::for_each(layerNames.begin(), layerNames.end(), [&index, &table](const std::string& name) {
+			table[index++] = name;
 		});
 
 		return table;

@@ -52,6 +52,12 @@ namespace te
 			});
 		}
 
+		template <typename Iter>
+		void getLayerNames(Iter out) const
+		{
+			return mTMX.getLayerNames(out);
+		}
+
 		const std::vector<Wall2f>& getWalls() const;
 		const NavGraph& getNavGraph() const;
 

@@ -36,7 +36,7 @@ namespace te
 	const TMX::TileData TMX::NULL_DATA = TMX::TileData{ NULL_TILE, TMX::ObjectGroup() };
 
 	TMX::TMX(const std::string& filename)
-		: mFilename{filename}, mOrientation{Orientation::Orthogonal}, mWidth{0}, mHeight{0}, mTilewidth{0}, mTileheight{0}, mTilesets{}, mLayers{}, mObjectGroups{}
+		: mFilename{filename}, mOrientation{Orientation::Orthogonal}, mWidth{0}, mHeight{0}, mTilewidth{0}, mTileheight{0}, mTilesets{}, mLayers{}, mObjectGroups{}, mLayerNames{}
 	{
 		rapidxml::file<> tmxFile(filename.c_str());
 		rapidxml::xml_document<> tmx;
@@ -187,6 +187,17 @@ namespace te
 				std::move(objects),
 				*objectIndexIter++
 			});
+		}
+
+		rapidxml::xml_node<char>* pLayerOrObjectNode = tmx.first_node("map")->first_node("tileset")->next_sibling();
+		while (pLayerOrObjectNode != 0)
+		{
+			std::string nodeName{pLayerOrObjectNode->name()};
+			if (nodeName == "layer" || nodeName == "objectgroup")
+			{
+				mLayerNames.push_back(pLayerOrObjectNode->first_attribute("name")->value());
+			}
+			pLayerOrObjectNode = pLayerOrObjectNode->next_sibling();
 		}
 	}
 
