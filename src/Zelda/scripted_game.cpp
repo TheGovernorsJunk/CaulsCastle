@@ -196,53 +196,70 @@ namespace te
 		return id;
 	}
 
-	ScriptedEntity& ScriptedGame::getScriptedEntity(EntityID id) const
+	ScriptedEntity* ScriptedGame::getScriptedEntity(EntityID id) const
 	{
-		auto& entity = getEntityManager().getEntityFromID(id);
-		assert(dynamic_cast<ScriptedEntity*>(&entity) != nullptr);
-		return (ScriptedEntity&)entity;
+		EntityManager& em = getEntityManager();
+		if (em.hasEntity(id))
+		{
+			auto& entity = getEntityManager().getEntityFromID(id);
+			assert(dynamic_cast<ScriptedEntity*>(&entity) != nullptr);
+			return static_cast<ScriptedEntity*>(&entity);
+		}
+		return nullptr;
 	}
 
-	TileMap& ScriptedGame::getMap(EntityID id) const
+	TileMap* ScriptedGame::getMap(EntityID id) const
 	{
-		auto& entity = getEntityManager().getEntityFromID(id);
-		assert(dynamic_cast<TileMap*>(&entity) != nullptr);
-		return static_cast<TileMap&>(entity);
+		EntityManager& em = getEntityManager();
+		if (em.hasEntity(id))
+		{
+			auto& entity = getEntityManager().getEntityFromID(id);
+			assert(dynamic_cast<TileMap*>(&entity) != nullptr);
+			return static_cast<TileMap*>(&entity);
+		}
+		return nullptr;
 	}
 
 	luabridge::LuaRef ScriptedGame::getObjects(EntityID mapID, const std::string& groupName) const
 	{
-		TileMap& map = getMap(mapID);
-		std::vector<TileMap::Area> areas;
-		map.getAreasInGroup(groupName, std::back_inserter(areas));
-
 		luabridge::LuaRef table = luabridge::newTable(mpL.get());
-		std::for_each(areas.begin(), areas.end(), [this, &table](TileMap::Area& area) {
-			luabridge::LuaRef obj = luabridge::newTable(mpL.get());
-			obj["id"] = area.id;
-			if (area.name != "") obj["name"] = area.name;
-			if (area.type != "") obj["type"] = area.type;
-			obj["x"] = area.rect.left;
-			obj["y"] = area.rect.top;
-			obj["w"] = area.rect.width;
-			obj["h"] = area.rect.height;
-			table[area.name] = obj;
-		});
+
+		TileMap* map = getMap(mapID);
+		if (map)
+		{
+			std::vector<TileMap::Area> areas;
+			map->getAreasInGroup(groupName, std::back_inserter(areas));
+
+			std::for_each(areas.begin(), areas.end(), [this, &table](TileMap::Area& area) {
+				luabridge::LuaRef obj = luabridge::newTable(mpL.get());
+				obj["id"] = area.id;
+				if (area.name != "") obj["name"] = area.name;
+				if (area.type != "") obj["type"] = area.type;
+				obj["x"] = area.rect.left;
+				obj["y"] = area.rect.top;
+				obj["w"] = area.rect.width;
+				obj["h"] = area.rect.height;
+				table[area.name] = obj;
+			});
+		}
 
 		return table;
 	}
 
 	luabridge::LuaRef ScriptedGame::getLayerNames(EntityID mapID) const
 	{
-		TileMap& map = getMap(mapID);
-		std::vector<std::string> layerNames;
-		map.getLayerNames(std::back_inserter(layerNames));
-
 		luabridge::LuaRef table = luabridge::newTable(mpL.get());
-		size_t index = 1;
-		std::for_each(layerNames.begin(), layerNames.end(), [&index, &table](const std::string& name) {
-			table[index++] = name;
-		});
+
+		TileMap* map = getMap(mapID);
+		if (map)
+		{
+			std::vector<std::string> layerNames;
+			map->getLayerNames(std::back_inserter(layerNames));
+			size_t index = 1;
+			std::for_each(layerNames.begin(), layerNames.end(), [&index, &table](const std::string& name) {
+				table[index++] = name;
+			});
+		}
 
 		return table;
 	}

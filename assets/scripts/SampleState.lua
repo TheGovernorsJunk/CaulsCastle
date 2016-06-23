@@ -34,7 +34,10 @@ local function init(game)
 end
 
 local function update(game, dt)
-   game.camera.position = game:getScriptedEntity(playerID).position
+   local entity = game:getScriptedEntity(playerID)
+   if entity then
+      game.camera.position = entity.position
+   end
 end
 
 local presses = {}

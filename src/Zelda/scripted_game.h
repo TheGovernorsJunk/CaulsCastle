@@ -45,10 +45,10 @@ namespace te
 		EntityID loadMap(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable);
-		ScriptedEntity& getScriptedEntity(EntityID id) const;
+		ScriptedEntity* getScriptedEntity(EntityID id) const;
 		CameraEntity& getCamera() const;
 		void dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info);
-		TileMap& getMap(EntityID mapID) const;
+		TileMap* getMap(EntityID mapID) const;
 		luabridge::LuaRef getObjects(EntityID mapID, const std::string& groupName) const;
 		luabridge::LuaRef getLayerNames(EntityID mapID) const;
 
