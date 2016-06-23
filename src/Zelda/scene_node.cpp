@@ -202,7 +202,7 @@ namespace te
 		std::vector<const SceneNode*> pendingDraws;
 		concatPendingDraws(std::back_inserter(pendingDraws));
 		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const SceneNode* a, const SceneNode* b) {
-			return a->getDrawOrder() < b->getDrawOrder();
+			return a->getDrawOrder() < b->getDrawOrder() || (a->getDrawOrder() == b->getDrawOrder() && a->getWorldTransform().transformPoint({0, 0}).y < b->getWorldTransform().transformPoint({0, 0}).y);
 		});
 		for (auto& draw : pendingDraws) draw->onDraw(target, states);
 	}
