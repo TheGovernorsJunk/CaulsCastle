@@ -6,6 +6,7 @@ require 'assets.scripts.Utils'
 local playerID, enemyID
 
 local function init(game)
+   game:loadSpritesheet('assets/spritesheets/hero/hero.xml')
    local mapID = game:loadMap('assets/maps/grassy.tmx')
 
    local z = 0
@@ -24,11 +25,14 @@ local function init(game)
          entity.drawOrder = z - 1
 
          if k == "Player"
-         then playerID = id
+         then
+            playerID = id
+            entity.animation = 'HeroIdleDown'
          else enemyID = id
          end
       end
    end
+
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end

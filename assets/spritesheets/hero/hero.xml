@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:1b7ac70d935b39aa599e92aacd9e8155:f5132dcc586702bfaffed7bbb1c3e290:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
+<!-- $TexturePacker:SmartUpdate:a0754493ef74c686c765b81a0c584681:216fff1371d38181c4357dd2e9667688:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -20,20 +20,21 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas imagePath="hero.png" width="204" height="102">
-    <sprite n="1-HWR.png" x="1" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="1-LWR.png" x="1" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="3-HWR.png" x="103" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="3-LWR.png" x="69" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="5-HWR.png" x="103" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="5-LWR.png" x="137" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="7-HWR.png" x="103" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="7-LWR.png" x="137" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="9-HWR.png" x="171" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="9-LWR.png" x="137" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="11-HWR.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="11-LWR.png" x="1" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="13-HWR.png" x="35" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="13-LWR.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="15-HWR.png" x="35" y="69" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="15-LWR.png" x="69" y="35" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="1-HeroIdleDown.png" x="1" y="1" w="32" h="48" pX="0.5" pY="0.9375"/>
+    <sprite n="1-HWR.png" x="1" y="51" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="1-LWR.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="3-HWR.png" x="137" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="3-LWR.png" x="171" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="5-HWR.png" x="103" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="5-LWR.png" x="103" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="7-HWR.png" x="137" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="7-LWR.png" x="171" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="9-HWR.png" x="137" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="9-LWR.png" x="171" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="11-HWR.png" x="35" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="11-LWR.png" x="35" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="13-HWR.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="13-LWR.png" x="69" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="15-HWR.png" x="69" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="15-LWR.png" x="103" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
 </TextureAtlas>
