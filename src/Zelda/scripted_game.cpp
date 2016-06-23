@@ -44,6 +44,7 @@ namespace te
 	static int X = 23;
 	static int Y = 24;
 	static int Z = 25;
+	static int Space = sf::Keyboard::Space;
 
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
@@ -80,6 +81,7 @@ namespace te
 				.addVariable("A", &A, false)
 				.addVariable("S", &S, false)
 				.addVariable("D", &D, false)
+				.addVariable("Space", &Space, false)
 			.endNamespace()
 			.beginClass<sf::Vector2f>("Vec")
 				.addConstructor<void(*)(float,float)>()
