@@ -33,8 +33,6 @@ local function execute(entity, dt)
    end
 
    entity.data.lastDs = ds
-
-   entity.world.camera.position = entity.position
 end
 
 local function onMessage(entity, telegram)
