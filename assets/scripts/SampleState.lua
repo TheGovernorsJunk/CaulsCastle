@@ -3,7 +3,7 @@ require 'assets.scripts.Bindings'
 require 'assets.scripts.config'
 require 'assets.scripts.Utils'
 
-local entityID
+local playerID
 
 local function init(game)
    local mapID = game:loadMap('assets/maps/grassy.tmx')
@@ -12,16 +12,19 @@ local function init(game)
       if name == 'Entities' then
          local objects = game:getObjects(mapID, 'Entities')
 
-         entityID = game:makeEntity(Entity)
-         local entity = game:getScriptedEntity(entityID)
-         entity:initMachine(MyState)
-         entity.position = Vec(Utils.getCenter(objects['Player']))
-         entity.drawOrder = z - 1
+         for k,object in pairs(objects) do
+            if object.type then
+               local id = game:makeEntity(_G[object.type])
+               local entity = game:getScriptedEntity(id)
+               entity.position = Vec(Utils.getCenter(object))
+               entity.drawOrder = z - 1
 
-         local enemyID = game:makeEntity(Entity)
-         local enemy = game:getScriptedEntity(enemyID)
-         enemy.position = Vec(Utils.getCenter(objects['Enemy']))
-         enemy.drawOrder = z - 1
+               if k == "Player" then
+                  entity:initMachine(MyState)
+                  playerID = id
+               end
+            end
+         end
       end
    end
 
@@ -45,7 +48,7 @@ messages[Event.KeyReleased] = releases
 local function processInput(game, key, event)
    local data = messages[event] and messages[event][key]
    if data ~= nil then
-      game:dispatchMessage(0, -1, entityID, data)
+      game:dispatchMessage(0, -1, playerID, data)
    end
 end
 
