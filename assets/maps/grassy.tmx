@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="7">
  <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32" tilecount="64">
   <image source="../spritesheets/tilesets/grass.png" width="256" height="256"/>
   <terraintypes>
@@ -1054,5 +1054,6 @@
  </layer>
  <objectgroup name="Objects">
   <object id="1" name="Player" x="352" y="192" width="32" height="32"/>
+  <object id="5" name="Enemy" x="608" y="384" width="32" height="32"/>
  </objectgroup>
 </map>
