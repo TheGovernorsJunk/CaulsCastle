@@ -1,6 +1,7 @@
 require 'assets.scripts.Entity'
 require 'assets.scripts.Bindings'
 require 'assets.scripts.config'
+require 'assets.scripts.Utils'
 
 local entityID
 
@@ -13,12 +14,12 @@ local function init(game)
 
    local objects = game:getObjects(mapID, "Objects")
    for _,obj in pairs(objects) do
-      print(obj.x, obj.y)
+      print(Utils.getCenter(obj))
    end
 
    entityID = game:makeEntity(Entity)
    local entity = game:getScriptedEntity(entityID)
-   entity.position = Vec(objects['Player'].x, objects['Player'].y)
+   entity.position = Vec(Utils.getCenter(objects['Player']))
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
