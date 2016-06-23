@@ -1052,7 +1052,7 @@
    <tile gid="6"/>
   </data>
  </layer>
- <objectgroup name="Objects">
+ <objectgroup name="Entities">
   <object id="1" name="Player" x="352" y="192" width="32" height="32"/>
   <object id="5" name="Enemy" x="608" y="384" width="32" height="32"/>
  </objectgroup>
