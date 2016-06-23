@@ -19,7 +19,7 @@ local function init(game)
    for k,object in pairs(objects) do
       if object.type then
          local id = game:makeEntity(_G[object.type])
-         local entity = game:getScriptedEntity(id)
+         local entity = game:getEntity(id)
          entity.position = Vec(Utils.getCenter(object))
          entity.drawOrder = z - 1
 
@@ -35,7 +35,7 @@ end
 
 local totalDt = 0
 local function update(game, dt)
-   local entity = game:getScriptedEntity(playerID)
+   local entity = game:getEntity(playerID)
    if entity then
       game.camera.position = entity.position
    end

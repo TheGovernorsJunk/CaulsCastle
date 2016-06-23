@@ -101,7 +101,7 @@ namespace te
 				.addFunction("loadMap", &ScriptedGame::loadMap)
 				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
-				.addFunction("getScriptedEntity", &ScriptedGame::getScriptedEntity)
+				.addFunction("getEntity", &ScriptedGame::getScriptedEntity)
 				.addProperty("camera", &ScriptedGame::getCamera)
 				.addFunction("dispatchMessage", &ScriptedGame::dispatchMessage)
 				.addFunction("getMap", &ScriptedGame::getMap)
