@@ -7,6 +7,7 @@ local function init(entity, game)
 
    game:loadSpritesheet('assets/spritesheets/priest/priest.xml')
    entity.animation = 'PriestIdleDown'
+   entity:initMachine(MyState)
 end
 
 Entity = {
