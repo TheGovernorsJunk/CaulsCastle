@@ -31,6 +31,10 @@ local function init(game)
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 end
 
+local function update(game, dt)
+   print("Updating.")
+end
+
 local presses = {}
 presses[Bindings.Left] = { x = -1 }
 presses[Bindings.Right] = { x = 1 }
@@ -54,7 +58,8 @@ end
 
 SampleState = {
    init = init,
-   processInput = processInput
+   processInput = processInput,
+   update = update
 }
 
 return SampleState

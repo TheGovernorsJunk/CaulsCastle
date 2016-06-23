@@ -59,6 +59,7 @@ namespace te
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
 		, mInputFn{mpL.get()}
+		, mUpdateFn{mpL.get()}
 		, mpCamera{nullptr}
 	{
 		auto pCamera = CameraEntity::make(*this);
@@ -144,6 +145,9 @@ namespace te
 
 		mInputFn = pkg["processInput"];
 		if (!mInputFn.isNil() && !mInputFn.isFunction()) throw std::runtime_error{"processInput must be a function."};
+
+		if (pkg["update"].isFunction()) mUpdateFn = pkg["update"];
+		else if (!pkg["update"].isNil()) throw std::runtime_error{"update must be a function."};
 
 		luabridge::LuaRef init = pkg["init"];
 		if (!init.isFunction()) throw std::runtime_error{"Must supply init function."};
@@ -265,6 +269,8 @@ namespace te
 	void ScriptedGame::update(const sf::Time& dt)
 	{
 		Game::update(dt);
+		if (mUpdateFn.isFunction())
+			mUpdateFn(this, dt.asSeconds());
 	}
 
 	void ScriptedGame::draw(sf::RenderTarget& target, sf::RenderStates states) const
