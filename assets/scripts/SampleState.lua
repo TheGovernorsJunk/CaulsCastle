@@ -27,7 +27,7 @@ local function init(game)
          if k == "Player"
          then
             playerID = id
-            entity.animation = 'HeroIdleDown'
+            entity.animation = 'HeroAttackDown'
          else enemyID = id
          end
       end
@@ -78,6 +78,12 @@ local function processKeyInput(game, key, event)
    end
 end
 
+local function processMouseButtonInput(game, key, event)
+   if event == Event.MouseButtonPressed then
+      print('Mouse button pressed')
+   end
+end
+
 local function processAxisInput(game, controllerID, axis, position)
    if math.abs(position) > 0.3 then
       game:dispatchMessage(0, 0, playerID, { axis = axis, val = position })
@@ -89,6 +95,7 @@ end
 SampleState = {
    init = init,
    processKeyInput = processKeyInput,
+   processMouseButtonInput = processMouseButtonInput,
    processAxisInput = processAxisInput,
    update = update
 }
