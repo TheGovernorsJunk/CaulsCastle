@@ -1,9 +1,9 @@
 local function getAnimation(lookup, ds)
-   if ds.x > 0 then return lookup['right']
-   elseif ds.x < 0 then return lookup['left']
+   if ds.x > 0 and ds.x >= math.abs(ds.y) then return lookup['right']
+   elseif ds.x < 0 and ds.x <= -math.abs(ds.y) then return lookup['left']
    end
-   if ds.y > 0 then return lookup['down']
-   elseif ds.y < 0 then return lookup['up']
+   if ds.y > 0 and ds.y > math.abs(ds.x) then return lookup['down']
+   elseif ds.y < 0 and ds.y < -math.abs(ds.x) then return lookup['up']
    end
 end
 
@@ -14,19 +14,18 @@ local walkAnims = {
    left = 'PriestWalkLeft'
 }
 local idleAnims = {
-   up = 'PriestIdleUp',
-   down = 'PriestIdleDown',
-   right = 'PriestIdleRight',
-   left = 'PriestIdleLeft'
+   PriestWalkUp = 'PriestIdleUp',
+   PriestWalkDown = 'PriestIdleDown',
+   PriestWalkRight = 'PriestIdleRight',
+   PriestWalkLeft = 'PriestIdleLeft'
 }
 
 local function execute(entity, dt)
    local ds = mulVec(dt, mulVec(entity.data.speed, normalizeVec(entity.data.heading)))
-   --ds.y = ds.y / 2
    entity:move(ds.x, ds.y)
 
    local lastDs = entity.data.lastDs
-   local anim = getAnimation(walkAnims, ds) or lastDs and getAnimation(idleAnims, lastDs)
+   local anim = getAnimation(walkAnims, ds) or idleAnims[entity.animation]
 
    if anim and anim ~= entity.animation then
       entity.animation = anim
