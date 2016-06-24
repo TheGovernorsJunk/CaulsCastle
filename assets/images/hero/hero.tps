@@ -100,7 +100,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">MaxRects</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -189,6 +189,7 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">clips/1-HWR.png</key>
+            <key type="filename">clips/1-HeroAttackDown.png</key>
             <key type="filename">clips/1-HeroIdleDown.png</key>
             <key type="filename">clips/1-LWR.png</key>
             <key type="filename">clips/11-HWR.png</key>
@@ -198,10 +199,13 @@
             <key type="filename">clips/15-HWR.png</key>
             <key type="filename">clips/15-LWR.png</key>
             <key type="filename">clips/3-HWR.png</key>
+            <key type="filename">clips/3-HeroAttackDown.png</key>
             <key type="filename">clips/3-LWR.png</key>
             <key type="filename">clips/5-HWR.png</key>
+            <key type="filename">clips/5-HeroAttackDown.png</key>
             <key type="filename">clips/5-LWR.png</key>
             <key type="filename">clips/7-HWR.png</key>
+            <key type="filename">clips/7-HeroAttackDown.png</key>
             <key type="filename">clips/7-LWR.png</key>
             <key type="filename">clips/9-HWR.png</key>
             <key type="filename">clips/9-LWR.png</key>
