@@ -44,10 +44,10 @@ local function update(game, dt)
       game.camera.position = entity.position
    end
 
-   totalDt = totalDt + dt
-   if totalDt > 5 and entity then
-      entity:die()
-   end
+   -- totalDt = totalDt + dt
+   -- if totalDt > 5 and entity then
+   --    entity:die()
+   -- end
 end
 
 local presses = {}
@@ -64,7 +64,7 @@ local messages = {}
 messages[Event.KeyPressed] = presses
 messages[Event.KeyReleased] = releases
 
-local function processInput(game, key, event)
+local function processKeyInput(game, key, event)
    if event == Event.KeyPressed
       and key == Key.Space
       and playerID
@@ -78,9 +78,18 @@ local function processInput(game, key, event)
    end
 end
 
+local function processAxisInput(game, controllerID, axis, position)
+   if math.abs(position) > 0.3 then
+      game:dispatchMessage(0, 0, playerID, { axis = axis, val = position })
+   else
+      game:dispatchMessage(0, 0, playerID, { axis = axis, val = 0 })
+   end
+end
+
 SampleState = {
    init = init,
-   processInput = processInput,
+   processKeyInput = processKeyInput,
+   processAxisInput = processAxisInput,
    update = update
 }
 

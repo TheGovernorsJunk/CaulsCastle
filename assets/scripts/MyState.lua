@@ -37,8 +37,13 @@ end
 
 local function onMessage(entity, telegram)
    local v = telegram.info
-   if v.x then entity.data.heading.x = entity.data.heading.x + v.x end
-   if v.y then entity.data.heading.y = entity.data.heading.y + v.y end
+   if v.axis then
+      if v.axis == Axis.X then entity.data.heading.x = v.val end
+      if v.axis == Axis.Y then entity.data.heading.y = v.val end
+   else
+      if v.x then entity.data.heading.x = entity.data.heading.x + v.x end
+      if v.y then entity.data.heading.y = entity.data.heading.y + v.y end
+   end
    --entity.data.velocity = addVec(entity.data.velocity, Vec(telegram.info.x, telegram.info.y))
 end
 
