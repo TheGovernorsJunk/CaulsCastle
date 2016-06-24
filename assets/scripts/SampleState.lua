@@ -27,7 +27,6 @@ local function init(game)
          if k == "Player"
          then
             playerID = id
-            entity.animation = 'HeroAttackDown'
          else enemyID = id
          end
       end
@@ -78,9 +77,9 @@ local function processKeyInput(game, key, event)
    end
 end
 
-local function processMouseButtonInput(game, key, event)
-   if event == Event.MouseButtonPressed then
-      print('Mouse button pressed')
+local function processMouseButtonInput(game, button, event)
+   if event == Event.MouseButtonPressed and button == Mouse.Left then
+      game:dispatchMessage(0, 0, playerID, { msg = 'attack' })
    end
 end
 

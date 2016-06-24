@@ -1,3 +1,5 @@
+require 'assets.scripts.AttackState'
+
 local function getAnimation(lookup, ds)
    if ds.x > 0 and ds.x >= math.abs(ds.y) then return lookup['right']
    elseif ds.x < 0 and ds.x <= -math.abs(ds.y) then return lookup['left']
@@ -20,6 +22,10 @@ local idleAnims = {
    PriestWalkLeft = 'PriestIdleLeft'
 }
 
+local function enter(entity)
+   entity.animation = 'PriestIdleDown'
+end
+
 local function execute(entity, dt)
    local ds = mulVec(dt, mulVec(entity.data.speed, normalizeVec(entity.data.heading)))
    entity:move(ds.x, ds.y)
@@ -32,6 +38,12 @@ local function execute(entity, dt)
    end
 
    entity.data.lastDs = ds
+
+   return entity.data.pendingState
+end
+
+local function exit(entity)
+   entity.data.pendingState = nil
 end
 
 local function onMessage(entity, telegram)
@@ -42,6 +54,10 @@ local function onMessage(entity, telegram)
    else
       if v.x then entity.data.heading.x = entity.data.heading.x + v.x end
       if v.y then entity.data.heading.y = entity.data.heading.y + v.y end
+   end
+
+   if v.msg == 'attack' then
+      entity.data.pendingState = AttackState
    end
    --entity.data.velocity = addVec(entity.data.velocity, Vec(telegram.info.x, telegram.info.y))
 end
