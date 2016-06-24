@@ -1,4 +1,5 @@
 require 'assets.scripts.MyState'
+require 'assets.scripts.AttackState'
 
 local function init(entity, game)
    entity.data.heading = Vec(0, 0)

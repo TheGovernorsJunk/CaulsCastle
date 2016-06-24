@@ -1,4 +1,3 @@
-
 local function execute(entity, dt)
    entity.data.currAttackDuration = entity.data.currAttackDuration + dt
    if entity.data.currAttackDuration > entity.data.attackDuration then

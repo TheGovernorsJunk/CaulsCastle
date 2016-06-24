@@ -1,5 +1,3 @@
-require 'assets.scripts.AttackState'
-
 local function getAnimation(lookup, ds)
    if ds.x > 0 and ds.x >= math.abs(ds.y) then return lookup['right']
    elseif ds.x < 0 and ds.x <= -math.abs(ds.y) then return lookup['left']
