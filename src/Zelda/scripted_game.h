@@ -51,6 +51,7 @@ namespace te
 		TileMap* getMap(EntityID mapID) const;
 		luabridge::LuaRef getObjects(EntityID mapID, const std::string& groupName) const;
 		luabridge::LuaRef getLayerNames(EntityID mapID) const;
+		float getAnimationDuration(const std::string& animationStr) const;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mKeyInputFn;

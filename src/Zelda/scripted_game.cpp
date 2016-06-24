@@ -128,6 +128,7 @@ namespace te
 				.addFunction("getMap", &ScriptedGame::getMap)
 				.addFunction("getObjects", &ScriptedGame::getObjects)
 				.addFunction("getLayerNames", &ScriptedGame::getLayerNames)
+				.addFunction("getAnimationDuration", &ScriptedGame::getAnimationDuration)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
@@ -290,6 +291,11 @@ namespace te
 		}
 
 		return table;
+	}
+
+	float ScriptedGame::getAnimationDuration(const std::string& animationStr) const
+	{
+		return getTextureManager().getAnimation(TextureManager::getID(animationStr)).getDuration().asSeconds();
 	}
 
 	CameraEntity& ScriptedGame::getCamera() const
