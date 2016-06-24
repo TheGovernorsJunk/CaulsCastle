@@ -53,7 +53,8 @@ namespace te
 		luabridge::LuaRef getLayerNames(EntityID mapID) const;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
-		luabridge::LuaRef mInputFn;
+		luabridge::LuaRef mKeyInputFn;
+		luabridge::LuaRef mAxisInputFn;
 		luabridge::LuaRef mUpdateFn;
 		CameraEntity* mpCamera;
 	};

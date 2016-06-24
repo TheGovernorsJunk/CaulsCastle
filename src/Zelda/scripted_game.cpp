@@ -46,6 +46,9 @@ namespace te
 	static int Z = 25;
 	static int Space = sf::Keyboard::Space;
 
+	static int xAxis = sf::Joystick::X;
+	static int yAxis = sf::Joystick::Y;
+
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
@@ -59,7 +62,8 @@ namespace te
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
-		, mInputFn{mpL.get()}
+		, mKeyInputFn{mpL.get()}
+		, mAxisInputFn{mpL.get()}
 		, mUpdateFn{mpL.get()}
 		, mpCamera{nullptr}
 	{
@@ -82,6 +86,10 @@ namespace te
 				.addVariable("S", &S, false)
 				.addVariable("D", &D, false)
 				.addVariable("Space", &Space, false)
+			.endNamespace()
+			.beginNamespace("Axis")
+				.addVariable("X", &xAxis, false)
+				.addVariable("Y", &yAxis, false)
 			.endNamespace()
 			.beginClass<sf::Vector2f>("Vec")
 				.addConstructor<void(*)(float,float)>()
@@ -146,8 +154,11 @@ namespace te
 		luabridge::LuaRef pkg = luabridge::getGlobal(L, packageName.c_str());
 		if (!pkg.isTable()) throw std::runtime_error{"Package `" + packageName + "' not found. Package name must match filename."};
 
-		mInputFn = pkg["processInput"];
-		if (!mInputFn.isNil() && !mInputFn.isFunction()) throw std::runtime_error{"processInput must be a function."};
+		mKeyInputFn = pkg["processKeyInput"];
+		if (!mKeyInputFn.isNil() && !mKeyInputFn.isFunction()) throw std::runtime_error{"processKeyInput must be a function."};
+
+		mAxisInputFn = pkg["processAxisInput"];
+		if (!mAxisInputFn.isNil() && !mAxisInputFn.isFunction()) throw std::runtime_error{"processAxisInput must be a function."};
 
 		if (pkg["update"].isFunction()) mUpdateFn = pkg["update"];
 		else if (!pkg["update"].isNil()) throw std::runtime_error{"update must be a function."};
@@ -282,8 +293,21 @@ namespace te
 
 	void ScriptedGame::processInput(const sf::Event& evt)
 	{
-		if (mInputFn.isFunction())
-			mInputFn(this, (int)evt.key.code, (int)evt.type);
+		switch (evt.type)
+		{
+		case sf::Event::KeyPressed:
+		case sf::Event::KeyReleased:
+			if (mKeyInputFn.isFunction())
+				mKeyInputFn(this, (int)evt.key.code, (int)evt.type);
+			break;
+		case sf::Event::JoystickMoved:
+			if (sf::Joystick::isConnected(0) && sf::Joystick::hasAxis(0, sf::Joystick::X) && mAxisInputFn.isFunction())
+			{
+				mAxisInputFn(this, 0, (int)sf::Joystick::X, sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.f);
+				mAxisInputFn(this, 0, (int)sf::Joystick::Y, sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.f);
+			}
+			break;
+		}
 	}
 
 	void ScriptedGame::update(const sf::Time& dt)
