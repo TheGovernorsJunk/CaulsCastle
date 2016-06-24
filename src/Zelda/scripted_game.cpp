@@ -18,6 +18,9 @@ namespace te
 	static int KeyPressed = sf::Event::KeyPressed;
 	static int KeyReleased = sf::Event::KeyReleased;
 
+	static int MouseButtonPressed = sf::Event::MouseButtonPressed;
+	static int MouseButtonReleased = sf::Event::MouseButtonReleased;
+
 	static int A = 0;
 	static int B = 1;
 	static int C = 2;
@@ -46,8 +49,11 @@ namespace te
 	static int Z = 25;
 	static int Space = sf::Keyboard::Space;
 
-	static int xAxis = sf::Joystick::X;
-	static int yAxis = sf::Joystick::Y;
+	static int AxisX = sf::Joystick::X;
+	static int AxisY = sf::Joystick::Y;
+
+	static int MouseLeft = sf::Mouse::Button::Left;
+	static int MouseRight = sf::Mouse::Button::Right;
 
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
@@ -63,6 +69,7 @@ namespace te
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
 		, mKeyInputFn{mpL.get()}
+		, mMouseButtonInputFn{mpL.get()}
 		, mAxisInputFn{mpL.get()}
 		, mUpdateFn{mpL.get()}
 		, mpCamera{nullptr}
@@ -79,6 +86,8 @@ namespace te
 			.beginNamespace("Event")
 				.addVariable("KeyPressed", &KeyPressed, false)
 				.addVariable("KeyReleased", &KeyReleased, false)
+				.addVariable("MouseButtonPressed", &MouseButtonPressed, false)
+				.addVariable("MouseButtonReleased", &MouseButtonReleased, false)
 			.endNamespace()
 			.beginNamespace("Key")
 				.addVariable("W", &W, false)
@@ -88,8 +97,12 @@ namespace te
 				.addVariable("Space", &Space, false)
 			.endNamespace()
 			.beginNamespace("Axis")
-				.addVariable("X", &xAxis, false)
-				.addVariable("Y", &yAxis, false)
+				.addVariable("X", &AxisX, false)
+				.addVariable("Y", &AxisY, false)
+			.endNamespace()
+			.beginNamespace("Mouse")
+				.addVariable("Left", &MouseLeft, false)
+				.addVariable("Right", &MouseRight, false)
 			.endNamespace()
 			.beginClass<sf::Vector2f>("Vec")
 				.addConstructor<void(*)(float,float)>()
@@ -156,6 +169,9 @@ namespace te
 
 		mKeyInputFn = pkg["processKeyInput"];
 		if (!mKeyInputFn.isNil() && !mKeyInputFn.isFunction()) throw std::runtime_error{"processKeyInput must be a function."};
+
+		mMouseButtonInputFn = pkg["processMouseButtonInput"];
+		if (!mMouseButtonInputFn.isNil() && !mMouseButtonInputFn.isFunction()) throw std::runtime_error{"processMouseButtonInput must be a function."};
 
 		mAxisInputFn = pkg["processAxisInput"];
 		if (!mAxisInputFn.isNil() && !mAxisInputFn.isFunction()) throw std::runtime_error{"processAxisInput must be a function."};
@@ -307,6 +323,9 @@ namespace te
 				mAxisInputFn(this, 0, (int)sf::Joystick::Y, sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.f);
 			}
 			break;
+		case sf::Event::MouseButtonPressed:
+			if (mMouseButtonInputFn.isFunction())
+				mMouseButtonInputFn(this, (int)evt.mouseButton.button, (int)evt.type);
 		}
 	}
 

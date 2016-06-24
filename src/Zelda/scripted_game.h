@@ -54,6 +54,7 @@ namespace te
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mKeyInputFn;
+		luabridge::LuaRef mMouseButtonInputFn;
 		luabridge::LuaRef mAxisInputFn;
 		luabridge::LuaRef mUpdateFn;
 		CameraEntity* mpCamera;
