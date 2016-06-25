@@ -8,6 +8,7 @@
 #include "camera_entity.h"
 
 #include <SFML/Window.hpp>
+#include <Box2D/Box2D.h>
 
 #include <regex>
 #include <iterator>
@@ -65,6 +66,23 @@ namespace te
 		return v / std::sqrt(v.x * v.x + v.y * v.y);
 	}
 
+	static b2PolygonShape getShape(luabridge::LuaRef obj, const SceneNode* localNode)
+	{
+		assert(localNode);
+
+		sf::Vector2f localPos = localNode->getPosition();
+		float x = obj["x"], y = obj["y"], h = obj["h"], w = obj["w"];
+		b2Vec2 vertices[4];
+		vertices[0].Set(x - localPos.x, y - localPos.y);
+		vertices[1].Set(x + w - localPos.x, y - localPos.y);
+		vertices[2].Set(x + w - localPos.x, y + h - localPos.y);
+		vertices[3].Set(x - localPos.x, y + h - localPos.y);
+
+		b2PolygonShape polygon;
+		polygon.Set(vertices, 4);
+		return polygon;
+	}
+
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
 		: Game{app}
 		, mpL{luaL_newstate(), [](lua_State* L) { lua_close(L); }}
@@ -109,9 +127,14 @@ namespace te
 				.addData("x", &sf::Vector2f::x)
 				.addData("y", &sf::Vector2f::y)
 			.endClass()
+			.beginClass<b2Shape>("Shape")
+			.endClass()
+			.deriveClass<b2PolygonShape, b2Shape>("PolygonShape")
+			.endClass()
 			.addFunction("addVec", &addVec)
 			.addFunction("mulVec", &mulVec)
 			.addFunction("normalizeVec", &normalizeVec)
+			.addFunction("getShape", &getShape)
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
@@ -133,8 +156,11 @@ namespace te
 			.beginClass<SceneNode>("SceneNode")
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
 				.addFunction<void(SceneNode::*)(float,float)>("move", &SceneNode::move)
+				.addFunction("setVelocity", &SceneNode::setVelocity)
 				.addProperty("drawOrder", &SceneNode::getDrawOrder, &SceneNode::setDrawOrder)
 				.addFunction("die", &SceneNode::die)
+				.addFunction("attachRigidBody", &SceneNode::attachRigidBody)
+				.addFunction("attachFixture", &SceneNode::attachFixture)
 			.endClass()
 			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
 				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)
