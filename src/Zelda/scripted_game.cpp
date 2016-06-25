@@ -259,7 +259,8 @@ namespace te
 			std::vector<TileMap::Area> areas;
 			map->getAreasInGroup(groupName, std::back_inserter(areas));
 
-			std::for_each(areas.begin(), areas.end(), [this, &table](TileMap::Area& area) {
+			int index = 1;
+			std::for_each(areas.begin(), areas.end(), [this, &table, &index](TileMap::Area& area) {
 				luabridge::LuaRef obj = luabridge::newTable(mpL.get());
 				obj["id"] = area.id;
 				if (area.name != "") obj["name"] = area.name;
@@ -268,7 +269,7 @@ namespace te
 				obj["y"] = area.rect.top;
 				obj["w"] = area.rect.width;
 				obj["h"] = area.rect.height;
-				table[area.name] = obj;
+				table[index++] = obj;
 			});
 		}
 

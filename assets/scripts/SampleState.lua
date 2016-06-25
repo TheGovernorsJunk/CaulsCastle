@@ -17,14 +17,14 @@ local function init(game)
    end
 
    local objects = game:getObjects(mapID, 'Entities')
-   for k,object in pairs(objects) do
+   for _,object in ipairs(objects) do
       if object.type then
          local id = game:makeEntity(_G[object.type])
          local entity = game:getEntity(id)
          entity.position = Vec(Utils.getCenter(object))
          entity.drawOrder = z - 1
 
-         if k == "Player"
+         if object.name == "Player"
          then
             playerID = id
          else enemyID = id
