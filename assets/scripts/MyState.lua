@@ -25,17 +25,14 @@ local function enter(entity)
 end
 
 local function execute(entity, dt)
-   local ds = mulVec(dt, mulVec(entity.data.speed, normalizeVec(entity.data.heading)))
-   entity:move(ds.x, ds.y)
+   local vel = mulVec(entity.data.speed, normalizeVec(entity.data.heading))
+   entity:setVelocity(vel)
 
-   local lastDs = entity.data.lastDs
-   local anim = getAnimation(walkAnims, ds) or idleAnims[entity.animation]
+   local anim = getAnimation(walkAnims, vel) or idleAnims[entity.animation]
 
    if anim and anim ~= entity.animation then
       entity.animation = anim
    end
-
-   entity.data.lastDs = ds
 
    return entity.data.pendingState
 end

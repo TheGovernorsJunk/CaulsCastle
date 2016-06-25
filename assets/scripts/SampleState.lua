@@ -1,7 +1,6 @@
 require 'assets.scripts.Entity'
 require 'assets.scripts.Bindings'
 require 'assets.scripts.config'
-require 'assets.scripts.Utils'
 
 local playerID, enemyID
 
@@ -16,17 +15,19 @@ local function init(game)
       end
    end
 
+   local map = game:getMap(mapID)
+   for _,polygon in ipairs(game:getObjects(mapID, 'Collisions')) do
+      map:attachFixture(getShape(polygon, map))
+   end
+
    local objects = game:getObjects(mapID, 'Entities')
    for _,object in ipairs(objects) do
       if object.type then
-         local id = game:makeEntity(_G[object.type])
-         local entity = game:getEntity(id)
-         entity.position = Vec(Utils.getCenter(object))
-         entity.drawOrder = z - 1
+         object.z = z - 1
+         local id = game:makeEntity(_G[object.type], object)
 
          if object.name == "Player"
-         then
-            playerID = id
+         then playerID = id
          else enemyID = id
          end
       end
