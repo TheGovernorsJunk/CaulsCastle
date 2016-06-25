@@ -216,9 +216,9 @@ namespace te
 		return getTextureManager().loadSpritesheet(filename);
 	}
 
-	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable)
+	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)
 	{
-		auto upEntity = ScriptedEntity::make(*this, entityTable, {0, 0});
+		auto upEntity = ScriptedEntity::make(*this, entityTable, argsTable, {0, 0});
 		EntityID id = upEntity->getID();
 		ScriptedEntity* pEntity = upEntity.get();
 		getSceneGraph().attachNode(std::move(upEntity));

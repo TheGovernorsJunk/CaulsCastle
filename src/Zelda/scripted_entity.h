@@ -67,7 +67,7 @@ namespace te
 	class ScriptedEntity : public BaseGameEntity
 	{
 	public:
-		static std::unique_ptr<ScriptedEntity> make(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position);
+		static std::unique_ptr<ScriptedEntity> make(ScriptedGame& world, luabridge::LuaRef entityTable, luabridge::LuaRef argsTable, sf::Vector2f position);
 
 		luabridge::LuaRef getUserData() const;
 		void initMachine(luabridge::LuaRef);
@@ -79,7 +79,7 @@ namespace te
 	private:
 		using FSM = ScriptedStateMachine<ScriptedEntity>;
 
-		ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position);
+		ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, luabridge::LuaRef argsTable, sf::Vector2f position);
 
 		void onUpdate(const sf::Time& dt);
 		bool handleMessage(const Telegram& msg);

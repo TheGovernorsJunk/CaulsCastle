@@ -44,7 +44,7 @@ namespace te
 		ScriptedGame(Application& app, const std::string& initFilename);
 		EntityID loadMap(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& filename);
-		EntityID makeEntity(luabridge::LuaRef entityTable);
+		EntityID makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable);
 		ScriptedEntity* getScriptedEntity(EntityID id) const;
 		CameraEntity& getCamera() const;
 		void dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info);

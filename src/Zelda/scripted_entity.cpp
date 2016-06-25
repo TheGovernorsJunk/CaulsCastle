@@ -10,12 +10,12 @@
 
 namespace te
 {
-	std::unique_ptr<ScriptedEntity> ScriptedEntity::make(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position)
+	std::unique_ptr<ScriptedEntity> ScriptedEntity::make(ScriptedGame& world, luabridge::LuaRef entityTable, luabridge::LuaRef argsTable, sf::Vector2f position)
 	{
-		return std::unique_ptr<ScriptedEntity>{new ScriptedEntity{world, entityTable, position}};
+		return std::unique_ptr<ScriptedEntity>{new ScriptedEntity{world, entityTable, argsTable, position}};
 	}
 
-	ScriptedEntity::ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, sf::Vector2f position)
+	ScriptedEntity::ScriptedEntity(ScriptedGame& world, luabridge::LuaRef entityTable, luabridge::LuaRef argsTable, sf::Vector2f position)
 		: BaseGameEntity{world, position}
 		, mWorld{world}
 		, mUserData{luabridge::newTable(entityTable)}
@@ -26,7 +26,7 @@ namespace te
 	{
 		if (entityTable.isTable())
 		{
-			if (entityTable["init"].isFunction()) entityTable["init"](this, &mWorld);
+			if (entityTable["init"].isFunction()) entityTable["init"](this, &mWorld, argsTable);
 			else throw std::runtime_error{"Entity package must include init function."};
 		}
 		else
