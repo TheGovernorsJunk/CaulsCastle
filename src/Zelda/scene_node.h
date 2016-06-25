@@ -10,6 +10,7 @@
 struct b2BodyDef;
 class b2Body;
 enum b2BodyType;
+class b2Shape;
 
 namespace te
 {
@@ -38,7 +39,9 @@ namespace te
 		std::unique_ptr<SceneNode> detachNode(const SceneNode& child);
 		SceneNode& getParent() const;
 
-		void attachRigidBody(const b2BodyType&);
+		// use b2BodyType enum; Lua needs int to interface
+		void attachRigidBody(int);
+		void attachFixture(const b2Shape* shape) const;
 
 		void update(const sf::Time& dt);
 

@@ -141,12 +141,13 @@ namespace te
 		throw std::runtime_error{"No parent on node."};
 	}
 
-	void SceneNode::attachRigidBody(const b2BodyType& bodyType)
+	void SceneNode::attachRigidBody(int bodyType)
 	{
+		assert(bodyType >= 0 && bodyType <= 2);
 		if (!mpBody)
 		{
 			b2BodyDef bodyDef;
-			bodyDef.type = bodyType;
+			bodyDef.type = (b2BodyType)bodyType;
 			sf::Vector2f worldPosition = getWorldTransform().transformPoint({ 0, 0 });
 			bodyDef.position = { worldPosition.x, worldPosition.y };
 			mpBody = { mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); } };
@@ -155,6 +156,13 @@ namespace te
 		{
 			throw std::runtime_error("Node already has rigid body.");
 		}
+	}
+
+	void SceneNode::attachFixture(const b2Shape* shape) const
+	{
+		assert(shape);
+		if (!mpBody) throw std::runtime_error{"Attaching a fixture requires a rigid body."};
+		mpBody->CreateFixture(shape, 0);
 	}
 
 	void SceneNode::update(const sf::Time& dt)
