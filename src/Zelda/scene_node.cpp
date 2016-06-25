@@ -247,4 +247,9 @@ namespace te
 		def.type = type;
 		return def;
 	}
+
+	void SceneNode::setVelocity(sf::Vector2f vel)
+	{
+		getBody().SetLinearVelocity(b2Vec2{vel.x, vel.y});
+	}
 }

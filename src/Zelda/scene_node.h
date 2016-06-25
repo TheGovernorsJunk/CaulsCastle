@@ -28,6 +28,7 @@ namespace te
 		void setPosition(float x, float y);
 		void move(sf::Vector2f ds);
 		void move(float x, float y);
+		void setVelocity(sf::Vector2f vel);
 		sf::Vector2f getPosition() const;
 
 		void setDrawOrder(int z);
