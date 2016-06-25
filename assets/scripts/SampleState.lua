@@ -6,7 +6,7 @@ local playerID, enemyID
 
 local function init(game)
    game:loadSpritesheet('assets/spritesheets/hero/hero.xml')
-   local mapID = game:loadMap('assets/maps/grassy.tmx')
+   local mapID = game:loadMap('assets/maps/time_fantasy.tmx')
 
    local z = 0
    for i,name in ipairs(game:getLayerNames(mapID)) do
