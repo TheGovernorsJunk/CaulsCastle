@@ -7,6 +7,7 @@
 #include "entity_manager.h"
 #include "camera_entity.h"
 #include "vector_ops.h"
+#include "shape.h"
 
 #include <SFML/Window.hpp>
 #include <Box2D/Box2D.h>
@@ -62,7 +63,7 @@ namespace te
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
 	static sf::Vector2f mulVec(float scalar, sf::Vector2f v) { return scalar * v; }
 
-	static b2PolygonShape getShape(luabridge::LuaRef obj, const SceneNode* localNode)
+	static PolygonShape getShape(luabridge::LuaRef obj, const SceneNode* localNode)
 	{
 		assert(localNode);
 
@@ -76,7 +77,7 @@ namespace te
 
 		b2PolygonShape polygon;
 		polygon.Set(vertices, 4);
-		return polygon;
+		return PolygonShape{polygon};
 	}
 
 	ScriptedGame::ScriptedGame(Application& app, const std::string& initFilename)
@@ -123,9 +124,12 @@ namespace te
 				.addData("x", &sf::Vector2f::x)
 				.addData("y", &sf::Vector2f::y)
 			.endClass()
-			.beginClass<b2Shape>("Shape")
+			.beginClass<Shape>("Shape")
 			.endClass()
-			.deriveClass<b2PolygonShape, b2Shape>("PolygonShape")
+			.deriveClass<PolygonShape, Shape>("PolygonShape")
+			.endClass()
+			.deriveClass<CircleShape, Shape>("CircleShape")
+				.addConstructor<void(*)(sf::Vector2f, float)>()
 			.endClass()
 			.addFunction("addVec", &addVec)
 			.addFunction("mulVec", &mulVec)

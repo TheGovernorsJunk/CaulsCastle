@@ -1,6 +1,7 @@
 #include "scene_node.h"
 #include "game.h"
 #include "utilities.h"
+#include "shape.h"
 
 #include <Box2D/Box2D.h>
 
@@ -161,11 +162,11 @@ namespace te
 		}
 	}
 
-	void SceneNode::attachFixture(const b2Shape* shape) const
+	void SceneNode::attachFixture(const Shape* shape) const
 	{
 		assert(shape);
 		if (!mpBody) throw std::runtime_error{"Attaching a fixture requires a rigid body."};
-		mpBody->CreateFixture(shape, 0);
+		mpBody->CreateFixture(&shape->getShape(), 0);
 	}
 
 	void SceneNode::update(const sf::Time& dt)

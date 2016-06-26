@@ -10,11 +10,11 @@
 struct b2BodyDef;
 class b2Body;
 enum b2BodyType;
-class b2Shape;
 
 namespace te
 {
 	class Game;
+	class Shape;
 
 	class SceneNode : public sf::Drawable
 	{
@@ -42,7 +42,7 @@ namespace te
 
 		// use b2BodyType enum; Lua needs int to interface
 		void attachRigidBody(int);
-		void attachFixture(const b2Shape* shape) const;
+		void attachFixture(const Shape* shape) const;
 
 		void update(const sf::Time& dt);
 
