@@ -131,6 +131,11 @@ namespace te
 			.addFunction("mulVec", &mulVec)
 			.addFunction<sf::Vector2f(*)(const sf::Vector2f&)>("normalizeVec", &normalize)
 			.addFunction("getShape", &getShape)
+			.beginClass<RayCastHit>("RayCastHit")
+				.addConstructor<void(*)(void)>()
+				.addData("entityID", &RayCastHit::entityID, false)
+				.addData("point", &RayCastHit::point, false)
+			.endClass()
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
 				.addData("sender", &ScriptedTelegram::sender)
@@ -148,6 +153,7 @@ namespace te
 				.addFunction("getObjects", &ScriptedGame::getObjects)
 				.addFunction("getLayerNames", &ScriptedGame::getLayerNames)
 				.addFunction("getAnimationDuration", &ScriptedGame::getAnimationDuration)
+				.addFunction("rayCast", &ScriptedGame::rayCast)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
@@ -319,6 +325,11 @@ namespace te
 	float ScriptedGame::getAnimationDuration(const std::string& animationStr) const
 	{
 		return getTextureManager().getAnimation(TextureManager::getID(animationStr)).getDuration().asSeconds();
+	}
+
+	bool ScriptedGame::rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance)
+	{
+		return te::rayCast(this, origin, direction, pHitInfo, maxDistance);
 	}
 
 	CameraEntity& ScriptedGame::getCamera() const

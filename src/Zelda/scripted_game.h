@@ -17,6 +17,7 @@ namespace te
 	class Application;
 	class ScriptedEntity;
 	class CameraEntity;
+	struct RayCastHit;
 
 	class ScriptedGame : public Game
 	{
@@ -52,6 +53,7 @@ namespace te
 		luabridge::LuaRef getObjects(EntityID mapID, const std::string& groupName) const;
 		luabridge::LuaRef getLayerNames(EntityID mapID) const;
 		float getAnimationDuration(const std::string& animationStr) const;
+		bool rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance = std::numeric_limits<float>::max() * 0.5f);
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mKeyInputFn;
