@@ -33,6 +33,8 @@ namespace te
 		if (!mpBody) throw std::runtime_error("Unable to create b2Body in SceneNode.");
 		b2Vec2 pos = mpBody->GetPosition();
 		mLocalTransformable.setPosition(pos.x, pos.y);
+
+		mpBody->SetUserData(this);
 	}
 
 	SceneNode::SceneNode(Game& world, sf::Vector2f position)
@@ -151,6 +153,7 @@ namespace te
 			sf::Vector2f worldPosition = getWorldTransform().transformPoint({ 0, 0 });
 			bodyDef.position = { worldPosition.x, worldPosition.y };
 			mpBody = { mWorld.getPhysicsWorld().CreateBody(&bodyDef), [this](b2Body* pBody) { mWorld.getPhysicsWorld().DestroyBody(pBody); } };
+			mpBody->SetUserData(this);
 		}
 		else
 		{
