@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="16" tileheight="16" nextobjectid="28">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="16" tileheight="16" nextobjectid="29">
  <tileset firstgid="1" name="a_terrain" tilewidth="16" tileheight="16" tilecount="1643">
   <image source="../private/timefantasy_tiles/a_terrain.png" width="848" height="496"/>
   <terraintypes>
@@ -6189,6 +6189,7 @@
  </layer>
  <objectgroup name="Entities">
   <object id="1" name="Player" type="Entity" x="512" y="736" width="16" height="16"/>
+  <object id="28" name="Enemy" type="Entity" x="512" y="608" width="16" height="16"/>
  </objectgroup>
  <layer name="Overlay" width="64" height="48">
   <data>

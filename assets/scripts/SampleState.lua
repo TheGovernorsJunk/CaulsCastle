@@ -79,8 +79,19 @@ local function processKeyInput(game, key, event)
 end
 
 local function processMouseButtonInput(game, button, event)
-   if event == Event.MouseButtonPressed and button == Mouse.Left then
-      game:dispatchMessage(0, 0, playerID, { msg = 'attack' })
+   if event == Event.MouseButtonPressed then
+      if button == Mouse.Left then
+         game:dispatchMessage(0, 0, playerID, { msg = 'attack' })
+      elseif button == Mouse.Right then
+         local entity = game:getEntity(playerID)
+         if entity then
+            local hitInfo = RayCastHit()
+            local heading = entity.data.heading
+            if (heading.x ~= 0 or heading.y ~= 0) and game:rayCast(entity.position, entity.data.heading, hitInfo, 50) then
+               print(hitInfo.entityID)
+            end
+         end
+      end
    end
 end
 
