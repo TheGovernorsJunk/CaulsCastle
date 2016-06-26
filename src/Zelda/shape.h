@@ -32,6 +32,17 @@ namespace te
 	private:
 		b2CircleShape mCircleShape;
 	};
+
+	class AABB
+	{
+	public:
+		AABB(sf::Vector2f lowerBound, sf::Vector2f upperBound);
+
+		const b2AABB& getAABB() const { return mAABB; }
+
+	private:
+		b2AABB mAABB;
+	};
 }
 
 #endif

@@ -131,6 +131,9 @@ namespace te
 			.deriveClass<CircleShape, Shape>("CircleShape")
 				.addConstructor<void(*)(sf::Vector2f, float)>()
 			.endClass()
+			.beginClass<AABB>("AABB")
+				.addConstructor<void(*)(sf::Vector2f, sf::Vector2f)>()
+			.endClass()
 			.addFunction("addVec", &addVec)
 			.addFunction("mulVec", &mulVec)
 			.addFunction<sf::Vector2f(*)(const sf::Vector2f&)>("normalizeVec", &normalize)
@@ -158,6 +161,7 @@ namespace te
 				.addFunction("getLayerNames", &ScriptedGame::getLayerNames)
 				.addFunction("getAnimationDuration", &ScriptedGame::getAnimationDuration)
 				.addFunction("rayCast", &ScriptedGame::rayCast)
+				.addFunction("getEntitiesInRegion", &ScriptedGame::getEntitiesInRegion)
 			.endClass()
 			.beginClass<SceneNode>("SceneNode")
 				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
@@ -334,6 +338,41 @@ namespace te
 	bool ScriptedGame::rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance)
 	{
 		return te::rayCast(this, origin, direction, pHitInfo, maxDistance);
+	}
+
+	luabridge::LuaRef ScriptedGame::getEntitiesInRegion(const AABB* pAABB) const
+	{
+		class QueryCallback : public b2QueryCallback
+		{
+		public:
+			bool ReportFixture(b2Fixture* fixture)
+			{
+				SceneNode* pNode = static_cast<SceneNode*>(fixture->GetBody()->GetUserData());
+				if (auto pEntity = dynamic_cast<BaseGameEntity*>(pNode))
+				{
+					entities.push_back(pEntity);
+				}
+				return true;
+			}
+
+			std::vector<BaseGameEntity*> entities;
+		};
+
+		assert(pAABB);
+
+		QueryCallback callback;
+		getPhysicsWorld().QueryAABB(&callback, pAABB->getAABB());
+
+		std::sort(callback.entities.begin(), callback.entities.end());
+		callback.entities.erase(std::unique(callback.entities.begin(), callback.entities.end()), callback.entities.end());
+
+		luabridge::LuaRef table = luabridge::newTable(mpL.get());
+		int index = 1;
+		std::for_each(callback.entities.begin(), callback.entities.end(), [&table, &index](BaseGameEntity* pEntity) {
+			table[index++] = pEntity;
+		});
+
+		return table;
 	}
 
 	CameraEntity& ScriptedGame::getCamera() const
