@@ -35,6 +35,11 @@ local function init(game)
 
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+   local queriedEntities = game:getEntitiesInRegion(AABB(Vec(0, 0), Vec(1000, 1000)))
+   for _,entity in ipairs(queriedEntities) do
+      print(entity.position.x)
+   end
 end
 
 local totalDt = 0
