@@ -6,6 +6,7 @@
 #include "texture_manager.h"
 #include "entity_manager.h"
 #include "camera_entity.h"
+#include "vector_ops.h"
 
 #include <SFML/Window.hpp>
 #include <Box2D/Box2D.h>
@@ -60,11 +61,6 @@ namespace te
 
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
 	static sf::Vector2f mulVec(float scalar, sf::Vector2f v) { return scalar * v; }
-	static sf::Vector2f normalizeVec(sf::Vector2f v)
-	{
-		if (v.x == 0 && v.y == 0) return v;
-		return v / std::sqrt(v.x * v.x + v.y * v.y);
-	}
 
 	static b2PolygonShape getShape(luabridge::LuaRef obj, const SceneNode* localNode)
 	{
@@ -133,7 +129,7 @@ namespace te
 			.endClass()
 			.addFunction("addVec", &addVec)
 			.addFunction("mulVec", &mulVec)
-			.addFunction("normalizeVec", &normalizeVec)
+			.addFunction<sf::Vector2f(*)(const sf::Vector2f&)>("normalizeVec", &normalize)
 			.addFunction("getShape", &getShape)
 			.beginClass<ScriptedTelegram>("Telegram")
 				.addData("dispatchTime", &ScriptedTelegram::dispatchTime)
