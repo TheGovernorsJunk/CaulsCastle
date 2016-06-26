@@ -1,6 +1,9 @@
 #include "utilities.h"
+#include "game.h"
+#include "vector_ops.h"
 
 #include <lua.hpp>
+#include <Box2D/Box2D.h>
 
 #include <algorithm>
 #include <array>
@@ -38,5 +41,36 @@ namespace te
 	void doLuaFile(lua_State& L, const std::string& filename)
 	{
 		if (luaL_dofile(&L, filename.c_str())) throw std::runtime_error(lua_tostring(&L, -1));
+	}
+
+	class RayCastCallback : public b2RayCastCallback
+	{
+	public:
+		bool mResult;
+		RayCastHit& mHitInfo;
+
+		RayCastCallback(RayCastHit& hitInfo)
+			: mResult{false}
+			, mHitInfo{hitInfo}
+		{}
+
+		float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
+		{
+			mResult = true;
+			auto* pNode = static_cast<SceneNode*>(fixture->GetBody()->GetUserData());
+			auto* pEntity = dynamic_cast<BaseGameEntity*>(pNode);
+			EntityID id = pEntity ? pEntity->getID() : BaseGameEntity::UNREGISTERED_ID;
+			mHitInfo = {id, {point.x, point.y}};
+			return 0;
+		}
+	};
+
+	bool rayCast(Game* world, sf::Vector2f origin, sf::Vector2f direction, RayCastHit* hitInfo, float maxDistance)
+	{
+		assert(world && hitInfo);
+		RayCastCallback callback{*hitInfo};
+		sf::Vector2f end = normalize(direction) * maxDistance + origin;
+		world->getPhysicsWorld().RayCast(&callback, b2Vec2(origin.x, origin.y), b2Vec2(end.x, end.y));
+		return callback.mResult;
 	}
 }
