@@ -72,40 +72,13 @@
     <ClCompile Include="vehicle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="path_planner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zelda_game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zelda_entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="goal_think.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="regulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="goal_move_to_position.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="goal_follow_path.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="goal_evaluator_move_to_position.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="goal_seek_to_position.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
@@ -130,18 +103,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="state_stack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zelda_stack_application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="battle_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zelda_application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_fighter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="utilities.cpp">
@@ -247,22 +208,10 @@
     <ClInclude Include="vehicle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="path_planner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zelda_game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="zelda_entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="goal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="goal_think.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="goal_composite.h">
@@ -272,18 +221,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="regulator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="goal_move_to_position.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="goal_follow_path.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="goal_evaluator_move_to_position.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="goal_seek_to_position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cell_space_partition.h">
@@ -296,9 +233,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
@@ -331,25 +265,10 @@
     <ClInclude Include="runnable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zelda_stack_application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="battle_state.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="world_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zelda_application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ai_fighter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scripted_entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scripted_game.h">

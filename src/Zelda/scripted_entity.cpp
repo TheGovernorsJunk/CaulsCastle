@@ -85,10 +85,10 @@ namespace te
 		return mAnimationStr;
 	}
 
-	void ScriptedEntity::setPositionByTile(int x, int y, EntityID mapID)
-	{
-		auto& map = getWorld().getEntityManager().getEntityFromID(mapID);
-		assert(dynamic_cast<TileMap*>(&map) != nullptr);
-		setPosition(static_cast<TileMap&>(map).getTileToWorldTransform().transformPoint(0.5f + x, 0.5f + y));
-	}
+	//void ScriptedEntity::setPositionByTile(int x, int y, EntityID mapID)
+	//{
+	//	auto& map = getWorld().getEntityManager().getEntityFromID(mapID);
+	//	assert(dynamic_cast<TileMap*>(&map) != nullptr);
+	//	setPosition(static_cast<TileMap&>(map).getTileToWorldTransform().transformPoint(0.5f + x, 0.5f + y));
+	//}
 }

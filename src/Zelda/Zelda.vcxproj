@@ -125,11 +125,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ai_fighter.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
-    <ClCompile Include="battle_state.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
@@ -139,11 +137,6 @@
     <ClCompile Include="composite_collider.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="goal_evaluator_move_to_position.cpp" />
-    <ClCompile Include="goal_follow_path.cpp" />
-    <ClCompile Include="goal_move_to_position.cpp" />
-    <ClCompile Include="goal_seek_to_position.cpp" />
-    <ClCompile Include="goal_think.cpp" />
     <ClCompile Include="graph_edge.cpp" />
     <ClCompile Include="graph_node.cpp" />
     <ClCompile Include="main.cpp" />
@@ -151,8 +144,6 @@
     <ClCompile Include="moving_entity.cpp" />
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
-    <ClCompile Include="path_planner.cpp" />
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="regulator.cpp" />
     <ClCompile Include="scripted_application.cpp" />
     <ClCompile Include="camera_entity.cpp" />
@@ -170,10 +161,6 @@
     <ClCompile Include="vector_ops.cpp" />
     <ClCompile Include="vehicle.cpp" />
     <ClCompile Include="wall.cpp" />
-    <ClCompile Include="zelda_application.cpp" />
-    <ClCompile Include="zelda_entity.cpp" />
-    <ClCompile Include="zelda_game.cpp" />
-    <ClCompile Include="zelda_stack_application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx" />
@@ -181,12 +168,10 @@
     <None Include="map3.tmx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ai_fighter.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="animator.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="base_game_entity.h" />
-    <ClInclude Include="battle_state.h" />
     <ClInclude Include="box_collider.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cell_space_partition.h" />
@@ -198,11 +183,6 @@
     <ClInclude Include="goal.h" />
     <ClInclude Include="goal_composite.h" />
     <ClInclude Include="goal_evaluator.h" />
-    <ClInclude Include="goal_evaluator_move_to_position.h" />
-    <ClInclude Include="goal_follow_path.h" />
-    <ClInclude Include="goal_move_to_position.h" />
-    <ClInclude Include="goal_seek_to_position.h" />
-    <ClInclude Include="goal_think.h" />
     <ClInclude Include="graph_edge.h" />
     <ClInclude Include="graph_node.h" />
     <ClInclude Include="graph_search_a_star.h" />
@@ -214,14 +194,11 @@
     <ClInclude Include="moving_entity.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
-    <ClInclude Include="path_planner.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="regulator.h" />
     <ClInclude Include="runnable.h" />
     <ClInclude Include="scene_node.h" />
     <ClInclude Include="scripted_application.h" />
     <ClInclude Include="camera_entity.h" />
-    <ClInclude Include="scripted_entity.h" />
     <ClInclude Include="scripted_game.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sparse_graph.h" />
@@ -240,10 +217,6 @@
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="world_state.h" />
-    <ClInclude Include="zelda_application.h" />
-    <ClInclude Include="zelda_entity.h" />
-    <ClInclude Include="zelda_game.h" />
-    <ClInclude Include="zelda_stack_application.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="textures\inigo_spritesheet.xml" />

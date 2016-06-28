@@ -60,7 +60,7 @@ namespace te
 			attachNode(std::move(pLayer));
 		}
 
-		const sf::Transform& transform = getWorld().getPixelToWorldTransform();
+		sf::Transform transform;
 
 		mpCollider = std::unique_ptr<CompositeCollider>(mTMX.makeCollider(transform));
 
@@ -132,18 +132,13 @@ namespace te
 		return mpCollider->transform(getWorldTransform()).intersects(o, collision);
 	}
 
-	void TileMap::stitch(sf::Vector2i tileCoordsA, TileMap& o, sf::Vector2i tileCoordsB) const
-	{
-		const auto& pos = getWorldTransform().transformPoint({ 0, 0 });
-		sf::Vector2f a = pos + getTileToWorldTransform().transformPoint((float)tileCoordsA.x, (float)tileCoordsA.y);
-		sf::Vector2f b = o.getTileToWorldTransform().transformPoint((float)tileCoordsB.x, (float)tileCoordsB.y);
-		o.setPosition(a - b);
-	}
-
-	sf::Transform TileMap::getTileToWorldTransform() const
-	{
-		return getWorldTransform() * mWorld.getPixelToWorldTransform() * mTMX.getTileToPixelTransform();
-	}
+	//void TileMap::stitch(sf::Vector2i tileCoordsA, TileMap& o, sf::Vector2i tileCoordsB) const
+	//{
+	//	const auto& pos = getWorldTransform().transformPoint({ 0, 0 });
+	//	sf::Vector2f a = pos + getTileToWorldTransform().transformPoint((float)tileCoordsA.x, (float)tileCoordsA.y);
+	//	sf::Vector2f b = o.getTileToWorldTransform().transformPoint((float)tileCoordsB.x, (float)tileCoordsB.y);
+	//	o.setPosition(a - b);
+	//}
 
 	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
@@ -169,7 +164,7 @@ namespace te
 
 	void TileMap::Layer::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldTransform() * getWorld().getPixelToWorldTransform();
+		states.transform *= getWorldTransform();
 
 		for (auto iter = mVertexArrays.begin(); iter != mVertexArrays.end(); ++iter)
 		{

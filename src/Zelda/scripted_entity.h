@@ -73,7 +73,7 @@ namespace te
 		void initMachine(luabridge::LuaRef);
 		void setAnimation(const std::string& anim);
 		const std::string& getAnimation() const;
-		void setPositionByTile(int x, int y, EntityID mapID);
+		//void setPositionByTile(int x, int y, EntityID mapID);
 		ScriptedGame& getWorld() const { return mWorld; }
 
 	private:

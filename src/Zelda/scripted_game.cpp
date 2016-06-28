@@ -185,7 +185,7 @@ namespace te
 				.addProperty("data", &ScriptedEntity::getUserData)
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
 				.addProperty("animation", &ScriptedEntity::getAnimation, &ScriptedEntity::setAnimation)
-				.addFunction("setPositionByTile", &ScriptedEntity::setPositionByTile)
+				//.addFunction("setPositionByTile", &ScriptedEntity::setPositionByTile)
 			.endClass();
 
 		doLuaFile(*L, initFilename);

@@ -13,45 +13,29 @@ namespace te
 		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
-		, mTileMapID(-1)
-		, mpTileMap(nullptr)
 		, mpSceneGraph(SceneNode::make(*this, { 0, 0 }))
-		, mPixelToWorld(sf::Transform{})
-		, mWorldToPixel(sf::Transform{})
 	{}
 
 	Game::~Game() {}
 
-	bool Game::isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius) const
-	{
-		throwIfNoMap();
-		auto& walls = mpTileMap->getWalls();
+	//bool Game::isPathObstructed(sf::Vector2f a, sf::Vector2f b, float boundingRadius) const
+	//{
+	//	throwIfNoMap();
+	//	auto& walls = mpTileMap->getWalls();
 
-		sf::Vector2f toB = normalize(b - a);
-		sf::Vector2f currPos = a;
+	//	sf::Vector2f toB = normalize(b - a);
+	//	sf::Vector2f currPos = a;
 
-		while (distanceSq(currPos, b) > boundingRadius * boundingRadius)
-		{
-			currPos += toB * 0.5f * boundingRadius;
-			for (auto& wall : walls)
-				if (wall.intersects(currPos, boundingRadius))
-					return true;
-		}
+	//	while (distanceSq(currPos, b) > boundingRadius * boundingRadius)
+	//	{
+	//		currPos += toB * 0.5f * boundingRadius;
+	//		for (auto& wall : walls)
+	//			if (wall.intersects(currPos, boundingRadius))
+	//				return true;
+	//	}
 
-		return false;
-	}
-
-	const TileMap& Game::getMap() const
-	{
-		throwIfNoMap();
-		return *mpTileMap;
-	}
-
-	TileMap& Game::getMap()
-	{
-		throwIfNoMap();
-		return *mpTileMap;
-	}
+	//	return false;
+	//}
 
 	void Game::update(const sf::Time& dt)
 	{
@@ -88,27 +72,27 @@ namespace te
 	b2World& Game::getPhysicsWorld() { return *mpWorld; }
 	const b2World& Game::getPhysicsWorld() const { return *mpWorld; }
 
-	void Game::setPixelToWorldTransform(const sf::Transform& t)
-	{
-		mPixelToWorld = t;
-		mWorldToPixel = t.getInverse();
-	}
-	const sf::Transform& Game::getPixelToWorldTransform() const { return mPixelToWorld; }
-	const sf::Transform& Game::getWorldToPixelTransform() const { return mWorldToPixel; }
+	//void Game::setPixelToWorldTransform(const sf::Transform& t)
+	//{
+	//	mPixelToWorld = t;
+	//	mWorldToPixel = t.getInverse();
+	//}
+	//const sf::Transform& Game::getPixelToWorldTransform() const { return mPixelToWorld; }
+	//const sf::Transform& Game::getWorldToPixelTransform() const { return mWorldToPixel; }
 
-	void Game::setTileMap(std::unique_ptr<TileMap>&& pTileMap)
-	{
-		if (pTileMap)
-		{
-			mTileMapID = pTileMap->getID();
-			mpTileMap = pTileMap.get();
-			mpSceneGraph->attachNode(std::move(pTileMap));
-		}
-		else
-		{
-			throw std::runtime_error("Must supply TileMap to Game.");
-		}
-	}
+	//void Game::setTileMap(std::unique_ptr<TileMap>&& pTileMap)
+	//{
+	//	if (pTileMap)
+	//	{
+	//		mTileMapID = pTileMap->getID();
+	//		mpTileMap = pTileMap.get();
+	//		mpSceneGraph->attachNode(std::move(pTileMap));
+	//	}
+	//	else
+	//	{
+	//		throw std::runtime_error("Must supply TileMap to Game.");
+	//	}
+	//}
 
 	void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
@@ -121,8 +105,8 @@ namespace te
 		return *mpSceneGraph;
 	}
 
-	void Game::throwIfNoMap() const
-	{
-		if (!mpEntityManager->hasEntity(mTileMapID)) throw std::runtime_error("TileMap not set in Game.");
-	}
+	//void Game::throwIfNoMap() const
+	//{
+	//	if (!mpEntityManager->hasEntity(mTileMapID)) throw std::runtime_error("TileMap not set in Game.");
+	//}
 }

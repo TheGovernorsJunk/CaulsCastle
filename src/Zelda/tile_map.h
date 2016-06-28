@@ -47,7 +47,7 @@ namespace te
 							object.id,
 							object.name,
 							object.type,
-							(getWorldTransform() * mWorld.getPixelToWorldTransform()).transformRect(sf::FloatRect{(float)object.x, (float)object.y, (float)object.width, (float)object.height})
+							getWorldTransform().transformRect(sf::FloatRect{(float)object.x, (float)object.y, (float)object.width, (float)object.height})
 						};
 					});
 				}
@@ -74,9 +74,7 @@ namespace te
 		bool intersects(const CompositeCollider&) const;
 		bool intersects(const CompositeCollider&, sf::FloatRect&) const;
 
-		void stitch(sf::Vector2i coords, TileMap& o, sf::Vector2i oCoords) const;
-
-		sf::Transform getTileToWorldTransform() const;
+		//void stitch(sf::Vector2i coords, TileMap& o, sf::Vector2i oCoords) const;
 
 	private:
 		TileMap(Game& world, TextureManager& textureManager, TMX&& tmx);
