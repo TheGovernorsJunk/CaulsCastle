@@ -25,8 +25,6 @@ namespace te
 	public:
 		virtual ~Game();
 
-		virtual void update(const sf::Time& dt);
-
 		//Application& getApplication();
 		TextureManager& getTextureManager();
 		const TextureManager& getTextureManager() const;
@@ -40,6 +38,7 @@ namespace te
 	protected:
 		Game(Application& app);
 
+		virtual void update(const sf::Time& dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		SceneNode& getSceneGraph();
