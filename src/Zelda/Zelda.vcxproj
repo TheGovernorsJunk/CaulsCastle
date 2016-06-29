@@ -170,6 +170,7 @@
     <ClInclude Include="box_collider.h" />
     <ClInclude Include="cell_space_partition.h" />
     <ClInclude Include="collider.h" />
+    <ClInclude Include="component.h" />
     <ClInclude Include="composite_collider.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />

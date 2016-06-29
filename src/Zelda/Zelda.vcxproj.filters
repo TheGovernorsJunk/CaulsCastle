@@ -256,6 +256,9 @@
     <ClInclude Include="scripted_entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="textures\inigo_spritesheet.xml">
