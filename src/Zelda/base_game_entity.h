@@ -3,12 +3,13 @@
 
 #include "scene_node.h"
 #include "typedefs.h"
+#include "component.h"
 
 #include <SFML/Graphics.hpp>
-#include <Box2D/Box2D.h>
 
 #include <memory>
 #include <functional>
+#include <vector>
 
 namespace te
 {
@@ -23,7 +24,7 @@ namespace te
 		const static int UNREGISTERED_ID = 0;
 
 		BaseGameEntity(Game& pWorld, sf::Vector2f position);
-		BaseGameEntity(Game& pWorld, const b2BodyDef&);
+		BaseGameEntity(Game& World);
 		virtual ~BaseGameEntity();
 
 		void update(const sf::Time& dt);
@@ -33,7 +34,6 @@ namespace te
 		EntityID getID() const;
 		const Game& getWorld() const;
 		Game& getWorld();
-		//void attachNodeByID(EntityID child);
 		void setDrawOrder(int z);
 		int getDrawOrder() const;
 		const sf::Transform& getTransform() const;
@@ -43,19 +43,44 @@ namespace te
 		void die() { mMarkedForRemoval = true; }
 		bool isMarkedForRemoval() const { return mMarkedForRemoval; }
 
-		// use b2BodyType enum; Lua needs int to interface
-		void attachRigidBody(int);
-		void attachFixture(const Shape* pShape) const;
-		void setVelocity(sf::Vector2f vel);
+		template<typename Component, typename... Args>
+		Component& addComponent(Args&&... args)
+		{
+			auto upComponent = Component::make(*this, std::forward<Args>(args)...);
+			Component* pComponent = upComponent.get();
+			mComponents.push_back(std::move(upComponent));
+			return *pComponent;
+		}
+
+		template<typename Component>
+		bool hasComponent() const
+		{
+			bool result = false;
+			for (auto& component : mComponents)
+			{
+				result = dynamic_cast<Component*>(component.get()) != nullptr;
+				if (result) break;
+			}
+			return result;
+		}
+
+		template<typename Component>
+		Component& getComponent() const
+		{
+			Component* pComponent = nullptr;
+			for (auto& component : mComponents)
+			{
+				pComponent = dynamic_cast<Component*>(component.get());
+				if (pComponent) return *pComponent;
+			}
+			throw std::runtime_error{"Entity does not contain requested component."};
+		}
 
 	protected:
 		virtual void onUpdate(const sf::Time& dt) {}
-		b2Body& getBody();
 
 	private:
 		friend class EntityManager;
-
-		BaseGameEntity(Game& World);
 
 		void draw(sf::RenderTarget&, sf::RenderStates) const {}
 
@@ -63,8 +88,7 @@ namespace te
 		int mZ;
 		bool mMarkedForRemoval;
 		float mBoundingRadius;
-		using BodyDeleter = std::function<void(b2Body*)>;
-		std::unique_ptr<b2Body, BodyDeleter> mpBody;
+		std::vector<std::unique_ptr<Component>> mComponents;
 		Game& mWorld;
 	};
 }
