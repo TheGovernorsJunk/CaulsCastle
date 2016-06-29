@@ -10,6 +10,7 @@ namespace te
 	BaseGameEntity::BaseGameEntity(Game& world, sf::Vector2f position)
 		: BaseGameEntity(world)
 	{
+		setPosition(position);
 		world.getEntityManager().registerEntity(*this);
 	}
 
