@@ -63,7 +63,7 @@ namespace te
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
 	static sf::Vector2f mulVec(float scalar, sf::Vector2f v) { return scalar * v; }
 
-	static PolygonShape getShape(luabridge::LuaRef obj, const SceneNode* localNode)
+	static PolygonShape getShape(luabridge::LuaRef obj, const BaseGameEntity* localNode)
 	{
 		assert(localNode);
 
@@ -91,7 +91,7 @@ namespace te
 	{
 		auto pCamera = CameraEntity::make(*this);
 		mpCamera = pCamera.get();
-		getSceneGraph().attachNode(std::move(pCamera));
+		addEntity(std::move(pCamera));
 
 		lua_State* L = mpL.get();
 
@@ -163,17 +163,14 @@ namespace te
 				.addFunction("rayCast", &ScriptedGame::rayCast)
 				.addFunction("getEntitiesInRegion", &ScriptedGame::getEntitiesInRegion)
 			.endClass()
-			.beginClass<SceneNode>("SceneNode")
-				.addProperty("position", &SceneNode::getPosition, &SceneNode::setPosition)
-				.addFunction<void(SceneNode::*)(float,float)>("move", &SceneNode::move)
-				.addFunction("setVelocity", &SceneNode::setVelocity)
-				.addProperty("drawOrder", &SceneNode::getDrawOrder, &SceneNode::setDrawOrder)
-				.addFunction("die", &SceneNode::die)
-				.addFunction("attachRigidBody", &SceneNode::attachRigidBody)
-				.addFunction("attachFixture", &SceneNode::attachFixture)
-			.endClass()
-			.deriveClass<BaseGameEntity, SceneNode>("BaseGameEntity")
-				.addFunction("attachNode", &BaseGameEntity::attachNodeByID)
+			.beginClass<BaseGameEntity>("BaseGameEntity")
+				.addProperty("position", &BaseGameEntity::getPosition, &BaseGameEntity::setPosition)
+				.addFunction<void(BaseGameEntity::*)(float,float)>("move", &BaseGameEntity::move)
+				.addFunction("setVelocity", &BaseGameEntity::setVelocity)
+				.addProperty("drawOrder", &BaseGameEntity::getDrawOrder, &BaseGameEntity::setDrawOrder)
+				.addFunction("die", &BaseGameEntity::die)
+				.addFunction("attachRigidBody", &BaseGameEntity::attachRigidBody)
+				.addFunction("attachFixture", &BaseGameEntity::attachFixture)
 			.endClass()
 			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
@@ -243,7 +240,7 @@ namespace te
 	{
 		auto upTileMap = TileMap::make(*this, getTextureManager(), TMX{filename});
 		EntityID id = upTileMap->getID();
-		getSceneGraph().attachNode(std::move(upTileMap));
+		addEntity(std::move(upTileMap));
 		return id;
 	}
 
@@ -257,7 +254,7 @@ namespace te
 		auto upEntity = ScriptedEntity::make(*this, entityTable, argsTable, {0, 0});
 		EntityID id = upEntity->getID();
 		ScriptedEntity* pEntity = upEntity.get();
-		getSceneGraph().attachNode(std::move(upEntity));
+		addEntity(std::move(upEntity));
 		return id;
 	}
 

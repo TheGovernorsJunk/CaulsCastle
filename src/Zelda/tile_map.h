@@ -47,7 +47,7 @@ namespace te
 							object.id,
 							object.name,
 							object.type,
-							getWorldTransform().transformRect(sf::FloatRect{(float)object.x, (float)object.y, (float)object.width, (float)object.height})
+							getTransform().transformRect(sf::FloatRect{(float)object.x, (float)object.y, (float)object.width, (float)object.height})
 						};
 					});
 				}
@@ -84,7 +84,7 @@ namespace te
 		public:
 			Layer(Game& world, std::vector<sf::VertexArray>&&, std::vector<const sf::Texture*>&);
 		private:
-			void onDraw(sf::RenderTarget&, sf::RenderStates) const;
+			void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 			std::vector<sf::VertexArray> mVertexArrays;
 			std::vector<const sf::Texture*>* mTextures;
@@ -95,7 +95,7 @@ namespace te
 		TileMap(const TileMap&) = delete;
 		TileMap& operator=(const TileMap&) = delete;
 
-		virtual void onDraw(sf::RenderTarget&, sf::RenderStates) const;
+		virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 		TMX mTMX;
 

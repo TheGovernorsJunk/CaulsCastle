@@ -51,9 +51,9 @@ namespace te
 		return result;
 	}
 
-	void ScriptedEntity::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
+	void ScriptedEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldTransform();
+		states.transform *= getTransform();
 		target.draw(*mpSpriteRenderer, states);
 	}
 

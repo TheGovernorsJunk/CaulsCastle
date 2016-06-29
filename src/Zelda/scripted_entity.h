@@ -83,7 +83,7 @@ namespace te
 
 		void onUpdate(const sf::Time& dt);
 		bool handleMessage(const Telegram& msg);
-		void onDraw(sf::RenderTarget& target, sf::RenderStates states) const;
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		void initAnimator();
 

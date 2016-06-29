@@ -57,7 +57,7 @@ namespace te
 			}
 			auto pLayer = std::make_unique<Layer>(mWorld, std::move(layer), mTextures);
 			pLayer->setDrawOrder(*orderIter++);
-			attachNode(std::move(pLayer));
+			mWorld.addEntity(std::move(pLayer));
 		}
 
 		sf::Transform transform;
@@ -114,22 +114,22 @@ namespace te
 
 	bool TileMap::intersects(const BoxCollider& o) const
 	{
-		return mpCollider->transform(getWorldTransform()).intersects(o);
+		return mpCollider->transform(getTransform()).intersects(o);
 	}
 
 	bool TileMap::intersects(const BoxCollider& o, sf::FloatRect& collision) const
 	{
-		return mpCollider->transform(getWorldTransform()).intersects(o, collision);
+		return mpCollider->transform(getTransform()).intersects(o, collision);
 	}
 
 	bool TileMap::intersects(const CompositeCollider& o) const
 	{
-		return mpCollider->transform(getWorldTransform()).intersects(o);
+		return mpCollider->transform(getTransform()).intersects(o);
 	}
 
 	bool TileMap::intersects(const CompositeCollider& o, sf::FloatRect& collision) const
 	{
-		return mpCollider->transform(getWorldTransform()).intersects(o, collision);
+		return mpCollider->transform(getTransform()).intersects(o, collision);
 	}
 
 	//void TileMap::stitch(sf::Vector2i tileCoordsA, TileMap& o, sf::Vector2i tileCoordsB) const
@@ -140,9 +140,9 @@ namespace te
 	//	o.setPosition(a - b);
 	//}
 
-	void TileMap::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
+	void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldTransform();
+		states.transform *= getTransform();
 
 		states.texture = NULL;
 		if ((mDrawFlags & COLLIDER) > 0)
@@ -162,9 +162,9 @@ namespace te
 		, mTextures(&textures)
 	{}
 
-	void TileMap::Layer::onDraw(sf::RenderTarget& target, sf::RenderStates states) const
+	void TileMap::Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		states.transform *= getWorldTransform();
+		states.transform *= getTransform();
 
 		for (auto iter = mVertexArrays.begin(); iter != mVertexArrays.end(); ++iter)
 		{
