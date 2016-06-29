@@ -129,7 +129,6 @@
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="game_state.cpp" />
-    <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="box_collider.cpp" />
     <ClCompile Include="collider.cpp" />
@@ -190,7 +189,6 @@
     <ClInclude Include="nav_graph_node.h" />
     <ClInclude Include="regulator.h" />
     <ClInclude Include="runnable.h" />
-    <ClInclude Include="scene_node.h" />
     <ClInclude Include="scripted_application.h" />
     <ClInclude Include="camera_entity.h" />
     <ClInclude Include="scripted_entity.h" />
