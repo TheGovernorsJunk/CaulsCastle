@@ -55,7 +55,7 @@ namespace te
 		template<typename Component>
 		bool hasComponent() const
 		{
-			return getComponent<Component>() == nullptr;
+			return getComponent<Component>() != nullptr;
 		}
 
 		template<typename Component>
