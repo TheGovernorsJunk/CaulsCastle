@@ -108,6 +108,9 @@
     <ClCompile Include="shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rigid_body.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -254,6 +257,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scripted_entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rigid_body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="component.h">
