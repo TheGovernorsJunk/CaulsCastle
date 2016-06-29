@@ -8,6 +8,7 @@
 #include "camera_entity.h"
 #include "vector_ops.h"
 #include "shape.h"
+#include "rigid_body.h"
 
 #include <SFML/Window.hpp>
 #include <Box2D/Box2D.h>
@@ -166,11 +167,9 @@ namespace te
 			.beginClass<BaseGameEntity>("BaseGameEntity")
 				.addProperty("position", &BaseGameEntity::getPosition, &BaseGameEntity::setPosition)
 				.addFunction<void(BaseGameEntity::*)(float,float)>("move", &BaseGameEntity::move)
-				.addFunction("setVelocity", &BaseGameEntity::setVelocity)
 				.addProperty("drawOrder", &BaseGameEntity::getDrawOrder, &BaseGameEntity::setDrawOrder)
 				.addFunction("die", &BaseGameEntity::die)
-				.addFunction("attachRigidBody", &BaseGameEntity::attachRigidBody)
-				.addFunction("attachFixture", &BaseGameEntity::attachFixture)
+				.addProperty("rigidBody", &BaseGameEntity::getComponent<RigidBody>)
 			.endClass()
 			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
@@ -182,7 +181,11 @@ namespace te
 				.addProperty("data", &ScriptedEntity::getUserData)
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
 				.addProperty("animation", &ScriptedEntity::getAnimation, &ScriptedEntity::setAnimation)
-				//.addFunction("setPositionByTile", &ScriptedEntity::setPositionByTile)
+				.addFunction("addRigidBody", &ScriptedEntity::addRigidBody)
+			.endClass()
+			.beginClass<RigidBody>("RigidBody")
+				.addFunction("attachFixture", &RigidBody::attachFixture)
+				.addFunction("setVelocity", &RigidBody::setVelocity)
 			.endClass();
 
 		doLuaFile(*L, initFilename);
