@@ -2,6 +2,7 @@
 #include "texture_manager.h"
 #include "vector_ops.h"
 #include "game.h"
+#include "rigid_body.h"
 
 #include <algorithm>
 #include <limits>
@@ -33,7 +34,7 @@ namespace te
 	}
 
 	TileMap::TileMap(Game& world, TextureManager& textureManager, TMX&& tmx)
-		: BaseGameEntity(world, b2BodyDef())
+		: BaseGameEntity(world)
 		, mTMX(std::move(tmx))
 		, mWorld(world)
 		, mTextures()
@@ -43,6 +44,7 @@ namespace te
 		, mCellSpaceNeighborhoodRange(1)
 		, mpCellSpacePartition(nullptr)
 	{
+		addComponent<RigidBody>(b2_staticBody);
 		setDrawOrder(std::numeric_limits<int>::max());
 
 		std::vector<std::vector<sf::VertexArray>> layers;
@@ -77,7 +79,7 @@ namespace te
 		}
 
 		std::vector<b2Fixture*> fixtures;
-		mpCollider->createFixtures(getBody(), fixtures);
+		//mpCollider->createFixtures(getBody(), fixtures);
 	}
 
 	const std::vector<Wall2f>& TileMap::getWalls() const
@@ -157,7 +159,7 @@ namespace te
 	}
 
 	TileMap::Layer::Layer(Game& world, std::vector<sf::VertexArray>&& vas, std::vector<const sf::Texture*>& textures)
-		: BaseGameEntity(world, b2BodyDef())
+		: BaseGameEntity(world)
 		, mVertexArrays(std::move(vas))
 		, mTextures(&textures)
 	{}
