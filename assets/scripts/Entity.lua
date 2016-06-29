@@ -9,8 +9,8 @@ local function init(entity, game, params)
    entity.data.speed = 48
    entity.position = Vec(Utils.getCenter(params))
    entity.drawOrder = params.z - 1
-   entity:attachRigidBody(2)
-   entity:attachFixture(getShape(params, entity))
+   local rb = entity:addRigidBody(2)
+   rb:attachFixture(getShape(params, entity))
    entity.animation = 'PriestIdleDown'
    entity:initMachine(MyState)
 end

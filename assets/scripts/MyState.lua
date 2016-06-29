@@ -26,7 +26,7 @@ end
 
 local function execute(entity, dt)
    local vel = mulVec(entity.data.speed, normalizeVec(entity.data.heading))
-   entity:setVelocity(vel)
+   entity.rigidBody:setVelocity(vel)
 
    local anim = getAnimation(walkAnims, vel) or idleAnims[entity.animation]
 
