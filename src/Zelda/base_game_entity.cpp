@@ -136,4 +136,10 @@ namespace te
 		if (!mpBody) throw std::runtime_error{"Setting velocity requires a rigid body."};
 		mpBody->SetLinearVelocity(b2Vec2{vel.x, vel.y});
 	}
+
+	b2Body& BaseGameEntity::getBody()
+	{
+		if (!mpBody) throw std::runtime_error{"Rigid body not set."};
+		return *mpBody;
+	}
 }

@@ -50,6 +50,7 @@ namespace te
 
 	protected:
 		virtual void onUpdate(const sf::Time& dt) {}
+		b2Body& getBody();
 
 	private:
 		friend class EntityManager;
