@@ -55,25 +55,19 @@ namespace te
 		template<typename Component>
 		bool hasComponent() const
 		{
-			bool result = false;
-			for (auto& component : mComponents)
-			{
-				result = dynamic_cast<Component*>(component.get()) != nullptr;
-				if (result) break;
-			}
-			return result;
+			return getComponent<Component>() == nullptr;
 		}
 
 		template<typename Component>
-		Component& getComponent() const
+		Component* getComponent() const
 		{
 			Component* pComponent = nullptr;
 			for (auto& component : mComponents)
 			{
 				pComponent = dynamic_cast<Component*>(component.get());
-				if (pComponent) return *pComponent;
+				if (pComponent) break;
 			}
-			throw std::runtime_error{"Entity does not contain requested component."};
+			return pComponent;
 		}
 
 	protected:
