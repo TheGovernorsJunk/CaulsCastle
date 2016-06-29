@@ -59,6 +59,10 @@ namespace te
 	static int MouseLeft = sf::Mouse::Button::Left;
 	static int MouseRight = sf::Mouse::Button::Right;
 
+	static int StaticBody = b2_staticBody;
+	static int KinematicBody = b2_kinematicBody;
+	static int DynamicBody = b2_dynamicBody;
+
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
@@ -119,6 +123,11 @@ namespace te
 			.beginNamespace("Mouse")
 				.addVariable("Left", &MouseLeft, false)
 				.addVariable("Right", &MouseRight, false)
+			.endNamespace()
+			.beginNamespace("BodyType")
+				.addVariable("Static", &StaticBody, false)
+				.addVariable("Kinematic", &KinematicBody, false)
+				.addVariable("Dynamic", &DynamicBody, false)
 			.endNamespace()
 			.beginClass<sf::Vector2f>("Vec")
 				.addConstructor<void(*)(float,float)>()
