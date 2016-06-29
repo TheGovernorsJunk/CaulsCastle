@@ -17,6 +17,7 @@
 namespace te
 {
 	class ScriptedGame;
+	class RigidBody;
 
 	template <class EntityType>
 	class ScriptedStateMachine
@@ -73,6 +74,8 @@ namespace te
 		void initMachine(luabridge::LuaRef);
 		void setAnimation(const std::string& anim);
 		const std::string& getAnimation() const;
+		// use b2BodyType enum; Lua needs int to interface
+		RigidBody* addRigidBody(int bodyType);
 		//void setPositionByTile(int x, int y, EntityID mapID);
 		ScriptedGame& getWorld() const { return mWorld; }
 

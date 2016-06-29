@@ -5,6 +5,9 @@
 #include "message_dispatcher.h"
 #include "tile_map.h"
 #include "entity_manager.h"
+#include "rigid_body.h"
+
+#include <Box2D/Box2D.h>
 
 #include <cassert>
 
@@ -83,6 +86,12 @@ namespace te
 	const std::string& ScriptedEntity::getAnimation() const
 	{
 		return mAnimationStr;
+	}
+
+	RigidBody* ScriptedEntity::addRigidBody(int bodyType)
+	{
+		assert(bodyType >= 0 && bodyType <= 2);
+		return &addComponent<RigidBody>(static_cast<b2BodyType>(bodyType));
 	}
 
 	//void ScriptedEntity::setPositionByTile(int x, int y, EntityID mapID)
