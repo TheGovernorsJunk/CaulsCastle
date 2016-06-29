@@ -6,6 +6,9 @@
 #include "scene_node.h"
 #include "application.h"
 
+#include <algorithm>
+#include <iterator>
+
 namespace te
 {
 	Game::Game(Application& app)
@@ -13,7 +16,7 @@ namespace te
 		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
-		, mpSceneGraph(SceneNode::make(*this, { 0, 0 }))
+		, mEntities()
 	{}
 
 	Game::~Game() {}
@@ -41,7 +44,12 @@ namespace te
 	{
 		mpMessageDispatcher->dispatchDelayedMessages(dt);
 		mpWorld->Step(dt.asSeconds(), 8, 3);
-		mpSceneGraph->update(dt);
+		std::for_each(mEntities.begin(), mEntities.end(), [dt](const std::unique_ptr<BaseGameEntity>& pEntity) {
+			pEntity->update(dt);
+		});
+		mEntities.erase(std::remove_if(mEntities.begin(), mEntities.end(), [](const std::unique_ptr<BaseGameEntity>& pEntity) {
+			return pEntity->isMarkedForRemoval();
+		}), mEntities.end());
 	}
 
 	//Application& Game::getApplication()
@@ -96,13 +104,19 @@ namespace te
 
 	void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		//throwIfNoMap();
-		target.draw(*mpSceneGraph, states);
+		std::vector<const BaseGameEntity*> pendingDraws;
+		std::transform(mEntities.begin(), mEntities.end(), std::back_inserter(pendingDraws), [](const std::unique_ptr<BaseGameEntity>& pEntity) {
+			return pEntity.get();
+		});
+		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const BaseGameEntity* a, const BaseGameEntity* b) {
+			return a->getDrawOrder() < b->getDrawOrder() || (a->getDrawOrder() == b->getDrawOrder() && a->getTransform().transformPoint({0, 0}).y < b->getTransform().transformPoint({0, 0}).y);
+		});
+		for (auto draw : pendingDraws) target.draw(*draw, states);
 	}
 
-	SceneNode& Game::getSceneGraph()
+	void Game::addEntity(std::unique_ptr<BaseGameEntity>&& pEntity)
 	{
-		return *mpSceneGraph;
+		mEntities.push_back(std::move(pEntity));
 	}
 
 	//void Game::throwIfNoMap() const

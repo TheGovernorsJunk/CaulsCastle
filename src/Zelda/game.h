@@ -7,6 +7,7 @@
 #include <lua.hpp>
 
 #include <memory>
+#include <vector>
 #include <functional>
 
 class b2World;
@@ -17,7 +18,7 @@ namespace te
 	class TileMap;
 	class EntityManager;
 	class MessageDispatcher;
-	class SceneNode;
+	class BaseGameEntity;
 	class TextureManager;
 
 	class Game : public Runnable
@@ -35,13 +36,13 @@ namespace te
 		b2World& getPhysicsWorld();
 		const b2World& getPhysicsWorld() const;
 
+		void addEntity(std::unique_ptr<BaseGameEntity>&&);
+
 	protected:
 		Game(Application& app);
 
 		virtual void update(const sf::Time& dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-		SceneNode& getSceneGraph();
 
 		// For safe resource freeing in ScriptedGame
 		void storeLuaState(std::unique_ptr<lua_State, std::function<void(lua_State*)>>&& pL) { mpL = std::move(pL); }
@@ -55,7 +56,7 @@ namespace te
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
 
 		std::unique_ptr<b2World> mpWorld;
-		std::unique_ptr<SceneNode> mpSceneGraph;
+		std::vector<std::unique_ptr<BaseGameEntity>> mEntities;
 	};
 }
 
