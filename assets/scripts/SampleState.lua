@@ -15,7 +15,8 @@ local function init(game)
       end
    end
 
-   local mapRB = game:getMap(mapID).rb
+   local map = game:getMap(mapID)
+   local mapRB = map.rigidBody
    for _,polygon in ipairs(game:getObjects(mapID, 'Collisions')) do
       mapRB:attachFixture(getShape(polygon, map))
    end
