@@ -44,9 +44,9 @@ namespace te
 		bool isMarkedForRemoval() const { return mMarkedForRemoval; }
 
 		template<typename Component, typename... Args>
-		Component& addComponent(Args&&... args)
+		Component& addComponent(const Args&... args)
 		{
-			auto upComponent = Component::make(*this, std::forward<Args>(args)...);
+			auto upComponent = Component::make(*this, args...);
 			Component* pComponent = upComponent.get();
 			mComponents.push_back(std::move(upComponent));
 			return *pComponent;
