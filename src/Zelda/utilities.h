@@ -3,6 +3,7 @@
 
 #include "typedefs.h"
 #include "base_game_entity.h"
+#include "tmx.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -33,6 +34,16 @@ namespace te
 		{}
 	};
 	bool rayCast(Game* world, sf::Vector2f origin, sf::Vector2f direction, RayCastHit* hitInfo, float maxDistance = std::numeric_limits<float>::max() * 0.5f);
+
+	template <typename Iter>
+	void getTilesetFilenames(const TMX& tmx, Iter out)
+	{
+		std::string dir = getDir(tmx.getFilename());
+		for (auto it = tmx.tilesetsBegin(); it != tmx.tilesetsEnd(); ++it)
+		{
+			out++ = dir + it->image.source;
+		}
+	}
 }
 
 #endif
