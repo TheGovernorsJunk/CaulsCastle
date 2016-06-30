@@ -111,6 +111,9 @@
     <ClCompile Include="rigid_body.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tile_map_layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -263,6 +266,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tile_map_layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

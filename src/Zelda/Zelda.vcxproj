@@ -153,6 +153,7 @@
     <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="tile_map.cpp" />
+    <ClCompile Include="tile_map_layer.cpp" />
     <ClCompile Include="tmx.cpp" />
     <ClCompile Include="utilities.cpp" />
     <ClCompile Include="vector_ops.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="texture_atlas.h" />
     <ClInclude Include="texture_manager.h" />
     <ClInclude Include="tile_map.h" />
+    <ClInclude Include="tile_map_layer.h" />
     <ClInclude Include="tmx.h" />
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="utilities.h" />
