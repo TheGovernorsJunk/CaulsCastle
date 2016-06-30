@@ -9,8 +9,6 @@
 
 #include <Box2D/Box2D.h>
 
-#include <cassert>
-
 namespace te
 {
 	std::unique_ptr<ScriptedEntity> ScriptedEntity::make(ScriptedGame& world, luabridge::LuaRef entityTable, luabridge::LuaRef argsTable, sf::Vector2f position)
@@ -86,12 +84,6 @@ namespace te
 	const std::string& ScriptedEntity::getAnimation() const
 	{
 		return mAnimationStr;
-	}
-
-	RigidBody* ScriptedEntity::addRigidBody(int bodyType)
-	{
-		assert(bodyType >= 0 && bodyType <= 2);
-		return &addComponent<RigidBody>(static_cast<b2BodyType>(bodyType));
 	}
 
 	//void ScriptedEntity::setPositionByTile(int x, int y, EntityID mapID)
