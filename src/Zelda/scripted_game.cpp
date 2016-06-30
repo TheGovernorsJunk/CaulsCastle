@@ -356,11 +356,7 @@ namespace te
 		public:
 			bool ReportFixture(b2Fixture* fixture)
 			{
-				SceneNode* pNode = static_cast<SceneNode*>(fixture->GetBody()->GetUserData());
-				if (auto pEntity = dynamic_cast<BaseGameEntity*>(pNode))
-				{
-					entities.push_back(pEntity);
-				}
+				entities.push_back(static_cast<BaseGameEntity*>(fixture->GetBody()->GetUserData()));
 				return true;
 			}
 
