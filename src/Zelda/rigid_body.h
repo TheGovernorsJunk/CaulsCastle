@@ -21,7 +21,8 @@ namespace te
 	class RigidBody : public Component
 	{
 	public:
-		static std::unique_ptr<RigidBody> make(BaseGameEntity& owner, b2BodyType bodyType);
+		// use b2BodyType enum; Lua needs int to interface
+		static std::unique_ptr<RigidBody> make(BaseGameEntity& owner, int bodyType);
 
 		sf::Vector2f getPosition() const;
 		float getRotation() const;

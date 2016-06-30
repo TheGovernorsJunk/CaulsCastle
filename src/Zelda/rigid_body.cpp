@@ -4,11 +4,14 @@
 #include "utilities.h"
 #include "shape.h"
 
+#include <cassert>
+
 namespace te
 {
-	std::unique_ptr<RigidBody> RigidBody::make(BaseGameEntity& owner, b2BodyType bodyType)
+	std::unique_ptr<RigidBody> RigidBody::make(BaseGameEntity& owner, int bodyType)
 	{
-		return std::unique_ptr<RigidBody>{new RigidBody{owner, bodyType}};
+		assert(bodyType >= 0 && bodyType <= 2);
+		return std::unique_ptr<RigidBody>{new RigidBody{owner, (b2BodyType)bodyType}};
 	}
 
 	RigidBody::RigidBody(BaseGameEntity& owner, b2BodyType bodyType)
