@@ -57,9 +57,8 @@ namespace te
 		float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
 		{
 			mResult = true;
-			auto* pNode = static_cast<SceneNode*>(fixture->GetBody()->GetUserData());
-			auto* pEntity = dynamic_cast<BaseGameEntity*>(pNode);
-			EntityID id = pEntity ? pEntity->getID() : BaseGameEntity::UNREGISTERED_ID;
+			auto* pEntity = static_cast<BaseGameEntity*>(fixture->GetBody()->GetUserData());
+			EntityID id = pEntity->getID();
 			mHitInfo = {id, {point.x, point.y}};
 			return 0;
 		}
