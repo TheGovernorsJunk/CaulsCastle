@@ -2,7 +2,7 @@
 #define TE_SCRIPTED_ENTITY_H
 
 #include "base_game_entity.h"
-#include "sprite_renderer.h"
+#include "renderer.h"
 #include "animator.h"
 #include "scripted_game.h"
 
@@ -91,7 +91,7 @@ namespace te
 		ScriptedGame& mWorld;
 		luabridge::LuaRef mUserData;
 		std::vector<FSM> mStateMachines;
-		std::unique_ptr<SpriteRenderer> mpSpriteRenderer;
+		std::unique_ptr<Renderer<sf::Sprite>> mpSpriteRenderer;
 		std::unique_ptr<Animator> mpAnimator;
 		std::string mAnimationStr;
 	};

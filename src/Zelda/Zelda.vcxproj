@@ -148,7 +148,6 @@
     <ClCompile Include="scripted_game.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="rigid_body.cpp" />
-    <ClCompile Include="sprite_renderer.cpp" />
     <ClCompile Include="state_stack.cpp" />
     <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="texture_manager.cpp" />
@@ -199,7 +198,7 @@
     <ClInclude Include="scripted_game.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sparse_graph.h" />
-    <ClInclude Include="sprite_renderer.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
     <ClInclude Include="state_stack.h" />

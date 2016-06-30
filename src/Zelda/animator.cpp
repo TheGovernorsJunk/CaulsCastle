@@ -1,17 +1,17 @@
 #include "animator.h"
 #include "texture_manager.h"
-#include "sprite_renderer.h"
+#include "renderer.h"
 
 #include <cassert>
 
 namespace te
 {
-	std::unique_ptr<Animator> Animator::make(TextureManager& tm, SpriteRenderer& sr)
+	std::unique_ptr<Animator> Animator::make(TextureManager& tm, Renderer<sf::Sprite>& sr)
 	{
 		return std::unique_ptr<Animator>(new Animator(tm, sr));
 	}
 
-	Animator::Animator(TextureManager& tm, SpriteRenderer& sr)
+	Animator::Animator(TextureManager& tm, Renderer<sf::Sprite>& sr)
 		: mTextureManager(tm)
 		, mSpriteRenderer(sr)
 		, mpAnimation(nullptr)
@@ -22,7 +22,7 @@ namespace te
 	{
 		mpAnimation = &mTextureManager.getAnimation(animation);
 
-		mSpriteRenderer.setSprite(mpAnimation->getSprite(sf::Time::Zero));
+		mSpriteRenderer.setDrawable(mpAnimation->getSprite(sf::Time::Zero));
 		mCurrPlayTime = sf::Time::Zero;
 	}
 
@@ -33,6 +33,6 @@ namespace te
 		mCurrPlayTime += dt;
 		sf::Time duration = mpAnimation->getDuration();
 		if (mCurrPlayTime >= duration) mCurrPlayTime -= duration;
-		mSpriteRenderer.setSprite(mpAnimation->getSprite(mCurrPlayTime));
+		mSpriteRenderer.setDrawable(mpAnimation->getSprite(mCurrPlayTime));
 	}
 }

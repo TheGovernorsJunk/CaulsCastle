@@ -70,7 +70,7 @@ namespace te
 
 	void ScriptedEntity::initAnimator()
 	{
-		if (!mpSpriteRenderer) mpSpriteRenderer = SpriteRenderer::make(*this);
+		if (!mpSpriteRenderer) mpSpriteRenderer = Renderer<sf::Sprite>::make(*this);
 		if (!mpAnimator) mpAnimator = Animator::make(getWorld().getTextureManager(), *mpSpriteRenderer);
 	}
 
