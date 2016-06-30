@@ -47,6 +47,43 @@ namespace te
 			std::vector<Object> objects;
 			Index index;
 		};
+		struct Image {
+			std::string source;
+			int width;
+			int height;
+		};
+		struct TileData {
+			int id;
+			ObjectGroup objectgroup;
+		};
+		struct Tileset {
+			int firstgid;
+			std::string name;
+			int tilewidth;
+			int tileheight;
+			int tilecount;
+			Image image;
+			std::vector<TileData> tiles;
+		};
+		struct Tile {
+			int gid;
+		};
+		class Data {
+			friend class TMX;
+			std::vector<Tile> tiles;
+			Data(std::vector<Tile>&& ts) : tiles(std::move(ts)) {}
+		public:
+			using ConstTileIterator = std::vector<Tile>::const_iterator;
+			ConstTileIterator begin() const { return tiles.begin(); }
+			ConstTileIterator end() const { return tiles.end(); }
+		};
+		struct Layer {
+			std::string name;
+			int width;
+			int height;
+			Data data;
+			Index index;
+		};
 
 		TMX(const std::string& filename);
 		void makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const;
@@ -69,44 +106,23 @@ namespace te
 			std::transform(mLayerNames.begin(), mLayerNames.end(), out, [](auto& name) { return name; });
 		}
 
-	private:
-		struct Image {
-			std::string source;
-			int width;
-			int height;
-		};
-		struct TileData {
-			int id;
-			ObjectGroup objectgroup;
-		};
-		struct Tileset {
-			int firstgid;
-			std::string name;
-			int tilewidth;
-			int tileheight;
-			int tilecount;
-			Image image;
-			std::vector<TileData> tiles;
-		};
-		struct Tile {
-			int gid;
-		};
-		struct Data {
-			std::vector<Tile> tiles;
-		};
-		struct Layer {
-			std::string name;
-			int width;
-			int height;
-			Data data;
-			Index index;
-		};
+		using ConstLayerIterator = std::vector<Layer>::const_iterator;
+		ConstLayerIterator layersBegin() const { return mLayers.cbegin(); }
+		ConstLayerIterator layersEnd() const { return mLayers.cend(); }
 
+		using ConstTilesetIterator = std::vector<Tileset>::const_iterator;
+		ConstTilesetIterator tilesetsBegin() const { return mTilesets.begin(); }
+		ConstTilesetIterator tilesetsEnd() const { return mTilesets.end(); }
+		size_t tilesetsSize() const { return mTilesets.size(); }
+		size_t getTilesetIndex(int tileIndex) const;
+
+		const std::string& getFilename() const { return mFilename; }
+
+	private:
 		static const int NULL_TILE;
 		static const TileData NULL_DATA;
 
 		//std::vector<Tileset>::const_iterator getTilesetIterator(int gid) const;
-		friend std::vector<Tileset>::const_iterator getTilesetIterator(int, const std::vector<Tileset>&);
 		const TileData& getTileData(int x, int y, const Layer& layer) const;
 		int index(int x, int y) const;
 

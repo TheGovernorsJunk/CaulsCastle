@@ -204,21 +204,21 @@ namespace te
 		}
 	}
 
-	static std::vector<TMX::Tileset>::const_iterator getTilesetIterator(int gid, const std::vector<TMX::Tileset>& tilesets)
+	size_t TMX::getTilesetIndex(int gid) const
 	{
-		auto retIt = tilesets.end();
-		for (auto it = tilesets.begin(); it != tilesets.end(); ++it)
+		auto retIt = mTilesets.end();
+		for (auto it = mTilesets.begin(); it != mTilesets.end(); ++it)
 		{
 			if (gid >= it->firstgid && gid < it->firstgid + it->tilecount)
 			{
 				retIt = it;
 			}
 		}
-		if (retIt == tilesets.end())
+		if (retIt == mTilesets.end())
 		{
 			throw std::out_of_range("GID does not exist for TMX.");
 		}
-		return retIt;
+		return retIt - mTilesets.begin();
 	}
 
 	void TMX::makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const
@@ -234,7 +234,7 @@ namespace te
 				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
 
 				int tileIndex = 0;
-				for (auto tile : layer.data.tiles)
+				for (auto tile : layer.data)
 				{
 					if (tile.gid != 0)
 					{
@@ -251,17 +251,17 @@ namespace te
 							v.position = transform.transformPoint(v.position);
 						});
 
-						auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
-						int localId = tile.gid - tilesetIter->firstgid;
-						int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
-						int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
+						size_t tilesetIndex = getTilesetIndex(tile.gid);
+						const Tileset& tileset = mTilesets[tilesetIndex];
+						int localId = tile.gid - tileset.firstgid;
+						int tu = localId % (tileset.image.width / tileset.tilewidth);
+						int tv = localId / (tileset.image.width / tileset.tilewidth);
 
 						quad[0].texCoords = sf::Vector2f((float)tu * mTilewidth, (float)tv * mTileheight);
 						quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (float)tv * mTileheight);
 						quad[2].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 1.f) * mTileheight);
 						quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 1.f) * mTileheight);
 
-						int tilesetIndex = tilesetIter - mTilesets.begin();
 						std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
 							vertexArrays[tilesetIndex].append(v);
 						});
@@ -278,7 +278,7 @@ namespace te
 				for (auto& va : vertexArrays) va.setPrimitiveType(sf::Quads);
 
 				int tileIndex = 0;
-				for (auto tile : layer.data.tiles)
+				for (auto tile : layer.data)
 				{
 					if (tile.gid != 0)
 					{
@@ -295,17 +295,17 @@ namespace te
 							v.position = transform.transformPoint(v.position);
 						});
 
-						auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
-						int localId = tile.gid - tilesetIter->firstgid;
-						int tu = localId % (tilesetIter->image.width / tilesetIter->tilewidth);
-						int tv = localId / (tilesetIter->image.width / tilesetIter->tilewidth);
+						size_t tilesetIndex = getTilesetIndex(tile.gid);
+						const Tileset& tileset = mTilesets[tilesetIndex];
+						int localId = tile.gid - tileset.firstgid;
+						int tu = localId % (tileset.image.width / tileset.tilewidth);
+						int tv = localId / (tileset.image.width / tileset.tilewidth);
 
 						quad[0].texCoords = sf::Vector2f((tu + 0.5f) * mTilewidth, (float)tv * mTileheight);
 						quad[1].texCoords = sf::Vector2f((tu + 1.f) * mTilewidth, (tv + 0.5f) * mTileheight);
 						quad[2].texCoords = sf::Vector2f((tu + 0.5f) * mTilewidth, (tv + 1.f) * mTileheight);
 						quad[3].texCoords = sf::Vector2f((float)tu * mTilewidth, (tv + 0.5f) * mTileheight);
 
-						int tilesetIndex = tilesetIter - mTilesets.begin();
 						std::for_each(quad.begin(), quad.end(), [&vertexArrays, tilesetIndex](sf::Vertex& v) {
 							vertexArrays[tilesetIndex].append(v);
 						});
@@ -346,9 +346,9 @@ namespace te
 		{
 			return TMX::NULL_DATA;
 		}
-		auto tilesetIter = getTilesetIterator(tile.gid, mTilesets);
-		const int localId = tile.gid - tilesetIter->firstgid;
-		const std::vector<TileData>& tiles = tilesetIter->tiles;
+		const Tileset& tileset = mTilesets[getTilesetIndex(tile.gid)];
+		const int localId = tile.gid - tileset.firstgid;
+		const std::vector<TileData>& tiles = tileset.tiles;
 		auto result = std::find_if(tiles.begin(), tiles.end(), [localId](const TileData& data) {
 			return localId == data.id;
 		});
