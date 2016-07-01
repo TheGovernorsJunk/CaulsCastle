@@ -180,6 +180,7 @@ namespace te
 				.addFunction("die", &BaseGameEntity::die)
 				.addProperty("rigidBody", &BaseGameEntity::getComponent<RigidBody>)
 				.addFunction("addRigidBody", &BaseGameEntity::addComponent<RigidBody, int>)
+				.addFunction("addAnimator", &BaseGameEntity::addComponent<Animator>)
 			.endClass()
 			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
@@ -190,11 +191,13 @@ namespace te
 				.addProperty("world", &ScriptedEntity::getWorld)
 				.addProperty("data", &ScriptedEntity::getUserData)
 				.addFunction("initMachine", &ScriptedEntity::initMachine)
-				.addProperty("animation", &ScriptedEntity::getAnimation, &ScriptedEntity::setAnimation)
 			.endClass()
 			.beginClass<RigidBody>("RigidBody")
 				.addFunction("attachFixture", &RigidBody::attachFixture)
 				.addFunction("setVelocity", &RigidBody::setVelocity)
+			.endClass()
+			.beginClass<Animator>("Animator")
+				.addProperty("animation", &Animator::getAnimation, &Animator::setAnimation)
 			.endClass();
 
 		doLuaFile(*L, initFilename);

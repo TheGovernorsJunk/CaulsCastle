@@ -72,8 +72,6 @@ namespace te
 
 		luabridge::LuaRef getUserData() const;
 		void initMachine(luabridge::LuaRef);
-		void setAnimation(const std::string& anim);
-		const std::string& getAnimation() const;
 		//void setPositionByTile(int x, int y, EntityID mapID);
 		ScriptedGame& getWorld() const { return mWorld; }
 
@@ -85,13 +83,10 @@ namespace te
 		void onUpdate(const sf::Time& dt);
 		bool handleMessage(const Telegram& msg);
 
-		void initAnimator();
-
 		ScriptedGame& mWorld;
 		luabridge::LuaRef mUserData;
 		std::vector<FSM> mStateMachines;
 		Animator* mpAnimator;
-		std::string mAnimationStr;
 	};
 }
 

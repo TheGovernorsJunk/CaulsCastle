@@ -21,8 +21,6 @@ namespace te
 		, mWorld{world}
 		, mUserData{luabridge::newTable(entityTable)}
 		, mStateMachines{}
-		, mpAnimator{}
-		, mAnimationStr{}
 	{
 		if (entityTable.isTable())
 		{
@@ -58,23 +56,6 @@ namespace te
 	void ScriptedEntity::initMachine(luabridge::LuaRef state)
 	{
 		mStateMachines.push_back({state, *this});
-	}
-
-	void ScriptedEntity::initAnimator()
-	{
-		if (!mpAnimator) mpAnimator = &addComponent<Animator>();
-	}
-
-	void ScriptedEntity::setAnimation(const std::string& anim)
-	{
-		if (!mpAnimator) initAnimator();
-		mpAnimator->setAnimation(TextureManager::getID(anim));
-		mAnimationStr = anim;
-	}
-
-	const std::string& ScriptedEntity::getAnimation() const
-	{
-		return mAnimationStr;
 	}
 
 	//void ScriptedEntity::setPositionByTile(int x, int y, EntityID mapID)
