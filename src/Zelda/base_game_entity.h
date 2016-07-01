@@ -28,8 +28,6 @@ namespace te
 		virtual ~BaseGameEntity();
 
 		void update(const sf::Time& dt);
-		void setBoundingRadius(float radius);
-		float getBoundingRadius() const;
 		virtual bool handleMessage(const Telegram& msg);
 		EntityID getID() const;
 		const Game& getWorld() const;
@@ -81,7 +79,6 @@ namespace te
 		int mID;
 		int mZ;
 		bool mMarkedForRemoval;
-		float mBoundingRadius;
 		std::vector<std::unique_ptr<Component>> mComponents;
 		Game& mWorld;
 	};

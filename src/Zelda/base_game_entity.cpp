@@ -17,7 +17,6 @@ namespace te
 		: mID(UNREGISTERED_ID)
 		, mZ(0)
 		, mMarkedForRemoval(false)
-		, mBoundingRadius(1.f)
 		, mComponents()
 		, mWorld(world)
 	{}
@@ -31,16 +30,6 @@ namespace te
 	{
 		for (auto& component : mComponents) component->update(dt);
 		onUpdate(dt);
-	}
-
-	void BaseGameEntity::setBoundingRadius(float radius)
-	{
-		mBoundingRadius = radius;
-	}
-
-	float BaseGameEntity::getBoundingRadius() const
-	{
-		return mBoundingRadius;
 	}
 
 	bool BaseGameEntity::handleMessage(const Telegram& msg)
