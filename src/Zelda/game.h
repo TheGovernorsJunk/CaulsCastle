@@ -2,6 +2,8 @@
 #define TE_GAME_H
 
 #include "runnable.h"
+#include "resource_manager.h"
+#include "tmx.h"
 
 #include <SFML/Graphics.hpp>
 #include <lua.hpp>
@@ -44,6 +46,8 @@ namespace te
 		virtual void update(const sf::Time& dt);
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		ResourceManager<TMX>& getTMXManager() { return mTMXManager; }
+
 		// For safe resource freeing in ScriptedGame
 		void storeLuaState(std::unique_ptr<lua_State, std::function<void(lua_State*)>>&& pL) { mpL = std::move(pL); }
 
@@ -51,6 +55,8 @@ namespace te
 		Application& mApp;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
+
+		ResourceManager<TMX> mTMXManager;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
