@@ -33,7 +33,7 @@ namespace te
 			sf::FloatRect rect;
 		};
 
-		static std::unique_ptr<TileMap> make(Game& world, TextureManager& textureManager, TMX&& tmx);
+		static std::unique_ptr<TileMap> make(Game& world, TextureManager& textureManager, const TMX& tmx);
 
 		template <typename Iter>
 		void getAreasInGroup(const std::string& groupName, Iter out) const
@@ -77,7 +77,7 @@ namespace te
 		//void stitch(sf::Vector2i coords, TileMap& o, sf::Vector2i oCoords) const;
 
 	private:
-		TileMap(Game& world, TextureManager& textureManager, TMX&& tmx);
+		TileMap(Game& world, TextureManager& textureManager, const TMX& tmx);
 
 		class Layer : public BaseGameEntity
 		{

@@ -28,14 +28,14 @@ namespace te
 		return totalLength / numEdgesCounted;
 	}
 
-	std::unique_ptr<TileMap> TileMap::make(Game& world, TextureManager& textureManager, TMX&& tmx)
+	std::unique_ptr<TileMap> TileMap::make(Game& world, TextureManager& textureManager, const TMX& tmx)
 	{
-		return std::unique_ptr<TileMap>(new TileMap(world, textureManager, std::move(tmx)));
+		return std::unique_ptr<TileMap>(new TileMap(world, textureManager, tmx));
 	}
 
-	TileMap::TileMap(Game& world, TextureManager& textureManager, TMX&& tmx)
+	TileMap::TileMap(Game& world, TextureManager& textureManager, const TMX& tmx)
 		: BaseGameEntity(world)
-		, mTMX(std::move(tmx))
+		, mTMX(tmx)
 		, mWorld(world)
 		, mTextures()
 		, mpCollider(nullptr)
