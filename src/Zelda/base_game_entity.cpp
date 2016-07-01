@@ -92,6 +92,12 @@ namespace te
 		return sf::Transformable::getPosition();
 	}
 
+	void BaseGameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		states.transform *= BaseGameEntity::getTransform();
+		for (auto& component : mComponents) target.draw(*component, states);
+	}
+
 	//void BaseGameEntity::attachRigidBody(int bodyType)
 	//{
 	//	assert(bodyType >= 0 && bodyType <= 2);

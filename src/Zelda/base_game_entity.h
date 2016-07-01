@@ -76,7 +76,7 @@ namespace te
 	private:
 		friend class EntityManager;
 
-		void draw(sf::RenderTarget&, sf::RenderStates) const {}
+		void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 		int mID;
 		int mZ;
