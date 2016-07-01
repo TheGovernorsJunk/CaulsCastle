@@ -162,6 +162,7 @@
     <None Include="map.tmx" />
     <None Include="map2.tmx" />
     <None Include="map3.tmx" />
+    <None Include="resource_manager.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
     <ClInclude Include="regulator.h" />
+    <ClInclude Include="resource_manager.h" />
     <ClInclude Include="rigid_body.h" />
     <ClInclude Include="runnable.h" />
     <ClInclude Include="scripted_application.h" />

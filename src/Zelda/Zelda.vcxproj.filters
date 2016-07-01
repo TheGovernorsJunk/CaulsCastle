@@ -122,6 +122,9 @@
     <None Include="map3.tmx">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resource_manager.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tmx.h">
@@ -266,6 +269,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
