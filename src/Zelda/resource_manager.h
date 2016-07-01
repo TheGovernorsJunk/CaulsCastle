@@ -10,7 +10,7 @@ namespace te
 	template <typename Resource>
 	struct ResourceID
 	{
-		int value;
+		const int value;
 	};
 
 	template <typename Resource>
