@@ -21,17 +21,19 @@ local idleAnims = {
 }
 
 local function enter(entity)
-   entity.animation = 'PriestIdleDown'
+   entity.data.animator.animation = 'PriestIdleDown'
 end
 
 local function execute(entity, dt)
+   local animator = entity.data.animator
+
    local vel = mulVec(entity.data.speed, normalizeVec(entity.data.heading))
    entity.rigidBody:setVelocity(vel)
 
-   local anim = getAnimation(walkAnims, vel) or idleAnims[entity.animation]
+   local anim = getAnimation(walkAnims, vel) or idleAnims[animator.animation]
 
-   if anim and anim ~= entity.animation then
-      entity.animation = anim
+   if anim and anim ~= animator.animation then
+      animator.animation = anim
    end
 
    return entity.data.pendingState

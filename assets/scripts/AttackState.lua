@@ -8,7 +8,7 @@ end
 local function enter(entity)
    local attackAnim = 'HeroAttackDown'
 
-   entity.animation = attackAnim
+   entity.data.animator.animation = attackAnim
    entity.data.currAttackDuration = 0
    entity.data.attackDuration = entity.world:getAnimationDuration(attackAnim)
 end

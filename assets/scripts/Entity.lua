@@ -11,7 +11,9 @@ local function init(entity, game, params)
    entity.drawOrder = params.z - 1
    local rb = entity:addRigidBody(BodyType.Dynamic)
    rb:attachFixture(getShape(params, entity))
-   entity.animation = 'PriestIdleDown'
+
+   entity.data.animator = entity:addAnimator()
+   entity.data.animator.animation = 'PriestIdleDown'
    entity:initMachine(MyState)
 end
 
