@@ -253,7 +253,9 @@ namespace te
 
 	EntityID ScriptedGame::loadMap(const std::string& filename)
 	{
-		auto upTileMap = TileMap::make(*this, getTextureManager(), TMX{filename});
+		ResourceManager<TMX>& tmxManager = getTMXManager();
+		tmxManager.load(filename, filename);
+		auto upTileMap = TileMap::make(*this, getTextureManager(), tmxManager.get(filename));
 		auto* pTileMap = upTileMap.get();
 		addEntity(std::move(upTileMap));
 		return pTileMap->getID();
