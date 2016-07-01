@@ -1,7 +1,7 @@
 #ifndef TE_RENDERER_H
 #define TE_RENDERER_H
 
-#include "texture_atlas.h"
+#include "component.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -12,7 +12,7 @@ namespace te
 	class BaseGameEntity;
 
 	template<typename T>
-	class Renderer : public sf::Drawable
+	class Renderer : public Component
 	{
 	public:
 		static std::unique_ptr<Renderer<T>> make(BaseGameEntity& owner)
@@ -20,7 +20,6 @@ namespace te
 			return std::unique_ptr<Renderer<T>>{new Renderer<T>{owner}};
 		}
 
-		//void setSprite(sf::Texture& texture, const TextureAtlas::Sprite& spriteInfo);
 		void setDrawable(const T& drawable) { mDrawable = drawable; }
 		void setDrawable(T&& drawable) { mDrawable = std::move(drawable); }
 
