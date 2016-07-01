@@ -84,15 +84,13 @@ namespace te
 
 		void onUpdate(const sf::Time& dt);
 		bool handleMessage(const Telegram& msg);
-		void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		void initAnimator();
 
 		ScriptedGame& mWorld;
 		luabridge::LuaRef mUserData;
 		std::vector<FSM> mStateMachines;
-		std::unique_ptr<Renderer<sf::Sprite>> mpSpriteRenderer;
-		std::unique_ptr<Animator> mpAnimator;
+		Animator* mpAnimator;
 		std::string mAnimationStr;
 	};
 }

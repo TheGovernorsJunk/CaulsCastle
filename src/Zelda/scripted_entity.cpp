@@ -21,7 +21,6 @@ namespace te
 		, mWorld{world}
 		, mUserData{luabridge::newTable(entityTable)}
 		, mStateMachines{}
-		, mpSpriteRenderer{}
 		, mpAnimator{}
 		, mAnimationStr{}
 	{
@@ -39,7 +38,6 @@ namespace te
 	void ScriptedEntity::onUpdate(const sf::Time& dt)
 	{
 		for (auto& fsm : mStateMachines) fsm.update(dt);
-		if (mpAnimator) mpAnimator->update(dt);
 	}
 
 	bool ScriptedEntity::handleMessage(const Telegram& msg)
@@ -50,12 +48,6 @@ namespace te
 		bool result = false;
 		for (auto& fsm : mStateMachines) result = fsm.handleMessage(scriptedGram) || result;
 		return result;
-	}
-
-	void ScriptedEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		states.transform *= getTransform();
-		target.draw(*mpSpriteRenderer, states);
 	}
 
 	luabridge::LuaRef ScriptedEntity::getUserData() const
@@ -70,8 +62,7 @@ namespace te
 
 	void ScriptedEntity::initAnimator()
 	{
-		if (!mpSpriteRenderer) mpSpriteRenderer = Renderer<sf::Sprite>::make(*this);
-		if (!mpAnimator) mpAnimator = Animator::make(getWorld().getTextureManager(), *mpSpriteRenderer);
+		if (!mpAnimator) mpAnimator = &addComponent<Animator>();
 	}
 
 	void ScriptedEntity::setAnimation(const std::string& anim)
