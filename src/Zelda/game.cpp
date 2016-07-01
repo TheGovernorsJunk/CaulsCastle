@@ -116,6 +116,7 @@ namespace te
 
 	void Game::addEntity(std::unique_ptr<BaseGameEntity>&& pEntity)
 	{
+		getEntityManager().registerEntity(*pEntity);
 		mEntities.push_back(std::move(pEntity));
 	}
 

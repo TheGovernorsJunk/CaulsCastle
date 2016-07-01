@@ -20,13 +20,11 @@ namespace te
 		, mBoundingRadius(1.f)
 		, mComponents()
 		, mWorld(world)
-	{
-		world.getEntityManager().registerEntity(*this);
-	}
+	{}
 
 	BaseGameEntity::~BaseGameEntity()
 	{
-		mWorld.getEntityManager().removeEntity(*this);
+		if (mID != UNREGISTERED_ID) mWorld.getEntityManager().removeEntity(*this);
 	}
 
 	void BaseGameEntity::update(const sf::Time& dt)
