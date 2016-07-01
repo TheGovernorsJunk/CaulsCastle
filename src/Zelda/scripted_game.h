@@ -44,7 +44,7 @@ namespace te
 	private:
 
 		ScriptedGame(Application& app, const std::string& initFilename);
-		EntityID loadMap(const std::string& filename);
+		ResourceID<TMX> loadTMX(const std::string& filename);
 		TextureID loadSpritesheet(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable);
 		ScriptedEntity* getScriptedEntity(EntityID id) const;

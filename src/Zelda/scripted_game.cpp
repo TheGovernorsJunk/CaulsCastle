@@ -159,8 +159,10 @@ namespace te
 				.addData("receiver", &ScriptedTelegram::receiver)
 				.addData("info", &ScriptedTelegram::info)
 			.endClass()
+			.beginClass<ResourceID<TMX>>("TMXID")
+			.endClass()
 			.beginClass<ScriptedGame>("Game")
-				.addFunction("loadMap", &ScriptedGame::loadMap)
+				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getEntity", &ScriptedGame::getScriptedEntity)
@@ -251,14 +253,9 @@ namespace te
 		storeLuaState(std::move(mpL));
 	}
 
-	EntityID ScriptedGame::loadMap(const std::string& filename)
+	ResourceID<TMX> ScriptedGame::loadTMX(const std::string& filename)
 	{
-		ResourceManager<TMX>& tmxManager = getTMXManager();
-		ResourceID<TMX> id = tmxManager.load(filename);
-		auto upTileMap = TileMap::make(*this, getTextureManager(), tmxManager.get(id));
-		auto* pTileMap = upTileMap.get();
-		addEntity(std::move(upTileMap));
-		return pTileMap->getID();
+		return getTMXManager().load(filename);
 	}
 
 	TextureID ScriptedGame::loadSpritesheet(const std::string& filename)
