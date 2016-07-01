@@ -16,6 +16,7 @@ namespace te
 	Animator::Animator(BaseGameEntity& owner)
 		: mTextureManager(owner.getWorld().getTextureManager())
 		, mpSpriteRenderer(nullptr)
+		, mAnimationStr{""}
 		, mpAnimation(nullptr)
 		, mCurrPlayTime(sf::Time::Zero)
 	{
@@ -29,9 +30,10 @@ namespace te
 		}
 	}
 
-	void Animator::setAnimation(TextureID animation)
+	void Animator::setAnimation(const std::string& animationStr)
 	{
-		mpAnimation = &mTextureManager.getAnimation(animation);
+		mpAnimation = &mTextureManager.getAnimation(TextureManager::getID(animationStr));
+		mAnimationStr = animationStr;
 
 		mpSpriteRenderer->setDrawable(mpAnimation->getSprite(sf::Time::Zero));
 		mCurrPlayTime = sf::Time::Zero;

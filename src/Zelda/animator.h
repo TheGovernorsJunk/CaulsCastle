@@ -20,7 +20,8 @@ namespace te
 	public:
 		static std::unique_ptr<Animator> make(BaseGameEntity& owner);
 
-		void setAnimation(TextureID animation);
+		void setAnimation(const std::string& animationStr);
+		const std::string& getAnimation() const { return mAnimationStr; }
 		void update(const sf::Time& dt);
 
 	private:
@@ -29,6 +30,7 @@ namespace te
 		TextureManager& mTextureManager;
 		Renderer<sf::Sprite>* mpSpriteRenderer;
 
+		std::string mAnimationStr;
 		const Animation* mpAnimation;
 		sf::Time mCurrPlayTime;
 	};
