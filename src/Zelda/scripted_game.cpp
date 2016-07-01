@@ -254,9 +254,9 @@ namespace te
 	EntityID ScriptedGame::loadMap(const std::string& filename)
 	{
 		auto upTileMap = TileMap::make(*this, getTextureManager(), TMX{filename});
-		EntityID id = upTileMap->getID();
+		auto* pTileMap = upTileMap.get();
 		addEntity(std::move(upTileMap));
-		return id;
+		return pTileMap->getID();
 	}
 
 	TextureID ScriptedGame::loadSpritesheet(const std::string& filename)
@@ -267,10 +267,9 @@ namespace te
 	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)
 	{
 		auto upEntity = ScriptedEntity::make(*this, entityTable, argsTable, {0, 0});
-		EntityID id = upEntity->getID();
 		ScriptedEntity* pEntity = upEntity.get();
 		addEntity(std::move(upEntity));
-		return id;
+		return pEntity->getID();
 	}
 
 	ScriptedEntity* ScriptedGame::getScriptedEntity(EntityID id) const
