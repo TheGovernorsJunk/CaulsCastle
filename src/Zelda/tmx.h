@@ -85,7 +85,8 @@ namespace te
 			Index index;
 		};
 
-		TMX(const std::string& filename);
+		TMX();
+		bool loadFromFile(const std::string& filename);
 		void makeVertices(TextureManager& textureManager, std::vector<const sf::Texture*>& textures, std::vector<std::vector<sf::VertexArray>>& layers, std::vector<int>& drawOrders) const;
 		CompositeCollider* makeCollider(const sf::Transform& transform = sf::Transform::Identity) const;
 
