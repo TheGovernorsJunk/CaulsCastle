@@ -9,6 +9,8 @@
 #include "vector_ops.h"
 #include "shape.h"
 #include "rigid_body.h"
+#include "tile_map_layer.h"
+#include "renderer.h"
 
 #include <SFML/Window.hpp>
 #include <Box2D/Box2D.h>
@@ -161,8 +163,11 @@ namespace te
 			.endClass()
 			.beginClass<ResourceID<TMX>>("TMXID")
 			.endClass()
+			.beginClass<TileMapLayer>("TileMapLayer")
+			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
+				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
 				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getEntity", &ScriptedGame::getScriptedEntity)
@@ -183,6 +188,7 @@ namespace te
 				.addProperty("rigidBody", &BaseGameEntity::getComponent<RigidBody>)
 				.addFunction("addRigidBody", &BaseGameEntity::addComponent<RigidBody, int>)
 				.addFunction("addAnimator", &BaseGameEntity::addComponent<Animator>)
+				.addFunction("addLayerRenderer", &BaseGameEntity::addComponent<Renderer<TileMapLayer>>)
 			.endClass()
 			.deriveClass<CameraEntity, BaseGameEntity>("Camera")
 				.addFunction("setViewSize", &CameraEntity::setViewSize)
@@ -200,6 +206,9 @@ namespace te
 			.endClass()
 			.beginClass<Animator>("Animator")
 				.addProperty("animation", &Animator::getAnimation, &Animator::setAnimation)
+			.endClass()
+			.beginClass<Renderer<TileMapLayer>>("Renderer")
+				.addProperty("layer", &Renderer<TileMapLayer>::getDrawable, &Renderer<TileMapLayer>::setDrawable)
 			.endClass();
 
 		doLuaFile(*L, initFilename);
@@ -256,6 +265,26 @@ namespace te
 	ResourceID<TMX> ScriptedGame::loadTMX(const std::string& filename)
 	{
 		return getTMXManager().load(filename);
+	}
+
+	luabridge::LuaRef ScriptedGame::makeMapLayers(ResourceID<TMX> id)
+	{
+		luabridge::LuaRef table = luabridge::newTable(mpL.get());
+
+		TMX& tmx = getTMXManager().get(id);
+		std::vector<std::string> tilesetFilenames{};
+		getTilesetFilenames(tmx, std::back_inserter(tilesetFilenames));
+		std::vector<const sf::Texture*> textures{};
+		TextureManager& textureManager = getTextureManager();
+		std::transform(tilesetFilenames.begin(), tilesetFilenames.end(), std::back_inserter(textures), [&textureManager](const std::string& filename) {
+			return &textureManager.getTexture(textureManager.load(filename));
+		});
+		std::vector<TileMapLayer> layers{};
+		TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
+		size_t index = 1;
+		for (auto& layer : layers) table[index++] = layer;
+
+		return table;
 	}
 
 	TextureID ScriptedGame::loadSpritesheet(const std::string& filename)
