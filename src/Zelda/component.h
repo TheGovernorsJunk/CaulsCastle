@@ -10,6 +10,7 @@ namespace te
 	class Component : public sf::Drawable
 	{
 	public:
+		virtual ~Component() {}
 		virtual void update(const sf::Time& dt) {}
 		virtual void draw(sf::RenderTarget& draw, sf::RenderStates states) const {}
 	};
