@@ -4,6 +4,7 @@
 #include "typedefs.h"
 #include "renderer.h"
 #include "component.h"
+#include "resource_manager.h"
 
 #include <SFML/System.hpp>
 
@@ -27,7 +28,7 @@ namespace te
 	private:
 		Animator(BaseGameEntity& owner);
 
-		TextureManager& mTextureManager;
+		ResourceManager<sf::Texture>& mTextureManager;
 		Renderer<sf::Sprite>* mpSpriteRenderer;
 
 		std::string mAnimationStr;

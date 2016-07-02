@@ -161,15 +161,18 @@ namespace te
 				.addData("receiver", &ScriptedTelegram::receiver)
 				.addData("info", &ScriptedTelegram::info)
 			.endClass()
-			.beginClass<ResourceID<TMX>>("TMXID")
-			.endClass()
+			.beginClass<ResourceID<TMX>>("TMXID").endClass()
+			.beginClass<ResourceID<TextureAtlas>>("AtlasID").endClass()
+			.beginClass<ResourceID<sf::Texture>>("TextureID").endClass()
 			.beginClass<TileMapLayer>("TileMapLayer")
 				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
-				.addFunction("loadSpritesheet", &ScriptedGame::loadSpritesheet)
+				.addFunction("loadAtlas", &ScriptedGame::loadAtlas)
+				.addFunction("getSpriteData", &ScriptedGame::getAtlasSprites)
+				.addFunction("loadTexture", &ScriptedGame::loadTexture)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getEntity", &ScriptedGame::getScriptedEntity)
 				.addProperty("camera", &ScriptedGame::getCamera)
@@ -281,9 +284,9 @@ namespace te
 		std::vector<std::string> tilesetFilenames{};
 		getTilesetFilenames(tmx, std::back_inserter(tilesetFilenames));
 		std::vector<const sf::Texture*> textures{};
-		TextureManager& textureManager = getTextureManager();
+		ResourceManager<sf::Texture>& textureManager = getTextureManager();
 		std::transform(tilesetFilenames.begin(), tilesetFilenames.end(), std::back_inserter(textures), [&textureManager](const std::string& filename) {
-			return &textureManager.getTexture(textureManager.load(filename));
+			return &textureManager.get(textureManager.load(filename));
 		});
 		std::vector<TileMapLayer> layers{};
 		TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
@@ -293,9 +296,41 @@ namespace te
 		return table;
 	}
 
-	TextureID ScriptedGame::loadSpritesheet(const std::string& filename)
+	ResourceID<TextureAtlas> ScriptedGame::loadAtlas(const std::string& filename)
 	{
-		return getTextureManager().loadSpritesheet(filename);
+		return getAtlasManager().load(filename);
+	}
+
+	luabridge::LuaRef ScriptedGame::getAtlasSprites(ResourceID<TextureAtlas> id) const
+	{
+		luabridge::LuaRef table{luabridge::newTable(mpL.get())};
+		const TextureAtlas& atlas = getAtlasManager().get(id);
+
+		table["imagePath"] = atlas.getImagePath();
+
+		std::vector<TextureAtlas::Sprite> atlasSprites{};
+		atlas.insertSprites(std::back_inserter(atlasSprites));
+		int index = 1;
+		for (auto& sprite : atlasSprites)
+		{
+			luabridge::LuaRef data{luabridge::newTable(mpL.get())};
+			data["pX"] = sprite.pX;
+			data["pY"] = sprite.pY;
+			data["w"] = sprite.w;
+			data["h"] = sprite.h;
+			data["x"] = sprite.x;
+			data["y"] = sprite.y;
+			data["n"] = sprite.n;
+			data["r"] = sprite.r;
+			table[index++] = data;
+		}
+
+		return table;
+	}
+
+	ResourceID<sf::Texture> ScriptedGame::loadTexture(const std::string& filename)
+	{
+		return getTextureManager().load(filename);
 	}
 
 	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)
@@ -371,7 +406,8 @@ namespace te
 
 	float ScriptedGame::getAnimationDuration(const std::string& animationStr) const
 	{
-		return getTextureManager().getAnimation(TextureManager::getID(animationStr)).getDuration().asSeconds();
+		//return getTextureManager().getAnimation(TextureManager::getID(animationStr)).getDuration().asSeconds();
+		return 1.f;
 	}
 
 	bool ScriptedGame::rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance)

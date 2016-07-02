@@ -38,9 +38,11 @@ namespace te
 			std::vector<Clip> clips;
 		};
 
-		static std::unique_ptr<TextureAtlas> make(const std::string& filename, TextureManager* = nullptr);
+		TextureAtlas();
+		bool loadFromFile(const std::string& filename);
 
-		TextureID getTextureID() const;
+		//TextureID getTextureID() const;
+		const std::string& getImagePath() const { return mImagePath; }
 		Sprite getSprite(TextureID id) const;
 
 		size_t getSpriteCount() const;
@@ -64,11 +66,10 @@ namespace te
 		}
 
 	private:
-		TextureAtlas(const std::string& filename, TextureManager*);
 
 		int mWidth;
 		int mHeight;
-		TextureID mImagePathID;
+		std::string mImagePath;
 		std::map<TextureID, Sprite> mSprites;
 		std::map<TextureID, Animation> mAnimations;
 	};

@@ -13,6 +13,10 @@ namespace te
 {
 	Game::Game(Application& app)
 		: mApp(app)
+		, mpL()
+		, mTMXManager()
+		, mTextureManager()
+		, mAtlasManager()
 		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
@@ -56,16 +60,6 @@ namespace te
 	//{
 	//	return mApp;
 	//}
-
-	TextureManager& Game::getTextureManager()
-	{
-		return mApp.getTextureManager();
-	}
-
-	const TextureManager& Game::getTextureManager() const
-	{
-		return mApp.getTextureManager();
-	}
 
 	EntityManager& Game::getEntityManager() const
 	{

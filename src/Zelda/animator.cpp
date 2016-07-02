@@ -32,7 +32,7 @@ namespace te
 
 	void Animator::setAnimation(const std::string& animationStr)
 	{
-		mpAnimation = &mTextureManager.getAnimation(TextureManager::getID(animationStr));
+		//mpAnimation = &mTextureManager.getAnimation(TextureManager::getID(animationStr));
 		mAnimationStr = animationStr;
 
 		mpSpriteRenderer->setDrawable(mpAnimation->getSprite(sf::Time::Zero));

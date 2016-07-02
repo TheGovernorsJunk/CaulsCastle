@@ -39,31 +39,31 @@ namespace te
 		}
 	}
 
-	TextureID TextureManager::loadSpritesheet(const std::string& filename, bool findAnimations)
-	{
-		auto atlas = TextureAtlas::make(filename, this);
-		TextureID textureID = atlas->getTextureID();
-		std::vector<TextureAtlas::Sprite> sprites;
-		atlas->insertSprites(std::back_inserter(sprites));
+	//TextureID TextureManager::loadSpritesheet(const std::string& filename, bool findAnimations)
+	//{
+	//	auto atlas = TextureAtlas::make(filename, this);
+	//	TextureID textureID = atlas->getTextureID();
+	//	std::vector<TextureAtlas::Sprite> sprites;
+	//	atlas->insertSprites(std::back_inserter(sprites));
 
-		for (auto& s : sprites)
-		{
-			auto pSprite = std::make_unique<sf::Sprite>(getTexture(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
-			pSprite->setOrigin((float)s.pX * s.w, (float)s.pY * s.h);
-			if (s.r) pSprite->rotate(-90.f);
-			mSpriteMap.insert({ s.n, std::move(pSprite) });
-		}
+	//	for (auto& s : sprites)
+	//	{
+	//		auto pSprite = std::make_unique<sf::Sprite>(getTexture(textureID), sf::IntRect(s.x, s.y, s.w, s.h));
+	//		pSprite->setOrigin((float)s.pX * s.w, (float)s.pY * s.h);
+	//		if (s.r) pSprite->rotate(-90.f);
+	//		mSpriteMap.insert({ s.n, std::move(pSprite) });
+	//	}
 
-		if (findAnimations)
-		{
-			std::vector<std::unique_ptr<Animation>> animations;
-			Animation::load(*atlas, *this, std::back_inserter(animations));
-			for (auto& pAnim : animations)
-				mAnimationMap.insert({pAnim->getID(), std::move(pAnim)});
-		}
+	//	if (findAnimations)
+	//	{
+	//		std::vector<std::unique_ptr<Animation>> animations;
+	//		Animation::load(*atlas, *this, std::back_inserter(animations));
+	//		for (auto& pAnim : animations)
+	//			mAnimationMap.insert({pAnim->getID(), std::move(pAnim)});
+	//	}
 
-		return atlas->getTextureID();
-	}
+	//	return atlas->getTextureID();
+	//}
 
 	void TextureManager::loadAnimations(const std::string& filename)
 	{

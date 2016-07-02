@@ -46,7 +46,9 @@ namespace te
 		ScriptedGame(Application& app, const std::string& initFilename);
 		ResourceID<TMX> loadTMX(const std::string& filename);
 		luabridge::LuaRef makeMapLayers(ResourceID<TMX>);
-		TextureID loadSpritesheet(const std::string& filename);
+		ResourceID<TextureAtlas> loadAtlas(const std::string& filename);
+		luabridge::LuaRef getAtlasSprites(ResourceID<TextureAtlas>) const;
+		ResourceID<sf::Texture> loadTexture(const std::string& filename);
 		EntityID makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable);
 		ScriptedEntity* getScriptedEntity(EntityID id) const;
 		CameraEntity& getCamera() const;

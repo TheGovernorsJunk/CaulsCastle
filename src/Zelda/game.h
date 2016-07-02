@@ -4,6 +4,7 @@
 #include "runnable.h"
 #include "resource_manager.h"
 #include "tmx.h"
+#include "texture_atlas.h"
 
 #include <SFML/Graphics.hpp>
 #include <lua.hpp>
@@ -29,8 +30,8 @@ namespace te
 		virtual ~Game();
 
 		//Application& getApplication();
-		TextureManager& getTextureManager();
-		const TextureManager& getTextureManager() const;
+		ResourceManager<sf::Texture>& getTextureManager() { return mTextureManager; }
+		const ResourceManager<sf::Texture>& getTextureManager() const { return mTextureManager; }
 
 		EntityManager& getEntityManager() const;
 		MessageDispatcher& getMessageDispatcher() const;
@@ -49,6 +50,9 @@ namespace te
 		ResourceManager<TMX>& getTMXManager() { return mTMXManager; }
 		const ResourceManager<TMX>& getTMXManager() const { return mTMXManager; }
 
+		ResourceManager<TextureAtlas>& getAtlasManager() { return mAtlasManager; }
+		const ResourceManager<TextureAtlas>& getAtlasManager() const { return mAtlasManager; }
+
 		// For safe resource freeing in ScriptedGame
 		void storeLuaState(std::unique_ptr<lua_State, std::function<void(lua_State*)>>&& pL) { mpL = std::move(pL); }
 
@@ -58,6 +62,8 @@ namespace te
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 
 		ResourceManager<TMX> mTMXManager;
+		ResourceManager<sf::Texture> mTextureManager;
+		ResourceManager<TextureAtlas> mAtlasManager;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;

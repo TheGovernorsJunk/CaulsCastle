@@ -10,20 +10,17 @@
 
 namespace te
 {
-
-	std::unique_ptr<TextureAtlas> TextureAtlas::make(const std::string& filename, TextureManager* pTM)
-	{
-		return std::unique_ptr<TextureAtlas>(new TextureAtlas(filename, pTM));
-	}
-
 	const static std::regex animationEx{"(?:.*/)*([0-9]+)-([a-z]+)\\.png", std::regex::icase};
 
-	TextureAtlas::TextureAtlas(const std::string& filename, TextureManager* pTM)
+	TextureAtlas::TextureAtlas()
 		: mWidth(0)
 		, mHeight(0)
-		, mImagePathID(0)
+		, mImagePath("")
 		, mSprites()
 		, mAnimations()
+	{}
+
+	bool TextureAtlas::loadFromFile(const std::string& filename)
 	{
 		rapidxml::file<> atlasFile(filename.c_str());
 		rapidxml::xml_document<> atlasXML;
@@ -36,8 +33,8 @@ namespace te
 		mWidth = std::stoi(pAtlasNode->first_attribute("width")->value());
 		mHeight = std::stoi(pAtlasNode->first_attribute("height")->value());
 		std::string imagePath = dir + pAtlasNode->first_attribute("imagePath")->value();
-		if (pTM) pTM->load(imagePath);
-		mImagePathID = TextureManager::getID(imagePath);
+		//if (pTM) pTM->load(imagePath);
+		mImagePath = imagePath;
 
 		for (auto* pSprite = pAtlasNode->first_node("sprite"); pSprite != 0; pSprite = pSprite->next_sibling("sprite"))
 		{
@@ -79,12 +76,14 @@ namespace te
 				return a.index < b.index;
 			});
 		}
+
+		return true;
 	}
 
-	TextureID TextureAtlas::getTextureID() const
-	{
-		return mImagePathID;
-	}
+	//TextureID TextureAtlas::getTextureID() const
+	//{
+	//	return mImagePathID;
+	//}
 
 	TextureAtlas::Sprite TextureAtlas::getSprite(TextureID hash) const
 	{
