@@ -104,14 +104,27 @@ namespace te
 
 	void Game::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		std::vector<const BaseGameEntity*> pendingDraws;
-		std::transform(mEntities.begin(), mEntities.end(), std::back_inserter(pendingDraws), [](const std::unique_ptr<BaseGameEntity>& pEntity) {
-			return pEntity.get();
+		struct PendingDraw
+		{
+			const BaseGameEntity* entity;
+			const DrawComponent* component;
+		};
+
+		std::vector<PendingDraw> pendingDraws;
+		for (auto& pEntity : mEntities)
+		{
+			std::vector<DrawComponent*> components{};
+			pEntity->getDrawComponents(std::back_inserter(components));
+			for (auto component : components) pendingDraws.push_back(PendingDraw{pEntity.get(), component});
+		}
+		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const PendingDraw& a, const PendingDraw& b) {
+			return a.component->getDrawOrder() < b.component->getDrawOrder() || (a.component->getDrawOrder() == b.component->getDrawOrder() && a.entity->getTransform().transformPoint({0, 0}).y < b.entity->getTransform().transformPoint({0, 0}).y);
 		});
-		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const BaseGameEntity* a, const BaseGameEntity* b) {
-			return a->getDrawOrder() < b->getDrawOrder() || (a->getDrawOrder() == b->getDrawOrder() && a->getTransform().transformPoint({0, 0}).y < b->getTransform().transformPoint({0, 0}).y);
-		});
-		for (auto draw : pendingDraws) target.draw(*draw, states);
+		for (auto& drawable : pendingDraws) {
+			sf::RenderStates s = states;
+			s.transform *= drawable.entity->getTransform();
+			target.draw(*drawable.component, s);
+		}
 	}
 
 	void Game::addEntity(std::unique_ptr<BaseGameEntity>&& pEntity)
