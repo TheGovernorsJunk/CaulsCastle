@@ -1,46 +1,52 @@
 require 'assets.scripts.Entity'
 require 'assets.scripts.Bindings'
 require 'assets.scripts.config'
+require 'assets.scripts.TileMap'
 
 local playerID, enemyID
 
 local function init(game)
-   game:loadSpritesheet('assets/spritesheets/hero/hero.xml')
-   local mapID = game:loadMap('assets/maps/time_fantasy.tmx')
+   local tmxID = game:loadTMX('assets/maps/time_fantasy.tmx')
+   local layers = game:makeMapLayers(tmxID)
+   local mapID = game:makeEntity(TileMap, layers)
+   local map = game:getEntity(mapID)
+   map.position = Vec(-300, -300)
+   -- game:loadSpritesheet('assets/spritesheets/hero/hero.xml')
+   -- local mapID = game:loadMap('assets/maps/time_fantasy.tmx')
 
-   local z = 0
-   for i,name in ipairs(game:getLayerNames(mapID)) do
-      if name == 'Entities' then
-         z = i - 0
-      end
-   end
+   -- local z = 0
+   -- for i,name in ipairs(game:getLayerNames(mapID)) do
+   --    if name == 'Entities' then
+   --       z = i - 0
+   --    end
+   -- end
 
-   local map = game:getMap(mapID)
-   local mapRB = map.rigidBody
-   for _,polygon in ipairs(game:getObjects(mapID, 'Collisions')) do
-      mapRB:attachFixture(getShape(polygon, map))
-   end
+   -- local map = game:getMap(mapID)
+   -- local mapRB = map.rigidBody
+   -- for _,polygon in ipairs(game:getObjects(mapID, 'Collisions')) do
+   --    mapRB:attachFixture(getShape(polygon, map))
+   -- end
 
-   local objects = game:getObjects(mapID, 'Entities')
-   for _,object in ipairs(objects) do
-      if object.type then
-         object.z = z - 1
-         local id = game:makeEntity(_G[object.type], object)
+   -- local objects = game:getObjects(mapID, 'Entities')
+   -- for _,object in ipairs(objects) do
+   --    if object.type then
+   --       object.z = z - 1
+   --       local id = game:makeEntity(_G[object.type], object)
 
-         if object.name == "Player"
-         then playerID = id
-         else enemyID = id
-         end
-      end
-   end
+   --       if object.name == "Player"
+   --       then playerID = id
+   --       else enemyID = id
+   --       end
+   --    end
+   -- end
 
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-   local queriedEntities = game:getEntitiesInRegion(AABB(Vec(0, 0), Vec(1000, 1000)))
-   for _,entity in ipairs(queriedEntities) do
-      print(entity.position.x)
-   end
+   -- local queriedEntities = game:getEntitiesInRegion(AABB(Vec(0, 0), Vec(1000, 1000)))
+   -- for _,entity in ipairs(queriedEntities) do
+   --    print(entity.position.x)
+   -- end
 end
 
 local totalDt = 0
@@ -110,11 +116,11 @@ local function processAxisInput(game, controllerID, axis, position)
 end
 
 SampleState = {
-   init = init,
-   processKeyInput = processKeyInput,
-   processMouseButtonInput = processMouseButtonInput,
-   processAxisInput = processAxisInput,
-   update = update
+   init = init
+   -- processKeyInput = processKeyInput,
+   -- processMouseButtonInput = processMouseButtonInput,
+   -- processAxisInput = processAxisInput,
+   -- update = update
 }
 
 return SampleState
