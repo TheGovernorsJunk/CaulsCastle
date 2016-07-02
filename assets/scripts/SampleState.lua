@@ -10,8 +10,24 @@ local function init(game)
    local layers = game:makeMapLayers(tmxID)
    local mapID = game:makeEntity(TileMap, layers)
    local map = game:getEntity(mapID)
+
+   local z = 0
+   for i,name in ipairs(game:getLayerNames(tmxID)) do
+      if name == 'Entities' then
+         z = i - 0
+      end
+   end
+
    for _,object in ipairs(game:getObjects(tmxID, 'Entities')) do
-      print(object.name)
+      if object.type then
+         object.z = z - 1
+         local id = game:makeEntity(_G[object.type], object)
+
+         if object.name == "Player"
+         then playerID = id
+         else enemyID = id
+         end
+      end
    end
 
    -- game:loadSpritesheet('assets/spritesheets/hero/hero.xml')
@@ -119,11 +135,11 @@ local function processAxisInput(game, controllerID, axis, position)
 end
 
 SampleState = {
-   init = init
-   -- processKeyInput = processKeyInput,
-   -- processMouseButtonInput = processMouseButtonInput,
-   -- processAxisInput = processAxisInput,
-   -- update = update
+   init = init,
+   processKeyInput = processKeyInput,
+   processMouseButtonInput = processMouseButtonInput,
+   processAxisInput = processAxisInput,
+   update = update
 }
 
 return SampleState
