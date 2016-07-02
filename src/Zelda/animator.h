@@ -5,6 +5,7 @@
 #include "renderer.h"
 #include "component.h"
 #include "resource_manager.h"
+#include "animation.h"
 
 #include <SFML/System.hpp>
 
@@ -14,15 +15,14 @@ namespace te
 {
 	class BaseGameEntity;
 	class TextureManager;
-	class Animation;
 
 	class Animator : public UpdateComponent
 	{
 	public:
 		static std::unique_ptr<Animator> make(BaseGameEntity& owner);
 
-		void setAnimation(const std::string& animationStr);
-		const std::string& getAnimation() const { return mAnimationStr; }
+		void setAnimation(const Animation& animation);
+		const Animation& getAnimation() const { return mAnimation; }
 		void update(const sf::Time& dt);
 
 	private:
@@ -31,8 +31,7 @@ namespace te
 		ResourceManager<sf::Texture>& mTextureManager;
 		Renderer<sf::Sprite>* mpSpriteRenderer;
 
-		std::string mAnimationStr;
-		const Animation* mpAnimation;
+		Animation mAnimation;
 		sf::Time mCurrPlayTime;
 	};
 }

@@ -16,8 +16,7 @@ namespace te
 	Animator::Animator(BaseGameEntity& owner)
 		: mTextureManager(owner.getWorld().getTextureManager())
 		, mpSpriteRenderer(nullptr)
-		, mAnimationStr{""}
-		, mpAnimation(nullptr)
+		, mAnimation()
 		, mCurrPlayTime(sf::Time::Zero)
 	{
 		if (auto* pRenderer = owner.getComponent<Renderer<sf::Sprite>>())
@@ -30,22 +29,21 @@ namespace te
 		}
 	}
 
-	void Animator::setAnimation(const std::string& animationStr)
+	void Animator::setAnimation(const Animation& animation)
 	{
-		//mpAnimation = &mTextureManager.getAnimation(TextureManager::getID(animationStr));
-		mAnimationStr = animationStr;
-
-		mpSpriteRenderer->setDrawable(mpAnimation->getSprite(sf::Time::Zero));
+		if (animation.getDuration() <= sf::Time::Zero) return;
+		mAnimation = animation;
+		mpSpriteRenderer->setDrawable(mAnimation.getSprite(sf::Time::Zero));
 		mCurrPlayTime = sf::Time::Zero;
 	}
 
 	void Animator::update(const sf::Time& dt)
 	{
-		if (!mpAnimation) return;
+		if (mAnimation.getDuration() <= sf::Time::Zero) return;
 
 		mCurrPlayTime += dt;
-		sf::Time duration = mpAnimation->getDuration();
+		sf::Time duration = mAnimation.getDuration();
 		if (mCurrPlayTime >= duration) mCurrPlayTime -= duration;
-		mpSpriteRenderer->setDrawable(mpAnimation->getSprite(mCurrPlayTime));
+		mpSpriteRenderer->setDrawable(mAnimation.getSprite(mCurrPlayTime));
 	}
 }
