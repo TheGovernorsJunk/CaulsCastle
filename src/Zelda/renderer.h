@@ -21,7 +21,8 @@ namespace te
 		}
 
 		void setDrawable(const T& drawable) { mDrawable = drawable; }
-		void setDrawable(T&& drawable) { mDrawable = std::move(drawable); }
+		//void setDrawable(T&& drawable) { mDrawable = std::move(drawable); }
+		const T& getDrawable() const { return mDrawable; }
 
 	private:
 		Renderer(BaseGameEntity& owner)
