@@ -164,6 +164,7 @@ namespace te
 			.beginClass<ResourceID<TMX>>("TMXID")
 			.endClass()
 			.beginClass<TileMapLayer>("TileMapLayer")
+				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
@@ -183,9 +184,9 @@ namespace te
 			.beginClass<BaseGameEntity>("BaseGameEntity")
 				.addProperty("position", &BaseGameEntity::getPosition, &BaseGameEntity::setPosition)
 				.addFunction<void(BaseGameEntity::*)(float,float)>("move", &BaseGameEntity::move)
-				.addProperty("drawOrder", &BaseGameEntity::getDrawOrder, &BaseGameEntity::setDrawOrder)
 				.addFunction("die", &BaseGameEntity::die)
 				.addProperty("rigidBody", &BaseGameEntity::getComponent<RigidBody>)
+				.addProperty("spriteRenderer", &BaseGameEntity::getComponent<Renderer<sf::Sprite>>)
 				.addFunction("addRigidBody", &BaseGameEntity::addComponent<RigidBody, int>)
 				.addFunction("addAnimator", &BaseGameEntity::addComponent<Animator>)
 				.addFunction("addLayerRenderer", &BaseGameEntity::addComponent<Renderer<TileMapLayer>>)
@@ -207,8 +208,13 @@ namespace te
 			.beginClass<Animator>("Animator")
 				.addProperty("animation", &Animator::getAnimation, &Animator::setAnimation)
 			.endClass()
-			.beginClass<Renderer<TileMapLayer>>("Renderer")
+			.beginClass<DrawComponent>("DrawComponent")
+				.addProperty("drawOrder", &DrawComponent::getDrawOrder, &DrawComponent::setDrawOrder)
+			.endClass()
+			.deriveClass<Renderer<TileMapLayer>, DrawComponent>("LayerRenderer")
 				.addProperty("layer", &Renderer<TileMapLayer>::getDrawable, &Renderer<TileMapLayer>::setDrawable)
+			.endClass()
+			.deriveClass<Renderer<sf::Sprite>, DrawComponent>("SpriteRenderer")
 			.endClass();
 
 		doLuaFile(*L, initFilename);
