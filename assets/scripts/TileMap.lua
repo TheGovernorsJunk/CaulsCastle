@@ -3,6 +3,7 @@ local function init(entity, game, layers)
       local renderer = entity:addLayerRenderer()
       renderer.layer = layer
    end
+   entity.data.rigidBody = entity:addRigidBody(BodyType.Static)
 end
 
 TileMap = {

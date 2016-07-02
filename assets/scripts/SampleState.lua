@@ -11,6 +11,11 @@ local function init(game)
    local mapID = game:makeEntity(TileMap, layers)
    local map = game:getEntity(mapID)
 
+   local mapRB = map.data.rigidBody
+   for _,polygon in ipairs(game:getObjects(tmxID, 'Collisions')) do
+      mapRB:attachFixture(getShape(polygon, map))
+   end
+
    local z = 0
    for i,name in ipairs(game:getLayerNames(tmxID)) do
       if name == 'Entities' then
