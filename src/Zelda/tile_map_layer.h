@@ -30,6 +30,8 @@ namespace te
 
 		TileMapLayer();
 
+		unsigned getIndex() const { return m_Index; }
+
 	private:
 		TileMapLayer(const TMX& tmx, const TMX::Layer& layer, const std::vector<const sf::Texture*>& textures);
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
@@ -39,6 +41,7 @@ namespace te
 			const sf::Texture* tilesetTexture;
 			sf::VertexArray vertexArray;
 		};
+		unsigned m_Index;
 		std::vector<Model> m_Models;
 	};
 }

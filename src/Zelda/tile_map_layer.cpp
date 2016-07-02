@@ -4,10 +4,11 @@
 
 namespace te
 {
-	TileMapLayer::TileMapLayer() : m_Models{} {}
+	TileMapLayer::TileMapLayer() : m_Index{0}, m_Models {} {}
 
 	TileMapLayer::TileMapLayer(const TMX& tmx, const TMX::Layer& layer, const std::vector<const sf::Texture*>& textures)
-		: m_Models{}
+		: m_Index{layer.index}
+		, m_Models{}
 	{
 		std::transform(textures.begin(), textures.end(), std::back_inserter(m_Models), [](const sf::Texture* pTexture) {
 			return Model{pTexture, {}};
