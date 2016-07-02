@@ -52,7 +52,7 @@ namespace te
 		CameraEntity& getCamera() const;
 		void dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info);
 		TileMap* getMap(EntityID mapID) const;
-		luabridge::LuaRef getObjects(EntityID mapID, const std::string& groupName) const;
+		luabridge::LuaRef getObjects(ResourceID<TMX> tmxID, const std::string& groupName) const;
 		luabridge::LuaRef getLayerNames(EntityID mapID) const;
 		float getAnimationDuration(const std::string& animationStr) const;
 		bool rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance = std::numeric_limits<float>::max() * 0.5f);

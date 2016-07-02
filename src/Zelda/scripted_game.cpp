@@ -324,29 +324,26 @@ namespace te
 		return nullptr;
 	}
 
-	luabridge::LuaRef ScriptedGame::getObjects(EntityID mapID, const std::string& groupName) const
+	luabridge::LuaRef ScriptedGame::getObjects(ResourceID<TMX> tmxID, const std::string& groupName) const
 	{
 		luabridge::LuaRef table = luabridge::newTable(mpL.get());
 
-		TileMap* map = getMap(mapID);
-		if (map)
-		{
-			std::vector<TileMap::Area> areas;
-			map->getAreasInGroup(groupName, std::back_inserter(areas));
+		const TMX& tmx = getTMXManager().get(tmxID);
+		std::vector<TMX::Object> objects;
+		getObjectsInGroup(tmx, groupName, std::back_inserter(objects));
 
-			int index = 1;
-			std::for_each(areas.begin(), areas.end(), [this, &table, &index](TileMap::Area& area) {
-				luabridge::LuaRef obj = luabridge::newTable(mpL.get());
-				obj["id"] = area.id;
-				if (area.name != "") obj["name"] = area.name;
-				if (area.type != "") obj["type"] = area.type;
-				obj["x"] = area.rect.left;
-				obj["y"] = area.rect.top;
-				obj["w"] = area.rect.width;
-				obj["h"] = area.rect.height;
-				table[index++] = obj;
-			});
-		}
+		int index = 1;
+		std::for_each(objects.begin(), objects.end(), [this, &table, &index](TMX::Object& area) {
+			luabridge::LuaRef obj = luabridge::newTable(mpL.get());
+			obj["id"] = area.id;
+			if (area.name != "") obj["name"] = area.name;
+			if (area.type != "") obj["type"] = area.type;
+			obj["x"] = area.x;
+			obj["y"] = area.y;
+			obj["w"] = area.width;
+			obj["h"] = area.height;
+			table[index++] = obj;
+		});
 
 		return table;
 	}
