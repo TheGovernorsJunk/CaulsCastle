@@ -47,6 +47,7 @@ namespace te
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		ResourceManager<TMX>& getTMXManager() { return mTMXManager; }
+		const ResourceManager<TMX>& getTMXManager() const { return mTMXManager; }
 
 		// For safe resource freeing in ScriptedGame
 		void storeLuaState(std::unique_ptr<lua_State, std::function<void(lua_State*)>>&& pL) { mpL = std::move(pL); }
