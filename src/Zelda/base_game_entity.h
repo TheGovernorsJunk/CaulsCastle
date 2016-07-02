@@ -46,13 +46,13 @@ namespace te
 		{
 			auto upComponent = Component::make(*this, args...);
 			Component* pComponent = upComponent.get();
-			mComponents.push_back(std::move(upComponent));
 			if (auto* pUpdateComponent = dynamic_cast<UpdateComponent*>(pComponent))
 				mUpdateComponents.push_back(pUpdateComponent);
 			else if (auto* pDrawComponent = dynamic_cast<DrawComponent*>(pComponent))
 				mDrawComponents.push_back(pDrawComponent);
 			else
 				throw std::runtime_error{"BaseGameEntity::addComponent: component must either be UpdateComponent or DrawComponent."};
+			mComponents.push_back(std::move(upComponent));
 			return *pComponent;
 		}
 
