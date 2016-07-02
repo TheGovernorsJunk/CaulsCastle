@@ -12,7 +12,7 @@ namespace te
 	class BaseGameEntity;
 
 	template<typename T>
-	class Renderer : public Component
+	class Renderer : public DrawComponent
 	{
 	public:
 		static std::unique_ptr<Renderer<T>> make(BaseGameEntity& owner)

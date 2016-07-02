@@ -18,7 +18,7 @@ namespace te
 	class Game;
 	class Shape;
 
-	class RigidBody : public Component
+	class RigidBody : public UpdateComponent
 	{
 	public:
 		// use b2BodyType enum; Lua needs int to interface

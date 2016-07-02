@@ -7,12 +7,23 @@ namespace te
 {
 	class BaseGameEntity;
 
-	class Component : public sf::Drawable
+	class Component
 	{
 	public:
 		virtual ~Component() {}
-		virtual void update(const sf::Time& dt) {}
-		virtual void draw(sf::RenderTarget& draw, sf::RenderStates states) const {}
+	};
+
+	class UpdateComponent : public Component
+	{
+	public:
+		virtual ~UpdateComponent() {}
+		virtual void update(const sf::Time& dt) = 0;
+	};
+
+	class DrawComponent : public Component, public sf::Drawable
+	{
+	public:
+		virtual ~DrawComponent() {}
 	};
 }
 

@@ -15,7 +15,7 @@ namespace te
 	class TextureManager;
 	class Animation;
 
-	class Animator : public Component
+	class Animator : public UpdateComponent
 	{
 	public:
 		static std::unique_ptr<Animator> make(BaseGameEntity& owner);

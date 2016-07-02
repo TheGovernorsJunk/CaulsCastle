@@ -28,7 +28,7 @@ namespace te
 
 	void BaseGameEntity::update(const sf::Time& dt)
 	{
-		for (auto& component : mComponents) component->update(dt);
+		for (auto& component : mUpdateComponents) component->update(dt);
 		onUpdate(dt);
 	}
 
@@ -82,7 +82,7 @@ namespace te
 	void BaseGameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= BaseGameEntity::getTransform();
-		for (auto& component : mComponents) target.draw(*component, states);
+		for (auto& component : mDrawComponents) target.draw(*component, states);
 	}
 
 	//void BaseGameEntity::attachRigidBody(int bodyType)
