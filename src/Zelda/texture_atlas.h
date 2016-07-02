@@ -24,17 +24,17 @@ namespace te
 			int h;
 			int x;
 			int y;
-			TextureID n;
+			std::string n;
 			bool r;
 		};
 		struct Clip
 		{
 			int index;
-			TextureID spriteID;
+			std::string spriteID;
 		};
 		struct Animation
 		{
-			TextureID id;
+			std::string id;
 			std::vector<Clip> clips;
 		};
 
@@ -43,7 +43,7 @@ namespace te
 
 		//TextureID getTextureID() const;
 		const std::string& getImagePath() const { return mImagePath; }
-		Sprite getSprite(TextureID id) const;
+		Sprite getSprite(const std::string& id) const;
 
 		size_t getSpriteCount() const;
 
@@ -70,8 +70,8 @@ namespace te
 		int mWidth;
 		int mHeight;
 		std::string mImagePath;
-		std::map<TextureID, Sprite> mSprites;
-		std::map<TextureID, Animation> mAnimations;
+		std::map<std::string, Sprite> mSprites;
+		std::map<std::string, Animation> mAnimations;
 	};
 }
 

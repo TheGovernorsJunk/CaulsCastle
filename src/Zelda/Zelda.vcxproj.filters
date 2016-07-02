@@ -21,9 +21,6 @@
     <ClCompile Include="tmx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="texture_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="entity_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -125,9 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tmx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="texture_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="base_game_entity.h">

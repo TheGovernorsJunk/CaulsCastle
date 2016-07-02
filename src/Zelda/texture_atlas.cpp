@@ -39,16 +39,15 @@ namespace te
 		for (auto* pSprite = pAtlasNode->first_node("sprite"); pSprite != 0; pSprite = pSprite->next_sibling("sprite"))
 		{
 			std::string filename(pSprite->first_attribute("n")->value());
-			TextureID spriteID = TextureManager::getID(filename);
 
 			std::smatch match;
 			if (std::regex_match(filename, match, animationEx))
 			{
 				int index = std::stoi(match[1]);
-				TextureID animationID = TextureManager::getID(match[2]);
-				Animation& animation = mAnimations[animationID];
-				animation.id = animationID;
-				animation.clips.push_back(Clip{index, spriteID});
+				std::string animationStr = match[2];
+				Animation& animation = mAnimations[animationStr];
+				animation.id = animationStr;
+				animation.clips.push_back(Clip{index, filename});
 			}
 
 			bool r = false;
@@ -58,14 +57,14 @@ namespace te
 				r = true;
 			}
 
-			mSprites.insert(std::make_pair(spriteID, Sprite{
+			mSprites.insert(std::make_pair(filename, Sprite{
 				std::stof(pSprite->first_attribute("pX")->value()),
 				std::stof(pSprite->first_attribute("pY")->value()),
 				std::stoi(pSprite->first_attribute("w")->value()),
 				std::stoi(pSprite->first_attribute("h")->value()),
 				std::stoi(pSprite->first_attribute("x")->value()),
 				std::stoi(pSprite->first_attribute("y")->value()),
-				spriteID,
+				filename,
 				r
 			}));
 		}
@@ -85,9 +84,9 @@ namespace te
 	//	return mImagePathID;
 	//}
 
-	TextureAtlas::Sprite TextureAtlas::getSprite(TextureID hash) const
+	TextureAtlas::Sprite TextureAtlas::getSprite(const std::string& name) const
 	{
-		return mSprites.at(hash);
+		return mSprites.at(name);
 	}
 
 	size_t TextureAtlas::getSpriteCount() const
