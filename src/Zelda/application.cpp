@@ -7,9 +7,7 @@
 
 namespace te
 {
-	Application::Application()
-		: mpTextureManager(TextureManager::make())
-	{}
+	Application::Application() {}
 	Application::~Application() {}
 
 	void Application::run(int fps)
@@ -51,11 +49,6 @@ namespace te
 			render(*window, *pGame);
 			window->display();
 		}
-	}
-
-	TextureManager& Application::getTextureManager() const
-	{
-		return *mpTextureManager;
 	}
 
 	void Application::processInput(const sf::Event& evt, Runnable& runnable)

@@ -20,11 +20,6 @@ namespace te
 		mStateStack.queueClear();
 	}
 
-	TextureManager& GameState::getTextureManager()
-	{
-		return mStateStack.getApplication().getTextureManager();
-	}
-
 	Application& GameState::getApplication()
 	{
 		return mStateStack.getApplication();

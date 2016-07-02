@@ -25,8 +25,6 @@ namespace te
 		Application();
 		virtual ~Application();
 
-		TextureManager& getTextureManager() const;
-
 		void run(int fps = 60);
 	private:
 		virtual std::unique_ptr<sf::RenderWindow> makeWindow() const = 0;
@@ -35,8 +33,6 @@ namespace te
 		virtual void processInput(const sf::Event& evt, Runnable& game);
 		virtual void update(const sf::Time& dt, Runnable& game);
 		virtual void render(sf::RenderTarget& target, Runnable& game);
-
-		std::unique_ptr<TextureManager> mpTextureManager;
 	};
 }
 

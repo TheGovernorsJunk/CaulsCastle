@@ -27,7 +27,6 @@ namespace te
 		}
 		void popState();
 		void clearStates();
-		TextureManager& getTextureManager();
 
 	private:
 		friend class StateStack;
