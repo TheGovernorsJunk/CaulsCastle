@@ -23,7 +23,12 @@ namespace te
 	class DrawComponent : public Component, public sf::Drawable
 	{
 	public:
+		DrawComponent() : m_Z{0} {}
 		virtual ~DrawComponent() {}
+		void setDrawOrder(int z) { m_Z = z; }
+		int getDrawOrder() const { return m_Z; }
+	private:
+		int m_Z;
 	};
 }
 
