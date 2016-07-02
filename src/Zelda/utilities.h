@@ -44,6 +44,20 @@ namespace te
 			out++ = dir + it->image.source;
 		}
 	}
+
+	template <typename Iter>
+	void getObjectsInGroup(const TMX& tmx, const std::string& groupName, Iter out)
+	{
+		std::vector<TMX::ObjectGroup> objectGroups{ tmx.getObjectGroups() };
+		std::for_each(objectGroups.begin(), objectGroups.end(), [&groupName, &out](TMX::ObjectGroup& objectGroup) {
+			if (groupName == objectGroup.name)
+			{
+				std::for_each(objectGroup.objects.begin(), objectGroup.objects.end(), [this, &out](TMX::Object& object) {
+					(out++) = object;
+				});
+			}
+		});
+	}
 }
 
 #endif
