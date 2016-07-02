@@ -106,7 +106,7 @@ namespace te
 	{
 		struct PendingDraw
 		{
-			const BaseGameEntity* entity;
+			sf::Transform transform;
 			const DrawComponent* component;
 		};
 
@@ -115,15 +115,15 @@ namespace te
 		{
 			std::vector<DrawComponent*> components{};
 			pEntity->getDrawComponents(std::back_inserter(components));
-			for (auto component : components) pendingDraws.push_back(PendingDraw{pEntity.get(), component});
+			sf::Transform transform = states.transform * pEntity->getTransform();
+			for (auto component : components) pendingDraws.push_back(PendingDraw{transform, component});
 		}
 		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const PendingDraw& a, const PendingDraw& b) {
-			return a.component->getDrawOrder() < b.component->getDrawOrder() || (a.component->getDrawOrder() == b.component->getDrawOrder() && a.entity->getTransform().transformPoint({0, 0}).y < b.entity->getTransform().transformPoint({0, 0}).y);
+			return a.component->getDrawOrder() < b.component->getDrawOrder() || (a.component->getDrawOrder() == b.component->getDrawOrder() && a.transform.transformPoint({ 0, 0 }).y < b.transform.transformPoint({ 0, 0 }).y);
 		});
 		for (auto& drawable : pendingDraws) {
-			sf::RenderStates s = states;
-			s.transform *= drawable.entity->getTransform();
-			target.draw(*drawable.component, s);
+			states.transform = drawable.transform;
+			target.draw(*drawable.component, states);
 		}
 	}
 
