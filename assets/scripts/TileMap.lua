@@ -10,3 +10,5 @@ end
 TileMap = {
    init = init
 }
+
+return TileMap
