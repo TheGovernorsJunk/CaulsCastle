@@ -167,12 +167,15 @@ namespace te
 			.beginClass<TileMapLayer>("TileMapLayer")
 				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
+			.beginClass<sf::Sprite>("Sprite")
+			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
 				.addFunction("loadAtlas", &ScriptedGame::loadAtlas)
 				.addFunction("getSpriteData", &ScriptedGame::getAtlasSprites)
 				.addFunction("loadTexture", &ScriptedGame::loadTexture)
+				.addFunction("makeSprite", &ScriptedGame::makeSprite)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getEntity", &ScriptedGame::getScriptedEntity)
 				.addProperty("camera", &ScriptedGame::getCamera)
@@ -191,6 +194,7 @@ namespace te
 				.addProperty("rigidBody", &BaseGameEntity::getComponent<RigidBody>)
 				.addProperty("spriteRenderer", &BaseGameEntity::getComponent<Renderer<sf::Sprite>>)
 				.addFunction("addRigidBody", &BaseGameEntity::addComponent<RigidBody, int>)
+				.addFunction("addSpriteRenderer", &BaseGameEntity::addComponent<Renderer<sf::Sprite>>)
 				.addFunction("addAnimator", &BaseGameEntity::addComponent<Animator>)
 				.addFunction("addLayerRenderer", &BaseGameEntity::addComponent<Renderer<TileMapLayer>>)
 			.endClass()
@@ -218,6 +222,7 @@ namespace te
 				.addProperty("layer", &Renderer<TileMapLayer>::getDrawable, &Renderer<TileMapLayer>::setDrawable)
 			.endClass()
 			.deriveClass<Renderer<sf::Sprite>, DrawComponent>("SpriteRenderer")
+				.addProperty("sprite", &Renderer<sf::Sprite>::getDrawable, &Renderer<sf::Sprite>::setDrawable)
 			.endClass();
 
 		doLuaFile(*L, initFilename);
@@ -331,6 +336,13 @@ namespace te
 	ResourceID<sf::Texture> ScriptedGame::loadTexture(const std::string& filename)
 	{
 		return getTextureManager().load(filename);
+	}
+
+	sf::Sprite ScriptedGame::makeSprite(ResourceID<sf::Texture> textureID, luabridge::LuaRef rect)
+	{
+		sf::Sprite sprite{getTextureManager().get(textureID), sf::IntRect{rect["x"], rect["y"], rect["w"], rect["h"]}};
+		sprite.setOrigin(rect["w"].cast<float>() * rect["pX"].cast<float>(), rect["h"].cast<float>() * rect["pY"].cast<float>());
+		return sprite;
 	}
 
 	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)
