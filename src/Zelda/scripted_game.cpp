@@ -169,6 +169,8 @@ namespace te
 			.endClass()
 			.beginClass<sf::Sprite>("Sprite")
 			.endClass()
+			.beginClass<Animation>("Animation")
+			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
@@ -176,6 +178,7 @@ namespace te
 				.addFunction("getSpriteData", &ScriptedGame::getAtlasSprites)
 				.addFunction("loadTexture", &ScriptedGame::loadTexture)
 				.addFunction("makeSprite", &ScriptedGame::makeSprite)
+				.addFunction("makeAnimation", &ScriptedGame::makeAnimation)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
 				.addFunction("getEntity", &ScriptedGame::getScriptedEntity)
 				.addProperty("camera", &ScriptedGame::getCamera)
@@ -343,6 +346,19 @@ namespace te
 		sf::Sprite sprite{getTextureManager().get(textureID), sf::IntRect{rect["x"], rect["y"], rect["w"], rect["h"]}};
 		sprite.setOrigin(rect["w"].cast<float>() * rect["pX"].cast<float>(), rect["h"].cast<float>() * rect["pY"].cast<float>());
 		return sprite;
+	}
+
+	Animation ScriptedGame::makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame)
+	{
+		std::vector<Animation::Frame> frames{};
+		int index = 1;
+		luabridge::LuaRef frame = spriteArr[index];
+		while (!frame.isNil())
+		{
+			frames.push_back({frame.cast<sf::Sprite>()});
+			frame = spriteArr[++index];
+		}
+		return Animation{frames.begin(), frames.end(), sf::milliseconds(millisecondsPerFrame)};
 	}
 
 	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)
