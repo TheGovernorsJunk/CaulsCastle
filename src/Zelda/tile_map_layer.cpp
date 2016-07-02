@@ -25,6 +25,8 @@ namespace te
 		{
 			int width = tmx.getWidth();
 			int height = tmx.getHeight();
+			int tileWidth = tmx.getTileWidth();
+			int tileHeight = tmx.getTileHeight();
 
 			size_t tileIndex = 0;
 			for (auto tile : layer.data)
@@ -35,10 +37,10 @@ namespace te
 					int y = tileIndex / width;
 
 					std::array<sf::Vertex, 4> quad;
-					quad[0].position = {(float)(width * x), (float)(height * y)};
-					quad[1].position = {(float)(width * (x + 1)), (float)(height * y)};
-					quad[2].position = {(float)(width * (x + 1)), (float)(height * (y + 1))};
-					quad[3].position = {(float)(width * x), (float)(height * (y + 1))};
+					quad[0].position = {(float)(tileWidth * x), (float)(tileHeight * y)};
+					quad[1].position = {(float)(tileWidth * (x + 1)), (float)(tileHeight * y)};
+					quad[2].position = {(float)(tileWidth * (x + 1)), (float)(tileHeight * (y + 1))};
+					quad[3].position = {(float)(tileWidth * x), (float)(tileHeight * (y + 1))};
 
 					size_t tilesetIndex = tmx.getTilesetIndex(tile.gid);
 					const TMX::Tileset& tileset = *tilesets[tilesetIndex];
