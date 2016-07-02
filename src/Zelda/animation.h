@@ -20,27 +20,26 @@ namespace te
 	class Animation
 	{
 	public:
-		virtual ~Animation() {}
-
-		const std::string& getID() const;
-		virtual const sf::Sprite& getSprite(const sf::Time& dt) const = 0;
-		virtual sf::Time getDuration() const = 0;
-
-	private:
-		struct Clip
+		struct Frame
 		{
-			std::string id;
 			sf::Sprite sprite;
 		};
-		class FixedIntervalAnimation;
-		class VariableIntervalAnimation;
+		template<class InputIt>
+		Animation(InputIt first, InputIt last, sf::Time timePerFrame)
+			: mFrames{first, last}
+			, mTimePerFrame{timePerFrame}
+			, mDuration{sf::Time::Zero}
+		{
+			for (auto& frame : mFrames) mDuration += timePerFrame;
+		}
 
-		static std::unique_ptr<Animation> make(const std::string& animationID, int millisecondsPerClip, std::vector<Clip>&& clips);
-		static std::unique_ptr<Animation> make(const TextureAtlas::Animation& animationData, const TextureManager& textureManager);
+		const sf::Sprite& getSprite(const sf::Time& dt) const;
+		const sf::Time& getDuration() const { return mDuration; }
 
-		Animation(const std::string& name);
-
-		std::string mName;
+	private:
+		std::vector<Frame> mFrames;
+		sf::Time mTimePerFrame;
+		sf::Time mDuration;
 	};
 }
 
