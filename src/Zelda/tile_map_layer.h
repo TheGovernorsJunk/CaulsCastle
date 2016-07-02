@@ -28,6 +28,8 @@ namespace te
 			});
 		}
 
+		TileMapLayer();
+
 	private:
 		TileMapLayer(const TMX& tmx, const TMX::Layer& layer, const std::vector<const sf::Texture*>& textures);
 		void draw(sf::RenderTarget&, sf::RenderStates) const;

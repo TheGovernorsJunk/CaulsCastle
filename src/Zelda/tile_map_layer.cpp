@@ -4,6 +4,8 @@
 
 namespace te
 {
+	TileMapLayer::TileMapLayer() : m_Models{} {}
+
 	TileMapLayer::TileMapLayer(const TMX& tmx, const TMX::Layer& layer, const std::vector<const sf::Texture*>& textures)
 		: m_Models{}
 	{
