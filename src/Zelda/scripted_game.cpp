@@ -348,20 +348,17 @@ namespace te
 		return table;
 	}
 
-	luabridge::LuaRef ScriptedGame::getLayerNames(EntityID mapID) const
+	luabridge::LuaRef ScriptedGame::getLayerNames(ResourceID<TMX> tmxID) const
 	{
 		luabridge::LuaRef table = luabridge::newTable(mpL.get());
 
-		TileMap* map = getMap(mapID);
-		if (map)
-		{
-			std::vector<std::string> layerNames;
-			map->getLayerNames(std::back_inserter(layerNames));
-			size_t index = 1;
-			std::for_each(layerNames.begin(), layerNames.end(), [&index, &table](const std::string& name) {
-				table[index++] = name;
-			});
-		}
+		const TMX& tmx = getTMXManager().get(tmxID);
+		std::vector<std::string> layerNames;
+		tmx.getLayerNames(std::back_inserter(layerNames));
+		size_t index = 1;
+		std::for_each(layerNames.begin(), layerNames.end(), [&index, &table](const std::string& name) {
+			table[index++] = name;
+		});
 
 		return table;
 	}

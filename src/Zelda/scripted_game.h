@@ -53,7 +53,7 @@ namespace te
 		void dispatchMessage(double delay, EntityID sender, EntityID receiver, luabridge::LuaRef info);
 		TileMap* getMap(EntityID mapID) const;
 		luabridge::LuaRef getObjects(ResourceID<TMX> tmxID, const std::string& groupName) const;
-		luabridge::LuaRef getLayerNames(EntityID mapID) const;
+		luabridge::LuaRef getLayerNames(ResourceID<TMX> tmxID) const;
 		float getAnimationDuration(const std::string& animationStr) const;
 		bool rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance = std::numeric_limits<float>::max() * 0.5f);
 		luabridge::LuaRef getEntitiesInRegion(const AABB*) const;
