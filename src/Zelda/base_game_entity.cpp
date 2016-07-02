@@ -15,7 +15,6 @@ namespace te
 
 	BaseGameEntity::BaseGameEntity(Game& world)
 		: mID(UNREGISTERED_ID)
-		, mZ(0)
 		, mMarkedForRemoval(false)
 		, mComponents()
 		, mWorld(world)
@@ -59,16 +58,6 @@ namespace te
 	//	SceneNode::attachNode(std::move(pEntity));
 	//}
 
-	void BaseGameEntity::setDrawOrder(int z)
-	{
-		mZ = z;
-	}
-
-	int BaseGameEntity::getDrawOrder() const
-	{
-		return mZ;
-	}
-
 	const sf::Transform& BaseGameEntity::getTransform() const
 	{
 		return sf::Transformable::getTransform();
@@ -77,12 +66,6 @@ namespace te
 	const sf::Vector2f& BaseGameEntity::getPosition() const
 	{
 		return sf::Transformable::getPosition();
-	}
-
-	void BaseGameEntity::draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		states.transform *= BaseGameEntity::getTransform();
-		for (auto& component : mDrawComponents) target.draw(*component, states);
 	}
 
 	//void BaseGameEntity::attachRigidBody(int bodyType)

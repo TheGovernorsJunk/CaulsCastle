@@ -18,7 +18,7 @@ namespace te
 	class Game;
 	class Shape;
 
-	class BaseGameEntity : private sf::Transformable, public sf::Drawable
+	class BaseGameEntity : private sf::Transformable
 	{
 	public:
 		const static int UNREGISTERED_ID = 0;
@@ -32,8 +32,6 @@ namespace te
 		EntityID getID() const;
 		const Game& getWorld() const;
 		Game& getWorld();
-		void setDrawOrder(int z);
-		int getDrawOrder() const;
 		const sf::Transform& getTransform() const;
 		void setPosition(const sf::Vector2f& position) { sf::Transformable::setPosition(position); }
 		const sf::Vector2f& getPosition() const;
@@ -74,16 +72,19 @@ namespace te
 			return pComponent;
 		}
 
+		template<typename Iter>
+		void getDrawComponents(Iter out)
+		{
+			for (auto& component : mDrawComponents) out++ = component;
+		}
+
 	protected:
 		virtual void onUpdate(const sf::Time& dt) {}
 
 	private:
 		friend class EntityManager;
 
-		void draw(sf::RenderTarget&, sf::RenderStates) const;
-
 		int mID;
-		int mZ;
 		bool mMarkedForRemoval;
 		std::vector<std::unique_ptr<Component>> mComponents;
 		std::vector<UpdateComponent*> mUpdateComponents;
