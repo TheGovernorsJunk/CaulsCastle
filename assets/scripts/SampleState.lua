@@ -10,7 +10,10 @@ local function init(game)
    local layers = game:makeMapLayers(tmxID)
    local mapID = game:makeEntity(TileMap, layers)
    local map = game:getEntity(mapID)
-   map.position = Vec(-300, -300)
+   for _,object in ipairs(game:getObjects(tmxID, 'Entities')) do
+      print(object.name)
+   end
+
    -- game:loadSpritesheet('assets/spritesheets/hero/hero.xml')
    -- local mapID = game:loadMap('assets/maps/time_fantasy.tmx')
 
