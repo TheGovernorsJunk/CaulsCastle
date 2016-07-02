@@ -32,6 +32,7 @@ namespace te
 		{
 			for (auto& frame : mFrames) mDuration += timePerFrame;
 		}
+		Animation::Animation();
 
 		const sf::Sprite& getSprite(const sf::Time& dt) const;
 		const sf::Time& getDuration() const { return mDuration; }
