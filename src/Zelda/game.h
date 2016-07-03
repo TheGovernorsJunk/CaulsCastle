@@ -5,6 +5,7 @@
 #include "resource_manager.h"
 #include "tmx.h"
 #include "texture_atlas.h"
+#include "animation.h"
 
 #include <SFML/Graphics.hpp>
 #include <lua.hpp>
@@ -32,6 +33,12 @@ namespace te
 		//Application& getApplication();
 		ResourceManager<sf::Texture>& getTextureManager() { return mTextureManager; }
 		const ResourceManager<sf::Texture>& getTextureManager() const { return mTextureManager; }
+
+		ResourceManager<sf::Sprite>& getSpriteManager() { return mSpriteManager; }
+		const ResourceManager<sf::Sprite>& getSpriteManager() const { return mSpriteManager; }
+
+		ResourceManager<Animation>& getAnimationManager() { return mAnimationManager; }
+		const ResourceManager<Animation>& getAnimationManager() const { return mAnimationManager; }
 
 		EntityManager& getEntityManager() const;
 		MessageDispatcher& getMessageDispatcher() const;
@@ -64,6 +71,8 @@ namespace te
 		ResourceManager<TMX> mTMXManager;
 		ResourceManager<sf::Texture> mTextureManager;
 		ResourceManager<TextureAtlas> mAtlasManager;
+		ResourceManager<sf::Sprite> mSpriteManager;
+		ResourceManager<Animation> mAnimationManager;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
