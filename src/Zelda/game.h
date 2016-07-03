@@ -72,6 +72,8 @@ namespace te
 		Application& mApp;
 
 		template <typename T> ResourceManager<T>& getManager();
+		template <> ResourceManager<TMX>& getManager() { return mTMXManager; }
+		template <> ResourceManager<TextureAtlas>& getManager() { return mAtlasManager; }
 		template <> ResourceManager<TileMapLayer>& getManager() { return mLayerManager; }
 		template <> ResourceManager<sf::Texture>& getManager() { return mTextureManager; }
 		template <> ResourceManager<sf::Sprite>& getManager() { return mSpriteManager; }
