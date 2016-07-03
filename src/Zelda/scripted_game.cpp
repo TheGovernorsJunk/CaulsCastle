@@ -171,14 +171,14 @@ namespace te
 				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
 			.beginClass<Game>("Game")
+				.addFunction("loadTMX", &Game::load<TMX>)
 				.addFunction("getMapLayer", &Game::get<TileMapLayer>)
+				.addFunction("loadAtlas", &Game::load<TextureAtlas>)
+				.addFunction("loadTexture", &Game::load<sf::Texture>)
 			.endClass()
 			.deriveClass<ScriptedGame, Game>("ScriptedGame")
-				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
-				.addFunction("loadAtlas", &ScriptedGame::loadAtlas)
 				.addFunction("getSpriteData", &ScriptedGame::getAtlasSprites)
-				.addFunction("loadTexture", &ScriptedGame::loadTexture)
 				.addFunction("makeSprite", &ScriptedGame::makeSprite)
 				.addFunction("makeAnimation", &ScriptedGame::makeAnimation)
 				.addFunction("makeEntity", &ScriptedGame::makeEntity)
@@ -281,11 +281,6 @@ namespace te
 		storeLuaState(std::move(mpL));
 	}
 
-	ResourceID<TMX> ScriptedGame::loadTMX(const std::string& filename)
-	{
-		return getTMXManager().load(filename);
-	}
-
 	luabridge::LuaRef ScriptedGame::makeMapLayers(ResourceID<TMX> id)
 	{
 		luabridge::LuaRef table = luabridge::newTable(mpL.get());
@@ -304,11 +299,6 @@ namespace te
 		for (auto& layer : layers) table[index++] = store(std::make_unique<TileMapLayer>(layer));
 
 		return table;
-	}
-
-	ResourceID<TextureAtlas> ScriptedGame::loadAtlas(const std::string& filename)
-	{
-		return getAtlasManager().load(filename);
 	}
 
 	luabridge::LuaRef ScriptedGame::getAtlasSprites(ResourceID<TextureAtlas> id) const
@@ -336,11 +326,6 @@ namespace te
 		}
 
 		return table;
-	}
-
-	ResourceID<sf::Texture> ScriptedGame::loadTexture(const std::string& filename)
-	{
-		return load<sf::Texture>(filename);
 	}
 
 	ResourceID<sf::Sprite> ScriptedGame::makeSprite(ResourceID<sf::Texture> textureID, luabridge::LuaRef rect)

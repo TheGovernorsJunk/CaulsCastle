@@ -44,11 +44,8 @@ namespace te
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 	private:
 		ScriptedGame(Application& app, const std::string& initFilename);
-		ResourceID<TMX> loadTMX(const std::string& filename);
 		luabridge::LuaRef makeMapLayers(ResourceID<TMX>);
-		ResourceID<TextureAtlas> loadAtlas(const std::string& filename);
 		luabridge::LuaRef getAtlasSprites(ResourceID<TextureAtlas>) const;
-		ResourceID<sf::Texture> loadTexture(const std::string& filename);
 		ResourceID<sf::Sprite> makeSprite(ResourceID<sf::Texture>, luabridge::LuaRef rect);
 		ResourceID<Animation> makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame);
 		EntityID makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable);
