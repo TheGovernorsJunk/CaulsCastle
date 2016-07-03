@@ -50,8 +50,8 @@ namespace te
 		ResourceID<TextureAtlas> loadAtlas(const std::string& filename);
 		luabridge::LuaRef getAtlasSprites(ResourceID<TextureAtlas>) const;
 		ResourceID<sf::Texture> loadTexture(const std::string& filename);
-		sf::Sprite makeSprite(ResourceID<sf::Texture>, luabridge::LuaRef rect);
-		Animation makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame);
+		ResourceID<sf::Sprite> makeSprite(ResourceID<sf::Texture>, luabridge::LuaRef rect);
+		ResourceID<Animation> makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame);
 		EntityID makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable);
 		ScriptedEntity* getScriptedEntity(EntityID id) const;
 		CameraEntity& getCamera() const;

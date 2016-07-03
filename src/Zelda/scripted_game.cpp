@@ -164,12 +164,10 @@ namespace te
 			.beginClass<ResourceID<TMX>>("TMXID").endClass()
 			.beginClass<ResourceID<TextureAtlas>>("AtlasID").endClass()
 			.beginClass<ResourceID<sf::Texture>>("TextureID").endClass()
+			.beginClass<ResourceID<sf::Sprite>>("SpriteID").endClass()
+			.beginClass<ResourceID<Animation>>("AnimationID").endClass()
 			.beginClass<TileMapLayer>("TileMapLayer")
 				.addProperty("index", &TileMapLayer::getIndex)
-			.endClass()
-			.beginClass<sf::Sprite>("Sprite")
-			.endClass()
-			.beginClass<Animation>("Animation")
 			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
@@ -341,24 +339,25 @@ namespace te
 		return getTextureManager().load(filename);
 	}
 
-	sf::Sprite ScriptedGame::makeSprite(ResourceID<sf::Texture> textureID, luabridge::LuaRef rect)
+	ResourceID<sf::Sprite> ScriptedGame::makeSprite(ResourceID<sf::Texture> textureID, luabridge::LuaRef rect)
 	{
-		sf::Sprite sprite{getTextureManager().get(textureID), sf::IntRect{rect["x"], rect["y"], rect["w"], rect["h"]}};
-		sprite.setOrigin(rect["w"].cast<float>() * rect["pX"].cast<float>(), rect["h"].cast<float>() * rect["pY"].cast<float>());
-		return sprite;
+		auto pSprite = std::make_unique<sf::Sprite>(getTextureManager().get(textureID), sf::IntRect{rect["x"], rect["y"], rect["w"], rect["h"]});
+		pSprite->setOrigin(rect["w"].cast<float>() * rect["pX"].cast<float>(), rect["h"].cast<float>() * rect["pY"].cast<float>());
+		return getSpriteManager().store(std::move(pSprite));
 	}
 
-	Animation ScriptedGame::makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame)
+	ResourceID<Animation> ScriptedGame::makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame)
 	{
 		std::vector<Animation::Frame> frames{};
 		int index = 1;
 		luabridge::LuaRef frame = spriteArr[index];
 		while (!frame.isNil())
 		{
-			frames.push_back({frame.cast<sf::Sprite>()});
+			sf::Sprite& sprite = getSpriteManager().get(frame.cast<ResourceID<sf::Sprite>>());
+			frames.push_back({sprite});
 			frame = spriteArr[++index];
 		}
-		return Animation{frames.begin(), frames.end(), sf::milliseconds(millisecondsPerFrame)};
+		return getAnimationManager().store(std::make_unique<Animation>(frames.begin(), frames.end(), sf::milliseconds(millisecondsPerFrame)));
 	}
 
 	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)
