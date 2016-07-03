@@ -21,17 +21,18 @@ namespace te
 	public:
 		static std::unique_ptr<Animator> make(BaseGameEntity& owner);
 
-		void setAnimation(const Animation& animation);
-		const Animation& getAnimation() const { return mAnimation; }
+		void setAnimation(ResourceID<Animation> animation);
+		ResourceID<Animation> getAnimation() const { return mAnimationID; }
 		void update(const sf::Time& dt);
 
 	private:
 		Animator(BaseGameEntity& owner);
 
-		ResourceManager<sf::Texture>& mTextureManager;
+		ResourceManager<Animation>& mAnimationManager;
 		Renderer<sf::Sprite>* mpSpriteRenderer;
 
-		Animation mAnimation;
+		ResourceID<Animation> mAnimationID;
+		Animation* mpAnimation;
 		sf::Time mCurrPlayTime;
 	};
 }
