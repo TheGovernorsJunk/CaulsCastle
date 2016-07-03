@@ -43,6 +43,11 @@ namespace te
 		void update(const sf::Time&);
 		void draw(sf::RenderTarget&, sf::RenderStates) const;
 	private:
+		template <typename Resource>
+		Resource* getResource(ResourceID<Resource> id)
+		{
+			return &getManager<Resource>().get(id);
+		}
 
 		ScriptedGame(Application& app, const std::string& initFilename);
 		ResourceID<TMX> loadTMX(const std::string& filename);
