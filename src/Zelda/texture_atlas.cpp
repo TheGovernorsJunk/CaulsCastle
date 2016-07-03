@@ -17,7 +17,6 @@ namespace te
 		, mHeight(0)
 		, mImagePath("")
 		, mSprites()
-		, mAnimations()
 	{}
 
 	bool TextureAtlas::loadFromFile(const std::string& filename)
@@ -40,16 +39,6 @@ namespace te
 		{
 			std::string filename(pSprite->first_attribute("n")->value());
 
-			std::smatch match;
-			if (std::regex_match(filename, match, animationEx))
-			{
-				int index = std::stoi(match[1]);
-				std::string animationStr = match[2];
-				Animation& animation = mAnimations[animationStr];
-				animation.id = animationStr;
-				animation.clips.push_back(Clip{index, filename});
-			}
-
 			bool r = false;
 			auto* pR = pSprite->first_attribute("r");
 			if (pR && std::string(pR->value()) == "y")
@@ -69,28 +58,11 @@ namespace te
 			}));
 		}
 
-		for (auto& anim : mAnimations)
-		{
-			std::sort(anim.second.clips.begin(), anim.second.clips.end(), [](Clip a, Clip b) {
-				return a.index < b.index;
-			});
-		}
-
 		return true;
 	}
-
-	//TextureID TextureAtlas::getTextureID() const
-	//{
-	//	return mImagePathID;
-	//}
 
 	TextureAtlas::Sprite TextureAtlas::getSprite(const std::string& name) const
 	{
 		return mSprites.at(name);
-	}
-
-	size_t TextureAtlas::getSpriteCount() const
-	{
-		return mSprites.size();
 	}
 }
