@@ -3,6 +3,7 @@
 
 #include "typedefs.h"
 #include "texture_atlas.h"
+#include "resource_manager.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -22,7 +23,7 @@ namespace te
 	public:
 		struct Frame
 		{
-			sf::Sprite sprite;
+			ResourceID<sf::Sprite> spriteID;
 		};
 		template<class InputIt>
 		Animation(InputIt first, InputIt last, sf::Time timePerFrame)
@@ -34,7 +35,7 @@ namespace te
 		}
 		Animation::Animation();
 
-		const sf::Sprite& getSprite(const sf::Time& dt) const;
+		ResourceID<sf::Sprite> getSpriteID(const sf::Time& dt) const;
 		const sf::Time& getDuration() const { return mDuration; }
 
 	private:

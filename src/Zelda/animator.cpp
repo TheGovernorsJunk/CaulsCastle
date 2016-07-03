@@ -36,7 +36,7 @@ namespace te
 		if (pAnimation->getDuration() <= sf::Time::Zero) return;
 		mpAnimation = pAnimation;
 		mAnimationID = id;
-		mpSpriteRenderer->setDrawable(mpAnimation->getSprite(sf::Time::Zero));
+		mpSpriteRenderer->setDrawable(mpAnimation->getSpriteID(sf::Time::Zero));
 		mCurrPlayTime = sf::Time::Zero;
 	}
 
@@ -47,6 +47,6 @@ namespace te
 		mCurrPlayTime += dt;
 		sf::Time duration = mpAnimation->getDuration();
 		if (mCurrPlayTime >= duration) mCurrPlayTime -= duration;
-		mpSpriteRenderer->setDrawable(mpAnimation->getSprite(mCurrPlayTime));
+		mpSpriteRenderer->setDrawable(mpAnimation->getSpriteID(mCurrPlayTime));
 	}
 }

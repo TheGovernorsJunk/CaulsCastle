@@ -12,9 +12,9 @@ namespace te
 		, mDuration{sf::Time::Zero}
 	{}
 
-	const sf::Sprite& Animation::getSprite(const sf::Time& dt) const
+	ResourceID<sf::Sprite> Animation::getSpriteID(const sf::Time& dt) const
 	{
 		size_t index = (size_t)(dt / mTimePerFrame) % mFrames.size();
-		return mFrames[index].sprite;
+		return mFrames[index].spriteID;
 	}
 }
