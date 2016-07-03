@@ -19,6 +19,12 @@ namespace te
 	}
 
 	template <typename Resource>
+	ResourceID<Resource> ResourceManager<Resource>::store(std::unique_ptr<Resource>&& pResource)
+	{
+		return insertResource(std::move(pResource));
+	}
+
+	template <typename Resource>
 	Resource& ResourceManager<Resource>::get(ResourceID<Resource> id)
 	{
 		auto found = m_ResourceMap.find(id.value);

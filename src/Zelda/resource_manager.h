@@ -22,6 +22,8 @@ namespace te
 		template <typename... Args>
 		ResourceID<Resource> load(const std::string& filename, Args&&... args);
 
+		ResourceID<Resource> store(std::unique_ptr<Resource>&&);
+
 		Resource& get(ResourceID<Resource> id);
 		const Resource& get(ResourceID<Resource> id) const;
 
