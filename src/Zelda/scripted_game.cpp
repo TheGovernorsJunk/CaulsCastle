@@ -166,12 +166,14 @@ namespace te
 			.beginClass<ResourceID<sf::Texture>>("TextureID").endClass()
 			.beginClass<ResourceID<sf::Sprite>>("SpriteID").endClass()
 			.beginClass<ResourceID<Animation>>("AnimationID").endClass()
+			.beginClass<ResourceID<TileMapLayer>>("MapLayerID").endClass()
 			.beginClass<TileMapLayer>("TileMapLayer")
 				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
 			.beginClass<ScriptedGame>("Game")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
+				.addFunction("getMapLayer", &ScriptedGame::getResource<TileMapLayer>)
 				.addFunction("loadAtlas", &ScriptedGame::loadAtlas)
 				.addFunction("getSpriteData", &ScriptedGame::getAtlasSprites)
 				.addFunction("loadTexture", &ScriptedGame::loadTexture)
@@ -297,7 +299,7 @@ namespace te
 		std::vector<TileMapLayer> layers{};
 		TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
 		size_t index = 1;
-		for (auto& layer : layers) table[index++] = layer;
+		for (auto& layer : layers) table[index++] = getManager<TileMapLayer>().store(std::make_unique<TileMapLayer>(layer));
 
 		return table;
 	}
@@ -353,8 +355,7 @@ namespace te
 		luabridge::LuaRef frame = spriteArr[index];
 		while (!frame.isNil())
 		{
-			sf::Sprite& sprite = getSpriteManager().get(frame.cast<ResourceID<sf::Sprite>>());
-			frames.push_back({sprite});
+			frames.push_back({frame.cast<ResourceID<sf::Sprite>>()});
 			frame = spriteArr[++index];
 		}
 		return getAnimationManager().store(std::make_unique<Animation>(frames.begin(), frames.end(), sf::milliseconds(millisecondsPerFrame)));
