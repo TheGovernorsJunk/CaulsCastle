@@ -25,7 +25,7 @@ namespace te
 
 		void setDrawable(ResourceID<T> id)
 		{
-			mDrawable = mOwner.getWorld().getManager<T>().get(id);
+			mDrawable = *mOwner.getWorld().get(id);
 			mResourceID = id;
 		}
 		//void setDrawable(T&& drawable) { mDrawable = std::move(drawable); }

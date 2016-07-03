@@ -14,7 +14,7 @@ namespace te
 	}
 
 	Animator::Animator(BaseGameEntity& owner)
-		: mAnimationManager(owner.getWorld().getAnimationManager())
+		: mWorld(owner.getWorld())
 		, mpSpriteRenderer(nullptr)
 		, mAnimationID{0}
 		, mpAnimation(nullptr)
@@ -32,7 +32,7 @@ namespace te
 
 	void Animator::setAnimation(ResourceID<Animation> id)
 	{
-		Animation* pAnimation = &mAnimationManager.get(id);
+		Animation* pAnimation = mWorld.get(id);
 		if (pAnimation->getDuration() <= sf::Time::Zero) return;
 		mpAnimation = pAnimation;
 		mAnimationID = id;

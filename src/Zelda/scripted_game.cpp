@@ -170,10 +170,12 @@ namespace te
 			.beginClass<TileMapLayer>("TileMapLayer")
 				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
-			.beginClass<ScriptedGame>("Game")
+			.beginClass<Game>("Game")
+				.addFunction("getMapLayer", &Game::get<TileMapLayer>)
+			.endClass()
+			.deriveClass<ScriptedGame, Game>("ScriptedGame")
 				.addFunction("loadTMX", &ScriptedGame::loadTMX)
 				.addFunction("makeMapLayers", &ScriptedGame::makeMapLayers)
-				.addFunction("getMapLayer", &ScriptedGame::getResource<TileMapLayer>)
 				.addFunction("loadAtlas", &ScriptedGame::loadAtlas)
 				.addFunction("getSpriteData", &ScriptedGame::getAtlasSprites)
 				.addFunction("loadTexture", &ScriptedGame::loadTexture)
@@ -292,14 +294,14 @@ namespace te
 		std::vector<std::string> tilesetFilenames{};
 		getTilesetFilenames(tmx, std::back_inserter(tilesetFilenames));
 		std::vector<const sf::Texture*> textures{};
-		ResourceManager<sf::Texture>& textureManager = getTextureManager();
-		std::transform(tilesetFilenames.begin(), tilesetFilenames.end(), std::back_inserter(textures), [&textureManager](const std::string& filename) {
-			return &textureManager.get(textureManager.load(filename));
+		//ResourceManager<sf::Texture>& textureManager = getTextureManager();
+		std::transform(tilesetFilenames.begin(), tilesetFilenames.end(), std::back_inserter(textures), [this](const std::string& filename) {
+			return get<sf::Texture>(load<sf::Texture>(filename));
 		});
 		std::vector<TileMapLayer> layers{};
 		TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
 		size_t index = 1;
-		for (auto& layer : layers) table[index++] = getManager<TileMapLayer>().store(std::make_unique<TileMapLayer>(layer));
+		for (auto& layer : layers) table[index++] = store(std::make_unique<TileMapLayer>(layer));
 
 		return table;
 	}
@@ -338,14 +340,14 @@ namespace te
 
 	ResourceID<sf::Texture> ScriptedGame::loadTexture(const std::string& filename)
 	{
-		return getTextureManager().load(filename);
+		return load<sf::Texture>(filename);
 	}
 
 	ResourceID<sf::Sprite> ScriptedGame::makeSprite(ResourceID<sf::Texture> textureID, luabridge::LuaRef rect)
 	{
-		auto pSprite = std::make_unique<sf::Sprite>(getTextureManager().get(textureID), sf::IntRect{rect["x"], rect["y"], rect["w"], rect["h"]});
+		auto pSprite = std::make_unique<sf::Sprite>(*get(textureID), sf::IntRect{rect["x"], rect["y"], rect["w"], rect["h"]});
 		pSprite->setOrigin(rect["w"].cast<float>() * rect["pX"].cast<float>(), rect["h"].cast<float>() * rect["pY"].cast<float>());
-		return getSpriteManager().store(std::move(pSprite));
+		return store(std::move(pSprite));
 	}
 
 	ResourceID<Animation> ScriptedGame::makeAnimation(luabridge::LuaRef spriteArr, int millisecondsPerFrame)
@@ -358,7 +360,7 @@ namespace te
 			frames.push_back({frame.cast<ResourceID<sf::Sprite>>()});
 			frame = spriteArr[++index];
 		}
-		return getAnimationManager().store(std::make_unique<Animation>(frames.begin(), frames.end(), sf::milliseconds(millisecondsPerFrame)));
+		return store(std::make_unique<Animation>(frames.begin(), frames.end(), sf::milliseconds(millisecondsPerFrame)));
 	}
 
 	EntityID ScriptedGame::makeEntity(luabridge::LuaRef entityTable, luabridge::LuaRef argsTable)

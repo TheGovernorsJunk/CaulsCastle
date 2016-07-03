@@ -15,6 +15,7 @@ namespace te
 {
 	class BaseGameEntity;
 	class TextureManager;
+	class Game;
 
 	class Animator : public UpdateComponent
 	{
@@ -28,7 +29,7 @@ namespace te
 	private:
 		Animator(BaseGameEntity& owner);
 
-		ResourceManager<Animation>& mAnimationManager;
+		Game& mWorld;
 		Renderer<sf::Sprite>* mpSpriteRenderer;
 
 		ResourceID<Animation> mAnimationID;

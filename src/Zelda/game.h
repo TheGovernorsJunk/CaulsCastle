@@ -20,38 +20,29 @@ class b2World;
 namespace te
 {
 	class Application;
-	class TileMap;
 	class EntityManager;
 	class MessageDispatcher;
 	class BaseGameEntity;
-	class TextureManager;
 
 	class Game : public Runnable
 	{
 	public:
 		virtual ~Game();
 
-		//Application& getApplication();
-		ResourceManager<sf::Texture>& getTextureManager() { return mTextureManager; }
-		const ResourceManager<sf::Texture>& getTextureManager() const { return mTextureManager; }
-
-		ResourceManager<sf::Sprite>& getSpriteManager() { return mSpriteManager; }
-		const ResourceManager<sf::Sprite>& getSpriteManager() const { return mSpriteManager; }
-
-		ResourceManager<Animation>& getAnimationManager() { return mAnimationManager; }
-		const ResourceManager<Animation>& getAnimationManager() const { return mAnimationManager; }
-
-		template <typename T>
-		ResourceManager<T>& getManager();
-		template <>
-		ResourceManager<TileMapLayer>& getManager()
+		template <typename Resource>
+		ResourceID<Resource> load(const std::string& filename)
 		{
-			return mLayerManager;
+			return getManager<Resource>().load(filename);
 		}
-		template <>
-		ResourceManager<sf::Sprite>& getManager()
+		template <typename Resource>
+		ResourceID<Resource> store(std::unique_ptr<Resource>&& pResource)
 		{
-			return mSpriteManager;
+			return getManager<Resource>().store(std::move(pResource));
+		}
+		template <typename Resource>
+		Resource* get(ResourceID<Resource> id)
+		{
+			return &getManager<Resource>().get(id);
 		}
 
 		EntityManager& getEntityManager() const;
@@ -79,6 +70,12 @@ namespace te
 
 	private:
 		Application& mApp;
+
+		template <typename T> ResourceManager<T>& getManager();
+		template <> ResourceManager<TileMapLayer>& getManager() { return mLayerManager; }
+		template <> ResourceManager<sf::Texture>& getManager() { return mTextureManager; }
+		template <> ResourceManager<sf::Sprite>& getManager() { return mSpriteManager; }
+		template <> ResourceManager<Animation>& getManager() { return mAnimationManager; }
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 
