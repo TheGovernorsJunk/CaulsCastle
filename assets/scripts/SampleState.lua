@@ -2,6 +2,7 @@ require 'assets.scripts.Entity'
 require 'assets.scripts.Bindings'
 require 'assets.scripts.config'
 require 'assets.scripts.TileMap'
+require 'assets.scripts.SimpleEntity'
 
 local playerID, enemyID
 
@@ -23,17 +24,24 @@ local function init(game)
       end
    end
 
-   for _,object in ipairs(game:getObjects(tmxID, 'Entities')) do
-      if object.type then
-         object.z = z - 1
-         local id = game:makeEntity(_G[object.type], object)
+   local priestAtlas = game:loadAtlas('assets/spritesheets/priest/priest.xml')
+   local priestAnims = Utils.makeAnimationsFromAtlas(priestAtlas, game)
+   local entity = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
 
-         if object.name == "Player"
-         then playerID = id
-         else enemyID = id
-         end
-      end
-   end
+   --local priestAtlas = game:getAtlas(priestAtlasID)
+   --local priestTextureID = game:loadTexture(priestAtlas.imagePath)
+
+   -- for _,object in ipairs(game:getObjects(tmxID, 'Entities')) do
+   --    if object.type then
+   --       object.z = z - 1
+   --       local id = game:makeEntity(_G[object.type], object)
+
+   --       if object.name == "Player"
+   --       then playerID = id
+   --       else enemyID = id
+   --       end
+   --    end
+   -- end
 
    game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -110,11 +118,11 @@ local function processAxisInput(game, controllerID, axis, position)
 end
 
 SampleState = {
-   init = init,
-   processKeyInput = processKeyInput,
-   processMouseButtonInput = processMouseButtonInput,
-   processAxisInput = processAxisInput,
-   update = update
+   init = init
+   -- processKeyInput = processKeyInput,
+   -- processMouseButtonInput = processMouseButtonInput,
+   -- processAxisInput = processAxisInput,
+   -- update = update
 }
 
 return SampleState
