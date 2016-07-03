@@ -6,6 +6,7 @@
 #include "tmx.h"
 #include "texture_atlas.h"
 #include "animation.h"
+#include "tile_map_layer.h"
 
 #include <SFML/Graphics.hpp>
 #include <lua.hpp>
@@ -40,6 +41,19 @@ namespace te
 		ResourceManager<Animation>& getAnimationManager() { return mAnimationManager; }
 		const ResourceManager<Animation>& getAnimationManager() const { return mAnimationManager; }
 
+		template <typename T>
+		ResourceManager<T>& getManager();
+		template <>
+		ResourceManager<TileMapLayer>& getManager()
+		{
+			return mLayerManager;
+		}
+		template <>
+		ResourceManager<sf::Sprite>& getManager()
+		{
+			return mSpriteManager;
+		}
+
 		EntityManager& getEntityManager() const;
 		MessageDispatcher& getMessageDispatcher() const;
 
@@ -73,6 +87,7 @@ namespace te
 		ResourceManager<TextureAtlas> mAtlasManager;
 		ResourceManager<sf::Sprite> mSpriteManager;
 		ResourceManager<Animation> mAnimationManager;
+		ResourceManager<TileMapLayer> mLayerManager;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;
