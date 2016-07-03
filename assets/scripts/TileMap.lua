@@ -1,8 +1,8 @@
-local function init(entity, game, layers)
-   for _,layer in ipairs(layers) do
+local function init(entity, game, layerIDs)
+   for _,layerID in ipairs(layerIDs) do
       local renderer = entity:addLayerRenderer()
-      renderer.layer = layer
-      renderer.drawOrder = layer.index
+      renderer.layer = layerID
+      renderer.drawOrder = game:getMapLayer(layerID).index
    end
    entity.data.rigidBody = entity:addRigidBody(BodyType.Static)
 end
