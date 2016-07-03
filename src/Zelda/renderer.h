@@ -2,6 +2,9 @@
 #define TE_RENDERER_H
 
 #include "component.h"
+#include "resource_manager.h"
+#include "base_game_entity.h"
+#include "game.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -20,9 +23,13 @@ namespace te
 			return std::unique_ptr<Renderer<T>>{new Renderer<T>{owner}};
 		}
 
-		void setDrawable(const T& drawable) { mDrawable = drawable; }
+		void setDrawable(ResourceID<T> id)
+		{
+			mDrawable = mOwner.getWorld().getManager<T>().get(id);
+			mResourceID = id;
+		}
 		//void setDrawable(T&& drawable) { mDrawable = std::move(drawable); }
-		const T& getDrawable() const { return mDrawable; }
+		ResourceID<T> getDrawable() const { return mResourceID; }
 
 	private:
 		Renderer(BaseGameEntity& owner)
@@ -36,6 +43,7 @@ namespace te
 		}
 
 		BaseGameEntity& mOwner;
+		ResourceID<T> mResourceID;
 		T mDrawable;
 	};
 }
