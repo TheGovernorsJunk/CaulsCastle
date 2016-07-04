@@ -8,23 +8,17 @@ local playerID, enemyID
 
 local function init(game)
    game.unitToPixelScale = Vec(16, 16)
-   local scale = game.unitToPixelScale
-   print(scale.x, scale.y)
 
-   local tmxID = game:loadTMX('assets/maps/time_fantasy.tmx')
-   local layerIDs = game:makeMapLayers(tmxID)
-   local mapID = game:makeEntity(TileMap, {
-                                    layerIDs = layerIDs
-   })
+   local mapID = game:makeEntity(TileMap, { filename = 'assets/maps/time_fantasy.tmx' })
    local map = game:getEntity(mapID)
 
    local mapRB = map.data.rigidBody
-   for _,polygon in ipairs(game:getObjects(tmxID, 'Collisions')) do
+   for _,polygon in ipairs(game:getObjects(map.data.tmxID, 'Collisions')) do
       mapRB:attachFixture(game:getShape(polygon, mapID))
    end
 
    local z = 0
-   for i,name in ipairs(game:getLayerNames(tmxID)) do
+   for i,name in ipairs(game:getLayerNames(map.data.tmxID)) do
       if name == 'Entities' then
          z = i - 0
       end
@@ -45,7 +39,7 @@ local function init(game)
    local player = game:getEntity(playerID)
    player.spriteRenderer.drawOrder = 2
 
-   for _,region in ipairs(game:getObjects(tmxID, 'Entities')) do
+   for _,region in ipairs(game:getObjects(map.data.tmxID, 'Entities')) do
       print(region.x, region.y)
    end
 
