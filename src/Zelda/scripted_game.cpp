@@ -171,6 +171,7 @@ namespace te
 				.addProperty("index", &TileMapLayer::getIndex)
 			.endClass()
 			.beginClass<Game>("Game")
+				.addProperty("unitToPixelScale", &Game::getUnitToPixelScale, &Game::setUnitToPixelScale)
 				.addFunction("loadTMX", &Game::load<TMX>)
 				.addFunction("getMapLayer", &Game::get<TileMapLayer>)
 				.addFunction("loadAtlas", &Game::load<TextureAtlas>)
