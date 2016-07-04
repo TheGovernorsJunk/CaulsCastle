@@ -6,6 +6,7 @@
 #include "typedefs.h"
 #include "message_dispatcher.h"
 #include "animation.h"
+#include "shape.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -58,6 +59,8 @@ namespace te
 		float getAnimationDuration(const std::string& animationStr) const;
 		bool rayCast(sf::Vector2f origin, sf::Vector2f direction, RayCastHit* pHitInfo, float maxDistance = std::numeric_limits<float>::max() * 0.5f);
 		luabridge::LuaRef getEntitiesInRegion(const AABB*) const;
+		PolygonShape getShape(luabridge::LuaRef obj, EntityID shape) const;
+		PolygonShape makePolygon(luabridge::LuaRef vertices) const;
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 		luabridge::LuaRef mKeyInputFn;

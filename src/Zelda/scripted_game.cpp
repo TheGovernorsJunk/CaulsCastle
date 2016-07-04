@@ -7,7 +7,6 @@
 #include "entity_manager.h"
 #include "camera_entity.h"
 #include "vector_ops.h"
-#include "shape.h"
 #include "rigid_body.h"
 #include "tile_map_layer.h"
 #include "renderer.h"
@@ -70,20 +69,38 @@ namespace te
 	static sf::Vector2f addVec(sf::Vector2f a, sf::Vector2f b) { return a + b; }
 	static sf::Vector2f mulVec(float scalar, sf::Vector2f v) { return scalar * v; }
 
-	static PolygonShape getShape(luabridge::LuaRef obj, const BaseGameEntity* localNode)
+	PolygonShape ScriptedGame::getShape(luabridge::LuaRef obj, EntityID localNodeID) const
 	{
-		assert(localNode);
-
-		sf::Vector2f localPos = localNode->getPosition();
+		sf::Transform transform = getEntityManager().getEntityFromID(localNodeID).getTransform() * getTransform();
+		//sf::Vector2f localPos = localNode->getPosition();
 		float x = obj["x"], y = obj["y"], h = obj["h"], w = obj["w"];
+		sf::Vector2f v0 = transform * sf::Vector2f{x, y};
+		sf::Vector2f v1 = transform * sf::Vector2f{x + w, y};
+		sf::Vector2f v2 = transform * sf::Vector2f{x + w, y + h};
+		sf::Vector2f v3 = transform * sf::Vector2f{x, y + h};
 		b2Vec2 vertices[4];
-		vertices[0].Set(x - localPos.x, y - localPos.y);
-		vertices[1].Set(x + w - localPos.x, y - localPos.y);
-		vertices[2].Set(x + w - localPos.x, y + h - localPos.y);
-		vertices[3].Set(x - localPos.x, y + h - localPos.y);
+		vertices[0].Set(v0.x, v0.y);
+		vertices[1].Set(v1.x, v1.y);
+		vertices[2].Set(v2.x, v2.y);
+		vertices[3].Set(v3.x, v3.y);
 
 		b2PolygonShape polygon;
 		polygon.Set(vertices, 4);
+		return PolygonShape{polygon};
+	}
+
+	PolygonShape ScriptedGame::makePolygon(luabridge::LuaRef vertices) const
+	{
+		b2PolygonShape polygon;
+
+		std::vector<b2Vec2> b2vertices;
+		for (auto it = luabridge::Iterator(vertices); !it.isNil(); ++it)
+		{
+			luabridge::LuaRef vertex = *it;
+			b2vertices.push_back({vertex["x"], vertex["y"]});
+		}
+
+		polygon.Set(b2vertices.data(), b2vertices.size());
 		return PolygonShape{polygon};
 	}
 
@@ -149,7 +166,6 @@ namespace te
 			.addFunction("addVec", &addVec)
 			.addFunction("mulVec", &mulVec)
 			.addFunction<sf::Vector2f(*)(const sf::Vector2f&)>("normalizeVec", &normalize)
-			.addFunction("getShape", &getShape)
 			.beginClass<RayCastHit>("RayCastHit")
 				.addConstructor<void(*)(void)>()
 				.addData("entityID", &RayCastHit::entityID, false)
@@ -192,6 +208,8 @@ namespace te
 				.addFunction("getAnimationDuration", &ScriptedGame::getAnimationDuration)
 				.addFunction("rayCast", &ScriptedGame::rayCast)
 				.addFunction("getEntitiesInRegion", &ScriptedGame::getEntitiesInRegion)
+				.addFunction("getShape", &ScriptedGame::getShape)
+				.addFunction("makePolygon", &ScriptedGame::makePolygon)
 			.endClass()
 			.beginClass<BaseGameEntity>("BaseGameEntity")
 				.addProperty("position", &BaseGameEntity::getPosition, &BaseGameEntity::setPosition)
