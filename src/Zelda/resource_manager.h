@@ -29,9 +29,11 @@ namespace te
 
 	private:
 		ResourceID<Resource> insertResource(std::unique_ptr<Resource>&& pResource);
+		void insertFilename(const std::string& filename, int id);
 
 		int m_NextID;
 		std::map<int, std::unique_ptr<Resource>> m_ResourceMap;
+		std::map<std::string, int> m_FilenameMap;
 	};
 }
 
