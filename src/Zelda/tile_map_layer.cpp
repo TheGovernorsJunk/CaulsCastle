@@ -8,6 +8,7 @@ namespace te
 
 	TileMapLayer::TileMapLayer(const TMX& tmx, const TMX::Layer& layer, const std::vector<const sf::Texture*>& textures)
 		: m_Index{layer.index}
+		, m_Name{layer.name}
 		, m_Models{}
 	{
 		std::transform(textures.begin(), textures.end(), std::back_inserter(m_Models), [](const sf::Texture* pTexture) {

@@ -31,6 +31,7 @@ namespace te
 		TileMapLayer();
 
 		unsigned getIndex() const { return m_Index; }
+		const std::string& getName() const { return m_Name; }
 
 	private:
 		TileMapLayer(const TMX& tmx, const TMX::Layer& layer, const std::vector<const sf::Texture*>& textures);
@@ -42,6 +43,7 @@ namespace te
 			sf::VertexArray vertexArray;
 		};
 		unsigned m_Index;
+		std::string m_Name;
 		std::vector<Model> m_Models;
 	};
 }

@@ -314,8 +314,7 @@ namespace te
 		});
 		std::vector<TileMapLayer> layers{};
 		TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
-		size_t index = 1;
-		for (auto& layer : layers) table[index++] = store(std::make_unique<TileMapLayer>(layer));
+		for (auto& layer : layers) table[layer.getName()] = store(std::make_unique<TileMapLayer>(layer));
 
 		return table;
 	}
