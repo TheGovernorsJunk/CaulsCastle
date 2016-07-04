@@ -31,7 +31,9 @@ local function init(game)
    local priestAtlas = game:loadAtlas('assets/spritesheets/priest/priest.xml')
    local priestAnims = Utils.makeAnimationsFromAtlas(priestAtlas, game)
    playerID = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
-   game:getEntity(playerID).position = Vec(3, 3)
+   local player = game:getEntity(playerID)
+   player.position = Vec(28.5, 26.5)
+   player.spriteRenderer.drawOrder = 2
 
    for _,region in ipairs(game:getObjects(tmxID, 'Entities')) do
       print(region.x, region.y)
