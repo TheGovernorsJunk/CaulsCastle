@@ -12,13 +12,15 @@ local function init(game)
    print(scale.x, scale.y)
 
    local tmxID = game:loadTMX('assets/maps/time_fantasy.tmx')
-   local layers = game:makeMapLayers(tmxID)
-   local mapID = game:makeEntity(TileMap, layers)
+   local layerIDs = game:makeMapLayers(tmxID)
+   local mapID = game:makeEntity(TileMap, {
+                                    layerIDs = layerIDs
+   })
    local map = game:getEntity(mapID)
 
    local mapRB = map.data.rigidBody
    for _,polygon in ipairs(game:getObjects(tmxID, 'Collisions')) do
-      mapRB:attachFixture(getShape(polygon, map))
+      mapRB:attachFixture(game:getShape(polygon, mapID))
    end
 
    local z = 0
@@ -30,9 +32,17 @@ local function init(game)
 
    local priestAtlas = game:loadAtlas('assets/spritesheets/priest/priest.xml')
    local priestAnims = Utils.makeAnimationsFromAtlas(priestAtlas, game)
-   playerID = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
+   playerID = game:makeEntity(SimpleEntity, {
+                                 animation = priestAnims.PriestWalkDown,
+                                 position = Vec(28.5, 26.5),
+                                 collider = game:makePolygon({
+                                       { x = -0.5, y = -0.5 },
+                                       { x = 0.5, y = -0.5 },
+                                       { x = 0.5, y = 0.5 },
+                                       { x = -0.5, y = 0.5 }
+                                 })
+   })
    local player = game:getEntity(playerID)
-   player.position = Vec(28.5, 26.5)
    player.spriteRenderer.drawOrder = 2
 
    for _,region in ipairs(game:getObjects(tmxID, 'Entities')) do
@@ -130,7 +140,7 @@ end
 
 SampleState = {
    init = init,
-   -- processKeyInput = processKeyInput,
+   processKeyInput = processKeyInput,
    -- processMouseButtonInput = processMouseButtonInput,
    -- processAxisInput = processAxisInput,
    update = update
