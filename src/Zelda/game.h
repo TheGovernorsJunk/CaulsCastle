@@ -24,7 +24,7 @@ namespace te
 	class MessageDispatcher;
 	class BaseGameEntity;
 
-	class Game : public Runnable, private sf::Transformable
+	class Game : public Runnable, protected sf::Transformable
 	{
 	public:
 		virtual ~Game();
