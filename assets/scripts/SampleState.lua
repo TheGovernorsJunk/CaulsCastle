@@ -30,8 +30,8 @@ local function init(game)
 
    local priestAtlas = game:loadAtlas('assets/spritesheets/priest/priest.xml')
    local priestAnims = Utils.makeAnimationsFromAtlas(priestAtlas, game)
-   local entityID = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
-   game:getEntity(entityID).position = Vec(3, 3)
+   playerID = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
+   game:getEntity(playerID).position = Vec(3, 3)
 
    for _,region in ipairs(game:getObjects(tmxID, 'Entities')) do
       print(region.x, region.y)
@@ -127,11 +127,11 @@ local function processAxisInput(game, controllerID, axis, position)
 end
 
 SampleState = {
-   init = init
+   init = init,
    -- processKeyInput = processKeyInput,
    -- processMouseButtonInput = processMouseButtonInput,
    -- processAxisInput = processAxisInput,
-   -- update = update
+   update = update
 }
 
 return SampleState
