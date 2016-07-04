@@ -20,6 +20,8 @@ namespace te
 		, m_PhysicsWorld{m_World.getPhysicsWorld()}
 		, m_pBody{}
 	{
+		if (m_Owner.hasComponent<RigidBody>()) throw std::runtime_error{"RigidBody ctor: Entity already has rigid body."};
+
 		b2BodyDef bodyDef;
 		bodyDef.type = bodyType;
 		sf::Vector2f position = m_Owner.getPosition();
@@ -27,7 +29,6 @@ namespace te
 		m_pBody = std::unique_ptr<b2Body, BodyDeleter>{m_PhysicsWorld.CreateBody(&bodyDef), [this](b2Body* pBody) { m_PhysicsWorld.DestroyBody(pBody); }};
 
 		if (!m_pBody) throw std::runtime_error{"RigidBody ctor: Could not create rigid body."};
-		if (m_Owner.hasComponent<RigidBody>()) throw std::runtime_error{"RigidBody ctor: Entity already has rigid body."};
 
 		m_pBody->SetUserData(&m_Owner);
 	}
