@@ -7,6 +7,10 @@ require 'assets.scripts.SimpleEntity'
 local playerID, enemyID
 
 local function init(game)
+   game.unitToPixelScale = Vec(16, 16)
+   local scale = game.unitToPixelScale
+   print(scale.x, scale.y)
+
    local tmxID = game:loadTMX('assets/maps/time_fantasy.tmx')
    local layers = game:makeMapLayers(tmxID)
    local mapID = game:makeEntity(TileMap, layers)
@@ -26,7 +30,12 @@ local function init(game)
 
    local priestAtlas = game:loadAtlas('assets/spritesheets/priest/priest.xml')
    local priestAnims = Utils.makeAnimationsFromAtlas(priestAtlas, game)
-   local entity = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
+   local entityID = game:makeEntity(SimpleEntity, { animation = priestAnims.PriestWalkDown })
+   game:getEntity(entityID).position = Vec(3, 3)
+
+   for _,region in ipairs(game:getObjects(tmxID, 'Entities')) do
+      print(region.x, region.y)
+   end
 
    --local priestAtlas = game:getAtlas(priestAtlasID)
    --local priestTextureID = game:loadTexture(priestAtlas.imagePath)
@@ -43,7 +52,7 @@ local function init(game)
    --    end
    -- end
 
-   game.camera:setViewSize(SCREEN_WIDTH, SCREEN_HEIGHT)
+   game.camera:setViewSize(SCREEN_WIDTH / 16, SCREEN_HEIGHT / 16)
 
    local queriedEntities = game:getEntitiesInRegion(AABB(Vec(0, 0), Vec(1000, 1000)))
    for _,entity in ipairs(queriedEntities) do
