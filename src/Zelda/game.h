@@ -24,7 +24,7 @@ namespace te
 	class MessageDispatcher;
 	class BaseGameEntity;
 
-	class Game : public Runnable
+	class Game : public Runnable, private sf::Transformable
 	{
 	public:
 		virtual ~Game();
@@ -52,6 +52,9 @@ namespace te
 		const b2World& getPhysicsWorld() const;
 
 		void addEntity(std::unique_ptr<BaseGameEntity>&&);
+
+		void setUnitToPixelScale(sf::Vector2f scale);
+		sf::Vector2f getUnitToPixelScale() const;
 
 	protected:
 		Game(Application& app);

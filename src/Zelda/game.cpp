@@ -109,7 +109,7 @@ namespace te
 		{
 			std::vector<DrawComponent*> components{};
 			pEntity->getDrawComponents(std::back_inserter(components));
-			sf::Transform transform = states.transform * pEntity->getTransform();
+			sf::Transform transform = states.transform * pEntity->getTransform() * getTransform();
 			for (auto component : components) pendingDraws.push_back(PendingDraw{transform, component});
 		}
 		std::sort(pendingDraws.begin(), pendingDraws.end(), [](const PendingDraw& a, const PendingDraw& b) {
@@ -125,6 +125,17 @@ namespace te
 	{
 		getEntityManager().registerEntity(*pEntity);
 		mEntities.push_back(std::move(pEntity));
+	}
+
+	void Game::setUnitToPixelScale(sf::Vector2f scale)
+	{
+		setScale(1 / scale.x, 1 / scale.y);
+	}
+
+	sf::Vector2f Game::getUnitToPixelScale() const
+	{
+		sf::Vector2f v = getScale();
+		return sf::Vector2f{1 / v.x, 1 / v.y};
 	}
 
 	//void Game::throwIfNoMap() const
