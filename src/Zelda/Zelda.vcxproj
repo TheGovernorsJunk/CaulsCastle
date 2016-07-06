@@ -161,6 +161,7 @@
     <None Include="map2.tmx" />
     <None Include="map3.tmx" />
     <None Include="resource_manager.inl" />
+    <None Include="system.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="state.h" />
     <ClInclude Include="state_machine.h" />
     <ClInclude Include="state_stack.h" />
+    <ClInclude Include="system.h" />
     <ClInclude Include="texture_atlas.h" />
     <ClInclude Include="tile_map_layer.h" />
     <ClInclude Include="tmx.h" />
