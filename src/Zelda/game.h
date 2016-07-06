@@ -7,6 +7,7 @@
 #include "texture_atlas.h"
 #include "animation.h"
 #include "tile_map_layer.h"
+#include "system.h"
 
 #include <SFML/Graphics.hpp>
 #include <lua.hpp>
@@ -14,6 +15,7 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include <algorithm>
 
 class b2World;
 
@@ -82,6 +84,16 @@ namespace te
 		template <> ResourceManager<sf::Sprite>& getManager() { return mSpriteManager; }
 		template <> ResourceManager<Animation>& getManager() { return mAnimationManager; }
 
+		template <typename T>
+		SystemImpl<T>& getSystem()
+		{
+			auto found = std::find_if(mSystems.begin(), mSystems.end(), [](const auto& upSystem) {
+				return dynamic_cast<SystemImpl<T>*>(upSystem.get()) != nullptr;
+			});
+			assert(found != mSystems.end());
+			return *static_cast<SystemImpl<T>*>(found->get());
+		}
+
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
 
 		ResourceManager<TMX> mTMXManager;
@@ -90,6 +102,8 @@ namespace te
 		ResourceManager<sf::Sprite> mSpriteManager;
 		ResourceManager<Animation> mAnimationManager;
 		ResourceManager<TileMapLayer> mLayerManager;
+
+		std::vector<std::unique_ptr<System>> mSystems;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;

@@ -17,6 +17,7 @@ namespace te
 		, mTMXManager()
 		, mTextureManager()
 		, mAtlasManager()
+		, mSystems()
 		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
