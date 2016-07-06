@@ -9,6 +9,8 @@ namespace te
 {
 	class System
 	{
+	public:
+		virtual ~System() {}
 		virtual void update(const sf::Time& dt) = 0;
 	};
 
