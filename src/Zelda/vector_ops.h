@@ -10,13 +10,13 @@ namespace te
 	sf::Vector2f perp(const sf::Vector2f& v);
 
 	template <typename V>
-	inline auto lengthSq(const V& vector) noexcept
+	constexpr auto lengthSq(const V& vector) noexcept
 	{
 		return vector.x * vector.x + vector.y * vector.y;
 	}
 
 	template <typename V>
-	inline auto length(const V& vector) noexcept
+	constexpr auto length(const V& vector) noexcept
 	{
 		return std::sqrt(lengthSq(vector));
 	}
@@ -29,13 +29,13 @@ namespace te
 	}
 
 	template <typename V>
-	inline auto distance(const V& a, const V& b) noexcept
+	constexpr auto distance(const V& a, const V& b) noexcept
 	{
 		return length(a - b);
 	}
 
 	template <typename V>
-	inline auto distanceSq(const V& a, const V& b) noexcept
+	constexpr auto distanceSq(const V& a, const V& b) noexcept
 	{
 		return lengthSq(a - b);
 	}
