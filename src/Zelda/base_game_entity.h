@@ -26,6 +26,8 @@ namespace te
 		BaseGameEntity(Game& pWorld, sf::Vector2f position);
 		BaseGameEntity(Game& World);
 		virtual ~BaseGameEntity();
+		BaseGameEntity(BaseGameEntity&&) = default;
+		BaseGameEntity& operator=(BaseGameEntity&&) = default;
 
 		void update(const sf::Time& dt);
 		virtual bool handleMessage(const Telegram& msg);
