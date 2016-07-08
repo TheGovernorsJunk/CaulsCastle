@@ -6,15 +6,39 @@
 
 namespace te
 {
-	float length(const sf::Vector2f& v);
-	sf::Vector2f normalize(const sf::Vector2f& v);
-	b2Vec2 normalize(const b2Vec2& v);
-	float lengthSq(const sf::Vector2f& v);
-	float lengthSq(const b2Vec2& v);
-	float distance(const sf::Vector2f& a, const sf::Vector2f& b);
-	float distanceSq(const sf::Vector2f& a, const sf::Vector2f& b);
 	sf::Vector2f truncate(const sf::Vector2f& v, float maxMagnitude);
 	sf::Vector2f perp(const sf::Vector2f& v);
+
+	template <typename V>
+	inline auto lengthSq(const V& vector) noexcept
+	{
+		return vector.x * vector.x + vector.y * vector.y;
+	}
+
+	template <typename V>
+	inline auto length(const V& vector) noexcept
+	{
+		return std::sqrt(lengthSq(vector));
+	}
+
+	template <typename V>
+	auto normalize(const V& vector) noexcept
+	{
+		auto magnitude = length(vector);
+		return magnitude == 0 ? V{ 0, 0 } : V{ vector.x / magnitude, vector.y / magnitude };
+	}
+
+	template <typename V>
+	inline auto distance(const V& a, const V& b) noexcept
+	{
+		return length(a - b);
+	}
+
+	template <typename V>
+	inline auto distanceSq(const V& a, const V& b) noexcept
+	{
+		return lengthSq(a - b);
+	}
 
 	inline b2Vec2 operator*(const b2Vec2& v, float speed)
 	{
