@@ -217,7 +217,7 @@ namespace te
 				.addFunction("die", &BaseGameEntity::die)
 				.addProperty("rigidBody", &BaseGameEntity::getComponent<RigidBody>)
 				.addProperty("spriteRenderer", &BaseGameEntity::getComponent<Renderer<sf::Sprite>>)
-				.addFunction("addRigidBody", &BaseGameEntity::addComponent<RigidBody, int>)
+				.addFunction("addRigidBody", &BaseGameEntity::addComponent<RigidBody, const int&>)
 				.addFunction("addSpriteRenderer", &BaseGameEntity::addComponent<Renderer<sf::Sprite>>)
 				.addFunction("addAnimator", &BaseGameEntity::addComponent<Animator>)
 				.addFunction("addLayerRenderer", &BaseGameEntity::addComponent<Renderer<TileMapLayer>>)
