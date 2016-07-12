@@ -31,6 +31,12 @@ namespace te
 	public:
 		virtual ~Game();
 
+		template <typename Component, typename... Args>
+		void initializeSystem(Args... args)
+		{
+			mSystems.push_back(std::make_unique<SystemImpl<Component>>(std::forward<Args>(args)...));
+		}
+
 		template <typename Resource>
 		ResourceID<Resource> load(const std::string& filename)
 		{
