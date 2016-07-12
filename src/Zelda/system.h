@@ -10,6 +10,7 @@ namespace te
 	class System
 	{
 	public:
+		System() {}
 		virtual ~System() {}
 		constexpr System(System&&) noexcept = default;
 		System& operator=(System&&) noexcept = default;
