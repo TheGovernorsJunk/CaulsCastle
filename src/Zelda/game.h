@@ -101,12 +101,12 @@ namespace te
 		template <> ResourceManager<Animation>& getManager() { return mAnimationManager; }
 
 		template <typename T>
-		UpdatableSystem<T>* getSystem()
+		SystemBase<T>* getSystem()
 		{
 			auto found = std::find_if(mUpdatableSystems.begin(), mUpdatableSystems.end(), [](const auto& upSystem) {
-				return dynamic_cast<UpdatableSystem<T>*>(upSystem.get()) != nullptr;
+				return dynamic_cast<SystemBase<T>*>(upSystem.get()) != nullptr;
 			});
-			return found != mUpdatableSystems.end() ? static_cast<UpdatableSystem<T>*>(found->get()) : nullptr;
+			return found != mUpdatableSystems.end() ? dynamic_cast<SystemBase<T>*>(found->get()) : nullptr;
 		}
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
