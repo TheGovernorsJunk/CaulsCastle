@@ -11,6 +11,9 @@ namespace te
 	{
 	public:
 		virtual ~System() {}
+		System(System&&) = default;
+		System& operator=(System&&) = default;
+
 		virtual void update(const sf::Time& dt) = 0;
 	};
 
@@ -19,6 +22,9 @@ namespace te
 	{
 	public:
 		SystemImpl();
+
+		SystemImpl(SystemImpl&&) = default;
+		SystemImpl& operator=(SystemImpl&&) = default;
 
 		SystemImpl(const SystemImpl&) = delete;
 		SystemImpl& operator=(const SystemImpl&) = delete;
