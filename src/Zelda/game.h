@@ -37,6 +37,16 @@ namespace te
 			mSystems.push_back(std::make_unique<SystemImpl<Component>>(std::forward<Args>(args)...));
 		}
 
+		template <typename Component, typename... Args>
+		void addComponent(Args... args)
+		{
+			auto found = std::find_if(mSystems.begin(), mSystems.end(), [](auto& upSystem) {
+				return dynamic_cast<SystemImpl<Component>*>(upSystem.get());
+			});
+			assert(found != mSystems.end());
+			static_cast<SystemImpl<Component>*>(found->get())->addComponent(std::forward<Args>(args)...);
+		}
+
 		template <typename Resource>
 		ResourceID<Resource> load(const std::string& filename)
 		{
