@@ -36,7 +36,7 @@ namespace te
 		{
 			auto pSystem = getSystem<Component>();
 			assert(pSystem == nullptr);
-			mSystems.push_back(std::make_unique<SystemImpl<Component>>(std::forward<Args>(args)...));
+			mUpdatableSystems.push_back(std::make_unique<SystemImpl<Component>>(std::forward<Args>(args)...));
 		}
 
 		template <typename Component, typename... Args>
@@ -103,10 +103,10 @@ namespace te
 		template <typename T>
 		SystemImpl<T>* getSystem()
 		{
-			auto found = std::find_if(mSystems.begin(), mSystems.end(), [](const auto& upSystem) {
+			auto found = std::find_if(mUpdatableSystems.begin(), mUpdatableSystems.end(), [](const auto& upSystem) {
 				return dynamic_cast<SystemImpl<T>*>(upSystem.get()) != nullptr;
 			});
-			return found != mSystems.end() ? static_cast<SystemImpl<T>*>(found->get()) : nullptr;
+			return found != mUpdatableSystems.end() ? static_cast<SystemImpl<T>*>(found->get()) : nullptr;
 		}
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
@@ -118,7 +118,7 @@ namespace te
 		ResourceManager<Animation> mAnimationManager;
 		ResourceManager<TileMapLayer> mLayerManager;
 
-		std::vector<std::unique_ptr<System>> mSystems;
+		std::vector<std::unique_ptr<Updatable>> mUpdatableSystems;
 
 		std::unique_ptr<EntityManager> mpEntityManager;
 		std::unique_ptr<MessageDispatcher> mpMessageDispatcher;

@@ -17,7 +17,7 @@ namespace te
 		, mTMXManager()
 		, mTextureManager()
 		, mAtlasManager()
-		, mSystems()
+		, mUpdatableSystems()
 		, mpEntityManager(EntityManager::make())
 		, mpMessageDispatcher(MessageDispatcher::make(*mpEntityManager))
 		, mpWorld(new b2World(b2Vec2(0, 0)))
@@ -55,7 +55,7 @@ namespace te
 		mEntities.erase(std::remove_if(mEntities.begin(), mEntities.end(), [](const std::unique_ptr<BaseGameEntity>& pEntity) {
 			return pEntity->isMarkedForRemoval();
 		}), mEntities.end());
-		for (auto& system : mSystems) system->update(dt);
+		for (auto& system : mUpdatableSystems) system->update(dt);
 	}
 
 	//Application& Game::getApplication()

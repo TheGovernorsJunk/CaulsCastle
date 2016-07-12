@@ -36,13 +36,13 @@ namespace te
 		};
 	}
 
-	class System
+	class Updatable
 	{
 	public:
-		System() noexcept = default;
-		virtual ~System() = default;
-		constexpr System(System&&) noexcept = default;
-		System& operator=(System&&) noexcept = default;
+		Updatable() noexcept = default;
+		virtual ~Updatable() = default;
+		constexpr Updatable(Updatable&&) noexcept = default;
+		Updatable& operator=(Updatable&&) noexcept = default;
 
 		virtual void update(const sf::Time& dt) = 0;
 	};
@@ -67,7 +67,7 @@ namespace te
 	};
 
 	template <typename T>
-	class SystemImpl : public System, public SystemBase<T>
+	class SystemImpl : public Updatable, public SystemBase<T>
 	{
 	public:
 		SystemImpl() noexcept = default;
