@@ -55,6 +55,7 @@ namespace te
 		mEntities.erase(std::remove_if(mEntities.begin(), mEntities.end(), [](const std::unique_ptr<BaseGameEntity>& pEntity) {
 			return pEntity->isMarkedForRemoval();
 		}), mEntities.end());
+		for (auto& system : mSystems) system->update(dt);
 	}
 
 	//Application& Game::getApplication()
