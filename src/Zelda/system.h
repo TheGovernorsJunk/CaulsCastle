@@ -67,12 +67,12 @@ namespace te
 	};
 
 	template <typename T>
-	class SystemImpl : public Updatable, public SystemBase<T>
+	class UpdatableSystem : public Updatable, public SystemBase<T>
 	{
 	public:
-		SystemImpl() noexcept = default;
-		SystemImpl(SystemImpl&&) noexcept = default;
-		SystemImpl& operator=(SystemImpl&&) noexcept = default;
+		UpdatableSystem() noexcept = default;
+		UpdatableSystem(UpdatableSystem&&) noexcept = default;
+		UpdatableSystem& operator=(UpdatableSystem&&) noexcept = default;
 
 		void update(const sf::Time& dt) override;
 	};

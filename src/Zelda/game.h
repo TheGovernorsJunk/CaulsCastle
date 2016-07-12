@@ -36,7 +36,7 @@ namespace te
 		{
 			auto pSystem = getSystem<Component>();
 			assert(pSystem == nullptr);
-			mUpdatableSystems.push_back(std::make_unique<SystemImpl<Component>>(std::forward<Args>(args)...));
+			mUpdatableSystems.push_back(std::make_unique<UpdatableSystem<Component>>(std::forward<Args>(args)...));
 		}
 
 		template <typename Component, typename... Args>
@@ -101,12 +101,12 @@ namespace te
 		template <> ResourceManager<Animation>& getManager() { return mAnimationManager; }
 
 		template <typename T>
-		SystemImpl<T>* getSystem()
+		UpdatableSystem<T>* getSystem()
 		{
 			auto found = std::find_if(mUpdatableSystems.begin(), mUpdatableSystems.end(), [](const auto& upSystem) {
-				return dynamic_cast<SystemImpl<T>*>(upSystem.get()) != nullptr;
+				return dynamic_cast<UpdatableSystem<T>*>(upSystem.get()) != nullptr;
 			});
-			return found != mUpdatableSystems.end() ? static_cast<SystemImpl<T>*>(found->get()) : nullptr;
+			return found != mUpdatableSystems.end() ? static_cast<UpdatableSystem<T>*>(found->get()) : nullptr;
 		}
 
 		std::unique_ptr<lua_State, std::function<void(lua_State*)>> mpL;
