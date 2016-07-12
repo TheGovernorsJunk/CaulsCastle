@@ -13,7 +13,7 @@ namespace te
 
 	template <typename T>
 	template <typename... Args>
-	void SystemImpl<T>::addComponent(Args... args)
+	void SystemImpl<T>::addComponent(Args&&... args)
 	{
 		m_Components.push_back(T(std::forward<Args>(args)...));
 	}

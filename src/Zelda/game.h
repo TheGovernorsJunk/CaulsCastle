@@ -32,7 +32,7 @@ namespace te
 		virtual ~Game();
 
 		template <typename Component, typename... Args>
-		void initializeSystem(Args... args)
+		void initializeSystem(Args&&... args)
 		{
 			auto pSystem = getSystem<Component>();
 			assert(pSystem == nullptr);
@@ -40,7 +40,7 @@ namespace te
 		}
 
 		template <typename Component, typename... Args>
-		void addComponent(Args... args)
+		void addComponent(Args&&... args)
 		{
 			auto pSystem = getSystem<Component>();
 			assert(pSystem);
