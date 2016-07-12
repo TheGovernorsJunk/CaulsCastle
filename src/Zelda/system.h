@@ -31,6 +31,9 @@ namespace te
 		SystemImpl& operator=(const SystemImpl&) = delete;
 
 		void update(const sf::Time& dt) override;
+
+		template <typename... Args>
+		void addComponent(Args... args);
 	private:
 		std::vector<T> m_Components;
 	};

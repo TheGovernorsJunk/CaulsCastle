@@ -10,4 +10,11 @@ namespace te
 	{
 		for (auto& component : m_Components) component.update(dt);
 	}
+
+	template <typename T>
+	template <typename... Args>
+	void SystemImpl<T>::addComponent(Args... args)
+	{
+		m_Components.push_back(T(std::forward<Args>(args)...));
+	}
 }
