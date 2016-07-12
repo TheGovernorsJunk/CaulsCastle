@@ -11,8 +11,8 @@ namespace te
 	{
 	public:
 		virtual ~System() {}
-		System(System&&) = default;
-		System& operator=(System&&) = default;
+		constexpr System(System&&) noexcept = default;
+		System& operator=(System&&) noexcept = default;
 
 		virtual void update(const sf::Time& dt) = 0;
 	};
@@ -23,8 +23,8 @@ namespace te
 	public:
 		SystemImpl();
 
-		SystemImpl(SystemImpl&&) = default;
-		SystemImpl& operator=(SystemImpl&&) = default;
+		SystemImpl(SystemImpl&&) noexcept = default;
+		SystemImpl& operator=(SystemImpl&&) noexcept = default;
 
 		SystemImpl(const SystemImpl&) = delete;
 		SystemImpl& operator=(const SystemImpl&) = delete;
