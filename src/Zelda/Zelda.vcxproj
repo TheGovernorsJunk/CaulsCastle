@@ -69,11 +69,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(SolutionDir)..\lib\Lua;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(SolutionDir)..\lib\Lua;$(SolutionDir)..\lib\boost_1_61_0\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\SFML-2.3.2\lib;$(SolutionDir)..\lib\Box2D\lib\x86\Debug;$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(SolutionDir)..\lib\Lua;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\Box2D\include;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\SFML-2.3.2\include;$(SolutionDir)..\lib\LuaBridge\Source\LuaBridge;$(SolutionDir)..\lib\Lua;$(SolutionDir)..\lib\boost_1_61_0;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\Box2D\lib\x86\Release;$(SolutionDir)..\lib\SFML-2.3.2\lib;$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
