@@ -33,11 +33,11 @@ public:
 		: m_rPositions{positions}
 	{}
 
-	void update()
+	void update(const sf::Time& dt)
 	{
 		for (auto& entityPosition : m_rPositions)
 		{
-			entityPosition.second += { .01f, .01f };
+			entityPosition.second += sf::Vector2f{ 10.f, 10.f } * dt.asSeconds();
 		}
 	}
 private:
@@ -114,22 +114,33 @@ int main(int argc, char* argv[])
 	sortingLayers[0] = 2;
 	sortingLayers[3] = 1;
 
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	const sf::Time timePerFrame = sf::seconds(1.f / 60);
+
 	while (pWindow->isOpen())
 	{
 		pWindow->clear();
 
-		sf::Event evt;
-		while (pWindow->pollEvent(evt))
+		sf::Time dt = clock.restart();
+		timeSinceLastUpdate += dt;
+		while (timeSinceLastUpdate > timePerFrame)
 		{
-			if (evt.type == sf::Event::Closed)
+			timeSinceLastUpdate -= timePerFrame;
+
+			sf::Event evt;
+			while (pWindow->pollEvent(evt))
 			{
-				pWindow->close();
+				if (evt.type == sf::Event::Closed)
+				{
+					pWindow->close();
+				}
 			}
+
+			incrementManager.update(timePerFrame);
 		}
 
-		incrementManager.update();
 		renderManager.update();
-
 		pWindow->display();
 	}
 
