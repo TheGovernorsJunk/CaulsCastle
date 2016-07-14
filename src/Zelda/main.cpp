@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include "scripted_application.h"
 
 #include <LuaBridge.h>
@@ -5,9 +6,15 @@
 #include <iostream>
 #include <Windows.h>
 
+#include "resource_manager.h"
+#include "tmx.h"
+#include "utilities.h"
+#include "tile_map_layer.h"
 #include <SFML/Graphics.hpp>
 #include <boost/container/flat_map.hpp>
 #include <vector>
+#include <iterator>
+#include <algorithm>
 
 template <typename Component>
 class ComponentStore
@@ -44,14 +51,15 @@ private:
 	ComponentStore<sf::Vector2f>& m_rPositions;
 };
 
+template <typename DrawableStore>
 class RenderManager
 {
 public:
-	RenderManager(ComponentStore<sf::CircleShape>& circles,
+	RenderManager(DrawableStore& drawables,
 		ComponentStore<sf::Vector2f>& positions,
 		ComponentStore<int>& sortingLayers,
 		sf::RenderTarget& target)
-		: m_rCircles{circles}
+		: m_rDrawables{drawables}
 		, m_rPositions{positions}
 		, m_rSortingLayers{sortingLayers}
 		, m_rTarget{target}
@@ -59,13 +67,10 @@ public:
 
 	void update()
 	{
-		for (auto& entityCircle : m_rCircles)
+		for (auto& entityDrawable : m_rDrawables)
 		{
-			int entityID = entityCircle.first;
+			int entityID = entityDrawable.first;
 			m_Indices.push_back({ entityID, m_rSortingLayers[entityID] });
-			//auto& circle = entityCircle.second;
-			//circle.setPosition(m_rPositions[entityCircle.first]);
-			//m_rTarget.draw(circle);
 		}
 		std::sort(m_Indices.begin(), m_Indices.end(), [](auto a, auto b) {
 			return a.second < b.second;
@@ -73,14 +78,14 @@ public:
 		for (auto& entitySortPair : m_Indices)
 		{
 			int entityID = entitySortPair.first;
-			auto& circle = m_rCircles[entityID];
+			auto& circle = m_rDrawables[entityID];
 			circle.setPosition(m_rPositions[entityID]);
 			m_rTarget.draw(circle);
 		}
 		m_Indices.clear();
 	}
 private:
-	ComponentStore<sf::CircleShape>& m_rCircles;
+	DrawableStore& m_rDrawables;
 	ComponentStore<sf::Vector2f>& m_rPositions;
 	ComponentStore<int>& m_rSortingLayers;
 	sf::RenderTarget& m_rTarget;
@@ -90,15 +95,32 @@ private:
 
 int main(int argc, char* argv[])
 {
+	using namespace te;
+
 	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
+
+	ResourceManager<TMX> tmxManager{};
+	auto id = tmxManager.load("assets/maps/grassy.tmx");
+	std::vector<std::string> textureFilenames{};
+	getTilesetFilenames(tmxManager.get(id), std::back_inserter(textureFilenames));
+	ResourceManager<sf::Texture> textureManager{};
+	std::vector<const sf::Texture*> textures;
+	std::transform(textureFilenames.begin(), textureFilenames.end(), std::back_inserter(textures), [&textureManager](auto& filename) {
+		return &textureManager.get(textureManager.load(filename));
+	});
+	std::vector<TileMapLayer> layers{};
+	TileMapLayer::make(tmxManager.get(id), textures.begin(), textures.end(), std::back_inserter(layers));
 
 	ComponentStore<sf::Vector2f> positions{};
 	ComponentStore<sf::CircleShape> circles{};
 	ComponentStore<int> sortingLayers{};
+	ComponentStore<TileMapLayer> mapLayers{};
 
 	IncrementManager incrementManager{ positions };
-	RenderManager renderManager{ circles, positions, sortingLayers, *pWindow };
-	//flat_map<int, sf::Vector2f> velocities{};
+	RenderManager<decltype(circles)> renderManager{ circles, positions, sortingLayers, *pWindow };
+	RenderManager<decltype(mapLayers)> layerRenderManager{ mapLayers, positions, sortingLayers, *pWindow };
+
+	mapLayers[1] = layers[0];
 
 	positions[0] = { 30, 30 };
 	sf::CircleShape circle0{ 20 };
@@ -138,6 +160,7 @@ int main(int argc, char* argv[])
 			incrementManager.update(timePerFrame);
 		}
 
+		layerRenderManager.update();
 		renderManager.update();
 		pWindow->display();
 	}
