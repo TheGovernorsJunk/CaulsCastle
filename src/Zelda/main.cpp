@@ -101,18 +101,16 @@ int main(int argc, char* argv[])
 	//flat_map<int, sf::Vector2f> velocities{};
 
 	positions[0] = { 30, 30 };
-	positions[3] = { 10, 10 };
-
-	sf::CircleShape circle0{ 10 };
+	sf::CircleShape circle0{ 20 };
 	circle0.setFillColor(sf::Color::Magenta);
 	circles[0] = std::move(circle0);
+	sortingLayers[0] = 1;
 
+	positions[3] = { 10, 10 };
 	sf::CircleShape circle3{ 20 };
 	circle3.setFillColor(sf::Color::Blue);
 	circles[3] = std::move(circle3);
-
-	sortingLayers[0] = 2;
-	sortingLayers[3] = 1;
+	sortingLayers[3] = 0;
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
