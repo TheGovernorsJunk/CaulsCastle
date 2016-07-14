@@ -25,9 +25,14 @@ public:
 	auto cbegin() { return m_Components.cbegin(); }
 	auto cend() { return m_Components.cend(); }
 
-	Component& operator[](int index)
+	inline Component& operator[](int index)
 	{
 		return m_Components[index];
+	}
+
+	inline bool contains(int index) const
+	{
+		return m_Components.find(index) != m_Components.end();
 	}
 private:
 	boost::container::flat_map<int, Component> m_Components;
@@ -51,46 +56,46 @@ private:
 	ComponentStore<sf::Vector2f>& m_rPositions;
 };
 
-template <typename DrawableStore>
-class RenderManager
-{
-public:
-	RenderManager(DrawableStore& drawables,
-		ComponentStore<sf::Vector2f>& positions,
-		ComponentStore<int>& sortingLayers,
-		sf::RenderTarget& target)
-		: m_rDrawables{drawables}
-		, m_rPositions{positions}
-		, m_rSortingLayers{sortingLayers}
-		, m_rTarget{target}
-	{}
-
-	void update()
-	{
-		for (auto& entityDrawable : m_rDrawables)
-		{
-			int entityID = entityDrawable.first;
-			m_Indices.push_back({ entityID, m_rSortingLayers[entityID] });
-		}
-		std::sort(m_Indices.begin(), m_Indices.end(), [](auto a, auto b) {
-			return a.second < b.second;
-		});
-		for (auto& entitySortPair : m_Indices)
-		{
-			int entityID = entitySortPair.first;
-			auto& circle = m_rDrawables[entityID];
-			circle.setPosition(m_rPositions[entityID]);
-			m_rTarget.draw(circle);
-		}
-		m_Indices.clear();
-	}
-private:
-	DrawableStore& m_rDrawables;
-	ComponentStore<sf::Vector2f>& m_rPositions;
-	ComponentStore<int>& m_rSortingLayers;
-	sf::RenderTarget& m_rTarget;
-	std::vector<std::pair<int, int>> m_Indices;
-};
+//template <typename DrawableStore>
+//class RenderManager
+//{
+//public:
+//	RenderManager(DrawableStore& drawables,
+//		ComponentStore<sf::Vector2f>& positions,
+//		ComponentStore<int>& sortingLayers,
+//		sf::RenderTarget& target)
+//		: m_rDrawables{drawables}
+//		, m_rPositions{positions}
+//		, m_rSortingLayers{sortingLayers}
+//		, m_rTarget{target}
+//	{}
+//
+//	void update()
+//	{
+//		for (auto& entityDrawable : m_rDrawables)
+//		{
+//			int entityID = entityDrawable.first;
+//			m_Indices.push_back({ entityID, m_rSortingLayers[entityID] });
+//		}
+//		std::sort(m_Indices.begin(), m_Indices.end(), [](auto a, auto b) {
+//			return a.second < b.second;
+//		});
+//		for (auto& entitySortPair : m_Indices)
+//		{
+//			int entityID = entitySortPair.first;
+//			auto& circle = m_rDrawables[entityID];
+//			circle.setPosition(m_rPositions[entityID]);
+//			m_rTarget.draw(circle);
+//		}
+//		m_Indices.clear();
+//	}
+//private:
+//	DrawableStore& m_rDrawables;
+//	ComponentStore<sf::Vector2f>& m_rPositions;
+//	ComponentStore<int>& m_rSortingLayers;
+//	sf::RenderTarget& m_rTarget;
+//	std::vector<std::pair<int, int>> m_Indices;
+//};
 
 
 int main(int argc, char* argv[])
@@ -117,10 +122,33 @@ int main(int argc, char* argv[])
 	ComponentStore<TileMapLayer> mapLayers{};
 
 	IncrementManager incrementManager{ positions };
-	RenderManager<decltype(circles)> renderManager{ circles, positions, sortingLayers, *pWindow };
-	RenderManager<decltype(mapLayers)> layerRenderManager{ mapLayers, positions, sortingLayers, *pWindow };
+	auto render = [&]() {
+		static std::vector<std::tuple<int, int, sf::Drawable*>> indices{};
+
+		for (auto& entitySortLayer : sortingLayers)
+		{
+			auto entityID = entitySortLayer.first;
+			sf::Drawable* drawable = nullptr;
+			if (circles.contains(entityID)) drawable = &circles[entityID];
+			else if (mapLayers.contains(entityID)) drawable = &mapLayers[entityID];
+			else throw std::runtime_error{"No drawable for entity " + entityID};
+			indices.push_back({ entityID, entitySortLayer.second, drawable });
+		}
+		std::sort(indices.begin(), indices.end(), [](auto a, auto b) {
+			return std::get<1>(a) < std::get<1>(b);
+		});
+		sf::RenderStates states;
+		for (auto& entitySortPair : indices)
+		{
+			int entityID = std::get<0>(entitySortPair);
+			auto& drawable = *std::get<2>(entitySortPair);
+			states.transform = sf::Transform{}.translate(positions[entityID]);
+			pWindow->draw(drawable, states);
+		}
+	};
 
 	mapLayers[1] = layers[0];
+	sortingLayers[1] = -1;
 
 	positions[0] = { 30, 30 };
 	sf::CircleShape circle0{ 20 };
@@ -160,8 +188,9 @@ int main(int argc, char* argv[])
 			incrementManager.update(timePerFrame);
 		}
 
-		layerRenderManager.update();
-		renderManager.update();
+		//layerRenderManager.update();
+		//renderManager.update();
+		render();
 		pWindow->display();
 	}
 
