@@ -72,7 +72,8 @@ public:
 		, m_Target(target)
 	{}
 
-	void update() {
+	void update()
+	{
 		for (auto& entitySortLayer : m_Data.sortingLayers)
 		{
 			auto entityID = entitySortLayer.first;
@@ -95,7 +96,7 @@ public:
 		}
 
 		m_PendingDraws.clear();
-	};
+	}
 
 private:
 	struct PendingDraw
