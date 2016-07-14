@@ -56,54 +56,57 @@ private:
 	ComponentStore<sf::Vector2f>& m_rPositions;
 };
 
-//template <typename DrawableStore>
-//class RenderManager
-//{
-//public:
-//	RenderManager(DrawableStore& drawables,
-//		ComponentStore<sf::Vector2f>& positions,
-//		ComponentStore<int>& sortingLayers,
-//		sf::RenderTarget& target)
-//		: m_rDrawables{drawables}
-//		, m_rPositions{positions}
-//		, m_rSortingLayers{sortingLayers}
-//		, m_rTarget{target}
-//	{}
-//
-//	void update()
-//	{
-//		for (auto& entityDrawable : m_rDrawables)
-//		{
-//			int entityID = entityDrawable.first;
-//			m_Indices.push_back({ entityID, m_rSortingLayers[entityID] });
-//		}
-//		std::sort(m_Indices.begin(), m_Indices.end(), [](auto a, auto b) {
-//			return a.second < b.second;
-//		});
-//		for (auto& entitySortPair : m_Indices)
-//		{
-//			int entityID = entitySortPair.first;
-//			auto& circle = m_rDrawables[entityID];
-//			circle.setPosition(m_rPositions[entityID]);
-//			m_rTarget.draw(circle);
-//		}
-//		m_Indices.clear();
-//	}
-//private:
-//	DrawableStore& m_rDrawables;
-//	ComponentStore<sf::Vector2f>& m_rPositions;
-//	ComponentStore<int>& m_rSortingLayers;
-//	sf::RenderTarget& m_rTarget;
-//	std::vector<std::pair<int, int>> m_Indices;
-//};
-
-
 struct GameData
 {
 	ComponentStore<sf::Vector2f> positions;
 	ComponentStore<sf::CircleShape> circles;
 	ComponentStore<int> sortingLayers;
 	ComponentStore<te::TileMapLayer> mapLayers;
+};
+
+class RenderManager
+{
+public:
+	RenderManager(GameData& data, sf::RenderTarget& target)
+		: m_Data(data)
+		, m_Target(target)
+	{}
+
+	void update() {
+		for (auto& entitySortLayer : m_Data.sortingLayers)
+		{
+			auto entityID = entitySortLayer.first;
+			sf::Drawable* drawable = nullptr;
+			if (m_Data.circles.contains(entityID)) drawable = &m_Data.circles[entityID];
+			else if (m_Data.mapLayers.contains(entityID)) drawable = &m_Data.mapLayers[entityID];
+			else throw std::runtime_error{ "No drawable for entity " + entityID };
+			m_PendingDraws.push_back({ entityID, entitySortLayer.second, drawable });
+		}
+		std::sort(m_PendingDraws.begin(), m_PendingDraws.end(), [](auto a, auto b) {
+			return a.drawOrder < b.drawOrder;
+		});
+		sf::RenderStates states;
+		for (auto& pendingDraw : m_PendingDraws)
+		{
+			int entityID = pendingDraw.entityID;
+			auto& drawable = *pendingDraw.pDrawable;
+			states.transform = sf::Transform{}.translate(m_Data.positions[entityID]);
+			m_Target.draw(drawable, states);
+		}
+
+		m_PendingDraws.clear();
+	};
+
+private:
+	struct PendingDraw
+	{
+		int entityID;
+		int drawOrder;
+		sf::Drawable* pDrawable;
+	};
+	GameData& m_Data;
+	sf::RenderTarget& m_Target;
+	std::vector<PendingDraw> m_PendingDraws;
 };
 
 int main(int argc, char* argv[])
@@ -127,30 +130,7 @@ int main(int argc, char* argv[])
 	GameData gameData;
 
 	IncrementManager incrementManager{ gameData.positions };
-	auto render = [&]() {
-		static std::vector<std::tuple<int, int, sf::Drawable*>> indices{};
-
-		for (auto& entitySortLayer : gameData.sortingLayers)
-		{
-			auto entityID = entitySortLayer.first;
-			sf::Drawable* drawable = nullptr;
-			if (gameData.circles.contains(entityID)) drawable = &gameData.circles[entityID];
-			else if (gameData.mapLayers.contains(entityID)) drawable = &gameData.mapLayers[entityID];
-			else throw std::runtime_error{"No drawable for entity " + entityID};
-			indices.push_back({ entityID, entitySortLayer.second, drawable });
-		}
-		std::sort(indices.begin(), indices.end(), [](auto a, auto b) {
-			return std::get<1>(a) < std::get<1>(b);
-		});
-		sf::RenderStates states;
-		for (auto& entitySortPair : indices)
-		{
-			int entityID = std::get<0>(entitySortPair);
-			auto& drawable = *std::get<2>(entitySortPair);
-			states.transform = sf::Transform{}.translate(gameData.positions[entityID]);
-			pWindow->draw(drawable, states);
-		}
-	};
+	RenderManager renderManager{ gameData, *pWindow };
 
 	gameData.mapLayers[1] = layers[0];
 	gameData.sortingLayers[1] = -1;
@@ -193,9 +173,7 @@ int main(int argc, char* argv[])
 			incrementManager.update(timePerFrame);
 		}
 
-		//layerRenderManager.update();
-		//renderManager.update();
-		render();
+		renderManager.update();
 		pWindow->display();
 	}
 
