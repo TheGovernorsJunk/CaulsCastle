@@ -20,10 +20,12 @@ template <typename Component>
 class ComponentStore
 {
 public:
-	auto begin() { return m_Components.begin(); }
-	auto end() { return m_Components.end(); }
-	auto cbegin() { return m_Components.cbegin(); }
-	auto cend() { return m_Components.cend(); }
+	decltype(auto) begin() { return m_Components.begin(); }
+	decltype(auto) begin() const { return m_Components.begin(); }
+	decltype(auto) end() { return m_Components.end(); }
+	decltype(auto) end() const { return m_Components.end(); }
+	decltype(auto) cbegin() const { return m_Components.cbegin(); }
+	decltype(auto) cend() const { return m_Components.cend(); }
 
 	inline Component& operator[](int index)
 	{
@@ -74,15 +76,8 @@ public:
 
 	void update()
 	{
-		for (auto& entitySortLayer : m_Data.sortingLayers)
-		{
-			auto entityID = entitySortLayer.first;
-			sf::Drawable* drawable = nullptr;
-			if (m_Data.circles.contains(entityID)) drawable = &m_Data.circles[entityID];
-			else if (m_Data.mapLayers.contains(entityID)) drawable = &m_Data.mapLayers[entityID];
-			else throw std::runtime_error{ "No drawable for entity " + entityID };
-			m_PendingDraws.push_back({ entityID, entitySortLayer.second, drawable });
-		}
+		collectVertices(m_Data.circles);
+		collectVertices(m_Data.mapLayers);
 		std::sort(m_PendingDraws.begin(), m_PendingDraws.end(), [](auto a, auto b) {
 			return a.drawOrder < b.drawOrder;
 		});
@@ -99,11 +94,22 @@ public:
 	}
 
 private:
+	template <typename DrawableStore>
+	void collectVertices(const DrawableStore& store)
+	{
+		for (auto& entityDrawable : store)
+		{
+			auto entityID = entityDrawable.first;
+			auto* drawable = &entityDrawable.second;
+			m_PendingDraws.push_back({ entityID, m_Data.sortingLayers[entityID], drawable });
+		}
+	}
+
 	struct PendingDraw
 	{
 		int entityID;
 		int drawOrder;
-		sf::Drawable* pDrawable;
+		const sf::Drawable* pDrawable;
 	};
 	GameData& m_Data;
 	sf::RenderTarget& m_Target;
@@ -134,7 +140,6 @@ int main(int argc, char* argv[])
 	RenderManager renderManager{ gameData, *pWindow };
 
 	gameData.mapLayers[1] = layers[0];
-	gameData.sortingLayers[1] = -1;
 
 	gameData.positions[0] = { 30, 30 };
 	sf::CircleShape circle0{ 20 };
@@ -146,7 +151,7 @@ int main(int argc, char* argv[])
 	sf::CircleShape circle3{ 20 };
 	circle3.setFillColor(sf::Color::Blue);
 	gameData.circles[3] = std::move(circle3);
-	gameData.sortingLayers[3] = 0;
+	gameData.sortingLayers[3] = 2;
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
