@@ -98,6 +98,14 @@ private:
 //};
 
 
+struct GameData
+{
+	ComponentStore<sf::Vector2f> positions;
+	ComponentStore<sf::CircleShape> circles;
+	ComponentStore<int> sortingLayers;
+	ComponentStore<te::TileMapLayer> mapLayers;
+};
+
 int main(int argc, char* argv[])
 {
 	using namespace te;
@@ -116,21 +124,18 @@ int main(int argc, char* argv[])
 	std::vector<TileMapLayer> layers{};
 	TileMapLayer::make(tmxManager.get(id), textures.begin(), textures.end(), std::back_inserter(layers));
 
-	ComponentStore<sf::Vector2f> positions{};
-	ComponentStore<sf::CircleShape> circles{};
-	ComponentStore<int> sortingLayers{};
-	ComponentStore<TileMapLayer> mapLayers{};
+	GameData gameData;
 
-	IncrementManager incrementManager{ positions };
+	IncrementManager incrementManager{ gameData.positions };
 	auto render = [&]() {
 		static std::vector<std::tuple<int, int, sf::Drawable*>> indices{};
 
-		for (auto& entitySortLayer : sortingLayers)
+		for (auto& entitySortLayer : gameData.sortingLayers)
 		{
 			auto entityID = entitySortLayer.first;
 			sf::Drawable* drawable = nullptr;
-			if (circles.contains(entityID)) drawable = &circles[entityID];
-			else if (mapLayers.contains(entityID)) drawable = &mapLayers[entityID];
+			if (gameData.circles.contains(entityID)) drawable = &gameData.circles[entityID];
+			else if (gameData.mapLayers.contains(entityID)) drawable = &gameData.mapLayers[entityID];
 			else throw std::runtime_error{"No drawable for entity " + entityID};
 			indices.push_back({ entityID, entitySortLayer.second, drawable });
 		}
@@ -142,25 +147,25 @@ int main(int argc, char* argv[])
 		{
 			int entityID = std::get<0>(entitySortPair);
 			auto& drawable = *std::get<2>(entitySortPair);
-			states.transform = sf::Transform{}.translate(positions[entityID]);
+			states.transform = sf::Transform{}.translate(gameData.positions[entityID]);
 			pWindow->draw(drawable, states);
 		}
 	};
 
-	mapLayers[1] = layers[0];
-	sortingLayers[1] = -1;
+	gameData.mapLayers[1] = layers[0];
+	gameData.sortingLayers[1] = -1;
 
-	positions[0] = { 30, 30 };
+	gameData.positions[0] = { 30, 30 };
 	sf::CircleShape circle0{ 20 };
 	circle0.setFillColor(sf::Color::Magenta);
-	circles[0] = std::move(circle0);
-	sortingLayers[0] = 1;
+	gameData.circles[0] = std::move(circle0);
+	gameData.sortingLayers[0] = 1;
 
-	positions[3] = { 10, 10 };
+	gameData.positions[3] = { 10, 10 };
 	sf::CircleShape circle3{ 20 };
 	circle3.setFillColor(sf::Color::Blue);
-	circles[3] = std::move(circle3);
-	sortingLayers[3] = 0;
+	gameData.circles[3] = std::move(circle3);
+	gameData.sortingLayers[3] = 0;
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
