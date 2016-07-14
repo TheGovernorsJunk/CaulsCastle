@@ -6,6 +6,7 @@
 #include <Windows.h>
 
 #include <SFML/Graphics.hpp>
+#include <boost/container/flat_map.hpp>
 #include <vector>
 
 template <typename Component>
@@ -17,13 +18,12 @@ public:
 	auto cbegin() { return m_Components.cbegin(); }
 	auto cend() { return m_Components.cend(); }
 
-	Component& operator[](unsigned index)
+	Component& operator[](int index)
 	{
-		if (m_Components.size() <= index) m_Components.resize(index + 1);
 		return m_Components[index];
 	}
 private:
-	std::vector<Component> m_Components;
+	boost::container::flat_map<int, Component> m_Components;
 };
 
 class IncrementManager
@@ -35,26 +35,89 @@ public:
 
 	void update()
 	{
-		for (auto& position : m_rPositions)
+		for (auto& entityPosition : m_rPositions)
 		{
-			position += { 1, 1 };
+			entityPosition.second += { .01f, .01f };
 		}
 	}
 private:
 	ComponentStore<sf::Vector2f>& m_rPositions;
 };
 
+class RenderManager
+{
+public:
+	RenderManager(ComponentStore<sf::CircleShape>& circles,
+		ComponentStore<sf::Vector2f>& positions,
+		ComponentStore<int>& sortingLayers,
+		sf::RenderTarget& target)
+		: m_rCircles{circles}
+		, m_rPositions{positions}
+		, m_rSortingLayers{sortingLayers}
+		, m_rTarget{target}
+	{}
+
+	void update()
+	{
+		for (auto& entityCircle : m_rCircles)
+		{
+			int entityID = entityCircle.first;
+			m_Indices.push_back({ entityID, m_rSortingLayers[entityID] });
+			//auto& circle = entityCircle.second;
+			//circle.setPosition(m_rPositions[entityCircle.first]);
+			//m_rTarget.draw(circle);
+		}
+		std::sort(m_Indices.begin(), m_Indices.end(), [](auto a, auto b) {
+			return a.second < b.second;
+		});
+		for (auto& entitySortPair : m_Indices)
+		{
+			int entityID = entitySortPair.first;
+			auto& circle = m_rCircles[entityID];
+			circle.setPosition(m_rPositions[entityID]);
+			m_rTarget.draw(circle);
+		}
+		m_Indices.clear();
+	}
+private:
+	ComponentStore<sf::CircleShape>& m_rCircles;
+	ComponentStore<sf::Vector2f>& m_rPositions;
+	ComponentStore<int>& m_rSortingLayers;
+	sf::RenderTarget& m_rTarget;
+	std::vector<std::pair<int, int>> m_Indices;
+};
+
+
 int main(int argc, char* argv[])
 {
-	ComponentStore<sf::Vector2f> positions{};
-	IncrementManager incrementManager{ positions };
+	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
 
-	positions[0] = { -5000, -5000 };
+	ComponentStore<sf::Vector2f> positions{};
+	ComponentStore<sf::CircleShape> circles{};
+	ComponentStore<int> sortingLayers{};
+
+	IncrementManager incrementManager{ positions };
+	RenderManager renderManager{ circles, positions, sortingLayers, *pWindow };
+	//flat_map<int, sf::Vector2f> velocities{};
+
+	positions[0] = { 30, 30 };
 	positions[3] = { 10, 10 };
 
-	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
+	sf::CircleShape circle0{ 10 };
+	circle0.setFillColor(sf::Color::Magenta);
+	circles[0] = std::move(circle0);
+
+	sf::CircleShape circle3{ 20 };
+	circle3.setFillColor(sf::Color::Blue);
+	circles[3] = std::move(circle3);
+
+	sortingLayers[0] = 2;
+	sortingLayers[3] = 1;
+
 	while (pWindow->isOpen())
 	{
+		pWindow->clear();
+
 		sf::Event evt;
 		while (pWindow->pollEvent(evt))
 		{
@@ -65,6 +128,9 @@ int main(int argc, char* argv[])
 		}
 
 		incrementManager.update();
+		renderManager.update();
+
+		pWindow->display();
 	}
 
 	return 0;
