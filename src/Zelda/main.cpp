@@ -58,62 +58,88 @@ private:
 	ComponentStore<sf::Vector2f>& m_rPositions;
 };
 
+struct PendingDraw
+{
+	sf::RenderStates renderStates;
+	int drawOrder;
+	const sf::Drawable* pDrawable;
+};
+
 struct GameData
 {
 	ComponentStore<sf::Vector2f> positions;
 	ComponentStore<sf::CircleShape> circles;
 	ComponentStore<int> sortingLayers;
 	ComponentStore<te::TileMapLayer> mapLayers;
+	std::vector<PendingDraw> pendingDraws;
 };
 
+template <typename DrawableStore>
 class RenderManager
 {
 public:
-	RenderManager(GameData& data, sf::RenderTarget& target)
-		: m_Data(data)
-		, m_Target(target)
+	RenderManager(const DrawableStore& drawableStore,
+		decltype(GameData::positions)& positionStore,
+		decltype(GameData::sortingLayers)& sortingStore,
+		decltype(GameData::pendingDraws)& pendingDraws)
+		: m_DrawableStore(drawableStore)
+		, m_PositionStore(positionStore)
+		, m_SortingStore(sortingStore)
+		, m_PendingDraws(pendingDraws)
+	{}
+	RenderManager(RenderManager&&) = default;
+	RenderManager& operator=(RenderManager&&) = default;
+
+	void update()
+	{
+		std::transform(std::cbegin(m_DrawableStore), std::cend(m_DrawableStore), std::back_inserter(m_PendingDraws), [this](const auto& entityDrawable) {
+			auto entityID = entityDrawable.first;
+			const auto* drawable = &entityDrawable.second;
+			sf::RenderStates renderStates;
+			renderStates.transform.translate(m_PositionStore[entityID]);
+			return PendingDraw{ renderStates, m_SortingStore[entityID], drawable };
+		});
+	}
+
+private:
+	const DrawableStore& m_DrawableStore;
+	decltype(GameData::positions)& m_PositionStore;
+	decltype(GameData::sortingLayers)& m_SortingStore;
+	decltype(GameData::pendingDraws)& m_PendingDraws;
+};
+
+template <typename Drawables>
+auto makeRenderManager(const Drawables& drawables,
+	decltype(GameData::positions)& positions,
+	decltype(GameData::sortingLayers)& sortings,
+	decltype(GameData::pendingDraws)& pendingDraws)
+{
+	return RenderManager<Drawables>{ drawables, positions, sortings, pendingDraws };
+}
+
+class DrawManager
+{
+public:
+	DrawManager(decltype(GameData::pendingDraws)& pendingDraws, sf::RenderTarget& target)
+		: m_PendingDraws{ pendingDraws }
+		, m_Target{ target }
 	{}
 
 	void update()
 	{
-		collectVertices(m_Data.circles);
-		collectVertices(m_Data.mapLayers);
 		std::sort(m_PendingDraws.begin(), m_PendingDraws.end(), [](auto a, auto b) {
 			return a.drawOrder < b.drawOrder;
 		});
-		sf::RenderStates states;
 		for (auto& pendingDraw : m_PendingDraws)
 		{
-			int entityID = pendingDraw.entityID;
-			auto& drawable = *pendingDraw.pDrawable;
-			states.transform = sf::Transform{}.translate(m_Data.positions[entityID]);
-			m_Target.draw(drawable, states);
+			m_Target.draw(*pendingDraw.pDrawable, pendingDraw.renderStates);
 		}
 
 		m_PendingDraws.clear();
 	}
-
 private:
-	template <typename DrawableStore>
-	void collectVertices(const DrawableStore& store)
-	{
-		for (auto& entityDrawable : store)
-		{
-			auto entityID = entityDrawable.first;
-			auto* drawable = &entityDrawable.second;
-			m_PendingDraws.push_back({ entityID, m_Data.sortingLayers[entityID], drawable });
-		}
-	}
-
-	struct PendingDraw
-	{
-		int entityID;
-		int drawOrder;
-		const sf::Drawable* pDrawable;
-	};
-	GameData& m_Data;
+	decltype(GameData::pendingDraws)& m_PendingDraws;
 	sf::RenderTarget& m_Target;
-	std::vector<PendingDraw> m_PendingDraws;
 };
 
 int main(int argc, char* argv[])
@@ -137,7 +163,9 @@ int main(int argc, char* argv[])
 	GameData gameData;
 
 	IncrementManager incrementManager{ gameData.positions };
-	RenderManager renderManager{ gameData, *pWindow };
+	auto circleRenderManager = makeRenderManager(gameData.circles, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
+	auto layerRenderManager = makeRenderManager(gameData.mapLayers, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
+	DrawManager drawManager{ gameData.pendingDraws, *pWindow };
 
 	gameData.mapLayers[1] = layers[0];
 
@@ -179,7 +207,9 @@ int main(int argc, char* argv[])
 			incrementManager.update(timePerFrame);
 		}
 
-		renderManager.update();
+		circleRenderManager.update();
+		layerRenderManager.update();
+		drawManager.update();
 		pWindow->display();
 	}
 
