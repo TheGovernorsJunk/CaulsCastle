@@ -189,6 +189,9 @@ public:
 		velocity.x = m_rInput.left && !m_rInput.right ? -5.f
 			: !m_rInput.left && m_rInput.right ? 5.f
 			: 0;
+		velocity.y = m_rInput.up && !m_rInput.down ? -5.f
+			: !m_rInput.up && m_rInput.down ? 5.f
+			: 0;
 		m_rVelocities[m_ID] = velocity;
 	}
 private:
