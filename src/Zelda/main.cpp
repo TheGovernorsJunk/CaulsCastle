@@ -15,6 +15,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <unordered_map>
 
 template <typename Component>
 class ComponentStore
@@ -40,24 +41,6 @@ private:
 	boost::container::flat_map<int, Component> m_Components;
 };
 
-class IncrementManager
-{
-public:
-	IncrementManager(ComponentStore<sf::Vector2f>& positions)
-		: m_rPositions{positions}
-	{}
-
-	void update(const sf::Time& dt)
-	{
-		for (auto& entityPosition : m_rPositions)
-		{
-			entityPosition.second += sf::Vector2f{ 10.f, 10.f } * dt.asSeconds();
-		}
-	}
-private:
-	ComponentStore<sf::Vector2f>& m_rPositions;
-};
-
 struct PendingDraw
 {
 	sf::RenderStates renderStates;
@@ -68,10 +51,35 @@ struct PendingDraw
 struct GameData
 {
 	ComponentStore<sf::Vector2f> positions;
+	ComponentStore<sf::Vector2f> velocities;
 	ComponentStore<sf::CircleShape> circles;
 	ComponentStore<int> sortingLayers;
 	ComponentStore<te::TileMapLayer> mapLayers;
 	std::vector<PendingDraw> pendingDraws;
+};
+
+class VelocityManager
+{
+public:
+	VelocityManager(
+		decltype(GameData::positions)& positions,
+		const decltype(GameData::velocities)& velocities)
+		: m_rPositions{positions}
+		, m_rVelocities{velocities}
+	{}
+
+	void update(const sf::Time& dt)
+	{
+		for (auto& entityVelocity : m_rVelocities)
+		{
+			auto id = entityVelocity.first;
+			auto velocity = entityVelocity.second;
+			m_rPositions[id] += velocity * dt.asSeconds();
+		}
+	}
+private:
+	decltype(GameData::positions)& m_rPositions;
+	const decltype(GameData::velocities)& m_rVelocities;
 };
 
 template <typename DrawableStore>
@@ -142,9 +150,25 @@ private:
 	sf::RenderTarget& m_Target;
 };
 
+static std::unordered_map <sf::Keyboard::Key, std::function<void(GameData&)>> keyPressCallbacks;
+
+void processInput(const sf::Event& evt, GameData& data)
+{
+	switch (evt.type)
+	{
+	case sf::Event::KeyPressed:
+		auto found = keyPressCallbacks.find(evt.key.code);
+		if (found != keyPressCallbacks.end()) found->second(data);
+		break;
+	}
+}
+
 int main(int argc, char* argv[])
 {
 	using namespace te;
+	keyPressCallbacks.insert({ sf::Keyboard::D, [](GameData& data) {
+		data.velocities[3] = { 5.f, 0 };
+	} });
 
 	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
 
@@ -162,7 +186,7 @@ int main(int argc, char* argv[])
 
 	GameData gameData;
 
-	IncrementManager incrementManager{ gameData.positions };
+	VelocityManager velocityManager{ gameData.positions, gameData.velocities };
 	auto circleRenderManager = makeRenderManager(gameData.circles, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	auto layerRenderManager = makeRenderManager(gameData.mapLayers, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	DrawManager drawManager{ gameData.pendingDraws, *pWindow };
@@ -202,9 +226,13 @@ int main(int argc, char* argv[])
 				{
 					pWindow->close();
 				}
+				else
+				{
+					processInput(evt, gameData);
+				}
 			}
 
-			incrementManager.update(timePerFrame);
+			velocityManager.update(timePerFrame);
 		}
 
 		circleRenderManager.update();
