@@ -50,6 +50,12 @@ struct PendingDraw
 
 struct GameData
 {
+	struct {
+		bool left;
+		bool right;
+		bool up;
+		bool down;
+	} directionInput;
 	ComponentStore<sf::Vector2f> positions;
 	ComponentStore<sf::Vector2f> velocities;
 	ComponentStore<sf::CircleShape> circles;
@@ -150,25 +156,50 @@ private:
 	sf::RenderTarget& m_Target;
 };
 
-static std::unordered_map <sf::Keyboard::Key, std::function<void(GameData&)>> keyPressCallbacks;
-
-void processInput(const sf::Event& evt, GameData& data)
+class InputManager
 {
-	switch (evt.type)
+public:
+	InputManager(decltype(GameData::directionInput)& input)
+		: m_rInput{ input }
+	{}
+
+	void update()
 	{
-	case sf::Event::KeyPressed:
-		auto found = keyPressCallbacks.find(evt.key.code);
-		if (found != keyPressCallbacks.end()) found->second(data);
-		break;
+		m_rInput.left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+		m_rInput.right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+		m_rInput.up = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+		m_rInput.down = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
 	}
-}
+private:
+	decltype(GameData::directionInput)& m_rInput;
+};
+
+class PlayerManager
+{
+public:
+	PlayerManager(int entityID, const decltype(GameData::directionInput)& input, decltype(GameData::velocities)& velocities)
+		: m_ID{ entityID }
+		, m_rInput{ input }
+		, m_rVelocities{ velocities }
+	{}
+
+	void update()
+	{
+		sf::Vector2f velocity{};
+		velocity.x = m_rInput.left && !m_rInput.right ? -5.f
+			: !m_rInput.left && m_rInput.right ? 5.f
+			: 0;
+		m_rVelocities[m_ID] = velocity;
+	}
+private:
+	int m_ID;
+	const decltype(GameData::directionInput)& m_rInput;
+	decltype(GameData::velocities)& m_rVelocities;
+};
 
 int main(int argc, char* argv[])
 {
 	using namespace te;
-	keyPressCallbacks.insert({ sf::Keyboard::D, [](GameData& data) {
-		data.velocities[3] = { 5.f, 0 };
-	} });
 
 	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
 
@@ -186,6 +217,8 @@ int main(int argc, char* argv[])
 
 	GameData gameData;
 
+	InputManager inputManager{ gameData.directionInput };
+	PlayerManager playerManager{ 0, gameData.directionInput, gameData.velocities };
 	VelocityManager velocityManager{ gameData.positions, gameData.velocities };
 	auto circleRenderManager = makeRenderManager(gameData.circles, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	auto layerRenderManager = makeRenderManager(gameData.mapLayers, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
@@ -226,12 +259,10 @@ int main(int argc, char* argv[])
 				{
 					pWindow->close();
 				}
-				else
-				{
-					processInput(evt, gameData);
-				}
 			}
 
+			inputManager.update();
+			playerManager.update();
 			velocityManager.update(timePerFrame);
 		}
 
