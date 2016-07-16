@@ -141,6 +141,7 @@
     <ClCompile Include="graph_node.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="manager_runner.cpp" />
     <ClCompile Include="message_dispatcher.cpp" />
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="graph_search_dijkstra.h" />
     <ClInclude Include="indexed_priority_queue.h" />
     <ClInclude Include="input_manager.h" />
+    <ClInclude Include="manager_runner.h" />
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />

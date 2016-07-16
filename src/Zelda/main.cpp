@@ -8,19 +8,14 @@
 
 #include "component_store.h"
 #include "game_data.h"
-#include "input_manager.h"
-#include "velocity_manager.h"
-#include "render_manager.h"
-#include "draw_manager.h"
-#include "player_manager.h"
 #include "entity_id_manager.h"
 #include "resource_manager.h"
 #include "tmx.h"
 #include "utilities.h"
 #include "tile_map_layer.h"
 #include "texture_atlas.h"
+#include "manager_runner.h"
 #include <SFML/Graphics.hpp>
-#include <boost/container/flat_map.hpp>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -75,12 +70,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	InputManager inputManager{ gameData.directionInput };
-	PlayerManager playerManager{ playerID, gameData.directionInput, gameData.velocities };
-	VelocityManager velocityManager{ gameData.positions, gameData.velocities };
-	auto spriteRenderManager = makeRenderManager(gameData.sprites, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
-	auto layerRenderManager = makeRenderManager(gameData.mapLayers, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
-	DrawManager drawManager{ gameData.pendingDraws, *pWindow };
+	ManagerRunner runner{ gameData, *pWindow };
 
 	gameData.mapLayers[entityManager.getNextID()] = layers[0];
 
@@ -107,14 +97,10 @@ int main(int argc, char* argv[])
 				}
 			}
 
-			inputManager.update();
-			playerManager.update();
-			velocityManager.update(timePerFrame);
+			runner.fixedUpdate(timePerFrame);
 		}
 
-		spriteRenderManager.update();
-		layerRenderManager.update();
-		drawManager.update();
+		runner.renderUpdate();
 		pWindow->display();
 	}
 
