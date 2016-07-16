@@ -128,6 +128,8 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="draw_manager.cpp" />
+    <ClCompile Include="entity_id_manager.cpp" />
     <ClCompile Include="game_state.cpp" />
     <ClCompile Include="base_game_entity.cpp" />
     <ClCompile Include="box_collider.cpp" />
@@ -137,10 +139,12 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graph_edge.cpp" />
     <ClCompile Include="graph_node.cpp" />
+    <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="message_dispatcher.cpp" />
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
+    <ClCompile Include="player_manager.cpp" />
     <ClCompile Include="regulator.cpp" />
     <ClCompile Include="scripted_application.cpp" />
     <ClCompile Include="camera_entity.cpp" />
@@ -154,6 +158,7 @@
     <ClCompile Include="tmx.cpp" />
     <ClCompile Include="utilities.cpp" />
     <ClCompile Include="vector_ops.cpp" />
+    <ClCompile Include="velocity_manager.cpp" />
     <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,9 +176,13 @@
     <ClInclude Include="cell_space_partition.h" />
     <ClInclude Include="collider.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="component_store.h" />
     <ClInclude Include="composite_collider.h" />
+    <ClInclude Include="draw_manager.h" />
+    <ClInclude Include="entity_id_manager.h" />
     <ClInclude Include="entity_manager.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="game_data.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="goal.h" />
     <ClInclude Include="goal_composite.h" />
@@ -185,10 +194,13 @@
     <ClInclude Include="graph_search_dfs.h" />
     <ClInclude Include="graph_search_dijkstra.h" />
     <ClInclude Include="indexed_priority_queue.h" />
+    <ClInclude Include="input_manager.h" />
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
+    <ClInclude Include="player_manager.h" />
     <ClInclude Include="regulator.h" />
+    <ClInclude Include="render_manager.h" />
     <ClInclude Include="resource_manager.h" />
     <ClInclude Include="rigid_body.h" />
     <ClInclude Include="runnable.h" />
@@ -208,6 +220,7 @@
     <ClInclude Include="typedefs.h" />
     <ClInclude Include="utilities.h" />
     <ClInclude Include="vector_ops.h" />
+    <ClInclude Include="velocity_manager.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="world_state.h" />
   </ItemGroup>
