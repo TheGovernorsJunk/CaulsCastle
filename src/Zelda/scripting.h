@@ -3,6 +3,8 @@
 
 #include "typedefs.h"
 
+#include <memory>
+
 namespace te
 {
 	struct GameData;
@@ -11,12 +13,12 @@ namespace te
 	{
 	public:
 		ScriptInit(GameData&);
+		ScriptInit(ScriptInit&&);
+		ScriptInit& operator=(ScriptInit&&);
+		~ScriptInit();
 	private:
-		class ProxyEntity;
-
-		ProxyEntity makeEntity();
-
-		GameData& m_rData;
+		struct Impl;
+		std::unique_ptr<Impl> m_pImpl;
 	};
 }
 
