@@ -202,6 +202,21 @@ private:
 	decltype(GameData::velocities)& m_rVelocities;
 };
 
+class EntityManager
+{
+public:
+	EntityManager()
+		: m_NextID{0}
+	{}
+
+	int getNextID()
+	{
+		return m_NextID++;
+	}
+private:
+	int m_NextID;
+};
+
 int main(int argc, char* argv[])
 {
 	using namespace te;
@@ -233,28 +248,31 @@ int main(int argc, char* argv[])
 	pSprite->setOrigin(static_cast<float>(spriteData.w) * spriteData.pX, static_cast<float>(spriteData.h) * spriteData.pY);
 	auto priestSpriteID = spriteManager.store(std::move(pSprite));
 
+	::EntityManager entityManager;
 	GameData gameData;
 
+	int playerID = 0;
 	std::vector<TMX::Object> objects;
 	getObjectsInGroup(tmx, "Entities", std::back_inserter(objects));
 	for (auto& object : objects)
 	{
 		if (object.name == "Player")
 		{
-			gameData.sprites[0] = spriteManager.get(priestSpriteID);
-			gameData.sortingLayers[0] = 1;
-			gameData.positions[0] = { static_cast<float>(object.x), static_cast<float>(object.y) };
+			playerID = entityManager.getNextID();
+			gameData.sprites[playerID] = spriteManager.get(priestSpriteID);
+			gameData.sortingLayers[playerID] = 1;
+			gameData.positions[playerID] = { static_cast<float>(object.x), static_cast<float>(object.y) };
 		}
 	}
 
 	InputManager inputManager{ gameData.directionInput };
-	PlayerManager playerManager{ 0, gameData.directionInput, gameData.velocities };
+	PlayerManager playerManager{ playerID, gameData.directionInput, gameData.velocities };
 	VelocityManager velocityManager{ gameData.positions, gameData.velocities };
 	auto spriteRenderManager = makeRenderManager(gameData.sprites, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	auto layerRenderManager = makeRenderManager(gameData.mapLayers, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	DrawManager drawManager{ gameData.pendingDraws, *pWindow };
 
-	gameData.mapLayers[1] = layers[0];
+	gameData.mapLayers[entityManager.getNextID()] = layers[0];
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
