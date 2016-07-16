@@ -224,9 +224,14 @@ int main(int argc, char* argv[])
 	std::vector<TileMapLayer> layers{};
 	TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
 
-	auto heroAtlasID = atlasManager.load("assets/spritesheets/hero/hero.xml");
-	auto heroTextureID = textureManager.load(atlasManager.get(heroAtlasID).getImagePath());
-	auto heroSpriteID = spriteManager.store(std::make_unique<sf::Sprite>(textureManager.get(heroTextureID), sf::IntRect{0, 0, 32, 32}));
+	auto priestAtlasID = atlasManager.load("assets/spritesheets/priest/priest.xml");
+	auto& atlas = atlasManager.get(priestAtlasID);
+	auto priestTextureID = textureManager.load(atlas.getImagePath());
+	auto spriteData = atlas.getSprite("clips/1-PriestWalkDown.png");
+	auto pSprite = std::make_unique<sf::Sprite>(textureManager.get(priestTextureID),
+		sf::IntRect{ spriteData.x, spriteData.y, spriteData.w, spriteData.h });
+	pSprite->setOrigin(static_cast<float>(spriteData.w) * spriteData.pX, static_cast<float>(spriteData.h) * spriteData.pY);
+	auto priestSpriteID = spriteManager.store(std::move(pSprite));
 
 	GameData gameData;
 
@@ -236,7 +241,7 @@ int main(int argc, char* argv[])
 	{
 		if (object.name == "Player")
 		{
-			gameData.sprites[0] = spriteManager.get(heroSpriteID);
+			gameData.sprites[0] = spriteManager.get(priestSpriteID);
 			gameData.sortingLayers[0] = 1;
 			gameData.positions[0] = { static_cast<float>(object.x), static_cast<float>(object.y) };
 		}
