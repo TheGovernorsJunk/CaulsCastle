@@ -15,7 +15,7 @@ namespace te
 		{
 			auto entityID = rigidBody.first;
 			auto position = rigidBody.second->GetPosition();
-			m_rPositions[entityID] = sf::Vector2f{ position.x, position.y };
+			m_rPositions[entityID] = { position.x, position.y };
 		}
 	}
 }
