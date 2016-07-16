@@ -58,6 +58,7 @@ namespace te
 			bool down;
 		} directionInput;
 		ComponentStore<sf::Vector2f> positions;
+		ComponentStore<std::unique_ptr<b2Body, std::function<void(b2Body*)>>> rigidBodies;
 		ComponentStore<sf::Vector2f> velocities;
 		ComponentStore<sf::Sprite> sprites;
 		ComponentStore<int> sortingLayers;

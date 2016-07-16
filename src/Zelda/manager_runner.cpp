@@ -21,7 +21,7 @@ namespace te
 		Impl(GameData& data, sf::RenderTarget& target)
 			: inputManager(data.directionInput)
 			, playerManager(0, data.directionInput, data.velocities)
-			, physicsManager(data.physicsWorld, data.positions)
+			, physicsManager(data.physicsWorld, data.rigidBodies, data.positions)
 			, velocityManager(data.positions, data.velocities)
 			, spriteRenderManager(data.sprites, data.positions, data.sortingLayers, data.pendingDraws)
 			, layerRenderManager(data.mapLayers, data.positions, data.sortingLayers, data.pendingDraws)

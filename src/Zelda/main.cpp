@@ -60,7 +60,13 @@ int main(int argc, char* argv[])
 			playerID = entityManager.getNextID();
 			gameData.sprites[playerID] = gameData.spriteHolder.get(priestSpriteID);
 			gameData.sortingLayers[playerID] = 1;
-			gameData.positions[playerID] = { static_cast<float>(object.x), static_cast<float>(object.y) };
+
+			b2BodyDef bodyDef;
+			bodyDef.type = b2_dynamicBody;
+			bodyDef.position = b2Vec2{ static_cast<float>(object.x), static_cast<float>(object.y) };
+			gameData.rigidBodies[playerID] = { gameData.physicsWorld.CreateBody(&bodyDef), [&gameData](b2Body* pBody) {
+				gameData.physicsWorld.DestroyBody(pBody);
+			} };
 		}
 	}
 
