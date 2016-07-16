@@ -16,7 +16,7 @@ namespace te
 	class ManagerRunner
 	{
 	public:
-		ManagerRunner(GameData& data, sf::RenderTarget& target);
+		ManagerRunner(GameData& data);
 		ManagerRunner(ManagerRunner&&) noexcept;
 		ManagerRunner& operator=(ManagerRunner&&) noexcept;
 		~ManagerRunner();

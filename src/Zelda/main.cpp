@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	ManagerRunner runner{ gameData, *gameData.pWindow };
+	ManagerRunner runner{ gameData };
 
 	gameData.mapLayers[entityManager.getNextID()] = layers[0];
 

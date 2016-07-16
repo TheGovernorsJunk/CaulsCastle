@@ -18,19 +18,19 @@ namespace te
 		RenderManager<decltype(GameData::mapLayers)> layerRenderManager;
 		DrawManager drawManager;
 
-		Impl(GameData& data, sf::RenderTarget& target)
+		Impl(GameData& data)
 			: inputManager(data.directionInput)
 			, playerManager(0, data.directionInput, data.velocities)
 			, physicsManager(data.physicsWorld, data.rigidBodies, data.positions)
 			, velocityManager(data.velocities, data.rigidBodies, data.positions)
 			, spriteRenderManager(data.sprites, data.positions, data.sortingLayers, data.pendingDraws)
 			, layerRenderManager(data.mapLayers, data.positions, data.sortingLayers, data.pendingDraws)
-			, drawManager(data.pendingDraws, target)
+			, drawManager(data.pendingDraws, *data.pWindow)
 		{}
 	};
 
-	ManagerRunner::ManagerRunner(GameData& data, sf::RenderTarget& target)
-		: m_pImpl(std::make_unique<Impl>(data, target))
+	ManagerRunner::ManagerRunner(GameData& data)
+		: m_pImpl(std::make_unique<Impl>(data))
 	{}
 
 	ManagerRunner::ManagerRunner(ManagerRunner&&) noexcept = default;
