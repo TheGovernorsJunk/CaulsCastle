@@ -1,35 +1,20 @@
 #define NOMINMAX
-#include "scripted_application.h"
 
-#include <LuaBridge.h>
-
-#include <iostream>
-#include <Windows.h>
-
-#include "component_store.h"
 #include "game_data.h"
-#include "entity_id_manager.h"
-#include "resource_manager.h"
-#include "tmx.h"
-#include "utilities.h"
-#include "tile_map_layer.h"
-#include "texture_atlas.h"
 #include "manager_runner.h"
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <iterator>
-#include <algorithm>
-#include <unordered_map>
-#include <memory>
+#include "scripting.h"
+
+#include <SFML/System.hpp>
+
+#include <Windows.h>
 
 int main(int argc, char* argv[])
 {
 	using namespace te;
 
 	GameData gameData;
-
 	ManagerRunner runner{ gameData };
-
+	registerInterface(gameData);
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
