@@ -3,6 +3,9 @@
 
 #include "component_store.h"
 #include "tile_map_layer.h"
+#include "resource_manager.h"
+#include "texture_atlas.h"
+#include "tmx.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -17,6 +20,14 @@ namespace te
 
 	struct GameData
 	{
+		template <typename Resource>
+		using ResourceHolder = te::ResourceManager<Resource>;
+
+		ResourceHolder<sf::Texture> textureHolder;
+		ResourceHolder<TextureAtlas> atlasHolder;
+		ResourceHolder<sf::Sprite> spriteHolder;
+		ResourceHolder<TMX> tmxHolder;
+
 		struct {
 			bool left;
 			bool right;
