@@ -6,6 +6,7 @@
 #include "resource_manager.h"
 #include "texture_atlas.h"
 #include "tmx.h"
+#include "entity_id_manager.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -27,6 +28,8 @@ namespace te
 		ResourceHolder<TextureAtlas> atlasHolder;
 		ResourceHolder<sf::Sprite> spriteHolder;
 		ResourceHolder<TMX> tmxHolder;
+
+		EntityIDManager entityIDManager;
 
 		struct {
 			bool left;

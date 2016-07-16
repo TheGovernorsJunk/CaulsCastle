@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 	pSprite->setOrigin(static_cast<float>(spriteData.w) * spriteData.pX, static_cast<float>(spriteData.h) * spriteData.pY);
 	auto priestSpriteID = gameData.spriteHolder.store(std::move(pSprite));
 
-	EntityIDManager entityManager;
+	auto& entityManager = gameData.entityIDManager;
 
 	int playerID = 0;
 	std::vector<TMX::Object> objects;
