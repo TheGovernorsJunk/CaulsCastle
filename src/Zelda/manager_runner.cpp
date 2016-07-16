@@ -22,7 +22,7 @@ namespace te
 			: inputManager(data.directionInput)
 			, playerManager(0, data.directionInput, data.velocities)
 			, physicsManager(data.physicsWorld, data.rigidBodies, data.positions)
-			, velocityManager(data.positions, data.velocities)
+			, velocityManager(data.velocities, data.rigidBodies, data.positions)
 			, spriteRenderManager(data.sprites, data.positions, data.sortingLayers, data.pendingDraws)
 			, layerRenderManager(data.mapLayers, data.positions, data.sortingLayers, data.pendingDraws)
 			, drawManager(data.pendingDraws, target)

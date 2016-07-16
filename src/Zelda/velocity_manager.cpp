@@ -3,10 +3,12 @@
 namespace te
 {
 	VelocityManager::VelocityManager(
-		decltype(GameData::positions)& positions,
-		const decltype(GameData::velocities)& velocities)
-		: m_rPositions{ positions }
-		, m_rVelocities{ velocities }
+		const decltype(GameData::velocities)& velocities,
+		decltype(GameData::rigidBodies)& rigidBodies,
+		decltype(GameData::positions)& positions)
+		: m_rVelocities{ velocities }
+		, m_rPositions{ positions }
+		, m_rRigidBodies{ rigidBodies }
 	{}
 
 	void VelocityManager::update(const sf::Time& dt)
@@ -15,7 +17,10 @@ namespace te
 		{
 			auto id = entityVelocity.first;
 			auto velocity = entityVelocity.second;
-			m_rPositions[id] += velocity * dt.asSeconds();
+			if (m_rRigidBodies.contains(id))
+				m_rRigidBodies[id]->SetLinearVelocity({ velocity.x, velocity.y });
+			else
+				m_rPositions[id] += velocity * dt.asSeconds();
 		}
 	}
 }

@@ -9,13 +9,15 @@ namespace te
 	{
 	public:
 		VelocityManager(
-			decltype(GameData::positions)& positions,
-			const decltype(GameData::velocities)& velocities);
+			const decltype(GameData::velocities)& velocities,
+			decltype(GameData::rigidBodies)& rigidBodies,
+			decltype(GameData::positions)& positions);
 
 		void update(const sf::Time& dt);
 	private:
-		decltype(GameData::positions)& m_rPositions;
 		const decltype(GameData::velocities)& m_rVelocities;
+		decltype(GameData::positions)& m_rPositions;
+		decltype(GameData::rigidBodies)& m_rRigidBodies;
 	};
 }
 
