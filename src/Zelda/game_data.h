@@ -21,6 +21,10 @@ namespace te
 
 	struct GameData
 	{
+		GameData() = default;
+		GameData(GameData&&) = default;
+		GameData& operator=(GameData&&) = default;
+
 		template <typename Resource>
 		using ResourceHolder = te::ResourceManager<Resource>;
 

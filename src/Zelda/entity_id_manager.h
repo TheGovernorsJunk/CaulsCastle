@@ -9,6 +9,8 @@ namespace te
 	{
 	public:
 		EntityIDManager();
+		EntityIDManager(EntityIDManager&&) = default;
+		EntityIDManager& operator=(EntityIDManager&&) = default;
 
 		EntityID getNextID();
 	private:
