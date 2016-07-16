@@ -28,51 +28,8 @@ int main(int argc, char* argv[])
 
 	GameData gameData;
 
-	auto tmxID = gameData.tmxHolder.load("assets/maps/grassy.tmx");
-	TMX& tmx{ gameData.tmxHolder.get(tmxID) };
-	std::vector<std::string> textureFilenames{};
-	getTilesetFilenames(tmx, std::back_inserter(textureFilenames));
-	std::vector<const sf::Texture*> textures;
-	std::transform(textureFilenames.begin(), textureFilenames.end(), std::back_inserter(textures), [&gameData](auto& filename) {
-		return &gameData.textureHolder.get(gameData.textureHolder.load(filename));
-	});
-	std::vector<TileMapLayer> layers{};
-	TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
-
-	auto priestAtlasID = gameData.atlasHolder.load("assets/spritesheets/priest/priest.xml");
-	auto& atlas = gameData.atlasHolder.get(priestAtlasID);
-	auto priestTextureID = gameData.textureHolder.load(atlas.getImagePath());
-	auto spriteData = atlas.getSprite("clips/1-PriestWalkDown.png");
-	auto pSprite = std::make_unique<sf::Sprite>(gameData.textureHolder.get(priestTextureID),
-		sf::IntRect{ spriteData.x, spriteData.y, spriteData.w, spriteData.h });
-	pSprite->setOrigin(static_cast<float>(spriteData.w) * spriteData.pX, static_cast<float>(spriteData.h) * spriteData.pY);
-	auto priestSpriteID = gameData.spriteHolder.store(std::move(pSprite));
-
-	auto& entityManager = gameData.entityIDManager;
-
-	int playerID = 0;
-	std::vector<TMX::Object> objects;
-	getObjectsInGroup(tmx, "Entities", std::back_inserter(objects));
-	for (auto& object : objects)
-	{
-		if (object.name == "Player")
-		{
-			playerID = entityManager.getNextID();
-			gameData.sprites[playerID] = gameData.spriteHolder.get(priestSpriteID);
-			gameData.sortingLayers[playerID] = 1;
-
-			b2BodyDef bodyDef;
-			bodyDef.type = b2_dynamicBody;
-			bodyDef.position = b2Vec2{ static_cast<float>(object.x), static_cast<float>(object.y) };
-			gameData.rigidBodies[playerID] = { gameData.physicsWorld.CreateBody(&bodyDef), [&gameData](b2Body* pBody) {
-				gameData.physicsWorld.DestroyBody(pBody);
-			} };
-		}
-	}
-
 	ManagerRunner runner{ gameData };
 
-	gameData.mapLayers[entityManager.getNextID()] = layers[0];
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;

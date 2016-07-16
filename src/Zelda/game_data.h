@@ -23,6 +23,7 @@ namespace te
 		unsigned screenWidth;
 		unsigned screenHeight;
 		std::string windowTitle;
+		std::string initialScript;
 	};
 
 	struct PendingDraw

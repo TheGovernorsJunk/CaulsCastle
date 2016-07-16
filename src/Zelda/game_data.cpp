@@ -39,7 +39,11 @@ namespace te
 		config.screenWidth = luabridge::getGlobal(L, "SCREEN_WIDTH");
 		config.screenHeight = luabridge::getGlobal(L, "SCREEN_HEIGHT");
 		config.windowTitle = luabridge::getGlobal(L, "WINDOW_TITLE").cast<std::string>();
+		config.initialScript = luabridge::getGlobal(L, "INITIAL_SCRIPT").cast<std::string>();
 
 		pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{ config.screenWidth, config.screenHeight }, config.windowTitle);
+
+		pL = { luaL_newstate(), &lua_close };
+		luaL_openlibs(pL.get());
 	}
 }
