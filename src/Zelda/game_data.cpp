@@ -14,7 +14,8 @@ namespace te
 	}
 
 	GameData::GameData()
-		: textureHolder{}
+		: config{}
+		, textureHolder{}
 		, atlasHolder{}
 		, spriteHolder{}
 		, tmxHolder{}
