@@ -10,12 +10,14 @@
 #include "tmx.h"
 #include "utilities.h"
 #include "tile_map_layer.h"
+#include "texture_atlas.h"
 #include <SFML/Graphics.hpp>
 #include <boost/container/flat_map.hpp>
 #include <vector>
 #include <iterator>
 #include <algorithm>
 #include <unordered_map>
+#include <memory>
 
 template <typename Component>
 class ComponentStore
@@ -58,7 +60,7 @@ struct GameData
 	} directionInput;
 	ComponentStore<sf::Vector2f> positions;
 	ComponentStore<sf::Vector2f> velocities;
-	ComponentStore<sf::CircleShape> circles;
+	ComponentStore<sf::Sprite> sprites;
 	ComponentStore<int> sortingLayers;
 	ComponentStore<te::TileMapLayer> mapLayers;
 	std::vector<PendingDraw> pendingDraws;
@@ -207,39 +209,47 @@ int main(int argc, char* argv[])
 	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
 
 	ResourceManager<TMX> tmxManager{};
-	auto id = tmxManager.load("assets/maps/grassy.tmx");
-	std::vector<std::string> textureFilenames{};
-	getTilesetFilenames(tmxManager.get(id), std::back_inserter(textureFilenames));
 	ResourceManager<sf::Texture> textureManager{};
+	ResourceManager<TextureAtlas> atlasManager{};
+	ResourceManager<sf::Sprite> spriteManager{};
+
+	auto tmxID = tmxManager.load("assets/maps/grassy.tmx");
+	TMX& tmx{ tmxManager.get(tmxID) };
+	std::vector<std::string> textureFilenames{};
+	getTilesetFilenames(tmx, std::back_inserter(textureFilenames));
 	std::vector<const sf::Texture*> textures;
 	std::transform(textureFilenames.begin(), textureFilenames.end(), std::back_inserter(textures), [&textureManager](auto& filename) {
 		return &textureManager.get(textureManager.load(filename));
 	});
 	std::vector<TileMapLayer> layers{};
-	TileMapLayer::make(tmxManager.get(id), textures.begin(), textures.end(), std::back_inserter(layers));
+	TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
+
+	auto heroAtlasID = atlasManager.load("assets/spritesheets/hero/hero.xml");
+	auto heroTextureID = textureManager.load(atlasManager.get(heroAtlasID).getImagePath());
+	auto heroSpriteID = spriteManager.store(std::make_unique<sf::Sprite>(textureManager.get(heroTextureID), sf::IntRect{0, 0, 32, 32}));
 
 	GameData gameData;
+
+	std::vector<TMX::Object> objects;
+	getObjectsInGroup(tmx, "Entities", std::back_inserter(objects));
+	for (auto& object : objects)
+	{
+		if (object.name == "Player")
+		{
+			gameData.sprites[0] = spriteManager.get(heroSpriteID);
+			gameData.sortingLayers[0] = 1;
+			gameData.positions[0] = { static_cast<float>(object.x), static_cast<float>(object.y) };
+		}
+	}
 
 	InputManager inputManager{ gameData.directionInput };
 	PlayerManager playerManager{ 0, gameData.directionInput, gameData.velocities };
 	VelocityManager velocityManager{ gameData.positions, gameData.velocities };
-	auto circleRenderManager = makeRenderManager(gameData.circles, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
+	auto spriteRenderManager = makeRenderManager(gameData.sprites, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	auto layerRenderManager = makeRenderManager(gameData.mapLayers, gameData.positions, gameData.sortingLayers, gameData.pendingDraws);
 	DrawManager drawManager{ gameData.pendingDraws, *pWindow };
 
 	gameData.mapLayers[1] = layers[0];
-
-	gameData.positions[0] = { 30, 30 };
-	sf::CircleShape circle0{ 20 };
-	circle0.setFillColor(sf::Color::Magenta);
-	gameData.circles[0] = std::move(circle0);
-	gameData.sortingLayers[0] = 1;
-
-	gameData.positions[3] = { 10, 10 };
-	sf::CircleShape circle3{ 20 };
-	circle3.setFillColor(sf::Color::Blue);
-	gameData.circles[3] = std::move(circle3);
-	gameData.sortingLayers[3] = 2;
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -269,7 +279,7 @@ int main(int argc, char* argv[])
 			velocityManager.update(timePerFrame);
 		}
 
-		circleRenderManager.update();
+		spriteRenderManager.update();
 		layerRenderManager.update();
 		drawManager.update();
 		pWindow->display();
