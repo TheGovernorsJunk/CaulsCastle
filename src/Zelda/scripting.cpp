@@ -22,14 +22,30 @@ namespace te
 
 	struct ScriptInit::Impl
 	{
-		class ProxyEntity
+		struct ProxyEntity
 		{
-		public:
-			ProxyEntity(EntityID id)
-				: m_ID{ id }
+			ProxyEntity(GameData& data)
+				: m_rData{data}
+				, m_ID{m_rData.entityIDManager.getNextID()}
 			{}
 
+			ResourceID<TileMapLayer> getLayer() const
+			{
+				return m_LayerID;
+			}
+
+			void setLayer(ResourceID<TileMapLayer> id)
+			{
+				m_LayerID = id;
+				m_rData.mapLayers[m_ID] = m_rData.mapLayerHolder.get(id);
+			}
+
+			int getSortingLayer() const { return m_rData.sortingLayers.at(m_ID); }
+			void setSortingLayer(int idx) { m_rData.sortingLayers[m_ID] = idx; }
+
+			GameData& m_rData;
 			EntityID m_ID;
+			ResourceID<TileMapLayer> m_LayerID;
 		};
 
 		GameData& m_rData;
@@ -45,10 +61,13 @@ namespace te
 				.beginClass<Impl>("Game")
 					.addFunction("makeEntity", &Impl::makeEntity)
 					.addFunction("loadTMX", &Impl::loadTMX)
-					.addFunction("makeMapLayers", &Impl::makeMapLayers)
+					.addFunction("makeTileLayers", &Impl::makeTileLayers)
+					.addFunction("getTileLayerIndex", &Impl::getTileLayerIndex)
 				.endClass()
 				.beginClass<ProxyEntity>("Entity")
 					.addData("id", &ProxyEntity::m_ID, false)
+					.addProperty("layer", &ProxyEntity::getLayer, &ProxyEntity::setLayer)
+					.addProperty("sortingLayer", &ProxyEntity::getSortingLayer, &ProxyEntity::setSortingLayer)
 				.endClass();
 
 			doLuaFile(*L, m_rData.config.initialScript);
@@ -66,7 +85,7 @@ namespace te
 
 		ProxyEntity makeEntity()
 		{
-			return ProxyEntity{ m_rData.entityIDManager.getNextID() };
+			return ProxyEntity{ m_rData };
 		}
 
 		ResourceID<TMX> loadTMX(const std::string& filename)
@@ -74,7 +93,7 @@ namespace te
 			return m_rData.tmxHolder.load(filename);
 		}
 
-		luabridge::LuaRef makeMapLayers(ResourceID<TMX> id)
+		luabridge::LuaRef makeTileLayers(ResourceID<TMX> id)
 		{
 			luabridge::LuaRef table = luabridge::newTable(m_rData.pL.get());
 
@@ -91,6 +110,11 @@ namespace te
 			for (auto& layer : layers) table[layer.getName()] = m_rData.mapLayerHolder.store(std::make_unique<TileMapLayer>(layer));
 
 			return table;
+		}
+
+		unsigned getTileLayerIndex(ResourceID<TileMapLayer> id)
+		{
+			return m_rData.mapLayerHolder.get(id).getIndex();
 		}
 	};
 

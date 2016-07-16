@@ -21,6 +21,11 @@ namespace te
 			return m_Components[index];
 		}
 
+		inline Component& at(int index)
+		{
+			return m_Components.at(index);
+		}
+
 		inline bool contains(int index) const
 		{
 			return m_Components.find(index) != m_Components.end();
