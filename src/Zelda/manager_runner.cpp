@@ -40,9 +40,9 @@ namespace te
 	void ManagerRunner::fixedUpdate(const sf::Time& dt)
 	{
 		m_pImpl->inputManager.update();
-		m_pImpl->physicsManager.update(dt);
 		m_pImpl->playerManager.update();
 		m_pImpl->velocityManager.update(dt);
+		m_pImpl->physicsManager.update(dt);
 	}
 
 	void ManagerRunner::renderUpdate()
