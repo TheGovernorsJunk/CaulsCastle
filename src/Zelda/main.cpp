@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 
 	GameData gameData;
 	ManagerRunner runner{ gameData };
-	registerInterface(gameData);
+	ScriptInit scriptInit{ gameData };
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
