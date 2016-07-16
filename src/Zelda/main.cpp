@@ -26,8 +26,6 @@ int main(int argc, char* argv[])
 {
 	using namespace te;
 
-	auto pWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode{640, 480}, "Data-Oriented Design");
-
 	GameData gameData;
 
 	auto tmxID = gameData.tmxHolder.load("assets/maps/grassy.tmx");
@@ -66,17 +64,17 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	ManagerRunner runner{ gameData, *pWindow };
+	ManagerRunner runner{ gameData, *gameData.pWindow };
 
 	gameData.mapLayers[entityManager.getNextID()] = layers[0];
 
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const sf::Time timePerFrame = sf::seconds(1.f / 60);
+	const sf::Time timePerFrame = sf::seconds(1.f / gameData.config.fps);
 
-	while (pWindow->isOpen())
+	while (gameData.pWindow->isOpen())
 	{
-		pWindow->clear();
+		gameData.pWindow->clear();
 
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
@@ -85,11 +83,11 @@ int main(int argc, char* argv[])
 			timeSinceLastUpdate -= timePerFrame;
 
 			sf::Event evt;
-			while (pWindow->pollEvent(evt))
+			while (gameData.pWindow->pollEvent(evt))
 			{
 				if (evt.type == sf::Event::Closed)
 				{
-					pWindow->close();
+					gameData.pWindow->close();
 				}
 			}
 
@@ -97,7 +95,7 @@ int main(int argc, char* argv[])
 		}
 
 		runner.renderUpdate();
-		pWindow->display();
+		gameData.pWindow->display();
 	}
 
 	return 0;

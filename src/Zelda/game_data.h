@@ -10,8 +10,20 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+
+struct lua_State;
+
 namespace te
 {
+	struct Config
+	{
+		int fps;
+		unsigned screenWidth;
+		unsigned screenHeight;
+		std::string windowTitle;
+	};
+
 	struct PendingDraw
 	{
 		sf::RenderStates renderStates;
@@ -21,9 +33,11 @@ namespace te
 
 	struct GameData
 	{
-		GameData() = default;
+		GameData();
 		GameData(GameData&&) = default;
 		GameData& operator=(GameData&&) = default;
+
+		Config config;
 
 		template <typename Resource>
 		using ResourceHolder = te::ResourceManager<Resource>;
@@ -47,6 +61,9 @@ namespace te
 		ComponentStore<int> sortingLayers;
 		ComponentStore<te::TileMapLayer> mapLayers;
 		std::vector<PendingDraw> pendingDraws;
+
+		std::unique_ptr<lua_State, void(*)(lua_State*)> pL;
+		std::unique_ptr<sf::RenderWindow> pWindow;
 	};
 }
 

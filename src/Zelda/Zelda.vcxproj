@@ -153,6 +153,7 @@
     <ClCompile Include="scripted_game.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="rigid_body.cpp" />
+    <ClCompile Include="game_data.cpp" />
     <ClCompile Include="state_stack.cpp" />
     <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="tile_map_layer.cpp" />
