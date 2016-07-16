@@ -126,6 +126,9 @@
     <ClCompile Include="game_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="physics_world_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="map.tmx">
@@ -308,6 +311,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="manager_runner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_world_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

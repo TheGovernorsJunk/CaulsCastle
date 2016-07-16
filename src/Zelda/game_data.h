@@ -9,6 +9,7 @@
 #include "entity_id_manager.h"
 
 #include <SFML/Graphics.hpp>
+#include <Box2D/Box2D.h>
 
 #include <memory>
 
@@ -38,6 +39,7 @@ namespace te
 		GameData& operator=(GameData&&) = default;
 
 		Config config;
+		b2World physicsWorld;
 
 		template <typename Resource>
 		using ResourceHolder = te::ResourceManager<Resource>;

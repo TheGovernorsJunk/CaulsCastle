@@ -145,6 +145,7 @@
     <ClCompile Include="message_dispatcher.cpp" />
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
+    <ClCompile Include="physics_world_manager.cpp" />
     <ClCompile Include="player_manager.cpp" />
     <ClCompile Include="regulator.cpp" />
     <ClCompile Include="scripted_application.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
+    <ClInclude Include="physics_world_manager.h" />
     <ClInclude Include="player_manager.h" />
     <ClInclude Include="regulator.h" />
     <ClInclude Include="render_manager.h" />

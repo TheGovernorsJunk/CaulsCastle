@@ -15,6 +15,7 @@ namespace te
 
 	GameData::GameData()
 		: config{}
+		, physicsWorld{b2Vec2{0, 0}}
 		, textureHolder{}
 		, atlasHolder{}
 		, spriteHolder{}

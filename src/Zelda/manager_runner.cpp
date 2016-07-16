@@ -1,6 +1,7 @@
 #include "manager_runner.h"
 #include "input_manager.h"
 #include "player_manager.h"
+#include "physics_world_manager.h"
 #include "velocity_manager.h"
 #include "render_manager.h"
 #include "draw_manager.h"
@@ -11,6 +12,7 @@ namespace te
 	{
 		InputManager inputManager;
 		PlayerManager playerManager;
+		PhysicsWorldManager physicsManager;
 		VelocityManager velocityManager;
 		RenderManager<decltype(GameData::sprites)> spriteRenderManager;
 		RenderManager<decltype(GameData::mapLayers)> layerRenderManager;
@@ -19,6 +21,7 @@ namespace te
 		Impl(GameData& data, sf::RenderTarget& target)
 			: inputManager(data.directionInput)
 			, playerManager(0, data.directionInput, data.velocities)
+			, physicsManager(data.physicsWorld, data.positions)
 			, velocityManager(data.positions, data.velocities)
 			, spriteRenderManager(data.sprites, data.positions, data.sortingLayers, data.pendingDraws)
 			, layerRenderManager(data.mapLayers, data.positions, data.sortingLayers, data.pendingDraws)
@@ -37,6 +40,7 @@ namespace te
 	void ManagerRunner::fixedUpdate(const sf::Time& dt)
 	{
 		m_pImpl->inputManager.update();
+		m_pImpl->physicsManager.update(dt);
 		m_pImpl->playerManager.update();
 		m_pImpl->velocityManager.update(dt);
 	}
