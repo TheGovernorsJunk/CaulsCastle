@@ -40,8 +40,12 @@ namespace te
 			lua_State* L = m_rData.pL.get();
 
 			luabridge::getGlobalNamespace(L)
+				.beginClass<ResourceID<TMX>>("TMXID").endClass()
+				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
 				.beginClass<Impl>("Game")
 					.addFunction("makeEntity", &Impl::makeEntity)
+					.addFunction("loadTMX", &Impl::loadTMX)
+					.addFunction("makeMapLayers", &Impl::makeMapLayers)
 				.endClass()
 				.beginClass<ProxyEntity>("Entity")
 					.addData("id", &ProxyEntity::m_ID, false)
@@ -63,6 +67,30 @@ namespace te
 		ProxyEntity makeEntity()
 		{
 			return ProxyEntity{ m_rData.entityIDManager.getNextID() };
+		}
+
+		ResourceID<TMX> loadTMX(const std::string& filename)
+		{
+			return m_rData.tmxHolder.load(filename);
+		}
+
+		luabridge::LuaRef makeMapLayers(ResourceID<TMX> id)
+		{
+			luabridge::LuaRef table = luabridge::newTable(m_rData.pL.get());
+
+			TMX& tmx = m_rData.tmxHolder.get(id);
+			std::vector<std::string> tilesetFilenames{};
+			getTilesetFilenames(tmx, std::back_inserter(tilesetFilenames));
+			std::vector<const sf::Texture*> textures{};
+			//ResourceManager<sf::Texture>& textureManager = getTextureManager();
+			std::transform(tilesetFilenames.begin(), tilesetFilenames.end(), std::back_inserter(textures), [this](const std::string& filename) {
+				return &m_rData.textureHolder.get(m_rData.textureHolder.load(filename));
+			});
+			std::vector<TileMapLayer> layers{};
+			TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
+			for (auto& layer : layers) table[layer.getName()] = m_rData.mapLayerHolder.store(std::make_unique<TileMapLayer>(layer));
+
+			return table;
 		}
 	};
 

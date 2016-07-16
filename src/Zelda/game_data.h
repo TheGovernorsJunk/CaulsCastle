@@ -49,6 +49,7 @@ namespace te
 		ResourceHolder<TextureAtlas> atlasHolder;
 		ResourceHolder<sf::Sprite> spriteHolder;
 		ResourceHolder<TMX> tmxHolder;
+		ResourceHolder<TileMapLayer> mapLayerHolder;
 
 		EntityIDManager entityIDManager;
 

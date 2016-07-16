@@ -20,6 +20,7 @@ namespace te
 		, atlasHolder{}
 		, spriteHolder{}
 		, tmxHolder{}
+		, mapLayerHolder{}
 		, entityIDManager{}
 		, positions{}
 		, velocities{}
