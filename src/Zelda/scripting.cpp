@@ -6,6 +6,8 @@
 #include <LuaBridge.h>
 
 #include <regex>
+#include <cassert>
+#include <array>
 
 namespace te
 {
@@ -55,6 +57,24 @@ namespace te
 				};
 			}
 
+			void addFixtureRect(luabridge::LuaRef rect)
+			{
+				assert(rect.isTable());
+				auto& body = *m_rData.rigidBodies.at(m_ID);
+
+				b2PolygonShape shape;
+				float x = rect["x"], y = rect["y"], w = rect["w"], h = rect["h"];
+				std::array<b2Vec2, 4> points = {
+					b2Vec2{ x, y },
+					b2Vec2{ x + w, y },
+					b2Vec2{ x + w, y + h },
+					b2Vec2{ x, y + h }
+				};
+				shape.Set(points.data(), 4);
+
+				body.CreateFixture(&shape, 0);
+			}
+
 			GameData& m_rData;
 			EntityID m_ID;
 			ResourceID<TileMapLayer> m_LayerID;
@@ -82,6 +102,7 @@ namespace te
 					.addProperty("layer", &ProxyEntity::getLayer, &ProxyEntity::setLayer)
 					.addProperty("sortingLayer", &ProxyEntity::getSortingLayer, &ProxyEntity::setSortingLayer)
 					.addFunction("addRigidBody", &ProxyEntity::addRigidBody)
+					.addFunction("addFixtureRect", &ProxyEntity::addFixtureRect)
 				.endClass();
 
 			doLuaFile(*L, m_rData.config.initialScript);

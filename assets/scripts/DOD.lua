@@ -16,8 +16,8 @@ local function init(game)
    local collisionLayer = game:makeEntity()
    collisionLayer:addRigidBody(0)
    local collisions = game:getObjectsInLayer(tmxID, 'Collisions')
-   for i, object in ipairs(collisions) do
-      print(object.x, object.y, object.w, object.h)
+   for i, rect in ipairs(collisions) do
+      collisionLayer:addFixtureRect(rect)
    end
 end
 
