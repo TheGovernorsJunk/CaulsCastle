@@ -92,6 +92,8 @@ namespace te
 				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
 				.beginClass<sf::Vector2f>("Vec")
 					.addConstructor<void(*)(float, float)>()
+					.addData("x", &sf::Vector2f::x)
+					.addData("y", &sf::Vector2f::y)
 				.endClass()
 				.beginClass<Impl>("Game")
 					.addProperty("pixelToUnitScale", &Impl::getPixelToWorldScale, &Impl::setPixelToWorldScale)

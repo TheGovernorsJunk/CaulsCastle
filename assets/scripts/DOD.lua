@@ -1,7 +1,17 @@
 print('DOD.lua loaded!')
 
+local pixelToUnitScale = Vec(16, 16)
+local function scaleRect(rect, scale)
+   return {
+      x = rect.x * scale.x,
+      y = rect.y * scale.y,
+      w = rect.w * scale.x,
+      h = rect.h * scale.y
+   }
+end
+
 local function init(game)
-   game.pixelToUnitScale = Vec(16, 16)
+   game.pixelToUnitScale = pixelToUnitScale
    game.viewSize = Vec(32, 18)
    game.viewCenter = Vec(28, 25)
 
@@ -21,6 +31,7 @@ local function init(game)
    collisionLayer:addRigidBody(0)
    local collisions = game:getObjectsInLayer(tmxID, 'Collisions')
    for i, rect in ipairs(collisions) do
+      local scaledRect = scaleRect(rect, Vec(1 / pixelToUnitScale.x, 1 / pixelToUnitScale.y))
       collisionLayer:addFixtureRect(rect)
    end
 end
