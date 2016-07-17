@@ -61,10 +61,22 @@ namespace te
 	}
 
 	template <typename Resource>
-	Resource& get(GameData& data, ResourceID<Resource> id);
+	inline Resource& get(GameData& data, ResourceID<Resource> id);
 
 	template <>
-	TMX& get(GameData& data, ResourceID<TMX> id);
+	inline TMX& get(GameData& data, ResourceID<TMX> id)
+	{
+		return data.tmxHolder.get(id);
+	}
+
+	template <typename Resource>
+	inline ResourceID<Resource> load(GameData& data, const std::string& filename);
+
+	template <>
+	inline ResourceID<TextureAtlas> load(GameData& data, const std::string& filename)
+	{
+		return data.atlasHolder.load(filename);
+	}
 }
 
 #endif

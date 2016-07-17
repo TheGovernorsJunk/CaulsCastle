@@ -72,10 +72,4 @@ namespace te
 		world->getPhysicsWorld().RayCast(&callback, b2Vec2(origin.x, origin.y), b2Vec2(end.x, end.y));
 		return callback.mResult;
 	}
-
-	template <>
-	TMX& get(GameData& data, ResourceID<TMX> id)
-	{
-		return data.tmxHolder.get(id);
-	}
 }
