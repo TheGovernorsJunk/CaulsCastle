@@ -5,48 +5,64 @@
 #include "scripting.h"
 
 #include <SFML/System.hpp>
+#include <lua.hpp>
+#include <LuaBridge.h>
 
 #include <Windows.h>
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
-	using namespace te;
-
-	GameData gameData;
-	ManagerRunner runner{ gameData };
-	ScriptInit scriptInit{ gameData };
-
-	sf::Clock clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const sf::Time timePerFrame = sf::seconds(1.f / gameData.config.fps);
-
-	while (gameData.pWindow->isOpen())
+	try
 	{
-		gameData.pWindow->clear();
+		using namespace te;
 
-		sf::Time dt = clock.restart();
-		timeSinceLastUpdate += dt;
-		while (timeSinceLastUpdate > timePerFrame)
+		GameData gameData;
+		ManagerRunner runner{ gameData };
+		ScriptInit scriptInit{ gameData };
+
+		sf::Clock clock;
+		sf::Time timeSinceLastUpdate = sf::Time::Zero;
+		const sf::Time timePerFrame = sf::seconds(1.f / gameData.config.fps);
+
+		while (gameData.pWindow->isOpen())
 		{
-			timeSinceLastUpdate -= timePerFrame;
+			gameData.pWindow->clear();
 
-			sf::Event evt;
-			while (gameData.pWindow->pollEvent(evt))
+			sf::Time dt = clock.restart();
+			timeSinceLastUpdate += dt;
+			while (timeSinceLastUpdate > timePerFrame)
 			{
-				if (evt.type == sf::Event::Closed)
+				timeSinceLastUpdate -= timePerFrame;
+
+				sf::Event evt;
+				while (gameData.pWindow->pollEvent(evt))
 				{
-					gameData.pWindow->close();
+					if (evt.type == sf::Event::Closed)
+					{
+						gameData.pWindow->close();
+					}
 				}
+
+				runner.fixedUpdate(timePerFrame);
 			}
 
-			runner.fixedUpdate(timePerFrame);
+			runner.renderUpdate();
+			gameData.pWindow->display();
 		}
 
-		runner.renderUpdate();
-		gameData.pWindow->display();
+		return 0;
 	}
-
-	return 0;
+	catch (const luabridge::LuaException& ex)
+	{
+		std::cerr << ex.what() << std::endl;
+	}
+	catch (const std::exception& ex)
+	{
+		std::cerr << ex.what() << std::endl;
+	}
+	catch (...) {}
+	return -1;
 }
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
