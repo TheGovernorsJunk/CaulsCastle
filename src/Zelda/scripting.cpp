@@ -95,6 +95,8 @@ namespace te
 				.endClass()
 				.beginClass<Impl>("Game")
 					.addProperty("pixelToUnitScale", &Impl::getPixelToWorldScale, &Impl::setPixelToWorldScale)
+					.addProperty("viewSize", &Impl::getViewSize, &Impl::setViewSize)
+					.addProperty("viewCenter", &Impl::getViewCenter, &Impl::setViewCenter)
 					.addFunction("makeEntity", &Impl::makeEntity)
 					.addFunction("loadTMX", &Impl::loadTMX)
 					.addFunction("makeTileLayers", &Impl::makeTileLayers)
@@ -129,6 +131,22 @@ namespace te
 		void setPixelToWorldScale(sf::Vector2f scale)
 		{
 			m_rData.pixelToWorldScale = scale;
+		}
+		sf::Vector2f getViewSize() const
+		{
+			return m_rData.mainView.getSize();
+		}
+		void setViewSize(sf::Vector2f size)
+		{
+			m_rData.mainView.setSize(size);
+		}
+		sf::Vector2f getViewCenter() const
+		{
+			return m_rData.mainView.getCenter();
+		}
+		void setViewCenter(sf::Vector2f size)
+		{
+			m_rData.mainView.setCenter(size);
 		}
 
 		ProxyEntity makeEntity()

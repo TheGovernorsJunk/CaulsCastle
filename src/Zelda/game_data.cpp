@@ -16,6 +16,7 @@ namespace te
 	GameData::GameData()
 		: config{}
 		, pixelToWorldScale{1, 1}
+		, mainView{}
 		, physicsWorld{b2Vec2{0, 0}}
 		, textureHolder{}
 		, atlasHolder{}

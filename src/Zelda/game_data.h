@@ -41,6 +41,7 @@ namespace te
 
 		Config config;
 		sf::Vector2f pixelToWorldScale;
+		sf::View mainView;
 		b2World physicsWorld;
 
 		template <typename Resource>

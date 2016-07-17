@@ -25,7 +25,7 @@ namespace te
 			, velocityManager(data.velocities, data.rigidBodies, data.positions)
 			, spriteRenderManager(data.sprites, data.positions, data.sortingLayers, data.pendingDraws)
 			, layerRenderManager(data.mapLayers, data.positions, data.sortingLayers, data.pendingDraws)
-			, drawManager(data.pixelToWorldScale, data.pendingDraws, *data.pWindow)
+			, drawManager(data.pixelToWorldScale, data.mainView, data.pendingDraws, *data.pWindow)
 		{}
 	};
 
