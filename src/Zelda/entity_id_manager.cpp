@@ -3,7 +3,7 @@
 namespace te
 {
 	EntityIDManager::EntityIDManager()
-		: m_NextID{ 0 }
+		: m_NextID{ 1 }
 	{}
 
 	EntityID EntityIDManager::getNextID()
