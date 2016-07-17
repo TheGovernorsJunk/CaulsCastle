@@ -43,6 +43,18 @@ namespace te
 			int getSortingLayer() const { return m_rData.sortingLayers.at(m_ID); }
 			void setSortingLayer(int idx) { m_rData.sortingLayers[m_ID] = idx; }
 
+			void addRigidBody(int type)
+			{
+				assert(type >= 0 && type <= 2);
+				b2BodyDef bodyDef;
+				bodyDef.type = static_cast<b2BodyType>(type);
+				auto* pPhysicsWorld = &m_rData.physicsWorld;
+				m_rData.rigidBodies[m_ID] = {
+					m_rData.physicsWorld.CreateBody(&bodyDef),
+					[pPhysicsWorld](b2Body* pBody) { pPhysicsWorld->DestroyBody(pBody); }
+				};
+			}
+
 			GameData& m_rData;
 			EntityID m_ID;
 			ResourceID<TileMapLayer> m_LayerID;
@@ -69,6 +81,7 @@ namespace te
 					.addData("id", &ProxyEntity::m_ID, false)
 					.addProperty("layer", &ProxyEntity::getLayer, &ProxyEntity::setLayer)
 					.addProperty("sortingLayer", &ProxyEntity::getSortingLayer, &ProxyEntity::setSortingLayer)
+					.addFunction("addRigidBody", &ProxyEntity::addRigidBody)
 				.endClass();
 
 			doLuaFile(*L, m_rData.config.initialScript);
