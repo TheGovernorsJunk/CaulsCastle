@@ -34,6 +34,8 @@ local function init(game)
       local scaledRect = scaleRect(rect, Vec(1 / pixelToUnitScale.x, 1 / pixelToUnitScale.y))
       collisionLayer:addFixtureRect(rect)
    end
+
+   local atlasID = game:loadAtlas('assets/spritesheets/priest/priest.xml')
 end
 
 DOD = {

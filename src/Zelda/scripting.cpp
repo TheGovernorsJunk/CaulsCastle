@@ -1,6 +1,9 @@
 #include "scripting.h"
 #include "game_data.h"
 #include "utilities.h"
+#include "tmx.h"
+#include "tile_map_layer.h"
+#include "texture_atlas.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -90,6 +93,7 @@ namespace te
 			luabridge::getGlobalNamespace(L)
 				.beginClass<ResourceID<TMX>>("TMXID").endClass()
 				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
+				.beginClass<ResourceID<TextureAtlas>>("AtlasID").endClass()
 				.beginClass<sf::Vector2f>("Vec")
 					.addConstructor<void(*)(float, float)>()
 					.addData("x", &sf::Vector2f::x)
@@ -104,6 +108,7 @@ namespace te
 					.addFunction("makeTileLayers", &Impl::makeTileLayers)
 					.addFunction("getTileLayerIndex", &Impl::getTileLayerIndex)
 					.addFunction("getObjectsInLayer", &Impl::getObjectsInLayer)
+					.addFunction("loadAtlas", &Impl::loadAtlas)
 				.endClass()
 				.beginClass<ProxyEntity>("Entity")
 					.addData("id", &ProxyEntity::m_ID, false)
@@ -208,6 +213,11 @@ namespace te
 		unsigned getTileLayerIndex(ResourceID<TileMapLayer> id)
 		{
 			return m_rData.mapLayerHolder.get(id).getIndex();
+		}
+
+		ResourceID<TextureAtlas> loadAtlas(const std::string& filename)
+		{
+			return load<TextureAtlas>(m_rData, filename);
 		}
 	};
 
