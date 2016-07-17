@@ -63,6 +63,7 @@ namespace te
 					.addFunction("loadTMX", &Impl::loadTMX)
 					.addFunction("makeTileLayers", &Impl::makeTileLayers)
 					.addFunction("getTileLayerIndex", &Impl::getTileLayerIndex)
+					.addFunction("getObjectsInLayer", &Impl::getObjectsInLayer)
 				.endClass()
 				.beginClass<ProxyEntity>("Entity")
 					.addData("id", &ProxyEntity::m_ID, false)
@@ -108,6 +109,31 @@ namespace te
 			std::vector<TileMapLayer> layers{};
 			TileMapLayer::make(tmx, textures.begin(), textures.end(), std::back_inserter(layers));
 			for (auto& layer : layers) table[layer.getName()] = m_rData.mapLayerHolder.store(std::make_unique<TileMapLayer>(layer));
+
+			return table;
+		}
+
+		luabridge::LuaRef getObjectsInLayer(ResourceID<TMX> tmxID, const std::string& layerName)
+		{
+			lua_State* L = m_rData.pL.get();
+			luabridge::LuaRef table = luabridge::newTable(L);
+
+			const TMX& tmx = get(m_rData, tmxID);
+			std::vector<TMX::Object> objects;
+			getObjectsInGroup(tmx, layerName, std::back_inserter(objects));
+
+			int index = 1;
+			std::for_each(objects.begin(), objects.end(), [L, &table, &index](TMX::Object& area) {
+				luabridge::LuaRef obj = luabridge::newTable(L);
+				obj["id"] = area.id;
+				if (area.name != "") obj["name"] = area.name;
+				if (area.type != "") obj["type"] = area.type;
+				obj["x"] = area.x;
+				obj["y"] = area.y;
+				obj["w"] = area.width;
+				obj["h"] = area.height;
+				table[index++] = obj;
+			});
 
 			return table;
 		}

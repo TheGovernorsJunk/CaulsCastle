@@ -2,12 +2,20 @@ print('DOD.lua loaded!')
 
 local function init(game)
    local tmxID = game:loadTMX('assets/maps/time_fantasy.tmx')
-   local layers = game:makeTileLayers(tmxID)
+   local layerIDs = game:makeTileLayers(tmxID)
 
-   for name, id in pairs(layers) do
+   local layers = {}
+   for name, id in pairs(layerIDs) do
       local entity = game:makeEntity()
       entity.layer = id
-      entity.sortingLayer = game:getTileLayerIndex(id)
+      local sortingLayer = game:getTileLayerIndex(id)
+      entity.sortingLayer = sortingLayer
+      layers[sortingLayer] = entity
+   end
+
+   local collisions = game:getObjectsInLayer(tmxID, 'Collisions')
+   for i, object in ipairs(collisions) do
+      print(object.x, object.y, object.w, object.h)
    end
 end
 
