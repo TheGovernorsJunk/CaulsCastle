@@ -90,7 +90,11 @@ namespace te
 			luabridge::getGlobalNamespace(L)
 				.beginClass<ResourceID<TMX>>("TMXID").endClass()
 				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
+				.beginClass<sf::Vector2f>("Vec")
+					.addConstructor<void(*)(float, float)>()
+				.endClass()
 				.beginClass<Impl>("Game")
+					.addProperty("pixelToUnitScale", &Impl::getPixelToWorldScale, &Impl::setPixelToWorldScale)
 					.addFunction("makeEntity", &Impl::makeEntity)
 					.addFunction("loadTMX", &Impl::loadTMX)
 					.addFunction("makeTileLayers", &Impl::makeTileLayers)
@@ -116,6 +120,15 @@ namespace te
 			if (!init.isFunction()) throw std::runtime_error{ "Must supply init function." };
 
 			init(this);
+		}
+
+		sf::Vector2f getPixelToWorldScale() const
+		{
+			return m_rData.pixelToWorldScale;
+		}
+		void setPixelToWorldScale(sf::Vector2f scale)
+		{
+			m_rData.pixelToWorldScale = scale;
 		}
 
 		ProxyEntity makeEntity()

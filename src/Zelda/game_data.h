@@ -40,6 +40,7 @@ namespace te
 		GameData& operator=(GameData&&) = default;
 
 		Config config;
+		sf::Vector2f pixelToWorldScale;
 		b2World physicsWorld;
 
 		template <typename Resource>

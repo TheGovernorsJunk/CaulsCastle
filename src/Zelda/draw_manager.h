@@ -10,10 +10,11 @@ namespace te
 	class DrawManager
 	{
 	public:
-		DrawManager(decltype(GameData::pendingDraws)& pendingDraws, sf::RenderTarget& target);
+		DrawManager(const decltype(GameData::pixelToWorldScale)& pixelToWorldScale, decltype(GameData::pendingDraws)& pendingDraws, sf::RenderTarget& target);
 
 		void update();
 	private:
+		const decltype(GameData::pixelToWorldScale)& m_rPixelToWorldScale;
 		decltype(GameData::pendingDraws)& m_PendingDraws;
 		sf::RenderTarget& m_Target;
 	};
