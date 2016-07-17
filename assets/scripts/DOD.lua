@@ -1,6 +1,5 @@
 print('DOD.lua loaded!')
 
-local pixelToUnitScale = Vec(16, 16)
 local function scaleRect(rect, scale)
    return {
       x = rect.x * scale.x,
@@ -11,6 +10,7 @@ local function scaleRect(rect, scale)
 end
 
 local function init(game)
+   local pixelToUnitScale = Vec(16, 16)
    game.pixelToUnitScale = pixelToUnitScale
    game.viewSize = Vec(32, 18)
    game.viewCenter = Vec(28, 25)
