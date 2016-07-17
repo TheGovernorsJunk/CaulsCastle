@@ -4,6 +4,7 @@
 #include "typedefs.h"
 #include "base_game_entity.h"
 #include "tmx.h"
+#include "game_data.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -58,6 +59,12 @@ namespace te
 			}
 		});
 	}
+
+	template <typename Resource>
+	Resource& get(GameData& data, ResourceID<Resource> id);
+
+	template <>
+	TMX& get(GameData& data, ResourceID<TMX> id);
 }
 
 #endif
