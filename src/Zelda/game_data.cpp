@@ -27,7 +27,6 @@ namespace te
 		, positions{}
 		, velocities{}
 		, sprites{}
-		, sortingLayers{}
 		, mapLayers{}
 		, pendingDraws{}
 		, pL{luaL_newstate(), &lua_close}

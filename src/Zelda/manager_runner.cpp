@@ -23,8 +23,8 @@ namespace te
 			, playerManager(0, data.directionInput, data.velocities)
 			, physicsManager(data.physicsWorld, data.rigidBodies, data.positions)
 			, velocityManager(data.velocities, data.rigidBodies, data.positions)
-			, spriteRenderManager(data.sprites, data.positions, data.sortingLayers, data.pendingDraws)
-			, layerRenderManager(data.mapLayers, data.positions, data.sortingLayers, data.pendingDraws)
+			, spriteRenderManager(data.sprites, data.positions, data.pendingDraws)
+			, layerRenderManager(data.mapLayers, data.positions, data.pendingDraws)
 			, drawManager(data.pixelToWorldScale, data.mainView, data.pendingDraws, *data.pWindow)
 		{}
 	};

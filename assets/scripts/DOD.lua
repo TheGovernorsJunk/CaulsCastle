@@ -15,16 +15,12 @@ local function init(game)
    game.viewSize = Vec(32, 18)
    game.viewCenter = Vec(28, 25)
 
-   local tmxID = game:loadTMX('assets/maps/time_fantasy.tmx')
+   local tmxID = game:loadTMX('assets/maps/grassy.tmx')
    local layerIDs = game:makeTileLayers(tmxID)
 
-   local layers = {}
+   local map = game:makeEntity()
    for name, id in pairs(layerIDs) do
-      local entity = game:makeEntity()
-      entity.layer = id
-      local sortingLayer = game:getTileLayerIndex(id)
-      entity.sortingLayer = sortingLayer
-      layers[sortingLayer] = entity
+      map:addTileLayer(id, game:getTileLayerIndex(id))
    end
 
    local collisionLayer = game:makeEntity()

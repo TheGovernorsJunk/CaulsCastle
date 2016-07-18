@@ -11,11 +11,9 @@ namespace te
 	public:
 		RenderManager(const DrawableStore& drawableStore,
 			decltype(GameData::positions)& positionStore,
-			decltype(GameData::sortingLayers)& sortingStore,
 			decltype(GameData::pendingDraws)& pendingDraws)
 			: m_DrawableStore(drawableStore)
 			, m_PositionStore(positionStore)
-			, m_SortingStore(sortingStore)
 			, m_PendingDraws(pendingDraws)
 		{}
 		RenderManager(RenderManager&&) = default;
@@ -25,17 +23,16 @@ namespace te
 		{
 			std::transform(std::cbegin(m_DrawableStore), std::cend(m_DrawableStore), std::back_inserter(m_PendingDraws), [this](const auto& entityDrawable) {
 				auto entityID = entityDrawable.first;
-				const auto* drawable = &entityDrawable.second;
+				const auto& drawable = entityDrawable.second;
 				sf::RenderStates renderStates;
 				renderStates.transform.translate(m_PositionStore[entityID]);
-				return PendingDraw{ renderStates, m_SortingStore[entityID], drawable };
+				return PendingDraw{ renderStates, drawable.sortingLayer, &drawable.drawable };
 			});
 		}
 
 	private:
 		const DrawableStore& m_DrawableStore;
 		decltype(GameData::positions)& m_PositionStore;
-		decltype(GameData::sortingLayers)& m_SortingStore;
 		decltype(GameData::pendingDraws)& m_PendingDraws;
 	};
 

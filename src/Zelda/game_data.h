@@ -64,9 +64,8 @@ namespace te
 		ComponentStore<sf::Vector2f> positions;
 		ComponentStore<std::unique_ptr<b2Body, std::function<void(b2Body*)>>> rigidBodies;
 		ComponentStore<sf::Vector2f> velocities;
-		ComponentStore<sf::Sprite> sprites;
-		ComponentStore<int> sortingLayers;
-		ComponentStore<te::TileMapLayer> mapLayers;
+		RenderableStore<sf::Sprite> sprites;
+		RenderableStore<te::TileMapLayer> mapLayers;
 		std::vector<PendingDraw> pendingDraws;
 
 		std::unique_ptr<lua_State, void(*)(lua_State*)> pL;

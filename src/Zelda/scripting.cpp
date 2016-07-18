@@ -39,14 +39,11 @@ namespace te
 				return m_LayerID;
 			}
 
-			void setLayer(ResourceID<TileMapLayer> id)
+			void addTileLayer(ResourceID<TileMapLayer> id, int sortingLayer)
 			{
 				m_LayerID = id;
-				m_rData.mapLayers[m_ID] = m_rData.mapLayerHolder.get(id);
+				m_rData.mapLayers.insert(m_ID, { m_rData.mapLayerHolder.get(id), sortingLayer });
 			}
-
-			int getSortingLayer() const { return m_rData.sortingLayers.at(m_ID); }
-			void setSortingLayer(int idx) { m_rData.sortingLayers[m_ID] = idx; }
 
 			void addRigidBody(int type)
 			{
@@ -112,8 +109,7 @@ namespace te
 				.endClass()
 				.beginClass<ProxyEntity>("Entity")
 					.addData("id", &ProxyEntity::m_ID, false)
-					.addProperty("layer", &ProxyEntity::getLayer, &ProxyEntity::setLayer)
-					.addProperty("sortingLayer", &ProxyEntity::getSortingLayer, &ProxyEntity::setSortingLayer)
+					.addFunction("addTileLayer", &ProxyEntity::addTileLayer)
 					.addFunction("addRigidBody", &ProxyEntity::addRigidBody)
 					.addFunction("addFixtureRect", &ProxyEntity::addFixtureRect)
 				.endClass();
