@@ -34,14 +34,8 @@ namespace te
 				, m_ID{m_rData.entityIDManager.getNextID()}
 			{}
 
-			ResourceID<TileMapLayer> getLayer() const
-			{
-				return m_LayerID;
-			}
-
 			void addTileLayer(ResourceID<TileMapLayer> id, int sortingLayer)
 			{
-				m_LayerID = id;
 				m_rData.mapLayers.insert(m_ID, { m_rData.mapLayerHolder.get(id), sortingLayer });
 			}
 
@@ -77,7 +71,6 @@ namespace te
 
 			GameData& m_rData;
 			EntityID m_ID;
-			ResourceID<TileMapLayer> m_LayerID;
 		};
 
 		GameData& m_rData;
