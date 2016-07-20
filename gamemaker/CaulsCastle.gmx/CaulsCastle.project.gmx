@@ -8,8 +8,14 @@
   <sprites name="sprites">
     <sprite>sprites\hero_idle_1</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\dungeon</background>
+    <background>background\inside</background>
+  </backgrounds>
   <paths name="paths"/>
+  <rooms name="rooms">
+    <room>rooms\arena</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
