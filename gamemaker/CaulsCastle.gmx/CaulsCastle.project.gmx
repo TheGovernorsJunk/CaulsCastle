@@ -11,6 +11,7 @@
   <backgrounds name="background">
     <background>background\dungeon</background>
     <background>background\inside</background>
+    <background>background\outside</background>
   </backgrounds>
   <paths name="paths"/>
   <rooms name="rooms">
