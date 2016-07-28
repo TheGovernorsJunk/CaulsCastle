@@ -36,7 +36,9 @@ local function init(game)
    local keymap = Keymap()
    keymap.lightAttack = Button.RB
    keymap.parry = Button.LB
-   game:setKeymap(1, keymap)
+   keymap.heavyAttack = Axis.RT
+   keymap.lock = Axis.LT
+   game:setKeymap(0, keymap)
 end
 
 DOD = {

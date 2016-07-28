@@ -29,7 +29,10 @@ namespace te
 		Back = 6,
 		Start = 7,
 		L3 = 8,
-		R3 = 9
+		R3 = 9,
+
+		LT = 100,
+		RT = 200
 	};
 
 	template <typename ButtonType, typename AxisType>

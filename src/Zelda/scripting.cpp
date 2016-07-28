@@ -22,6 +22,9 @@ namespace te
 	static unsigned LB = static_cast<unsigned>(XBoxInput::LB);
 	static unsigned RB = static_cast<unsigned>(XBoxInput::RB);
 
+	static unsigned LT = static_cast<unsigned>(XBoxInput::LT);
+	static unsigned RT = static_cast<unsigned>(XBoxInput::RT);
+
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 	static std::string getPackageName(const std::string& scriptFilename)
 	{
@@ -35,6 +38,8 @@ namespace te
 
 	struct ScriptInit::Impl
 	{
+		using KeymapImpl = Keymap<unsigned, unsigned>;
+
 		struct ProxyEntity
 		{
 			ProxyEntity(GameData& data)
@@ -97,10 +102,16 @@ namespace te
 					.addVariable("LB", &LB, false)
 					.addVariable("RB", &RB, false)
 				.endNamespace()
-				.beginClass<Keymap<unsigned, unsigned>>("Keymap")
+				.beginNamespace("Axis")
+					.addVariable("LT", &LT, false)
+					.addVariable("RT", &RT, false)
+				.endNamespace()
+				.beginClass<KeymapImpl>("Keymap")
 					.addConstructor<void(*)(void)>()
-					.addData("lightAttack", &Keymap<unsigned, unsigned>::lightAttack)
-					.addData("parry", &Keymap<unsigned, unsigned>::parry)
+					.addData("lightAttack", &KeymapImpl::lightAttack)
+					.addData("parry", &KeymapImpl::parry)
+					.addData("heavyAttack", &KeymapImpl::heavyAttack)
+					.addData("lock", &KeymapImpl::lock)
 				.endClass()
 				.beginClass<ResourceID<TMX>>("TMXID").endClass()
 				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
@@ -231,11 +242,13 @@ namespace te
 			return load<TextureAtlas>(m_rData, filename);
 		}
 
-		void setKeymap(unsigned playerID, Keymap<unsigned, unsigned> keymap)
+		void setKeymap(unsigned playerID, KeymapImpl keymap)
 		{
 			auto& storedMap = m_rData.keymaps[playerID];
 			storedMap.lightAttack = static_cast<XBoxInput>(keymap.lightAttack);
 			storedMap.parry = static_cast<XBoxInput>(keymap.parry);
+			storedMap.heavyAttack = static_cast<sf::Joystick::Axis>(keymap.heavyAttack);
+			storedMap.lock = static_cast<sf::Joystick::Axis>(keymap.lock);
 		}
 	};
 
