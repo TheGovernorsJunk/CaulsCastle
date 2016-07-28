@@ -4,6 +4,7 @@
 #include "tmx.h"
 #include "tile_map_layer.h"
 #include "texture_atlas.h"
+#include "input.h"
 
 #include <lua.hpp>
 #include <LuaBridge.h>
@@ -14,6 +15,13 @@
 
 namespace te
 {
+	static unsigned A = static_cast<unsigned>(XBoxInput::A);
+	static unsigned B = static_cast<unsigned>(XBoxInput::B);
+	static unsigned X = static_cast<unsigned>(XBoxInput::X);
+	static unsigned Y = static_cast<unsigned>(XBoxInput::Y);
+	static unsigned LB = static_cast<unsigned>(XBoxInput::LB);
+	static unsigned RB = static_cast<unsigned>(XBoxInput::RB);
+
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 	static std::string getPackageName(const std::string& scriptFilename)
 	{
@@ -81,6 +89,19 @@ namespace te
 			lua_State* L = m_rData.pL.get();
 
 			luabridge::getGlobalNamespace(L)
+				.beginNamespace("Button")
+					.addVariable("A", &A, false)
+					.addVariable("B", &B, false)
+					.addVariable("X", &X, false)
+					.addVariable("Y", &Y, false)
+					.addVariable("LB", &LB, false)
+					.addVariable("RB", &RB, false)
+				.endNamespace()
+				.beginClass<Keymap<unsigned, unsigned>>("Keymap")
+					.addConstructor<void(*)(void)>()
+					.addData("lightAttack", &Keymap<unsigned, unsigned>::lightAttack)
+					.addData("parry", &Keymap<unsigned, unsigned>::parry)
+				.endClass()
 				.beginClass<ResourceID<TMX>>("TMXID").endClass()
 				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
 				.beginClass<ResourceID<TextureAtlas>>("AtlasID").endClass()
@@ -99,6 +120,7 @@ namespace te
 					.addFunction("getTileLayerIndex", &Impl::getTileLayerIndex)
 					.addFunction("getObjectsInLayer", &Impl::getObjectsInLayer)
 					.addFunction("loadAtlas", &Impl::loadAtlas)
+					.addFunction("setKeymap", &Impl::setKeymap)
 				.endClass()
 				.beginClass<ProxyEntity>("Entity")
 					.addData("id", &ProxyEntity::m_ID, false)
@@ -207,6 +229,13 @@ namespace te
 		ResourceID<TextureAtlas> loadAtlas(const std::string& filename)
 		{
 			return load<TextureAtlas>(m_rData, filename);
+		}
+
+		void setKeymap(unsigned playerID, Keymap<unsigned, unsigned> keymap)
+		{
+			auto& storedMap = m_rData.keymaps[playerID];
+			storedMap.lightAttack = static_cast<XBoxInput>(keymap.lightAttack);
+			storedMap.parry = static_cast<XBoxInput>(keymap.parry);
 		}
 	};
 

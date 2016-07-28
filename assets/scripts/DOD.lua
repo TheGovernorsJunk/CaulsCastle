@@ -32,6 +32,11 @@ local function init(game)
    end
 
    local atlasID = game:loadAtlas('assets/spritesheets/priest/priest.xml')
+
+   local keymap = Keymap()
+   keymap.lightAttack = Button.RB
+   keymap.parry = Button.LB
+   game:setKeymap(1, keymap)
 end
 
 DOD = {

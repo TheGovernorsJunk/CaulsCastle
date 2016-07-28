@@ -56,8 +56,8 @@ namespace te
 
 		EntityIDManager entityIDManager;
 
-		std::vector<Keymap<XBoxInput, sf::Joystick::Axis>> keymaps;
-		std::vector<Input> playerInputs;
+		boost::container::flat_map<unsigned, Keymap<XBoxInput, sf::Joystick::Axis>> keymaps;
+		boost::container::flat_map<unsigned, Input> playerInputs;
 		ComponentStore<sf::Vector2f> positions;
 		ComponentStore<std::unique_ptr<b2Body, std::function<void(b2Body*)>>> rigidBodies;
 		ComponentStore<sf::Vector2f> velocities;

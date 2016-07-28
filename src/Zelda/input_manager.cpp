@@ -8,9 +8,10 @@ namespace te
 
 	void InputManager::update()
 	{
-		size_t i = 0;
-		for (auto& input : m_rData.playerInputs)
+		for (auto& inputPair : m_rData.playerInputs)
 		{
+			auto i = inputPair.first;
+			auto& input = inputPair.second;
 			input.switches = 0;
 
 			auto keymap = m_rData.keymaps[i];
@@ -23,8 +24,6 @@ namespace te
 			input.heavyAttack = sf::Joystick::getAxisPosition(i, keymap.heavyAttack);
 			input.x = sf::Joystick::getAxisPosition(i, keymap.X);
 			input.y = sf::Joystick::getAxisPosition(i, keymap.Y);
-
-			++i;
 		}
 	}
 }
