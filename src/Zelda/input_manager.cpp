@@ -2,15 +2,29 @@
 
 namespace te
 {
-	InputManager::InputManager(decltype(GameData::directionInput)& input)
-		: m_rInput{ input }
+	InputManager::InputManager(GameData& data)
+		: m_rData{ data }
 	{}
 
 	void InputManager::update()
 	{
-		m_rInput.left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-		m_rInput.right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-		m_rInput.up = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
-		m_rInput.down = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
+		size_t i = 0;
+		for (auto& input : m_rData.playerInputs)
+		{
+			input.switches = 0;
+
+			auto keymap = m_rData.keymaps[i];
+			if (sf::Joystick::isButtonPressed(i, static_cast<unsigned>(keymap.lightAttack)))
+				input.switches = input.switches & InputSwitch::LIGHT_ATTACK;
+			if (sf::Joystick::isButtonPressed(i, static_cast<unsigned>(keymap.parry)))
+				input.switches = input.switches & InputSwitch::PARRY;
+
+			input.lock = sf::Joystick::getAxisPosition(i, keymap.lock);
+			input.heavyAttack = sf::Joystick::getAxisPosition(i, keymap.heavyAttack);
+			input.x = sf::Joystick::getAxisPosition(i, keymap.X);
+			input.y = sf::Joystick::getAxisPosition(i, keymap.Y);
+
+			++i;
+		}
 	}
 }

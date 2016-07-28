@@ -146,7 +146,6 @@
     <ClCompile Include="nav_graph_edge.cpp" />
     <ClCompile Include="nav_graph_node.cpp" />
     <ClCompile Include="physics_world_manager.cpp" />
-    <ClCompile Include="player_manager.cpp" />
     <ClCompile Include="regulator.cpp" />
     <ClCompile Include="scripted_application.cpp" />
     <ClCompile Include="camera_entity.cpp" />
@@ -198,13 +197,13 @@
     <ClInclude Include="graph_search_dfs.h" />
     <ClInclude Include="graph_search_dijkstra.h" />
     <ClInclude Include="indexed_priority_queue.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="input_manager.h" />
     <ClInclude Include="manager_runner.h" />
     <ClInclude Include="message_dispatcher.h" />
     <ClInclude Include="nav_graph_edge.h" />
     <ClInclude Include="nav_graph_node.h" />
     <ClInclude Include="physics_world_manager.h" />
-    <ClInclude Include="player_manager.h" />
     <ClInclude Include="regulator.h" />
     <ClInclude Include="render_manager.h" />
     <ClInclude Include="resource_manager.h" />

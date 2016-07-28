@@ -7,6 +7,7 @@
 #include "texture_atlas.h"
 #include "tmx.h"
 #include "entity_id_manager.h"
+#include "input.h"
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
@@ -55,12 +56,8 @@ namespace te
 
 		EntityIDManager entityIDManager;
 
-		struct {
-			bool left;
-			bool right;
-			bool up;
-			bool down;
-		} directionInput;
+		std::vector<Keymap<XBoxInput, sf::Joystick::Axis>> keymaps;
+		std::vector<Input> playerInputs;
 		ComponentStore<sf::Vector2f> positions;
 		ComponentStore<std::unique_ptr<b2Body, std::function<void(b2Body*)>>> rigidBodies;
 		ComponentStore<sf::Vector2f> velocities;

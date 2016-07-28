@@ -10,11 +10,11 @@ namespace te
 	class InputManager
 	{
 	public:
-		InputManager(decltype(GameData::directionInput)& input);
+		InputManager(GameData& data);
 
 		void update();
 	private:
-		decltype(GameData::directionInput)& m_rInput;
+		GameData& m_rData;
 	};
 }
 

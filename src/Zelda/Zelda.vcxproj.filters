@@ -114,9 +114,6 @@
     <ClCompile Include="draw_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="player_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="entity_id_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -307,9 +304,6 @@
     <ClInclude Include="draw_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="player_manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="entity_id_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -320,6 +314,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scripting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
