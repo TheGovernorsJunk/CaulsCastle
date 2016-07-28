@@ -24,6 +24,8 @@ namespace te
 
 	static unsigned LT = static_cast<unsigned>(XBoxInput::LT);
 	static unsigned RT = static_cast<unsigned>(XBoxInput::RT);
+	static unsigned X_Axis = sf::Joystick::Axis::X;
+	static unsigned Y_Axis = sf::Joystick::Axis::Y;
 
 	const static std::regex packageExpr{"(?:.*/)*([a-zA-Z_0-9]+)\\.lua"};
 	static std::string getPackageName(const std::string& scriptFilename)
@@ -105,6 +107,8 @@ namespace te
 				.beginNamespace("Axis")
 					.addVariable("LT", &LT, false)
 					.addVariable("RT", &RT, false)
+					.addVariable("X", &X_Axis, false)
+					.addVariable("Y", &Y_Axis, false)
 				.endNamespace()
 				.beginClass<KeymapImpl>("Keymap")
 					.addConstructor<void(*)(void)>()
@@ -112,6 +116,8 @@ namespace te
 					.addData("parry", &KeymapImpl::parry)
 					.addData("heavyAttack", &KeymapImpl::heavyAttack)
 					.addData("lock", &KeymapImpl::lock)
+					.addData("X", &KeymapImpl::X)
+					.addData("Y", &KeymapImpl::Y)
 				.endClass()
 				.beginClass<ResourceID<TMX>>("TMXID").endClass()
 				.beginClass<ResourceID<TileMapLayer>>("LayerID").endClass()
@@ -249,6 +255,8 @@ namespace te
 			storedMap.parry = static_cast<XBoxInput>(keymap.parry);
 			storedMap.heavyAttack = static_cast<sf::Joystick::Axis>(keymap.heavyAttack);
 			storedMap.lock = static_cast<sf::Joystick::Axis>(keymap.lock);
+			storedMap.X = static_cast<sf::Joystick::Axis>(keymap.X);
+			storedMap.Y = static_cast<sf::Joystick::Axis>(keymap.Y);
 		}
 	};
 

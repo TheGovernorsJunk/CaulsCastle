@@ -38,6 +38,8 @@ local function init(game)
    keymap.parry = Button.LB
    keymap.heavyAttack = Axis.RT
    keymap.lock = Axis.LT
+   keymap.X = Axis.X
+   keymap.Y = Axis.Y
    game:setKeymap(0, keymap)
 end
 
