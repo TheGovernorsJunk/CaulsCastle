@@ -24,6 +24,9 @@
     <ClCompile Include="game_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tmx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tmx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

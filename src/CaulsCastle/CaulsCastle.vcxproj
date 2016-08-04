@@ -69,11 +69,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(SolutionDir)..\lib\rapidxml-1.13;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\SDL2-2.0.4\lib\x86\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(SolutionDir)..\lib\rapidxml-1.13;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\SDL2-2.0.4\lib\x86\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,10 +127,12 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_data.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tmx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="game_data.h" />
+    <ClInclude Include="tmx.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
