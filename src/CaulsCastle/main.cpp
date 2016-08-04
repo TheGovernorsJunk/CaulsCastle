@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 {
 	using namespace te;
 
-	SDL_lock sdl(SDL_INIT_VIDEO);
+	SDL_lock sdl{SDL_INIT_VIDEO};
 
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
 		SDL_CreateWindow("Caul's Castle",
