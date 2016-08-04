@@ -5,6 +5,7 @@
 
 namespace te
 {
+	void input_game(const SDL_Event&);
 	void step_game(decltype(SDL_GetTicks()) dms);
 	void draw_game();
 }

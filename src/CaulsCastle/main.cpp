@@ -111,6 +111,7 @@ int main(int argc, char** argv)
 				if (evt.type == SDL_QUIT) {
 					run = false;
 				}
+				input_game(evt);
 			}
 			step_game(time_per_frame);
 		}

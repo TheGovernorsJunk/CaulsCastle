@@ -5,6 +5,10 @@ namespace te
 {
 	static game_data data;
 
+	void input_game(const SDL_Event& evt)
+	{
+	}
+
 	void step_game(decltype(SDL_GetTicks()) dms)
 	{
 	}
