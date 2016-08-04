@@ -14,19 +14,19 @@ namespace te
 	const int tmx::NULL_TILE = -1;
 	const tmx::TileData tmx::NULL_DATA = tmx::TileData{ NULL_TILE, tmx::ObjectGroup() };
 
-	bool tmx::loadFromFile(const std::string& filename)
+	bool tmx::loadFromFile(const std::string& f)
 	{
-		rapidxml::file<> tmxFile(filename.c_str());
+		rapidxml::file<> tmxFile(f.c_str());
 		rapidxml::xml_document<> tmx;
 		tmx.parse<0>(tmxFile.data());
 
-		mFilename = filename;
+		filename = f;
 
 		rapidxml::xml_node<char>* pMapNode = tmx.first_node("map");
 
 		std::string orientationStr = pMapNode->first_attribute("orientation")->value();
-		if (orientationStr == "orthogonal") mOrientation = Orientation::Orthogonal;
-		else if (orientationStr == "isometric") mOrientation = Orientation::Isometric;
+		if (orientationStr == "orthogonal") orientation = Orientation::Orthogonal;
+		else if (orientationStr == "isometric") orientation = Orientation::Isometric;
 		else assert(false);
 
 		width = std::stoi(pMapNode->first_attribute("width")->value());

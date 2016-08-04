@@ -86,8 +86,8 @@ namespace te
 		const TileData& getTileData(int x, int y, const Layer& layer) const;
 		int index(int x, int y) const;
 
-		std::string mFilename;
-		Orientation mOrientation;
+		std::string filename;
+		Orientation orientation;
 		int width;
 		int height;
 		int tilewidth;
