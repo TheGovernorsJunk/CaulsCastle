@@ -96,7 +96,8 @@ int main(int argc, char** argv)
 	decltype(last_ticks) time_since_last_update = 0;
 	decltype(last_ticks) time_per_frame = 1000 / 60;
 
-	while (true) {
+	bool run = true;
+	while (run) {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		auto curr_ticks = SDL_GetTicks();
@@ -105,6 +106,12 @@ int main(int argc, char** argv)
 
 		while (time_since_last_update > time_per_frame) {
 			time_since_last_update -= time_per_frame;
+			SDL_Event evt;
+			while (SDL_PollEvent(&evt)) {
+				if (evt.type == SDL_QUIT) {
+					run = false;
+				}
+			}
 			step_game(time_per_frame);
 		}
 
