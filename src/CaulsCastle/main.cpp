@@ -57,9 +57,10 @@ int main(int argc, char** argv)
 
 		while (time_since_last_update > time_per_frame) {
 			time_since_last_update -= time_per_frame;
-			step_game(*pRenderer, time_per_frame);
+			step_game(time_per_frame);
 		}
 
+		draw_game(*pRenderer);
 		SDL_RenderPresent(pRenderer);
 
 		last_ticks = curr_ticks;

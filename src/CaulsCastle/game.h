@@ -5,7 +5,8 @@
 
 namespace te
 {
-	void step_game(SDL_Renderer&, decltype(SDL_GetTicks()) dms);
+	void step_game(decltype(SDL_GetTicks()) dms);
+	void draw_game(SDL_Renderer& renderer);
 }
 
 #endif
