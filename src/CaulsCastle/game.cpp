@@ -9,7 +9,7 @@ namespace te
 	{
 	}
 
-	void draw_game(SDL_Renderer& renderer)
+	void draw_game()
 	{
 	}
 }
