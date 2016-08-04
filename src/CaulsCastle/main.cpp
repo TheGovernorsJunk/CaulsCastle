@@ -1,4 +1,7 @@
+#include "game.h"
+
 #include <SDL.h>
+
 #include <iostream>
 #include <memory>
 
@@ -54,7 +57,7 @@ int main(int argc, char** argv)
 
 		while (time_since_last_update > time_per_frame) {
 			time_since_last_update -= time_per_frame;
-			std::cout << curr_ticks << std::endl;
+			step_game(*pRenderer, time_per_frame);
 		}
 
 		SDL_RenderPresent(pRenderer);
