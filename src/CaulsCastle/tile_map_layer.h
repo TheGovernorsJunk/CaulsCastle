@@ -7,7 +7,6 @@
 #include <vector>
 #include <array>
 #include <cassert>
-#include <iterator>
 
 namespace te
 {
