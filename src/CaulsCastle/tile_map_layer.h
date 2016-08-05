@@ -27,9 +27,6 @@ namespace te
 		{
 			if (tile.gid != 0 && tmx.getTilesetIndex(tile.gid) == tileset_index)
 			{
-				int x = tile_index % tmx.width;
-				int y = tile_index / tmx.width;
-
 				std::array<container_type::value_type, 4> quad;
 				using coord_t = decltype(container_type::value_type::value_type::x);
 
@@ -45,6 +42,9 @@ namespace te
 						       (coord_t)(tileset.tileheight * (tv + 1)) / tileset.image.height };
 				quad[3].tex_coords = { (coord_t)(tileset.tilewidth * tu) / tileset.image.width,
 						       (coord_t)(tileset.tileheight * (tv + 1)) / tileset.image.height };
+
+				int x = tile_index % tmx.width;
+				int y = tile_index / tmx.width;
 
 				quad[0].position = { (coord_t)(tileWidth * x),
 						     (coord_t)(tileHeight * y) };
