@@ -7,45 +7,56 @@
 #include <vector>
 #include <array>
 #include <cassert>
+#include <iterator>
 
 namespace te
 {
-	template <typename Iter>
-	void get_tile_map_layer_vertices(const tmx& tmx, size_t layer_index, Iter out)
+	template <template <typename container_type> typename Iter, typename container_type>
+	void get_tile_map_layer_vertices(const tmx& tmx, size_t layer_index, size_t tileset_index, Iter<container_type> out)
 	{
 		assert(layer_index >= 0 && layer_index < tmx.layers.size());
+		assert(tileset_index >= 0 && tileset_index < tmx.tilesets.size());
 		assert(tmx.orientation == tmx::Orientation::Orthogonal);
 
 		auto tileWidth = tmx.tilewidth;
 		auto tileHeight = tmx.tileheight;
+		const tmx::Tileset& tileset = tmx.tilesets[tileset_index];
 
 		size_t tile_index = 0;
 		const auto& layer = tmx.layers[layer_index];
 		for (auto tile : layer.data)
 		{
-			if (tile.gid != 0)
+			if (tile.gid != 0 && tmx.getTilesetIndex(tile.gid) == tileset_index)
 			{
 				int x = tile_index % tmx.width;
 				int y = tile_index / tmx.width;
 
-				std::array<vertex, 4> quad;
-				quad[0].position = { (float)(tileWidth * x), (float)(tileHeight * y) };
-				quad[1].position = { (float)(tileWidth * (x + 1)), (float)(tileHeight * y) };
-				quad[2].position = { (float)(tileWidth * (x + 1)), (float)(tileHeight * (y + 1)) };
-				quad[3].position = { (float)(tileWidth * x), (float)(tileHeight * (y + 1)) };
+				std::array<container_type::value_type, 4> quad;
+				using coord_t = decltype(container_type::value_type::value_type::x);
 
-				size_t tilesetIndex = tmx.getTilesetIndex(tile.gid);
-				const tmx::Tileset& tileset = tmx.tilesets[tilesetIndex];
 				int localId = tile.gid - tileset.firstgid;
 				int tu = localId % (tileset.image.width / tileset.tilewidth);
 				int tv = localId / (tileset.image.width / tileset.tilewidth);
 
-				quad[0].tex_coords = { (float)(tileset.tilewidth * tu) / tileset.image.width, (float)(tileset.tileheight * tv) / tileset.image.height };
-				quad[1].tex_coords = { (float)(tileset.tilewidth * (tu + 1)) / tileset.image.width, (float)(tileset.tileheight * tv) / tileset.image.height };
-				quad[2].tex_coords = { (float)(tileset.tilewidth * (tu + 1)) / tileset.image.width, (float)(tileset.tileheight * (tv + 1)) / tileset.image.height };
-				quad[3].tex_coords = { (float)(tileset.tilewidth * tu) / tileset.image.width, (float)(tileset.tileheight * (tv + 1)) / tileset.image.height };
+				quad[0].tex_coords = { (coord_t)(tileset.tilewidth * tu) / tileset.image.width,
+						       (coord_t)(tileset.tileheight * tv) / tileset.image.height };
+				quad[1].tex_coords = { (coord_t)(tileset.tilewidth * (tu + 1)) / tileset.image.width,
+						       (coord_t)(tileset.tileheight * tv) / tileset.image.height };
+				quad[2].tex_coords = { (coord_t)(tileset.tilewidth * (tu + 1)) / tileset.image.width,
+						       (coord_t)(tileset.tileheight * (tv + 1)) / tileset.image.height };
+				quad[3].tex_coords = { (coord_t)(tileset.tilewidth * tu) / tileset.image.width,
+						       (coord_t)(tileset.tileheight * (tv + 1)) / tileset.image.height };
 
-				//for (auto& v : quad) m_models[tileset_index].vertexArray.append(v);
+				quad[0].position = { (coord_t)(tileWidth * x),
+						     (coord_t)(tileHeight * y) };
+				quad[1].position = { (coord_t)(tileWidth * (x + 1)),
+						     (coord_t)(tileHeight * y) };
+				quad[2].position = { (coord_t)(tileWidth * (x + 1)),
+						     (coord_t)(tileHeight * (y + 1)) };
+				quad[3].position = { (coord_t)(tileWidth * x),
+						     (coord_t)(tileHeight * (y + 1)) };
+
+				for (auto& v : quad) (out++) = v;
 			}
 			++tile_index;
 		}

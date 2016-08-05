@@ -14,6 +14,7 @@ namespace te
 
 	template <typename T>
 	struct vertex {
+		using value_type = T;
 		T position;
 		T tex_coords;
 	};
