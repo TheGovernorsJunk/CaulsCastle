@@ -12,6 +12,12 @@ namespace te
 	using entity_id = int;
 	using vec2 = glm::vec2;
 
+	template <typename T>
+	struct vertex {
+		T position;
+		T tex_coords;
+	};
+
 	template <typename K, typename V>
 	using component = boost::container::flat_map<K, V>;
 

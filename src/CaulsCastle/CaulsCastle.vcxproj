@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="game_data.h" />
+    <ClInclude Include="tile_map_layer.h" />
     <ClInclude Include="tmx.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
