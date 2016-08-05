@@ -11,10 +11,10 @@
 
 namespace te
 {
-	const int tmx::NULL_TILE = -1;
-	const tmx::TileData tmx::NULL_DATA = tmx::TileData{ NULL_TILE, tmx::ObjectGroup() };
+	const int Tmx::NULL_TILE = -1;
+	const Tmx::TileData Tmx::NULL_DATA = Tmx::TileData{ NULL_TILE, Tmx::ObjectGroup() };
 
-	bool tmx::loadFromFile(const std::string& f)
+	bool Tmx::loadFromFile(const std::string& f)
 	{
 		rapidxml::file<> tmxFile(f.c_str());
 		rapidxml::xml_document<> tmx;
@@ -186,7 +186,7 @@ namespace te
 		return true;
 	}
 
-	size_t tmx::getTilesetIndex(int gid) const
+	size_t Tmx::getTilesetIndex(int gid) const
 	{
 		auto retIt = tilesets.end();
 		for (auto it = tilesets.begin(); it != tilesets.end(); ++it)
@@ -200,14 +200,14 @@ namespace te
 		return retIt - tilesets.begin();
 	}
 
-	const tmx::TileData& tmx::getTileData(int x, int y, const tmx::Layer& layer) const
+	const Tmx::TileData& Tmx::getTileData(int x, int y, const Tmx::Layer& layer) const
 	{
 		int i = y * width + x;
 		assert(i < width * height);
 		const Tile& tile = layer.data.tiles[i];
 		if (tile.gid == 0)
 		{
-			return tmx::NULL_DATA;
+			return Tmx::NULL_DATA;
 		}
 		const Tileset& tileset = tilesets[getTilesetIndex(tile.gid)];
 		const int localId = tile.gid - tileset.firstgid;
@@ -217,12 +217,12 @@ namespace te
 		});
 		if (result == tiles.end())
 		{
-			return tmx::NULL_DATA;
+			return Tmx::NULL_DATA;
 		}
 		return *result;
 	}
 
-	int tmx::index(int x, int y) const
+	int Tmx::index(int x, int y) const
 	{
 		return y * width + x;
 	}

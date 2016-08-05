@@ -12,7 +12,7 @@
 namespace te
 {
 	template <template <typename container_type> typename Iter, typename container_type, typename denom_fn = pow2up_fn>
-	void get_tile_map_layer_vertices(const tmx& tmx, size_t layer_index, size_t tileset_index, Iter<container_type> out, const denom_fn& denom_fn = denom_fn())
+	void get_tile_map_layer_vertices(const Tmx& tmx, size_t layer_index, size_t tileset_index, Iter<container_type> out, const denom_fn& denom_fn = denom_fn())
 	{
 		assert(layer_index >= 0 && layer_index < tmx.layers.size());
 		assert(tileset_index >= 0 && tileset_index < tmx.tilesets.size());

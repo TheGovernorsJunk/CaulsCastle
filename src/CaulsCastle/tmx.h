@@ -10,7 +10,7 @@
 
 namespace te
 {
-	struct tmx
+	struct Tmx
 	{
 		using Index = size_t;
 
@@ -61,7 +61,7 @@ namespace te
 		};
 
 		class Data {
-			friend struct tmx;
+			friend struct Tmx;
 			std::vector<Tile> tiles;
 			Data(std::vector<Tile>&& ts) : tiles(std::move(ts)) {}
 		public:
