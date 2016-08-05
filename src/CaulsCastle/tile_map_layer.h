@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "tmx.h"
+#include "utilities.h"
 
 #include <vector>
 #include <array>
@@ -10,8 +11,8 @@
 
 namespace te
 {
-	template <template <typename container_type> typename Iter, typename container_type>
-	void get_tile_map_layer_vertices(const tmx& tmx, size_t layer_index, size_t tileset_index, Iter<container_type> out)
+	template <template <typename container_type> typename Iter, typename container_type, typename denom_fn = pow2up_fn>
+	void get_tile_map_layer_vertices(const tmx& tmx, size_t layer_index, size_t tileset_index, Iter<container_type> out, const denom_fn& denom_fn = denom_fn())
 	{
 		assert(layer_index >= 0 && layer_index < tmx.layers.size());
 		assert(tileset_index >= 0 && tileset_index < tmx.tilesets.size());
@@ -20,6 +21,8 @@ namespace te
 		auto tileWidth = tmx.tilewidth;
 		auto tileHeight = tmx.tileheight;
 		const tmx::Tileset& tileset = tmx.tilesets[tileset_index];
+		auto image_width = denom_fn(tileset.image.width);
+		auto image_height = denom_fn(tileset.image.height);
 
 		size_t tile_index = 0;
 		const auto& layer = tmx.layers[layer_index];
@@ -34,14 +37,14 @@ namespace te
 				int tu = localId % (tileset.image.width / tileset.tilewidth);
 				int tv = localId / (tileset.image.width / tileset.tilewidth);
 
-				quad[0].tex_coords = { (coord_t)(tileset.tilewidth * tu) / tileset.image.width,
-						       (coord_t)(tileset.tileheight * tv) / tileset.image.height };
-				quad[1].tex_coords = { (coord_t)(tileset.tilewidth * (tu + 1)) / tileset.image.width,
-						       (coord_t)(tileset.tileheight * tv) / tileset.image.height };
-				quad[2].tex_coords = { (coord_t)(tileset.tilewidth * (tu + 1)) / tileset.image.width,
-						       (coord_t)(tileset.tileheight * (tv + 1)) / tileset.image.height };
-				quad[3].tex_coords = { (coord_t)(tileset.tilewidth * tu) / tileset.image.width,
-						       (coord_t)(tileset.tileheight * (tv + 1)) / tileset.image.height };
+				quad[0].tex_coords = { (coord_t)(tileset.tilewidth * tu) / image_width,
+						       (coord_t)(tileset.tileheight * tv) / image_height };
+				quad[1].tex_coords = { (coord_t)(tileset.tilewidth * (tu + 1)) / image_width,
+						       (coord_t)(tileset.tileheight * tv) / image_height };
+				quad[2].tex_coords = { (coord_t)(tileset.tilewidth * (tu + 1)) / image_width,
+						       (coord_t)(tileset.tileheight * (tv + 1)) / image_height };
+				quad[3].tex_coords = { (coord_t)(tileset.tilewidth * tu) / image_width,
+						       (coord_t)(tileset.tileheight * (tv + 1)) / image_height };
 
 				int x = tile_index % tmx.width;
 				int y = tile_index / tmx.width;
@@ -60,6 +63,13 @@ namespace te
 			++tile_index;
 		}
 	}
+
+	struct pow2up_fn {
+		inline int operator()(int x) const
+		{
+			return pow2up(x);
+		}
+	};
 }
 
 #endif
