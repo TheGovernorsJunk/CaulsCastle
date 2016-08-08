@@ -18,12 +18,7 @@ namespace te
 			assert(init == 0);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			assert(glGetError() != GL_NO_ERROR);
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-			assert(glGetError() != GL_NO_ERROR);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 			ilInit();
 			ilClearColour(255, 255, 255, 0);
@@ -35,6 +30,10 @@ namespace te
 		~Lib_init() {
 			SDL_Quit();
 		}
+		Lib_init(const Lib_init&) = delete;
+		Lib_init& operator=(const Lib_init&) = delete;
+		Lib_init(Lib_init&&) = delete;
+		Lib_init& operator=(Lib_init&&) = delete;
 	};
 
 	class gl_context {
@@ -86,12 +85,13 @@ int main(int argc, char** argv)
 
 	Lib_init sdl{SDL_INIT_VIDEO};
 
+	auto window_width = 640, window_height = 480;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
 		SDL_CreateWindow("Caul's Castle",
 				 SDL_WINDOWPOS_CENTERED,
 				 SDL_WINDOWPOS_CENTERED,
-				 640,
-				 480,
+				 window_width,
+				 window_height,
 				 SDL_WINDOW_OPENGL),
 		&SDL_DestroyWindow
 	};
@@ -99,6 +99,17 @@ int main(int argc, char** argv)
 	assert(pWindow != NULL);
 
 	gl_context context{ *pWindow };
+
+	glViewport(0, 0, window_width, window_height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, window_width, window_height, 0, 1.0, -1.0);
+	assert(glGetError() == GL_NO_ERROR);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	assert(glGetError() == GL_NO_ERROR);
+
+	glEnable(GL_TEXTURE_2D);
 
 	glClearColor(0, 0, 0.2f, 1.f);
 
