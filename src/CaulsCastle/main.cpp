@@ -2,6 +2,9 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 
 #include <iostream>
 #include <memory>
@@ -9,9 +12,9 @@
 
 namespace te
 {
-	struct SDL_lock {
-		SDL_lock(Uint32 flags) {
-			auto init = SDL_Init(SDL_INIT_VIDEO);
+	struct Lib_init {
+		Lib_init(Uint32 sdl_flags) {
+			auto init = SDL_Init(sdl_flags);
 			assert(init == 0);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -21,8 +24,15 @@ namespace te
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();
 			assert(glGetError() != GL_NO_ERROR);
+
+			ilInit();
+			ilClearColour(255, 255, 255, 0);
+			assert(ilGetError() == IL_NO_ERROR);
+
+			iluInit();
+			ilutRenderer(ILUT_OPENGL);
 		}
-		~SDL_lock() {
+		~Lib_init() {
 			SDL_Quit();
 		}
 	};
@@ -74,7 +84,7 @@ int main(int argc, char** argv)
 {
 	using namespace te;
 
-	SDL_lock sdl{SDL_INIT_VIDEO};
+	Lib_init sdl{SDL_INIT_VIDEO};
 
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
 		SDL_CreateWindow("Caul's Castle",
