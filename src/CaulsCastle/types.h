@@ -24,6 +24,9 @@ namespace te
 
 	template <typename K, typename V>
 	using multi_component = std::vector<std::pair<K, V>>;
+
+	template <typename Vec>
+	using Vertex_array = std::vector<vertex<Vec>>;
 }
 
 #endif

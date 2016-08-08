@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="game_data.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture_atlas.h" />
     <ClInclude Include="tile_map_layer.h" />
