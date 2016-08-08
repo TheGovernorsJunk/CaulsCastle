@@ -2,7 +2,7 @@
 
 namespace te
 {
-	game_data::game_data()
+	Game_data::Game_data()
 		: next_id{1}
 		, positions{}
 	{

@@ -3,7 +3,7 @@
 
 namespace te
 {
-	static game_data data;
+	static Game_data data;
 
 	void input_game(const SDL_Event& evt)
 	{

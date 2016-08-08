@@ -5,11 +5,11 @@
 
 namespace te
 {
-	struct game_data {
+	struct Game_data {
 		entity_id next_id;
 		component<entity_id, vec2> positions;
 
-		game_data();
+		Game_data();
 	};
 }
 
