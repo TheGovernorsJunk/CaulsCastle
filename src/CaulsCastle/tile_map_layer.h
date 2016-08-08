@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "tmx.h"
+#include "texture.h"
 #include "utilities.h"
 
 #include <vector>
@@ -61,6 +62,23 @@ namespace te
 				for (auto& v : quad) (out++) = v;
 			}
 			++tile_index;
+		}
+	}
+
+	namespace detail
+	{
+		auto load_texture = [](const std::string& texture_path)
+		{
+			return load_texture32(texture_path);
+		};
+	}
+
+	template <typename Iter, typename Load_fn = decltype(detail::load_texture)>
+	void load_tileset_textures(const Tmx& tmx, Iter out, const Load_fn& load_fn = detail::load_texture)
+	{
+		auto dir = get_directory(tmx.filename);
+		for (auto& tileset : tmx.tilesets) {
+			out++ = load_fn(dir + tileset.image.source);
 		}
 	}
 
