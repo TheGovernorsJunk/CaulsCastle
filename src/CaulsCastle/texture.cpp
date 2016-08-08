@@ -1,5 +1,8 @@
 #include "texture.h"
 
+#include <vector>
+#include <iterator>
+
 namespace te
 {
 	GLuint load_texture32(GLuint* pixels, GLuint width, GLuint height)
@@ -17,6 +20,14 @@ namespace te
 		glBindTexture(GL_TEXTURE_2D, NULL);
 
 		return texture_id;
+	}
+
+	GLuint load_texture32(const std::string& path)
+	{
+		std::vector<GLuint> pixels{};
+		ILint width{}, height{};
+		load_image32(path, std::back_inserter(pixels), width, height);
+		return load_texture32(pixels.data(), width, height);
 	}
 
 	Texture::Texture(GLuint texture_id)

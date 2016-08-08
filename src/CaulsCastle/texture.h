@@ -46,6 +46,7 @@ namespace te
 	}
 
 	GLuint load_texture32(GLuint* pixels, GLuint width, GLuint height);
+	GLuint load_texture32(const std::string& path);
 
 	class Texture {
 	public:
