@@ -54,7 +54,7 @@ namespace te
 		Texture(Texture&& rhs);
 		Texture& operator=(Texture&& rhs);
 
-		auto get_texture_id() const;
+		GLuint get_texture_id() const;
 	private:
 		void destroy_texture();
 

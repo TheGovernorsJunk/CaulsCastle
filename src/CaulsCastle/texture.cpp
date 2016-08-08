@@ -42,7 +42,7 @@ namespace te
 		return *this;
 	}
 
-	auto Texture::get_texture_id() const
+	GLuint Texture::get_texture_id() const
 	{
 		return m_texture_id;
 	}
