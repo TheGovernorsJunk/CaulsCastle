@@ -9,7 +9,7 @@
 
 namespace te
 {
-	using entity_id = int;
+	using Entity_id = int;
 	using Player_id = int;
 	using vec2 = glm::vec2;
 

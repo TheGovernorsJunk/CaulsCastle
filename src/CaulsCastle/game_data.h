@@ -25,13 +25,16 @@ namespace te
 	};
 
 	struct Game_data {
-		entity_id next_id;
+		Entity_id next_id;
 
 		flat_map<Player_id, SDL_Joystick*> joysticks;
 		flat_map<Player_id, Keymap> keymaps;
 		flat_map<Player_id, Player_input> inputs;
+		flat_map<Player_id, Entity_id> avatars;
 
-		component<entity_id, vec2> positions;
+		component<Entity_id, float> max_speeds;
+		component<Entity_id, vec2> velocities;
+		component<Entity_id, vec2> positions;
 
 		Game_data();
 	};

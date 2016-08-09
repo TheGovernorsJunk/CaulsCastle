@@ -3,6 +3,7 @@
 #include "xbox_controller.h"
 
 #include <iostream>
+#include <type_traits>
 
 namespace te
 {
@@ -15,8 +16,8 @@ namespace te
 	void input_game(Game_data& data, const SDL_Event& evt)
 	{
 		if (evt.type == SDL_JOYBUTTONDOWN || evt.type == SDL_JOYBUTTONUP) {
-			auto player_id = evt.button.which;
-			auto& keymap = data.keymaps[player_id];
+			const auto player_id = evt.jbutton.which;
+			const auto& keymap = data.keymaps[player_id];
 			auto& input = data.inputs[player_id];
 
 			if (evt.jbutton.button == keymap.dodge) {
@@ -28,12 +29,28 @@ namespace te
 	void step_game(Game_data& data, decltype(SDL_GetTicks()) dms)
 	{
 		for (auto& joystick_pair : data.joysticks) {
-			auto player_id = joystick_pair.first;
+			const auto player_id = joystick_pair.first;
+			const auto& keymap = data.keymaps[player_id];
 			auto& input = data.inputs[player_id];
-			auto& keymap = data.keymaps[player_id];
 
 			input.x_movement = SDL_JoystickGetAxis(joystick_pair.second, data.keymaps[player_id].x_movement) / 32767.f;
 			input.y_movement = SDL_JoystickGetAxis(joystick_pair.second, data.keymaps[player_id].y_movement) / 32767.f;
+		}
+
+		for (auto& input_pair : data.inputs) {
+			const auto player_id = input_pair.first;
+			const auto& input = input_pair.second;
+			const auto entity_id = data.avatars[player_id];
+
+			auto max_speed = data.max_speeds[entity_id];
+			data.velocities[entity_id] = max_speed * std::remove_reference_t<decltype(data.velocities[entity_id])>{
+				input.x_movement,
+				input.y_movement
+			};
+		}
+
+		for (auto& velocity_pair : data.velocities) {
+			std::cout << velocity_pair.second.x << "\t" << velocity_pair.second.y << std::endl;
 		}
 
 		for (auto& input_pair : data.inputs) {

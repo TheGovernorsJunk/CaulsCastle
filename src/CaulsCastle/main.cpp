@@ -124,7 +124,8 @@ int main(int argc, char** argv)
 
 	Game_data data{};
 	data.joysticks[0] = p_joystick.get();
-	data.keymaps[0] = Keymap{};
+	data.avatars[0] = 0;
+	data.max_speeds[0] = 50;
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
