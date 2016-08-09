@@ -28,6 +28,8 @@ namespace te
 
 	void step_game(Game_data& data, decltype(SDL_GetTicks()) dms)
 	{
+		using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
+
 		for (auto& joystick_pair : data.joysticks) {
 			const auto player_id = joystick_pair.first;
 			const auto& keymap = data.keymaps[player_id];
@@ -43,7 +45,7 @@ namespace te
 			const auto entity_id = data.avatars[player_id];
 
 			auto max_speed = data.max_speeds[entity_id];
-			data.velocities[entity_id] = max_speed * std::remove_reference_t<decltype(data.velocities[entity_id])>{
+			data.velocities[entity_id] = max_speed * Vec{
 				input.x_movement,
 				input.y_movement
 			};
@@ -51,6 +53,7 @@ namespace te
 
 		for (auto& velocity_pair : data.velocities) {
 			std::cout << velocity_pair.second.x << "\t" << velocity_pair.second.y << std::endl;
+			data.positions[velocity_pair.first] += (float)dms * velocity_pair.second;
 		}
 
 		for (auto& input_pair : data.inputs) {

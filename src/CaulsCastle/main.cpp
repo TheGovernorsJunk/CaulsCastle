@@ -150,7 +150,7 @@ int main(int argc, char** argv)
 
 	data.joysticks[0] = p_joystick.get();
 	data.avatars[0] = map_id;
-	data.max_speeds[map_id] = 50;
+	data.max_speeds[map_id] = 5;
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
