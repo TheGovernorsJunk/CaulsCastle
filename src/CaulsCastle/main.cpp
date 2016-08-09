@@ -150,11 +150,12 @@ int main(int argc, char** argv)
 
 	data.joysticks[0] = p_joystick.get();
 	data.avatars[0] = map_id;
-	data.max_speeds[map_id] = 5;
+	data.max_speeds[map_id] = 50;
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
 	decltype(last_ticks) time_per_frame = 1000 / 60;
+	float time_per_frame_s = time_per_frame / 1000.f;
 
 	bool run = true;
 	while (run) {
@@ -173,7 +174,7 @@ int main(int argc, char** argv)
 				}
 				input_game(data, evt);
 			}
-			step_game(data, time_per_frame);
+			step_game(data, time_per_frame_s);
 		}
 
 		draw_game(data);

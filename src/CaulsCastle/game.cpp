@@ -26,7 +26,7 @@ namespace te
 		}
 	}
 
-	void step_game(Game_data& data, decltype(SDL_GetTicks()) dms)
+	void step_game(Game_data& data, float dms)
 	{
 		using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
 
@@ -36,7 +36,9 @@ namespace te
 			auto& input = data.inputs[player_id];
 
 			input.x_movement = SDL_JoystickGetAxis(joystick_pair.second, data.keymaps[player_id].x_movement) / 32767.f;
+			if (std::abs(input.x_movement) < 0.3f) input.x_movement = 0;
 			input.y_movement = SDL_JoystickGetAxis(joystick_pair.second, data.keymaps[player_id].y_movement) / 32767.f;
+			if (std::abs(input.y_movement) < 0.3f) input.y_movement = 0;
 		}
 
 		for (auto& input_pair : data.inputs) {
