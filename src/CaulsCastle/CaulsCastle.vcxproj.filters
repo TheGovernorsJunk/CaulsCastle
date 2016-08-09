@@ -33,6 +33,9 @@
     <ClCompile Include="texture_atlas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="xbox_controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

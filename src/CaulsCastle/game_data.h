@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "xbox_controller.h"
+#include "input.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -14,15 +15,13 @@ namespace te
 		Xbox_axis x_movement;
 		Xbox_axis y_movement;
 
+		Xbox_button dodge;
+
 		Keymap()
 			: x_movement{ X_axis }
 			, y_movement{ Y_axis }
+			, dodge{ B_button }
 		{}
-	};
-
-	struct Player_input {
-		float x_movement;
-		float y_movement;
 	};
 
 	struct Game_data {
