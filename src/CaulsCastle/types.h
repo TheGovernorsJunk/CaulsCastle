@@ -26,7 +26,7 @@ namespace te
 	using flat_map = boost::container::flat_map<K, V>;
 
 	template <typename K, typename V>
-	using multi_component = std::vector<std::pair<K, V>>;
+	using Multi_component = std::vector<std::pair<K, V>>;
 
 	template <typename Vec>
 	using Vertex_array = std::vector<vertex<Vec>>;

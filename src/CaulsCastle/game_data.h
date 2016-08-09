@@ -4,6 +4,7 @@
 #include "types.h"
 #include "xbox_controller.h"
 #include "input.h"
+#include "mesh.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -24,8 +25,16 @@ namespace te
 		{}
 	};
 
+	class Entity_manager {
+	public:
+		Entity_manager();
+		Entity_id get_free_id();
+	private:
+		Entity_id m_next_id;
+	};
+
 	struct Game_data {
-		Entity_id next_id;
+		Entity_manager entity_manager;
 
 		flat_map<Player_id, SDL_Joystick*> joysticks;
 		flat_map<Player_id, Keymap> keymaps;
@@ -35,8 +44,7 @@ namespace te
 		component<Entity_id, float> max_speeds;
 		component<Entity_id, vec2> velocities;
 		component<Entity_id, vec2> positions;
-
-		Game_data();
+		Multi_component<Entity_id, Mesh<vec2>> meshes;
 	};
 }
 

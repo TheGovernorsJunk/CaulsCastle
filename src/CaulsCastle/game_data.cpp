@@ -2,9 +2,12 @@
 
 namespace te
 {
-	Game_data::Game_data()
-		: next_id{ 1 }
-		, inputs{}
-		, positions{}
+	Entity_manager::Entity_manager()
+		: m_next_id{ 1 }
 	{}
+
+	Entity_id Entity_manager::get_free_id()
+	{
+		return m_next_id++;
+	}
 }

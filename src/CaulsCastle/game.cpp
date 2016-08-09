@@ -60,5 +60,12 @@ namespace te
 
 	void draw_game(Game_data& data)
 	{
+		glMatrixMode(GL_MODELVIEW);
+		for (auto& mesh_pair : data.meshes) {
+			glLoadIdentity();
+			auto position = data.positions[mesh_pair.first];
+			glTranslatef(position.x, position.y, 0);
+			draw(mesh_pair.second);
+		}
 	}
 }

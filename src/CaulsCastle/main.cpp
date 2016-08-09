@@ -1,5 +1,8 @@
 #include "game.h"
 #include "game_data.h"
+#include "tile_map_layer.h"
+#include "texture.h"
+#include "mesh.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -123,9 +126,31 @@ int main(int argc, char** argv)
 	glClearColor(0, 0, 0.2f, 1.f);
 
 	Game_data data{};
+
+	Tmx tmx{};
+	tmx.loadFromFile("assets/maps/time_fantasy.tmx");
+	std::vector<Texture> textures;
+	load_tileset_textures(tmx, std::back_inserter(textures));
+
+	auto map_id = data.entity_manager.get_free_id();
+	for (size_t tileset_i = 0; tileset_i < tmx.tilesets.size(); ++tileset_i) {
+		for (size_t layer_i = 0; layer_i < tmx.layers.size(); ++layer_i) {
+			Vertex_array<vec2> vertices{};
+			get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
+			data.meshes.push_back({
+				map_id,
+				{
+					std::move(vertices),
+					textures[tileset_i].get_texture_id(),
+					GL_QUADS
+				}
+			});
+		}
+	}
+
 	data.joysticks[0] = p_joystick.get();
-	data.avatars[0] = 0;
-	data.max_speeds[0] = 50;
+	data.avatars[0] = map_id;
+	data.max_speeds[map_id] = 50;
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
