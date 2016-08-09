@@ -1,4 +1,5 @@
 #include "game.h"
+#include "game_data.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -83,7 +84,15 @@ int main(int argc, char** argv)
 {
 	using namespace te;
 
-	Lib_init sdl{SDL_INIT_VIDEO};
+	Lib_init sdl{SDL_INIT_VIDEO|SDL_INIT_JOYSTICK};
+
+	std::unique_ptr<SDL_Joystick, void(*)(SDL_Joystick*)> p_joystick{nullptr, &SDL_JoystickClose};
+	if (SDL_NumJoysticks > 0) {
+		 p_joystick = {
+			SDL_JoystickOpen(0),
+			&SDL_JoystickClose
+		};
+	}
 
 	auto window_width = 640, window_height = 480;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
@@ -113,6 +122,10 @@ int main(int argc, char** argv)
 
 	glClearColor(0, 0, 0.2f, 1.f);
 
+	Game_data data{};
+	data.joysticks[0] = p_joystick.get();
+	data.keymaps[0] = Keymap{};
+
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
 	decltype(last_ticks) time_per_frame = 1000 / 60;
@@ -132,12 +145,12 @@ int main(int argc, char** argv)
 				if (evt.type == SDL_QUIT) {
 					run = false;
 				}
-				input_game(evt);
+				input_game(data, evt);
 			}
-			step_game(time_per_frame);
+			step_game(data, time_per_frame);
 		}
 
-		draw_game();
+		draw_game(data);
 		SDL_GL_SwapWindow(pWindow);
 
 		last_ticks = curr_ticks;

@@ -5,9 +5,11 @@
 
 namespace te
 {
-	void input_game(const SDL_Event&);
-	void step_game(decltype(SDL_GetTicks()) dms);
-	void draw_game();
+	struct Game_data;
+
+	void input_game(Game_data& data, const SDL_Event&);
+	void step_game(Game_data& data, decltype(SDL_GetTicks()) dms);
+	void draw_game(Game_data& data);
 }
 
 #endif

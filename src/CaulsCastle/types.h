@@ -10,6 +10,7 @@
 namespace te
 {
 	using entity_id = int;
+	using Player_id = int;
 	using vec2 = glm::vec2;
 
 	template <typename T>
@@ -21,6 +22,8 @@ namespace te
 
 	template <typename K, typename V>
 	using component = boost::container::flat_map<K, V>;
+	template <typename K, typename V>
+	using flat_map = boost::container::flat_map<K, V>;
 
 	template <typename K, typename V>
 	using multi_component = std::vector<std::pair<K, V>>;
