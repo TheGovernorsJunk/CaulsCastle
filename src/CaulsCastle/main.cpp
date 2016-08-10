@@ -125,6 +125,7 @@ int main(int argc, char** argv)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_DEPTH_TEST);
 
 	glClearColor(0, 0, 0.2f, 1.f);
 
@@ -142,7 +143,7 @@ int main(int argc, char** argv)
 
 	bool run = true;
 	while (run) {
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		auto curr_ticks = SDL_GetTicks();
 		auto dt = curr_ticks - last_ticks;
