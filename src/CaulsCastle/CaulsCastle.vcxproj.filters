@@ -36,7 +36,7 @@
     <ClCompile Include="input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="time_fantasy.cpp">
+    <ClCompile Include="level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="time_fantasy.h">
+    <ClInclude Include="level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

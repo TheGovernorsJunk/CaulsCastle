@@ -3,7 +3,7 @@
 #include "tile_map_layer.h"
 #include "texture.h"
 #include "mesh.h"
-#include "time_fantasy.h"
+#include "level.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 	glClearColor(0, 0, 0.2f, 1.f);
 
 	Game_data data{};
-	init_time_fantasy(data);
+	load_level("assets/maps/time_fantasy.tmx", data);
 
 	//data.joysticks[0] = p_joystick.get();
 	//data.avatars[0] = map_id;

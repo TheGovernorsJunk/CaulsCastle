@@ -1,4 +1,4 @@
-#include "time_fantasy.h"
+#include "level.h"
 #include "game_data.h"
 #include "tmx.h"
 #include "texture.h"
@@ -8,9 +8,9 @@
 
 namespace te
 {
-	void init_time_fantasy(Game_data& data)
+	void load_level(const std::string& tmx_filename, Game_data& data)
 	{
-		Tmx tmx{ "assets/maps/time_fantasy.tmx" };
+		Tmx tmx{ tmx_filename };
 
 		std::vector<GLuint> tileset_texture_ids;
 		load_tileset_textures(tmx, std::back_inserter(tileset_texture_ids));
