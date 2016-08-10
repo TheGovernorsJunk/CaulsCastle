@@ -5,6 +5,7 @@
 #include "xbox_controller.h"
 #include "input.h"
 #include "mesh.h"
+#include "texture.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -34,6 +35,8 @@ namespace te
 	};
 
 	struct Game_data {
+		std::vector<Texture> textures;
+
 		Entity_manager entity_manager;
 
 		flat_map<Player_id, SDL_Joystick*> joysticks;
