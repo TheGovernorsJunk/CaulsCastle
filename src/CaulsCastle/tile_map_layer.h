@@ -67,7 +67,7 @@ namespace te
 
 	namespace detail
 	{
-		auto load_texture = [](const std::string& texture_path)
+		const auto load_texture = [](const std::string& texture_path)
 		{
 			return load_texture32(texture_path);
 		};
