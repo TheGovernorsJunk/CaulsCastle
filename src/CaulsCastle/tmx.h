@@ -77,6 +77,8 @@ namespace te
 			Index index;
 		};
 
+		Tmx() = default;
+		Tmx(const std::string& filename);
 		bool loadFromFile(const std::string& filename);
 
 		static const int NULL_TILE;

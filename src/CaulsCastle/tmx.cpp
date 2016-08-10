@@ -14,6 +14,12 @@ namespace te
 	const int Tmx::NULL_TILE = -1;
 	const Tmx::TileData Tmx::NULL_DATA = Tmx::TileData{ NULL_TILE, Tmx::ObjectGroup() };
 
+	Tmx::Tmx(const std::string& filename)
+		: Tmx{}
+	{
+		loadFromFile(filename);
+	}
+
 	bool Tmx::loadFromFile(const std::string& f)
 	{
 		rapidxml::file<> tmxFile(f.c_str());
