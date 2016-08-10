@@ -116,7 +116,7 @@ int main(int argc, char** argv)
 	glViewport(0, 0, window_width, window_height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, window_width, window_height, 0, 1.0, -1.0);
+	glOrtho(0, window_width, window_height, 0, -10000.0, 10000.0);
 	assert(glGetError() == GL_NO_ERROR);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
 	glClearColor(0, 0, 0.2f, 1.f);
 
 	Game_data data{};
-	load_level("assets/maps/time_fantasy.tmx", data);
+	load_level("assets/maps/arena.tmx", data);
 
 	//data.joysticks[0] = p_joystick.get();
 	//data.avatars[0] = map_id;
