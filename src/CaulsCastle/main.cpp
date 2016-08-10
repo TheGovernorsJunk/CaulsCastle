@@ -135,20 +135,18 @@ int main(int argc, char** argv)
 	load_tileset_textures(tmx, std::back_inserter(textures));
 
 	auto map_id = data.entity_manager.get_free_id();
-	for (size_t tileset_i = 0; tileset_i < tmx.tilesets.size(); ++tileset_i) {
-		for (size_t layer_i = 0; layer_i < tmx.layers.size(); ++layer_i) {
-			Vertex_array<vec2> vertices{};
-			get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
-			data.meshes.push_back({
-				map_id,
-				{
-					std::move(vertices),
-					textures[tileset_i].get_texture_id(),
-					GL_QUADS
-				}
-			});
-		}
-	}
+	iterate_layers_and_tilesets(tmx, [map_id, &data, &textures, &tmx](size_t layer_i, size_t tileset_i) {
+		Vertex_array<vec2> vertices{};
+		get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
+		data.meshes.push_back({
+			map_id,
+			{
+				std::move(vertices),
+				textures[tileset_i].get_texture_id(),
+				GL_QUADS
+			}
+		});
+	});
 
 	data.joysticks[0] = p_joystick.get();
 	data.avatars[0] = map_id;

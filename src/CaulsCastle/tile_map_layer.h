@@ -82,6 +82,16 @@ namespace te
 		}
 	}
 
+	template <typename Fn>
+	void iterate_layers_and_tilesets(const Tmx& tmx, const Fn& fn)
+	{
+		for (size_t layer_i = 0; layer_i < tmx.layers.size(); ++layer_i) {
+			for (size_t tileset_i = 0; tileset_i < tmx.tilesets.size(); ++tileset_i) {
+				fn(layer_i, tileset_i);
+			}
+		}
+	}
+
 	struct Pow2up_fn {
 		inline int operator()(int x) const
 		{
