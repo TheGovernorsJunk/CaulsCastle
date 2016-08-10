@@ -13,10 +13,11 @@ namespace te
 	using Player_id = int;
 	using vec2 = glm::vec2;
 
-	template <typename T>
+	template <typename P, typename T>
 	struct vertex {
-		using value_type = T;
-		T position;
+		using position_value_type = P;
+		using tex_value_type = T;
+		P position;
 		T tex_coords;
 	};
 
@@ -28,8 +29,8 @@ namespace te
 	template <typename K, typename V>
 	using Multi_component = std::vector<std::pair<K, V>>;
 
-	template <typename Vec>
-	using Vertex_array = std::vector<vertex<Vec>>;
+	template <typename PositionVec, typename TexVec>
+	using Vertex_array = std::vector<vertex<PositionVec, TexVec>>;
 }
 
 #endif

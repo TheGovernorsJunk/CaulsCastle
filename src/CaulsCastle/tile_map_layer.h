@@ -32,8 +32,8 @@ namespace te
 			if (tile.gid != 0 && tmx.getTilesetIndex(tile.gid) == tileset_index)
 			{
 				std::array<Container_type::value_type, 4> quad;
-				using vec_t = Container_type::value_type::value_type;
-				using coord_t = decltype(Container_type::value_type::value_type::x);
+				using vec_t = Container_type::value_type::position_value_type;
+				using coord_t = decltype(Container_type::value_type::position_value_type::x);
 
 				int localId = tile.gid - tileset.firstgid;
 				int tu = localId % (tileset.image.width / tileset.tilewidth);

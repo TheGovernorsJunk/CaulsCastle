@@ -47,7 +47,7 @@ namespace te
 		component<Entity_id, float> max_speeds;
 		component<Entity_id, vec2> velocities;
 		component<Entity_id, vec2> positions;
-		Multi_component<Entity_id, Mesh<vec2>> meshes;
+		Multi_component<Entity_id, Mesh<vec2, vec2>> meshes;
 	};
 }
 
