@@ -13,7 +13,7 @@
 namespace te
 {
 	template <template <typename Container_type> typename Iter, typename Container_type, typename Denom_fn = Pow2up_fn>
-	void get_tile_map_layer_vertices(const Tmx& tmx, size_t layer_index, size_t tileset_index, Iter<Container_type> out, const Denom_fn& denom_fn = Denom_fn())
+	void get_tile_map_layer_vertices(const Tmx& tmx, size_t layer_index, size_t tileset_index, Iter<Container_type> out, int z_step = 500, const Denom_fn& denom_fn = Denom_fn())
 	{
 		assert(layer_index >= 0 && layer_index < tmx.layers.size());
 		assert(tileset_index >= 0 && tileset_index < tmx.tilesets.size());
@@ -32,6 +32,7 @@ namespace te
 			if (tile.gid != 0 && tmx.getTilesetIndex(tile.gid) == tileset_index)
 			{
 				std::array<Container_type::value_type, 4> quad;
+				using vec_t = Container_type::value_type::value_type;
 				using coord_t = decltype(Container_type::value_type::value_type::x);
 
 				int localId = tile.gid - tileset.firstgid;
@@ -50,14 +51,18 @@ namespace te
 				int x = tile_index % tmx.width;
 				int y = tile_index / tmx.width;
 
-				quad[0].position = { (coord_t)(tileWidth * x),
-						     (coord_t)(tileHeight * y) };
-				quad[1].position = { (coord_t)(tileWidth * (x + 1)),
-						     (coord_t)(tileHeight * y) };
-				quad[2].position = { (coord_t)(tileWidth * (x + 1)),
-						     (coord_t)(tileHeight * (y + 1)) };
-				quad[3].position = { (coord_t)(tileWidth * x),
-						     (coord_t)(tileHeight * (y + 1)) };
+				quad[0].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * x),
+											 (coord_t)(tileHeight * y),
+											 (float)layer_index * z_step);
+				quad[1].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * (x + 1)),
+											 (coord_t)(tileHeight * y),
+											 (float)layer_index * z_step);
+				quad[2].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * (x + 1)),
+											 (coord_t)(tileHeight * (y + 1)),
+											 (float)layer_index * z_step);
+				quad[3].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * x),
+											 (coord_t)(tileHeight * (y + 1)),
+											 (float)layer_index * z_step);
 
 				for (auto& v : quad) (out++) = v;
 			}
@@ -67,6 +72,14 @@ namespace te
 
 	namespace detail
 	{
+		template <typename Vec, typename Coord>
+		inline Vec make_position(Coord x, Coord y, Coord z);
+		template <>
+		inline vec2 make_position(float x, float y, float z)
+		{
+			return vec2{ x, y };
+		}
+
 		const auto load_texture = [](const std::string& texture_path)
 		{
 			return load_texture32(texture_path);
