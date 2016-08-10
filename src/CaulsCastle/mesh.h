@@ -35,6 +35,11 @@ namespace te
 		{
 			glVertex2f(position.x, position.y);
 		}
+		template <>
+		inline void draw_position_vertex(vec3 position)
+		{
+			glVertex3f(position.x, position.y, position.z);
+		}
 	}
 }
 

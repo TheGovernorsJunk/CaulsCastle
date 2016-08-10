@@ -79,6 +79,11 @@ namespace te
 		{
 			return vec2{ x, y };
 		}
+		template <>
+		inline vec3 make_position(float x, float y, float z)
+		{
+			return vec3{ x, y, z };
+		}
 
 		const auto load_texture = [](const std::string& texture_path)
 		{

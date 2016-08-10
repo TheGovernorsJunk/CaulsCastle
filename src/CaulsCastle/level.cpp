@@ -20,9 +20,9 @@ namespace te
 
 		auto map_id = data.entity_manager.get_free_id();
 		iterate_layers_and_tilesets(tmx, [map_id, &data, &tmx, &tileset_texture_ids](size_t layer_i, size_t tileset_i) {
-			Vertex_array<vec2, vec2> vertices{};
+			Vertex_array<vec3, vec2> vertices{};
 			get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
-			data.meshes.push_back({
+			data.meshes3.push_back({
 				map_id,
 				{
 					std::move(vertices),
