@@ -5,6 +5,34 @@
 
 namespace te
 {
+	std::vector<GLuint> load_image32(const std::string& path,
+					 decltype(ilGetInteger(IL_IMAGE_WIDTH))& tex_width,
+					 decltype(ilGetInteger(IL_IMAGE_WIDTH))& tex_height)
+	{
+		ILuint image_id{};
+		ilGenImages(1, &image_id);
+		ilBindImage(image_id);
+
+		assert(ilLoadImage(path.c_str()) == IL_TRUE);
+		assert(ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE) == IL_TRUE);
+
+		auto image_width = ilGetInteger(IL_IMAGE_WIDTH);
+		auto image_height = ilGetInteger(IL_IMAGE_HEIGHT);
+		tex_width = pow2up(image_width);
+		tex_height = pow2up(image_height);
+
+		if (image_width != tex_width || image_height != tex_height) {
+			iluImageParameter(ILU_PLACEMENT, ILU_UPPER_LEFT);
+			iluEnlargeCanvas(tex_width, tex_height, 1);
+		}
+
+		auto size = tex_width * tex_height;
+		std::vector<GLuint> pixels(size);
+		std::memcpy(pixels.data(), ilGetData(), size * 4);
+		ilDeleteImages(1, &image_id);
+		return pixels;
+	}
+
 	GLuint load_texture32(GLuint* pixels, GLuint width, GLuint height)
 	{
 		GLuint texture_id{};
@@ -24,9 +52,8 @@ namespace te
 
 	GLuint load_texture32(const std::string& path)
 	{
-		std::vector<GLuint> pixels{};
 		ILint width{}, height{};
-		load_image32(path, std::back_inserter(pixels), width, height);
+		auto pixels = load_image32(path, width, height);
 		return load_texture32(pixels.data(), width, height);
 	}
 
