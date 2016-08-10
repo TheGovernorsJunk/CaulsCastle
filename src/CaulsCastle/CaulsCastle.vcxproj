@@ -130,6 +130,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_atlas.cpp" />
+    <ClCompile Include="time_fantasy.cpp" />
     <ClCompile Include="tmx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture_atlas.h" />
     <ClInclude Include="tile_map_layer.h" />
+    <ClInclude Include="time_fantasy.h" />
     <ClInclude Include="tmx.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="utilities.h" />

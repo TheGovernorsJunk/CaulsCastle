@@ -3,6 +3,7 @@
 #include "tile_map_layer.h"
 #include "texture.h"
 #include "mesh.h"
+#include "time_fantasy.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -128,29 +129,11 @@ int main(int argc, char** argv)
 	glClearColor(0, 0, 0.2f, 1.f);
 
 	Game_data data{};
+	init_time_fantasy(data);
 
-	Tmx tmx{};
-	tmx.loadFromFile("assets/maps/time_fantasy.tmx");
-	std::vector<Texture> textures;
-	load_tileset_textures(tmx, std::back_inserter(textures));
-
-	auto map_id = data.entity_manager.get_free_id();
-	iterate_layers_and_tilesets(tmx, [map_id, &data, &textures, &tmx](size_t layer_i, size_t tileset_i) {
-		Vertex_array<vec2> vertices{};
-		get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
-		data.meshes.push_back({
-			map_id,
-			{
-				std::move(vertices),
-				textures[tileset_i].get_texture_id(),
-				GL_QUADS
-			}
-		});
-	});
-
-	data.joysticks[0] = p_joystick.get();
-	data.avatars[0] = map_id;
-	data.max_speeds[map_id] = 50;
+	//data.joysticks[0] = p_joystick.get();
+	//data.avatars[0] = map_id;
+	//data.max_speeds[map_id] = 50;
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
