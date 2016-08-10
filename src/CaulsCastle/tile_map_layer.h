@@ -53,16 +53,16 @@ namespace te
 
 				quad[0].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * x),
 											 (coord_t)(tileHeight * y),
-											 (float)layer_index * z_step);
+											 (coord_t)layer_index * z_step);
 				quad[1].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * (x + 1)),
 											 (coord_t)(tileHeight * y),
-											 (float)layer_index * z_step);
+											 (coord_t)layer_index * z_step);
 				quad[2].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * (x + 1)),
 											 (coord_t)(tileHeight * (y + 1)),
-											 (float)layer_index * z_step);
+											 (coord_t)layer_index * z_step);
 				quad[3].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * x),
 											 (coord_t)(tileHeight * (y + 1)),
-											 (float)layer_index * z_step);
+											 (coord_t)layer_index * z_step);
 
 				for (auto& v : quad) (out++) = v;
 			}
