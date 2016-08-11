@@ -11,7 +11,6 @@
 #include <IL/ilu.h>
 #include <IL/ilut.h>
 
-#include <iostream>
 #include <memory>
 #include <cassert>
 
@@ -98,14 +97,14 @@ int main(int argc, char** argv)
 		};
 	}
 
-	auto window_width = 640, window_height = 480;
+	auto window_width = 640, window_height = 360;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
 		SDL_CreateWindow("Caul's Castle",
 				 SDL_WINDOWPOS_CENTERED,
 				 SDL_WINDOWPOS_CENTERED,
 				 window_width,
 				 window_height,
-				 SDL_WINDOW_OPENGL),
+				 SDL_WINDOW_OPENGL|SDL_WINDOW_BORDERLESS),
 		&SDL_DestroyWindow
 	};
 	auto pWindow = upWindow.get();
@@ -153,7 +152,7 @@ int main(int argc, char** argv)
 			time_since_last_update -= time_per_frame;
 			SDL_Event evt;
 			while (SDL_PollEvent(&evt)) {
-				if (evt.type == SDL_QUIT) {
+				if (evt.type == SDL_QUIT || (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE)) {
 					run = false;
 				}
 				input_game(data, evt);
