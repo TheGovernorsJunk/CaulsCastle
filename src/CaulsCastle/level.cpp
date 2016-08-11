@@ -23,9 +23,9 @@ namespace te
 			Vertex_array<vec3, vec2> vertices{};
 			get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
 			auto id = data.meshes3.insert({
-					std::move(vertices),
-					tileset_texture_ids[tileset_i],
-					GL_QUADS
+				std::move(vertices),
+				tileset_texture_ids[tileset_i],
+				GL_QUADS
 			});
 			data.entity_meshes3.push_back({ map_id, id });
 		});
