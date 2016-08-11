@@ -97,7 +97,10 @@ int main(int argc, char** argv)
 		};
 	}
 
-	auto window_width = 640, window_height = 360;
+	auto resolution_width = 640;
+	auto resolution_height = 360;
+	auto window_width = resolution_width * 2;
+	auto window_height = resolution_height * 2;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
 		SDL_CreateWindow("Caul's Castle",
 				 SDL_WINDOWPOS_CENTERED,
@@ -115,7 +118,7 @@ int main(int argc, char** argv)
 	glViewport(0, 0, window_width, window_height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, window_width, window_height, 0, -10000.0, 10000.0);
+	glOrtho(0, resolution_width, resolution_height, 0, -10000.0, 10000.0);
 	assert(glGetError() == GL_NO_ERROR);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
