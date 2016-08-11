@@ -66,11 +66,11 @@ namespace te
 	void draw_game(Game_data& data)
 	{
 		glMatrixMode(GL_MODELVIEW);
-		for (auto& mesh_pair : data.meshes3) {
+		for (auto& mesh_pair : data.entity_meshes3) {
 			glLoadMatrixf(glm::value_ptr(data.view_matrix));
 			auto position = data.positions[mesh_pair.first];
 			glTranslatef(position.x, position.y, 0);
-			draw(mesh_pair.second);
+			draw(data.meshes3.get(mesh_pair.second));
 		}
 	}
 }

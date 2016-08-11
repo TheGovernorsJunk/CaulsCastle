@@ -6,6 +6,7 @@
 #include "input.h"
 #include "mesh.h"
 #include "texture.h"
+#include "resource_holder.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -36,6 +37,7 @@ namespace te
 
 	struct Game_data {
 		std::vector<Texture> textures;
+		Resource_holder<Mesh<vec3, vec2>> meshes3;
 
 		Entity_manager entity_manager;
 
@@ -47,7 +49,7 @@ namespace te
 		component<Entity_id, float> max_speeds;
 		component<Entity_id, vec2> velocities;
 		component<Entity_id, vec2> positions;
-		Multi_component<Entity_id, Mesh<vec3, vec2>> meshes3;
+		Multi_component<Entity_id, Resource_id<Mesh<vec3, vec2>>> entity_meshes3;
 
 		glm::mat4 view_matrix;
 	};
