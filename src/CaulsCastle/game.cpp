@@ -73,7 +73,9 @@ namespace te
 			glLoadMatrixf(glm::value_ptr(data.view_matrix));
 			auto position = data.positions[mesh_pair.first];
 			glTranslatef(position.x, position.y, 0);
-			draw(data.meshes3.get(mesh_pair.second));
+
+			glMultMatrixf(glm::value_ptr(mesh_pair.second.transform));
+			draw(data.meshes3.get(mesh_pair.second.resource_id));
 		}
 	}
 }

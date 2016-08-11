@@ -39,6 +39,8 @@ namespace te
 	};
 
 	struct Game_data {
+		glm::vec2 pixel_to_world_scale;
+
 		std::unique_ptr<b2World> physics_world;
 
 		std::vector<Texture> textures;
@@ -60,7 +62,13 @@ namespace te
 		component<Entity_id, float> max_speeds;
 		component<Entity_id, vec2> velocities;
 		component<Entity_id, vec2> positions;
-		Multi_component<Entity_id, Resource_id<Mesh<vec3, vec2>>> entity_meshes3;
+
+		template <typename Resource>
+		struct Render_data {
+			Resource_id<Resource> resource_id;
+			glm::mat4 transform;
+		};
+		Multi_component<Entity_id, Render_data<Mesh<vec3, vec2>>> entity_meshes3;
 
 		glm::mat4 view_matrix;
 

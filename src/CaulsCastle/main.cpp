@@ -99,6 +99,7 @@ int main(int argc, char** argv)
 
 	auto resolution_width = 480;
 	auto resolution_height = 270;
+	glm::vec2 pixel_to_world_scale{ 16.f, 16.f };
 	auto window_width = resolution_width * 2;
 	auto window_height = resolution_height * 2;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
@@ -118,7 +119,7 @@ int main(int argc, char** argv)
 	glViewport(0, 0, window_width, window_height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, resolution_width, resolution_height, 0, -10000.0, 10000.0);
+	glOrtho(0, resolution_width / pixel_to_world_scale.x, resolution_height / pixel_to_world_scale.y, 0, -10000.0, 10000.0);
 	assert(glGetError() == GL_NO_ERROR);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -132,6 +133,8 @@ int main(int argc, char** argv)
 	glClearColor(0, 0, 0, 1.f);
 
 	Game_data data{};
+	data.pixel_to_world_scale = pixel_to_world_scale;
+
 	load_level("assets/maps/arena.tmx", data);
 
 	//data.joysticks[0] = p_joystick.get();
