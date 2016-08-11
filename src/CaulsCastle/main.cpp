@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 
 	auto resolution_width = 480;
 	auto resolution_height = 270;
-	glm::vec2 pixel_to_world_scale{ 16.f, 16.f };
+	vec2 pixel_to_world_scale{ 16.f, 16.f };
 	auto window_width = resolution_width * 2;
 	auto window_height = resolution_height * 2;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {

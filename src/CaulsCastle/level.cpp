@@ -31,7 +31,7 @@ namespace te
 				tileset_texture_ids[tileset_i],
 				GL_QUADS
 			});
-			data.entity_meshes3.push_back({ map_id, { id, glm::scale(glm::vec3{ 1.f / data.pixel_to_world_scale.x, 1.f / data.pixel_to_world_scale.y, 1 }) } });
+			data.entity_meshes3.push_back({ map_id, { id, glm::scale(vec3{ 1.f / data.pixel_to_world_scale.x, 1.f / data.pixel_to_world_scale.y, 1 }) } });
 		});
 
 		for (auto& group : tmx.objectgroups) {

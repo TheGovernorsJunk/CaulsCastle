@@ -39,7 +39,7 @@ namespace te
 	};
 
 	struct Game_data {
-		glm::vec2 pixel_to_world_scale;
+		vec2 pixel_to_world_scale;
 
 		std::unique_ptr<b2World> physics_world;
 
