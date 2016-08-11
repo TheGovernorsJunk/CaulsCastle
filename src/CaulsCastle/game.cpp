@@ -2,7 +2,6 @@
 #include "game_data.h"
 #include "xbox_controller.h"
 
-#include <iostream>
 #include <type_traits>
 
 namespace te
@@ -54,7 +53,6 @@ namespace te
 		}
 
 		for (auto& velocity_pair : data.velocities) {
-			std::cout << velocity_pair.second.x << "\t" << velocity_pair.second.y << std::endl;
 			data.positions[velocity_pair.first] += (float)dms * velocity_pair.second;
 		}
 
