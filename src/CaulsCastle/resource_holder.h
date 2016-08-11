@@ -7,13 +7,11 @@ namespace te
 {
 	template <typename Resource>
 	class Resource_id {
-	public:
+		template <typename T = Resource>
+		friend class Resource_holder;
 		Resource_id(int id)
 			: m_id{ id }
 		{}
-	private:
-		template<typename T = Resource>
-		friend class Resource_holder;
 		int m_id;
 	};
 
