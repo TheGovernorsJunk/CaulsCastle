@@ -97,8 +97,8 @@ int main(int argc, char** argv)
 		};
 	}
 
-	auto resolution_width = 640;
-	auto resolution_height = 360;
+	auto resolution_width = 480;
+	auto resolution_height = 270;
 	auto window_width = resolution_width * 2;
 	auto window_height = resolution_height * 2;
 	std::unique_ptr<SDL_Window, void(*)(SDL_Window*)> upWindow {
