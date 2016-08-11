@@ -56,6 +56,8 @@ namespace te
 					shape.Set(points.data(), 4);
 					p_body->CreateFixture(&shape, 0);
 				}
+
+				data.rigid_bodies.insert(std::pair<decltype(map_id), decltype(p_body)>{ map_id, std::move(p_body) });
 			}
 		}
 	}
