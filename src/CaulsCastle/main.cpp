@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST);
 
-	glClearColor(0, 0, 0.2f, 1.f);
+	glClearColor(0, 0, 0, 1.f);
 
 	Game_data data{};
 	load_level("assets/maps/arena.tmx", data);
