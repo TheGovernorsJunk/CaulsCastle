@@ -13,6 +13,7 @@
 #include <memory>
 
 class b2World;
+class b2Body;
 
 namespace te
 {
@@ -50,6 +51,12 @@ namespace te
 		flat_map<Player_id, Player_input> inputs;
 		flat_map<Player_id, Entity_id> avatars;
 
+		struct Body_deleter {
+			Body_deleter(b2World& world);
+			void operator()(b2Body*) const;
+			b2World& world;
+		};
+		component<Entity_id, std::unique_ptr<b2Body, Body_deleter>> rigid_bodies;
 		component<Entity_id, float> max_speeds;
 		component<Entity_id, vec2> velocities;
 		component<Entity_id, vec2> positions;

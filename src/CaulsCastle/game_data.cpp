@@ -17,4 +17,13 @@ namespace te
 		: physics_world{ std::make_unique<b2World>(b2Vec2{ 0, 0 }) }
 	{}
 	Game_data::~Game_data() = default;
+
+	Game_data::Body_deleter::Body_deleter(b2World& world)
+		: world{ world }
+	{}
+
+	void Game_data::Body_deleter::operator()(b2Body* p_body) const
+	{
+		world.DestroyBody(p_body);
+	}
 }
