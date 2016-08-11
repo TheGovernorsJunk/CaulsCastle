@@ -4,7 +4,10 @@
 #include "texture.h"
 #include "tile_map_layer.h"
 
+#include <Box2D/Box2D.h>
+
 #include <iterator>
+#include <array>
 
 namespace te
 {
@@ -29,5 +32,30 @@ namespace te
 			});
 			data.entity_meshes3.push_back({ map_id, id });
 		});
+
+		for (auto& group : tmx.objectgroups) {
+			if (group.name == "Collisions") {
+				assert(data.rigid_bodies.find(map_id) == data.rigid_bodies.end());
+
+				b2BodyDef body_def{};
+				body_def.type = b2_staticBody;
+				decltype(Game_data::rigid_bodies)::mapped_type p_body{
+					data.physics_world->CreateBody(&body_def),
+					{ *data.physics_world }
+				};
+
+				for (auto& polygon : group.objects) {
+					b2PolygonShape shape{};
+					const std::array<b2Vec2, 4> points = {
+						b2Vec2{ (float)polygon.x, (float)polygon.y },
+						b2Vec2{ (float)polygon.x + polygon.width, (float)polygon.y },
+						b2Vec2{ (float)polygon.x + polygon.width, (float)polygon.y + polygon.height },
+						b2Vec2{ (float)polygon.x, (float)polygon.y + polygon.height }
+					};
+					shape.Set(points.data(), 4);
+					p_body->CreateFixture(&shape, 0);
+				}
+			}
+		}
 	}
 }
