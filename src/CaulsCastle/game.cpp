@@ -2,6 +2,8 @@
 #include "game_data.h"
 #include "xbox_controller.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include <type_traits>
 
 namespace te
@@ -65,7 +67,7 @@ namespace te
 	{
 		glMatrixMode(GL_MODELVIEW);
 		for (auto& mesh_pair : data.meshes3) {
-			glLoadIdentity();
+			glLoadMatrixf(glm::value_ptr(data.view_matrix));
 			auto position = data.positions[mesh_pair.first];
 			glTranslatef(position.x, position.y, 0);
 			draw(mesh_pair.second);

@@ -48,6 +48,8 @@ namespace te
 		component<Entity_id, vec2> velocities;
 		component<Entity_id, vec2> positions;
 		Multi_component<Entity_id, Mesh<vec3, vec2>> meshes3;
+
+		glm::mat4 view_matrix;
 	};
 }
 
