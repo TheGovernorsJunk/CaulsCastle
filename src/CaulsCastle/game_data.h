@@ -56,7 +56,7 @@ namespace te
 		struct Body_deleter {
 			Body_deleter(b2World& world);
 			void operator()(b2Body*) const;
-			b2World& world;
+			b2World* p_world;
 		};
 		component<Entity_id, std::unique_ptr<b2Body, Body_deleter>> rigid_bodies;
 		component<Entity_id, float> max_speeds;

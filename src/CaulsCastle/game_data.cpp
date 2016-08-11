@@ -19,11 +19,11 @@ namespace te
 	Game_data::~Game_data() = default;
 
 	Game_data::Body_deleter::Body_deleter(b2World& world)
-		: world{ world }
+		: p_world{ &world }
 	{}
 
 	void Game_data::Body_deleter::operator()(b2Body* p_body) const
 	{
-		world.DestroyBody(p_body);
+		p_world->DestroyBody(p_body);
 	}
 }
