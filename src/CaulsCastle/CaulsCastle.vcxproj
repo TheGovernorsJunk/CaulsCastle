@@ -69,12 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\Devil\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\SDL2-2.0.4\lib\x86\Release;$(SolutionDir)..\lib\Devil\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\Devil\include;$(SolutionDir)..\lib\Box2D\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib\SDL2-2.0.4\lib\x86\Release;$(SolutionDir)..\lib\Devil\lib;$(SolutionDir)..\lib\Box2D\lib\x86\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\Devil\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\SDL2-2.0.4\lib\x86\Debug;$(SolutionDir)..\lib\Devil\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\lib\SDL2-2.0.4\include;$(SolutionDir)..\lib\boost_1_61_0;$(SolutionDir)..\lib\glm;$(SolutionDir)..\lib\rapidxml-1.13;$(SolutionDir)..\lib\Devil\include;$(SolutionDir)..\lib\Box2D\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib\SDL2-2.0.4\lib\x86\Debug;$(SolutionDir)..\lib\Devil\lib;$(SolutionDir)..\lib\Box2D\lib\x86\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,7 +84,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;DevIL.lib;ILU.lib;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -106,7 +106,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;DevIL.lib;ILU.lib;ILUT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;DevIL.lib;ILU.lib;ILUT.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

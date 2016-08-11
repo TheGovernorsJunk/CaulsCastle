@@ -3,6 +3,7 @@
 #include "xbox_controller.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <Box2D/Box2D.h>
 
 #include <type_traits>
 
@@ -27,7 +28,7 @@ namespace te
 		}
 	}
 
-	void step_game(Game_data& data, float dms)
+	void step_game(Game_data& data, float dt)
 	{
 		using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
 
@@ -54,8 +55,10 @@ namespace te
 			};
 		}
 
+		data.physics_world->Step(dt, 8, 3);
+
 		for (auto& velocity_pair : data.velocities) {
-			data.positions[velocity_pair.first] += (float)dms * velocity_pair.second;
+			data.positions[velocity_pair.first] += (float)dt * velocity_pair.second;
 		}
 
 		for (auto& input_pair : data.inputs) {

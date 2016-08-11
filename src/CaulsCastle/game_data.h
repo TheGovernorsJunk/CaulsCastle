@@ -12,6 +12,8 @@
 
 #include <memory>
 
+class b2World;
+
 namespace te
 {
 	struct Keymap {
@@ -36,6 +38,8 @@ namespace te
 	};
 
 	struct Game_data {
+		std::unique_ptr<b2World> physics_world;
+
 		std::vector<Texture> textures;
 		Resource_holder<Mesh<vec3, vec2>> meshes3;
 
@@ -52,6 +56,9 @@ namespace te
 		Multi_component<Entity_id, Resource_id<Mesh<vec3, vec2>>> entity_meshes3;
 
 		glm::mat4 view_matrix;
+
+		Game_data();
+		~Game_data();
 	};
 }
 
