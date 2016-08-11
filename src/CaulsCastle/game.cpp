@@ -55,10 +55,19 @@ namespace te
 			};
 		}
 
-		data.physics_world->Step(dt, 8, 3);
-
 		for (auto& velocity_pair : data.velocities) {
-			data.positions[velocity_pair.first] += (float)dt * velocity_pair.second;
+			auto found = data.rigid_bodies.find(velocity_pair.first);
+			if (found != data.rigid_bodies.end()) {
+				found->second->SetLinearVelocity({ velocity_pair.second.x, velocity_pair.second.y });
+			}
+			else {
+				data.positions[velocity_pair.first] += (float)dt * velocity_pair.second;
+			}
+		}
+		data.physics_world->Step(dt, 8, 3);
+		for (auto& body_pair : data.rigid_bodies) {
+			auto position = body_pair.second->GetPosition();
+			data.positions[body_pair.first] = { position.x, position.y };
 		}
 
 		for (auto& input_pair : data.inputs) {
