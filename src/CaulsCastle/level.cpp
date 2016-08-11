@@ -48,10 +48,10 @@ namespace te
 				for (auto& polygon : group.objects) {
 					b2PolygonShape shape{};
 					const std::array<b2Vec2, 4> points = {
-						b2Vec2{ (float)polygon.x, (float)polygon.y },
-						b2Vec2{ (float)polygon.x + polygon.width, (float)polygon.y },
-						b2Vec2{ (float)polygon.x + polygon.width, (float)polygon.y + polygon.height },
-						b2Vec2{ (float)polygon.x, (float)polygon.y + polygon.height }
+						b2Vec2{ polygon.x / data.pixel_to_world_scale.x, polygon.y / data.pixel_to_world_scale.y },
+						b2Vec2{ (polygon.x + polygon.width) / data.pixel_to_world_scale.x, polygon.y / data.pixel_to_world_scale.y },
+						b2Vec2{ (polygon.x + polygon.width) / data.pixel_to_world_scale.x, (polygon.y + polygon.height) / data.pixel_to_world_scale.y },
+						b2Vec2{ polygon.x / data.pixel_to_world_scale.x, (polygon.y + polygon.height) / data.pixel_to_world_scale.y }
 					};
 					shape.Set(points.data(), 4);
 					p_body->CreateFixture(&shape, 0);
