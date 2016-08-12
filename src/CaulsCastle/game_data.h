@@ -21,6 +21,8 @@ struct Keymap {
 	SDL_GameControllerAxis y_movement;
 
 	SDL_GameControllerButton dodge;
+
+	Keymap();
 };
 
 class Entity_manager {

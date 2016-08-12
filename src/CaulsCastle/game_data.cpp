@@ -4,6 +4,12 @@
 
 namespace te {
 
+Keymap::Keymap()
+	: x_movement(SDL_CONTROLLER_AXIS_LEFTX)
+	, y_movement(SDL_CONTROLLER_AXIS_LEFTY)
+	, dodge(SDL_CONTROLLER_BUTTON_B)
+{}
+
 Entity_manager::Entity_manager()
 	: m_next_id{ 1 }
 {}
