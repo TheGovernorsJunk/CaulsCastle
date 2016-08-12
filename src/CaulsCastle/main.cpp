@@ -90,13 +90,13 @@ int main(int argc, char** argv)
 {
 	using namespace te;
 
-	Lib_init sdl{SDL_INIT_VIDEO|SDL_INIT_JOYSTICK};
+	Lib_init sdl{SDL_INIT_VIDEO|SDL_INIT_GAMECONTROLLER};
 
-	std::unique_ptr<SDL_Joystick, void(*)(SDL_Joystick*)> p_joystick{nullptr, &SDL_JoystickClose};
-	if (SDL_NumJoysticks > 0) {
-		 p_joystick = {
-			SDL_JoystickOpen(0),
-			&SDL_JoystickClose
+	std::unique_ptr<SDL_GameController, void(*)(SDL_GameController*)> p_joystick{nullptr, &SDL_GameControllerClose};
+	if (SDL_NumJoysticks() > 0 && SDL_IsGameController(0)) {
+		p_joystick = {
+			SDL_GameControllerOpen(0),
+			&SDL_GameControllerClose
 		};
 	}
 
@@ -140,9 +140,9 @@ int main(int argc, char** argv)
 
 	load_level("assets/maps/arena.tmx", data);
 
-	//data.joysticks[0] = p_joystick.get();
-	//data.avatars[0] = map_id;
-	//data.max_speeds[map_id] = 50;
+	if (p_joystick) {
+		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
+	}
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
