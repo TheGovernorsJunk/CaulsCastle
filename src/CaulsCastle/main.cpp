@@ -14,10 +14,11 @@
 #include <memory>
 #include <cassert>
 
-namespace te {
+namespace {
 
 struct Lib_init {
-	Lib_init(Uint32 sdl_flags) {
+	Lib_init(Uint32 sdl_flags)
+	{
 		auto init = SDL_Init(sdl_flags);
 		assert(init == 0);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -31,7 +32,8 @@ struct Lib_init {
 		iluInit();
 		ilutRenderer(ILUT_OPENGL);
 	}
-	~Lib_init() {
+	~Lib_init()
+	{
 		SDL_Quit();
 	}
 	Lib_init(const Lib_init&) = delete;
@@ -40,26 +42,26 @@ struct Lib_init {
 	Lib_init& operator=(Lib_init&&) = delete;
 };
 
-class gl_context {
+class Gl_context {
 public:
-	gl_context(SDL_Window& w)
+	Gl_context(SDL_Window& w)
 		: context{ SDL_GL_CreateContext(&w) }
 	{
 		assert(context != NULL);
 	}
 
-	~gl_context()
+	~Gl_context()
 	{
 		delete_context();
 	}
 
-	gl_context(gl_context&& rhs) noexcept
+	Gl_context(Gl_context&& rhs) noexcept
 		: context{ rhs.context }
 	{
 		rhs.context = NULL;
 	}
 
-	gl_context& operator=(gl_context&& rhs) noexcept
+	Gl_context& operator=(Gl_context&& rhs) noexcept
 	{
 		delete_context();
 		context = rhs.context;
@@ -82,7 +84,7 @@ private:
 	SDL_GLContext context;
 };
 
-} // namespace te
+} // namespace
 
 int main(int argc, char** argv)
 {
@@ -115,7 +117,7 @@ int main(int argc, char** argv)
 	auto pWindow = upWindow.get();
 	assert(pWindow != NULL);
 
-	gl_context context{ *pWindow };
+	Gl_context context{ *pWindow };
 
 	glViewport(0, 0, window_width, window_height);
 	glMatrixMode(GL_PROJECTION);

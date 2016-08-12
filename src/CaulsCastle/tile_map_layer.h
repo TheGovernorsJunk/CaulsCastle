@@ -12,7 +12,7 @@
 
 namespace te {
 
-template <template <typename Container_type> typename Iter, typename Container_type, typename Denom_fn = Pow2up_fn>
+template <template <typename Container_type> typename Iter, typename Container_type, typename Denom_fn = detail::Pow2up_fn>
 void get_tile_map_layer_vertices(const Tmx& tmx, size_t layer_index, size_t tileset_index, Iter<Container_type> out, int z_step = 500, const Denom_fn& denom_fn = Denom_fn())
 {
 	assert(layer_index >= 0 && layer_index < tmx.layers.size());
@@ -70,8 +70,8 @@ void get_tile_map_layer_vertices(const Tmx& tmx, size_t layer_index, size_t tile
 	}
 }
 
-namespace detail
-{
+namespace detail {
+
 template <typename Vec, typename Coord>
 inline Vec make_position(Coord x, Coord y, Coord z);
 template <>
@@ -89,7 +89,15 @@ const auto load_texture = [](const std::string& texture_path)
 {
 	return load_texture32(texture_path);
 };
-}
+
+struct Pow2up_fn {
+	inline int operator()(int x) const
+	{
+		return pow2up(x);
+	}
+};
+
+} // namespace detail
 
 template <typename Iter, typename Load_fn = decltype(detail::load_texture)>
 void load_tileset_textures(const Tmx& tmx, Iter out, const Load_fn& load_fn = detail::load_texture)
@@ -109,13 +117,6 @@ void iterate_layers_and_tilesets(const Tmx& tmx, Fn fn)
 		}
 	}
 }
-
-struct Pow2up_fn {
-	inline int operator()(int x) const
-	{
-		return pow2up(x);
-	}
-};
 
 } // namespace te
 
