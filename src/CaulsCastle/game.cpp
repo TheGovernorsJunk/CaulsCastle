@@ -11,18 +11,18 @@ namespace te
 {
 	static inline void set_button_input(Player_input::Button_state& button_state, decltype(SDL_Event::type) type)
 	{
-		button_state.fire = type == SDL_JOYBUTTONDOWN;
-		button_state.release = type == SDL_JOYBUTTONUP;
+		button_state.fire = type == SDL_CONTROLLERBUTTONDOWN;
+		button_state.release = type == SDL_CONTROLLERBUTTONUP;
 	}
 
 	void input_game(Game_data& data, const SDL_Event& evt)
 	{
-		if (evt.type == SDL_JOYBUTTONDOWN || evt.type == SDL_JOYBUTTONUP) {
-			const auto player_id = evt.jbutton.which;
+		if (evt.type == SDL_CONTROLLERBUTTONDOWN || evt.type == SDL_CONTROLLERBUTTONUP) {
+			const auto player_id = evt.cbutton.which;
 			const auto& keymap = data.keymaps[player_id];
 			auto& input = data.inputs[player_id];
 
-			if (evt.jbutton.button == keymap.dodge) {
+			if (evt.cbutton.button == keymap.dodge) {
 				set_button_input(input.dodge, evt.type);
 			}
 		}
