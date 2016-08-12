@@ -32,14 +32,14 @@ namespace te
 	{
 		using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
 
-		for (auto& joystick_pair : data.joysticks) {
-			const auto player_id = joystick_pair.first;
+		for (auto& controller_pair : data.controllers) {
+			const auto player_id = controller_pair.first;
 			const auto& keymap = data.keymaps[player_id];
 			auto& input = data.inputs[player_id];
 
-			input.x_movement = SDL_JoystickGetAxis(joystick_pair.second, data.keymaps[player_id].x_movement) / 32767.f;
+			input.x_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.keymaps[player_id].x_movement) / 32767.f;
 			if (std::abs(input.x_movement) < 0.3f) input.x_movement = 0;
-			input.y_movement = SDL_JoystickGetAxis(joystick_pair.second, data.keymaps[player_id].y_movement) / 32767.f;
+			input.y_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.keymaps[player_id].y_movement) / 32767.f;
 			if (std::abs(input.y_movement) < 0.3f) input.y_movement = 0;
 		}
 

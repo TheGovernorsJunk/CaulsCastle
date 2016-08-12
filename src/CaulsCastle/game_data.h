@@ -2,7 +2,6 @@
 #define TE_GAME_DATA_H
 
 #include "types.h"
-#include "xbox_controller.h"
 #include "input.h"
 #include "mesh.h"
 #include "texture.h"
@@ -18,16 +17,10 @@ class b2Body;
 namespace te
 {
 	struct Keymap {
-		Xbox_axis x_movement;
-		Xbox_axis y_movement;
+		SDL_GameControllerAxis x_movement;
+		SDL_GameControllerAxis y_movement;
 
-		Xbox_button dodge;
-
-		Keymap()
-			: x_movement{ X_axis }
-			, y_movement{ Y_axis }
-			, dodge{ B_button }
-		{}
+		SDL_GameControllerButton dodge;
 	};
 
 	class Entity_manager {
@@ -48,7 +41,7 @@ namespace te
 
 		Entity_manager entity_manager;
 
-		flat_map<Player_id, SDL_Joystick*> joysticks;
+		flat_map<Player_id, std::unique_ptr<SDL_GameController, decltype(&SDL_GameControllerClose)>> controllers;
 		flat_map<Player_id, Keymap> keymaps;
 		flat_map<Player_id, Player_input> inputs;
 		flat_map<Player_id, Entity_id> avatars;
