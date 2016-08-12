@@ -14,74 +14,75 @@
 #include <memory>
 #include <cassert>
 
-namespace te
-{
-	struct Lib_init {
-		Lib_init(Uint32 sdl_flags) {
-			auto init = SDL_Init(sdl_flags);
-			assert(init == 0);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+namespace te {
 
-			ilInit();
-			ilClearColour(255, 255, 255, 0);
-			assert(ilGetError() == IL_NO_ERROR);
+struct Lib_init {
+	Lib_init(Uint32 sdl_flags) {
+		auto init = SDL_Init(sdl_flags);
+		assert(init == 0);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-			iluInit();
-			ilutRenderer(ILUT_OPENGL);
-		}
-		~Lib_init() {
-			SDL_Quit();
-		}
-		Lib_init(const Lib_init&) = delete;
-		Lib_init& operator=(const Lib_init&) = delete;
-		Lib_init(Lib_init&&) = delete;
-		Lib_init& operator=(Lib_init&&) = delete;
-	};
+		ilInit();
+		ilClearColour(255, 255, 255, 0);
+		assert(ilGetError() == IL_NO_ERROR);
 
-	class gl_context {
-	public:
-		gl_context(SDL_Window& w)
-			: context{SDL_GL_CreateContext(&w)}
-		{
-			assert(context != NULL);
-		}
+		iluInit();
+		ilutRenderer(ILUT_OPENGL);
+	}
+	~Lib_init() {
+		SDL_Quit();
+	}
+	Lib_init(const Lib_init&) = delete;
+	Lib_init& operator=(const Lib_init&) = delete;
+	Lib_init(Lib_init&&) = delete;
+	Lib_init& operator=(Lib_init&&) = delete;
+};
 
-		~gl_context()
-		{
-			delete_context();
-		}
+class gl_context {
+public:
+	gl_context(SDL_Window& w)
+		: context{ SDL_GL_CreateContext(&w) }
+	{
+		assert(context != NULL);
+	}
 
-		gl_context(gl_context&& rhs) noexcept
-			: context{ rhs.context }
-		{
-			rhs.context = NULL;
-		}
+	~gl_context()
+	{
+		delete_context();
+	}
 
-		gl_context& operator=(gl_context&& rhs) noexcept
-		{
-			delete_context();
-			context = rhs.context;
-			rhs.context = NULL;
-			return *this;
-		}
+	gl_context(gl_context&& rhs) noexcept
+		: context{ rhs.context }
+	{
+		rhs.context = NULL;
+	}
 
-		auto get() noexcept
-		{
-			return context;
-		}
+	gl_context& operator=(gl_context&& rhs) noexcept
+	{
+		delete_context();
+		context = rhs.context;
+		rhs.context = NULL;
+		return *this;
+	}
 
-	private:
-		void delete_context() noexcept
-		{
-			if (context != NULL) {
-				SDL_GL_DeleteContext(context);
-			}
+	auto get() noexcept
+	{
+		return context;
+	}
+
+private:
+	void delete_context() noexcept
+	{
+		if (context != NULL) {
+			SDL_GL_DeleteContext(context);
 		}
-		SDL_GLContext context;
-	};
-}
+	}
+	SDL_GLContext context;
+};
+
+} // namespace te
 
 int main(int argc, char** argv)
 {

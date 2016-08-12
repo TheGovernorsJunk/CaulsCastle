@@ -11,28 +11,29 @@
 #include <cassert>
 #include <vector>
 
-namespace te
-{
-	std::vector<GLuint> load_image32(const std::string& path,
-					 decltype(ilGetInteger(IL_IMAGE_WIDTH))& tex_width,
-					 decltype(ilGetInteger(IL_IMAGE_WIDTH))& tex_height);
+namespace te {
 
-	GLuint load_texture32(GLuint* pixels, GLuint width, GLuint height);
-	GLuint load_texture32(const std::string& path);
+std::vector<GLuint> load_image32(const std::string& path,
+				 decltype(ilGetInteger(IL_IMAGE_WIDTH))& tex_width,
+				 decltype(ilGetInteger(IL_IMAGE_WIDTH))& tex_height);
 
-	class Texture {
-	public:
-		Texture(GLuint texture_id);
-		~Texture();
-		Texture(Texture&& rhs);
-		Texture& operator=(Texture&& rhs);
+GLuint load_texture32(GLuint* pixels, GLuint width, GLuint height);
+GLuint load_texture32(const std::string& path);
 
-		GLuint get_texture_id() const;
-	private:
-		void destroy_texture();
+class Texture {
+public:
+	Texture(GLuint texture_id);
+	~Texture();
+	Texture(Texture&& rhs);
+	Texture& operator=(Texture&& rhs);
 
-		GLuint m_texture_id;
-	};
-}
+	GLuint get_texture_id() const;
+private:
+	void destroy_texture();
+
+	GLuint m_texture_id;
+};
+
+} // namespace te
 
 #endif

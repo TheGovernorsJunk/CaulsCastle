@@ -5,42 +5,45 @@
 
 #include <SDL_opengl.h>
 
-namespace te
+namespace te {
+
+template <typename PositionVec, typename TexVec>
+struct Mesh {
+	Vertex_array<PositionVec, TexVec> vertices;
+	GLuint texture_id;
+	GLenum mode;
+};
+
+template <typename PositionVec, typename TexVec>
+void draw(const Mesh<PositionVec, TexVec>& mesh)
 {
-	template <typename PositionVec, typename TexVec>
-	struct Mesh {
-		Vertex_array<PositionVec, TexVec> vertices;
-		GLuint texture_id;
-		GLenum mode;
-	};
-
-	template <typename PositionVec, typename TexVec>
-	void draw(const Mesh<PositionVec, TexVec>& mesh)
-	{
-		glBindTexture(GL_TEXTURE_2D, mesh.texture_id);
-		glBegin(mesh.mode);
-		for (auto vertex : mesh.vertices) {
-			glTexCoord2f(vertex.tex_coords.x, vertex.tex_coords.y);
-			detail::draw_position_vertex(vertex.position);
-		}
-		glEnd();
+	glBindTexture(GL_TEXTURE_2D, mesh.texture_id);
+	glBegin(mesh.mode);
+	for (auto vertex : mesh.vertices) {
+		glTexCoord2f(vertex.tex_coords.x, vertex.tex_coords.y);
+		detail::draw_position_vertex(vertex.position);
 	}
-
-	namespace detail
-	{
-		template <typename V>
-		inline void draw_position_vertex(V);
-		template <>
-		inline void draw_position_vertex(vec2 position)
-		{
-			glVertex2f(position.x, position.y);
-		}
-		template <>
-		inline void draw_position_vertex(vec3 position)
-		{
-			glVertex3f(position.x, position.y, position.z);
-		}
-	}
+	glEnd();
 }
+
+namespace detail
+{
+
+template <typename V>
+inline void draw_position_vertex(V);
+template <>
+inline void draw_position_vertex(vec2 position)
+{
+	glVertex2f(position.x, position.y);
+}
+template <>
+inline void draw_position_vertex(vec3 position)
+{
+	glVertex3f(position.x, position.y, position.z);
+}
+
+} // namespace detail
+
+} // namespace te
 
 #endif
