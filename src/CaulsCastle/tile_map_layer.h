@@ -52,16 +52,16 @@ void get_tile_map_layer_vertices(const Tmx& tmx, size_t layer_index, size_t tile
 			int y = tile_index / tmx.width;
 
 			quad[0].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * x),
-				(coord_t)(tileHeight * y),
+										 (coord_t)(tileHeight * y),
 										 (coord_t)layer_index * z_step);
 			quad[1].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * (x + 1)),
-				(coord_t)(tileHeight * y),
+										 (coord_t)(tileHeight * y),
 										 (coord_t)layer_index * z_step);
 			quad[2].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * (x + 1)),
-				(coord_t)(tileHeight * (y + 1)),
+										 (coord_t)(tileHeight * (y + 1)),
 										 (coord_t)layer_index * z_step);
 			quad[3].position = detail::make_position<vec_t, coord_t>((coord_t)(tileWidth * x),
-				(coord_t)(tileHeight * (y + 1)),
+										 (coord_t)(tileHeight * (y + 1)),
 										 (coord_t)layer_index * z_step);
 
 			for (auto& v : quad) (out++) = v;
