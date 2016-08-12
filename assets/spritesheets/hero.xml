@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:5beb597ec89d010b6aecb155c3486f43:1c776a93b0f80a4a09606a1907d9beb2:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="hero.png" width="102" height="374">
+    <sprite n="hero_fe_walk_down0000.png" x="1" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0001.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0002.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0003.png" x="1" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0004.png" x="35" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0005.png" x="69" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0006.png" x="1" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0007.png" x="35" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0000.png" x="69" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0001.png" x="1" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0002.png" x="35" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0003.png" x="69" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0004.png" x="1" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0005.png" x="35" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0006.png" x="69" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0007.png" x="1" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0000.png" x="35" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0001.png" x="69" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0002.png" x="1" y="205" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0003.png" x="35" y="205" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0004.png" x="69" y="205" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0005.png" x="1" y="239" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0006.png" x="35" y="239" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0007.png" x="69" y="239" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0000.png" x="1" y="273" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0001.png" x="35" y="273" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0002.png" x="69" y="273" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0003.png" x="1" y="307" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0004.png" x="35" y="307" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0005.png" x="69" y="307" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0006.png" x="69" y="273" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0007.png" x="1" y="341" w="32" h="32" pX="0.5" pY="0.9375"/>
+</TextureAtlas>

@@ -141,7 +141,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../spritesheets/hero/hero.xml</filename>
+                <filename>../../spritesheets/hero.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -188,27 +188,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">clips/1-HWR.png</key>
-            <key type="filename">clips/1-HeroAttackDown.png</key>
-            <key type="filename">clips/1-HeroIdleDown.png</key>
-            <key type="filename">clips/1-LWR.png</key>
-            <key type="filename">clips/11-HWR.png</key>
-            <key type="filename">clips/11-LWR.png</key>
-            <key type="filename">clips/13-HWR.png</key>
-            <key type="filename">clips/13-LWR.png</key>
-            <key type="filename">clips/15-HWR.png</key>
-            <key type="filename">clips/15-LWR.png</key>
-            <key type="filename">clips/3-HWR.png</key>
-            <key type="filename">clips/3-HeroAttackDown.png</key>
-            <key type="filename">clips/3-LWR.png</key>
-            <key type="filename">clips/5-HWR.png</key>
-            <key type="filename">clips/5-HeroAttackDown.png</key>
-            <key type="filename">clips/5-LWR.png</key>
-            <key type="filename">clips/7-HWR.png</key>
-            <key type="filename">clips/7-HeroAttackDown.png</key>
-            <key type="filename">clips/7-LWR.png</key>
-            <key type="filename">clips/9-HWR.png</key>
-            <key type="filename">clips/9-LWR.png</key>
+            <key type="filename">clips/hero_fe_walk_down0000.png</key>
+            <key type="filename">clips/hero_fe_walk_down0001.png</key>
+            <key type="filename">clips/hero_fe_walk_down0002.png</key>
+            <key type="filename">clips/hero_fe_walk_down0003.png</key>
+            <key type="filename">clips/hero_fe_walk_down0004.png</key>
+            <key type="filename">clips/hero_fe_walk_down0005.png</key>
+            <key type="filename">clips/hero_fe_walk_down0006.png</key>
+            <key type="filename">clips/hero_fe_walk_down0007.png</key>
+            <key type="filename">clips/hero_fe_walk_left0000.png</key>
+            <key type="filename">clips/hero_fe_walk_left0001.png</key>
+            <key type="filename">clips/hero_fe_walk_left0002.png</key>
+            <key type="filename">clips/hero_fe_walk_left0003.png</key>
+            <key type="filename">clips/hero_fe_walk_left0004.png</key>
+            <key type="filename">clips/hero_fe_walk_left0005.png</key>
+            <key type="filename">clips/hero_fe_walk_left0006.png</key>
+            <key type="filename">clips/hero_fe_walk_left0007.png</key>
+            <key type="filename">clips/hero_fe_walk_right0000.png</key>
+            <key type="filename">clips/hero_fe_walk_right0001.png</key>
+            <key type="filename">clips/hero_fe_walk_right0002.png</key>
+            <key type="filename">clips/hero_fe_walk_right0003.png</key>
+            <key type="filename">clips/hero_fe_walk_right0004.png</key>
+            <key type="filename">clips/hero_fe_walk_right0005.png</key>
+            <key type="filename">clips/hero_fe_walk_right0006.png</key>
+            <key type="filename">clips/hero_fe_walk_right0007.png</key>
+            <key type="filename">clips/hero_fe_walk_up0000.png</key>
+            <key type="filename">clips/hero_fe_walk_up0001.png</key>
+            <key type="filename">clips/hero_fe_walk_up0002.png</key>
+            <key type="filename">clips/hero_fe_walk_up0003.png</key>
+            <key type="filename">clips/hero_fe_walk_up0004.png</key>
+            <key type="filename">clips/hero_fe_walk_up0005.png</key>
+            <key type="filename">clips/hero_fe_walk_up0006.png</key>
+            <key type="filename">clips/hero_fe_walk_up0007.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.9375</point_f>
