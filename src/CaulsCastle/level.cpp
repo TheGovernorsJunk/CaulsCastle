@@ -19,7 +19,7 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 	std::vector<GLuint> tileset_texture_ids;
 	load_tileset_textures(tmx, std::back_inserter(tileset_texture_ids));
 	for (auto id : tileset_texture_ids) {
-		data.textures.emplace_back(id);
+		data.textures.insert({ id });
 	}
 
 	auto map_id = data.entity_manager.get_free_id();

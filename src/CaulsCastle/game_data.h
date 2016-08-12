@@ -38,7 +38,7 @@ struct Game_data {
 
 	std::unique_ptr<b2World> physics_world;
 
-	std::vector<Texture> textures;
+	Resource_holder<Texture> textures;
 	Resource_holder<Mesh<vec3, vec2>> meshes3;
 
 	Entity_manager entity_manager;
