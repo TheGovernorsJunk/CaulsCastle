@@ -75,16 +75,32 @@ namespace te
 		}
 	}
 
+	namespace {
+		template <typename Resource_component>
+		inline void draw(Game_data& game_data, Resource_component& render_data)
+		{
+			for (auto& data_pair : render_data) {
+				glLoadMatrixf(glm::value_ptr(game_data.view_matrix));
+				auto position = game_data.positions[data_pair.first];
+				glTranslatef(position.x, position.y, 0);
+
+				glMultMatrixf(glm::value_ptr(data_pair.second.transform));
+				draw(get_resource(game_data, data_pair.second.resource_id));
+			}
+		}
+
+		template <typename Resource>
+		inline Resource& get_resource(Game_data& game_data, Resource_id<Resource> id);
+		template <>
+		inline Mesh<vec3, vec2>& get_resource(Game_data& game_data, Resource_id<Mesh<vec3, vec2>> id)
+		{
+			return game_data.meshes3.get(id);
+		}
+	}
+
 	void draw_game(Game_data& data)
 	{
 		glMatrixMode(GL_MODELVIEW);
-		for (auto& mesh_pair : data.entity_meshes3) {
-			glLoadMatrixf(glm::value_ptr(data.view_matrix));
-			auto position = data.positions[mesh_pair.first];
-			glTranslatef(position.x, position.y, 0);
-
-			glMultMatrixf(glm::value_ptr(mesh_pair.second.transform));
-			draw(data.meshes3.get(mesh_pair.second.resource_id));
-		}
+		draw(data, data.entity_meshes3);
 	}
 }
