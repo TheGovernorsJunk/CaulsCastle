@@ -93,7 +93,12 @@ inline void draw(Game_data& game_data, Resource_component& render_data)
 template <typename Resource>
 inline Resource& get_resource(Game_data& game_data, Resource_id<Resource> id);
 template <>
-inline Mesh<vec3, vec2>& get_resource(Game_data& game_data, Resource_id<Mesh<vec3, vec2>> id)
+inline Mesh2& get_resource(Game_data& game_data, Resource_id<Mesh2> id)
+{
+	return game_data.meshes2.get(id);
+}
+template <>
+inline Mesh3& get_resource(Game_data& game_data, Resource_id<Mesh3> id)
 {
 	return game_data.meshes3.get(id);
 }
