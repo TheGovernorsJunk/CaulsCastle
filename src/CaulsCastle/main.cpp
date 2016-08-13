@@ -4,6 +4,7 @@
 #include "texture.h"
 #include "mesh.h"
 #include "level.h"
+#include "loaders.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -13,6 +14,7 @@
 
 #include <memory>
 #include <cassert>
+#include <map>
 
 namespace {
 
@@ -131,12 +133,20 @@ int main(int argc, char** argv)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 
 	glClearColor(0, 0, 0, 1.f);
 
 	Game_data data{};
+
 	data.pixel_to_world_scale = pixel_to_world_scale;
+
+	std::map<std::string, Resource_id<Animation2>> animation_map;
+	load_animations("assets/spritesheets/hero_animations.xml", data, std::inserter(animation_map, animation_map.end()));
+
+	// make hero
+	auto hero_id = data.entity_manager.get_free_id();
+	set_animation(data, hero_id, animation_map.find("walk_right")->second);
 
 	load_level("assets/maps/arena.tmx", data);
 
