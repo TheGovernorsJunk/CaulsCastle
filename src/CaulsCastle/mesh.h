@@ -14,6 +14,9 @@ struct Mesh {
 	GLenum mode;
 };
 
+using Mesh2 = Mesh<vec2, vec2>;
+using Mesh3 = Mesh<vec3, vec2>;
+
 template <typename PositionVec, typename TexVec>
 void draw(const Mesh<PositionVec, TexVec>& mesh)
 {
