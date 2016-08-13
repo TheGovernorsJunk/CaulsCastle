@@ -54,14 +54,14 @@ void make_meshes(const Texture_atlas& atlas, GLuint texture_id, Iter<Container> 
 		quad[3].tex_coords = { (TexCoord)(sprite.x) / tex_width,
 				       (TexCoord)(sprite.y + sprite.h) / tex_height };
 
-		quad[0].position = { (PositionCoord)sprite.x,
-				     (PositionCoord)sprite.y };
-		quad[1].position = { (PositionCoord)(sprite.x + sprite.w),
-				     (PositionCoord)sprite.y };
-		quad[2].position = { (PositionCoord)(sprite.x + sprite.w),
-				     (PositionCoord)(sprite.y + sprite.h) };
-		quad[3].position = { (PositionCoord)(sprite.x),
-				     (PositionCoord)(sprite.y + sprite.h) };
+		quad[0].position = { (PositionCoord)0,
+				     (PositionCoord)0 };
+		quad[1].position = { (PositionCoord)sprite.w,
+				     (PositionCoord)0 };
+		quad[2].position = { (PositionCoord)sprite.w,
+				     (PositionCoord)sprite.h };
+		quad[3].position = { (PositionCoord)0,
+				     (PositionCoord)sprite.h };
 
 		out++ = { std::move(quad), texture_id, GL_QUADS };
 	}
