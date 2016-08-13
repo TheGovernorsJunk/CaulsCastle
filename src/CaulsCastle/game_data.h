@@ -91,6 +91,8 @@ struct Game_data {
 	~Game_data();
 };
 
+void set_animation(Game_data& data, Entity_id entity_id, Resource_id<Animation2>);
+
 } // namespace te
 
 #endif

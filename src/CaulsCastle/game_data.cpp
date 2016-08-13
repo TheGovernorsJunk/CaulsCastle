@@ -1,5 +1,6 @@
 #include "game_data.h"
 
+#include <glm/gtx/transform.hpp>
 #include <Box2D/Box2D.h>
 
 namespace te {
@@ -31,6 +32,30 @@ Game_data::Body_deleter::Body_deleter(b2World& world)
 void Game_data::Body_deleter::operator()(b2Body* p_body) const
 {
 	p_world->DestroyBody(p_body);
+}
+
+void set_animation(Game_data& data, Entity_id entity_id, Resource_id<Animation2> animation_id)
+{
+	Game_data::Animation_data<Mesh2> animation_data{ animation_id };
+	auto found = std::find_if(data.entity_animations2.begin(), data.entity_animations2.end(), [entity_id](auto& pair) {
+		return pair.first == entity_id;
+	});
+	if (found == data.entity_animations2.end()) {
+		data.entity_animations2.insert(decltype(data.entity_animations2)::value_type{ entity_id, std::move(animation_data) });
+	}
+	else {
+		found->second = std::move(animation_data);
+	}
+
+	auto mesh_found = std::find_if(data.entity_meshes2.begin(), data.entity_meshes2.end(), [entity_id](auto& mesh) {
+		return mesh.first == entity_id;
+	});
+	if (mesh_found == data.entity_meshes2.end()) {
+		data.entity_meshes2.push_back({ entity_id, {
+			data.animations2.get(animation_id).frames[0].mesh_id,
+			glm::scale(glm::vec3(1 / data.pixel_to_world_scale.x, 1 / data.pixel_to_world_scale.y, 1.f))
+		} });
+	}
 }
 
 } // namespace te
