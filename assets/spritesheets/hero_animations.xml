@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animations>
+  <texture atlas="hero.xml" />
+  <animation name="walk_right" filename="hero_fe_walk_right.csv" />
+</animations>
