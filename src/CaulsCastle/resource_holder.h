@@ -33,6 +33,11 @@ public:
 		assert(found != m_resource_map.end());
 		return found->second;
 	}
+
+	Resource_holder()
+		: next_id{ 1 }
+		, m_resource_map{}
+	{}
 private:
 	int next_id;
 	flat_map<int, Resource> m_resource_map;
