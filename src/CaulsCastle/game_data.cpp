@@ -52,8 +52,7 @@ void set_animation(Game_data& data, Entity_id entity_id, Resource_id<Animation2>
 	});
 	if (mesh_found == data.entity_meshes2.end()) {
 		data.entity_meshes2.push_back({ entity_id, {
-			data.animations2.get(animation_id).frames[0].mesh_id,
-			glm::scale(glm::vec3(1 / data.pixel_to_world_scale.x, 1 / data.pixel_to_world_scale.y, 1.f))
+			data.animations2.get(animation_id).frames[0].mesh_id
 		} });
 	}
 }

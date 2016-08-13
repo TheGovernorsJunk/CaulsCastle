@@ -3,6 +3,7 @@
 #include "xbox_controller.h"
 
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 #include <Box2D/Box2D.h>
 
 #include <type_traits>
@@ -97,10 +98,10 @@ void step_game(Game_data& data, float dt)
 namespace {
 
 template <typename Resource_component>
-inline void draw(Game_data& game_data, Resource_component& render_data)
+inline void draw(Game_data& game_data, Resource_component& render_data, const glm::mat4& model_view)
 {
 	for (auto& data_pair : render_data) {
-		glLoadMatrixf(glm::value_ptr(game_data.view_matrix));
+		glLoadMatrixf(glm::value_ptr(model_view));
 		auto position = game_data.positions[data_pair.first];
 		glTranslatef(position.x, position.y, 0);
 
@@ -127,8 +128,11 @@ inline Mesh3& get_resource(Game_data& game_data, Resource_id<Mesh3> id)
 void draw_game(Game_data& data)
 {
 	glMatrixMode(GL_MODELVIEW);
-	draw(data, data.entity_meshes3);
-	draw(data, data.entity_meshes2);
+	auto model_view = glm::scale(glm::vec3(1 / data.pixel_to_world_scale.x,
+					       1 / data.pixel_to_world_scale.y,
+					       1)) * data.view_matrix;
+	draw(data, data.entity_meshes3, model_view);
+	draw(data, data.entity_meshes2, model_view);
 }
 
 } // namespace te
