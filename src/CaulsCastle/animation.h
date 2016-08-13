@@ -3,6 +3,7 @@
 
 #include "resource_holder.h"
 #include "types.h"
+#include "mesh.h"
 
 #include <string>
 #include <vector>
@@ -29,6 +30,9 @@ struct Animation {
 
 	std::vector<Frame> frames;
 };
+
+using Animation2 = Animation<Mesh2>;
+using Animation3 = Animation<Mesh3>;
 
 } // namespace te
 
