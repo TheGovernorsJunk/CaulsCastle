@@ -70,6 +70,25 @@ void step_game(Game_data& data, float dt)
 		data.positions[body_pair.first] = { position.x, position.y };
 	}
 
+	for (auto& animation_pair : data.entity_animations2) {
+		auto entity_id = animation_pair.first;
+		auto& entity_animation = animation_pair.second;
+		auto& animation = data.animations2.get(animation_pair.second.id);
+
+		entity_animation.t += dt * animation.delay_unit;
+		auto& curr_frame = animation.frames[entity_animation.frame_index];
+		if (entity_animation.t > curr_frame.delay) {
+			entity_animation.t -= curr_frame.delay;
+			entity_animation.frame_index = (entity_animation.frame_index + 1) % animation.frames.size();
+		}
+
+		auto found = std::find_if(data.entity_meshes2.begin(), data.entity_meshes2.end(), [entity_id](auto& mesh_pair) {
+			return mesh_pair.first == entity_id;
+		});
+		assert(found != data.entity_meshes2.end());
+		found->second.resource_id = animation.frames[entity_animation.frame_index].mesh_id;
+	}
+
 	for (auto& input_pair : data.inputs) {
 		clear(input_pair.second);
 	}
@@ -109,6 +128,7 @@ void draw_game(Game_data& data)
 {
 	glMatrixMode(GL_MODELVIEW);
 	draw(data, data.entity_meshes3);
+	draw(data, data.entity_meshes2);
 }
 
 } // namespace te
