@@ -6,6 +6,7 @@
 #include "mesh.h"
 #include "texture.h"
 #include "resource_holder.h"
+#include "animation.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -39,7 +40,9 @@ struct Game_data {
 	std::unique_ptr<b2World> physics_world;
 
 	Resource_holder<Texture> textures;
-	Resource_holder<Mesh<vec3, vec2>> meshes3;
+	Resource_holder<Mesh2> meshes2;
+	Resource_holder<Mesh3> meshes3;
+	Resource_holder<Animation2> animations2;
 
 	Entity_manager entity_manager;
 
@@ -58,12 +61,29 @@ struct Game_data {
 	component<Entity_id, vec2> velocities;
 	component<Entity_id, vec2> positions;
 
+	template <typename Mesh>
+	struct Animation_data {
+		using Id = Resource_id<Animation<Mesh>>;
+
+		Resource_id<Animation<Mesh>> id;
+		size_t frame_index;
+		float t;
+
+		Animation_data(Id id)
+			: id{ id }
+			, frame_index{ 0 }
+			, t{ 0.f }
+		{}
+	};
+	component<Entity_id, Animation_data<Mesh2>> entity_animations2;
+
 	template <typename Resource>
 	struct Render_data {
 		Resource_id<Resource> resource_id;
 		glm::mat4 transform;
 	};
-	Multi_component<Entity_id, Render_data<Mesh<vec3, vec2>>> entity_meshes3;
+	Multi_component<Entity_id, Render_data<Mesh2>> entity_meshes2;
+	Multi_component<Entity_id, Render_data<Mesh3>> entity_meshes3;
 
 	glm::mat4 view_matrix;
 
