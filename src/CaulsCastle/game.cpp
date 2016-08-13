@@ -98,14 +98,14 @@ void step_game(Game_data& data, float dt)
 namespace {
 
 template <typename Resource_component>
-inline void draw(Game_data& game_data, Resource_component& render_data, const glm::mat4& model_view)
+inline void draw(Game_data& game_data, Resource_component& render_data, const glm::mat4& model_view, const glm::mat4& post_translate)
 {
 	for (auto& data_pair : render_data) {
-		glLoadMatrixf(glm::value_ptr(model_view));
 		auto position = game_data.positions[data_pair.first];
-		glTranslatef(position.x, position.y, 0);
-
-		glMultMatrixf(glm::value_ptr(data_pair.second.transform));
+		glLoadMatrixf(glm::value_ptr(model_view
+					     * glm::translate(glm::vec3{ position.x, position.y, 0 })
+					     * post_translate
+					     * data_pair.second.transform));
 		draw(get_resource(game_data, data_pair.second.resource_id));
 	}
 }
@@ -128,11 +128,11 @@ inline Mesh3& get_resource(Game_data& game_data, Resource_id<Mesh3> id)
 void draw_game(Game_data& data)
 {
 	glMatrixMode(GL_MODELVIEW);
-	auto model_view = glm::scale(glm::vec3(1 / data.pixel_to_world_scale.x,
+	auto pixel_scale = glm::scale(glm::vec3(1 / data.pixel_to_world_scale.x,
 					       1 / data.pixel_to_world_scale.y,
-					       1)) * data.view_matrix;
-	draw(data, data.entity_meshes3, model_view);
-	draw(data, data.entity_meshes2, model_view);
+					       1));
+	draw(data, data.entity_meshes3, data.view_matrix, pixel_scale);
+	draw(data, data.entity_meshes2, data.view_matrix, pixel_scale);
 }
 
 } // namespace te
