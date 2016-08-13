@@ -8,7 +8,7 @@
 
 namespace te {
 
-Animation::Animation(const std::string& filename)
+Animation_csv::Animation_csv(const std::string& filename)
 	: frames{}
 {
 	std::ifstream in{ filename.c_str() };

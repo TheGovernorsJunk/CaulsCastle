@@ -1,12 +1,15 @@
 #ifndef TE_ANIMATION_H
 #define TE_ANIMATION_H
 
+#include "resource_holder.h"
+#include "types.h"
+
 #include <string>
 #include <vector>
 
 namespace te {
 
-struct Animation {
+struct Animation_csv {
 	struct Frame {
 		int delay;
 		std::string name;
@@ -14,7 +17,17 @@ struct Animation {
 
 	std::vector<Frame> frames;
 
-	Animation(const std::string& filename);
+	Animation_csv(const std::string& filename);
+};
+
+template <typename Mesh>
+struct Animation {
+	struct Frame {
+		int delay;
+		Resource_id<Mesh> mesh_id;
+	};
+
+	std::vector<Frame> frames;
 };
 
 } // namespace te
