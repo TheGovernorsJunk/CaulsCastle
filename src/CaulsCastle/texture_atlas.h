@@ -35,11 +35,13 @@ void make_meshes(const Texture_atlas& atlas, GLuint texture_id, Iter<Container> 
 	using PositionCoord = decltype(Vertex::position_value_type::x);
 	using TexCoord = decltype(Vertex::tex_value_type::x);
 
-	glBindTexture(GL_TEXTURE_2D,texture_id);
+	glBindTexture(GL_TEXTURE_2D, texture_id);
 
 	GLint tex_width, tex_height;
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &tex_width);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &tex_height);
+
+	glBindTexture(GL_TEXTURE_2D, NULL);
 
 	for (auto& sprite : atlas.sprites) {
 		decltype(Mesh::vertices) quad(4);
