@@ -47,13 +47,15 @@ void set_animation(Game_data& data, Entity_id entity_id, Resource_id<Animation2>
 		found->second = std::move(animation_data);
 	}
 
+	auto mesh_id = data.animations2.get(animation_id).frames[0].mesh_id;
 	auto mesh_found = std::find_if(data.entity_meshes2.begin(), data.entity_meshes2.end(), [entity_id](auto& mesh) {
 		return mesh.first == entity_id;
 	});
 	if (mesh_found == data.entity_meshes2.end()) {
-		data.entity_meshes2.push_back({ entity_id, {
-			data.animations2.get(animation_id).frames[0].mesh_id
-		} });
+		data.entity_meshes2.push_back({ entity_id, { mesh_id } });
+	}
+	else {
+		mesh_found->second.resource_id = mesh_id;
 	}
 }
 
