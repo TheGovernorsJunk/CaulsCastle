@@ -10,6 +10,7 @@ namespace te {
 
 Animation_csv::Animation_csv(const std::string& filename)
 	: frames{}
+	, delay_unit{ 60 }
 {
 	std::ifstream in{ filename.c_str() };
 	assert(in.is_open());

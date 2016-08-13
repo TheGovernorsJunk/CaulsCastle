@@ -17,6 +17,7 @@ struct Animation_csv {
 	};
 
 	std::vector<Frame> frames;
+	int delay_unit;
 
 	Animation_csv(const std::string& filename);
 };
@@ -29,6 +30,7 @@ struct Animation {
 	};
 
 	std::vector<Frame> frames;
+	int delay_unit;
 };
 
 using Animation2 = Animation<Mesh2>;
