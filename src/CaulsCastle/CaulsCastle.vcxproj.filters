@@ -89,5 +89,8 @@
     <ClInclude Include="loaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="records.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

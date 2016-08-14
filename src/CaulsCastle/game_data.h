@@ -7,10 +7,12 @@
 #include "texture.h"
 #include "resource_holder.h"
 #include "animation.h"
+#include "records.h"
 
 #include <boost/container/flat_map.hpp>
 
 #include <memory>
+#include <vector>
 
 class b2World;
 class b2Body;
@@ -35,6 +37,11 @@ private:
 };
 
 struct Game_data {
+	flat_map<std::string, Image_record> image_table;
+	flat_map<std::string, Sprite_record> sprite_table;
+	flat_map<std::string, Animation_record> animation_table;
+	std::vector<Animation_sprite_record> animation_sprite_table;
+
 	vec2 pixel_to_world_scale;
 
 	std::unique_ptr<b2World> physics_world;

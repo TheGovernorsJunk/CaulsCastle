@@ -5,6 +5,7 @@
 #include "mesh.h"
 #include "level.h"
 #include "loaders.h"
+#include "records.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -140,6 +141,13 @@ int main(int argc, char** argv)
 	Game_data data{};
 
 	data.pixel_to_world_scale = pixel_to_world_scale;
+
+	load_atlas("assets/spritesheets/hero.xml",
+		   std::inserter(data.image_table, data.image_table.end()),
+		   std::inserter(data.sprite_table, data.sprite_table.end()));
+	load_animation("assets/spritesheets/hero_fe_slice_left.csv",
+		       std::inserter(data.animation_table, data.animation_table.end()),
+		       std::inserter(data.animation_sprite_table, data.animation_sprite_table.end()));
 
 	std::map<std::string, Resource_id<Animation2>> animation_map;
 	load_animations("assets/spritesheets/hero_animations.xml", data, std::inserter(animation_map, animation_map.end()));

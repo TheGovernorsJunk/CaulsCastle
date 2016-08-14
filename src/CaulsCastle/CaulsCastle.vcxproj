@@ -141,6 +141,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="loaders.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="records.h" />
     <ClInclude Include="resource_holder.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture_atlas.h" />
