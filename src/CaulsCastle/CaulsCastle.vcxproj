@@ -153,6 +153,9 @@
     <ClInclude Include="utilities.h" />
     <ClInclude Include="xbox_controller.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\assets\spritesheets\image_data.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
