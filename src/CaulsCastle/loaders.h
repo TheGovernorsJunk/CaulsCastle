@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 
 namespace te {
 
@@ -57,6 +58,8 @@ void load_animations(const std::string& animations_filename, Game_data& data, It
 		out++ = Map_container::value_type{ animation_name, animation_id };
 	}
 }
+
+void load_image_data(const std::string& data_filename, Game_data& data);
 
 }
 

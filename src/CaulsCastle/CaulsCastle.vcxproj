@@ -127,6 +127,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_data.cpp" />
+    <ClCompile Include="loaders.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="texture.cpp" />

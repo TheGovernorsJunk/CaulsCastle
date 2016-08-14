@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<image_data>
+  <atlases>
+    <file name="hero.xml" />
+  </atlases>
+  <animations>
+    <file name="hero_fe_slice_left.csv" />
+    <file name="hero_fe_slice_right.csv" />
+    <file name="hero_fe_walk_down.csv" />
+    <file name="hero_fe_walk_left.csv" />
+    <file name="hero_fe_walk_right.csv" />
+    <file name="hero_fe_walk_up.csv" />
+  </animations>
+</image_data>
