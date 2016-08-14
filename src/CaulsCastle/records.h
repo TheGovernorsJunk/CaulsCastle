@@ -3,6 +3,7 @@
 
 #include "texture_atlas.h"
 #include "animation.h"
+#include "resource_holder.h"
 #include <rapidxml.hpp>
 #include <string>
 #include <algorithm>
@@ -36,6 +37,12 @@ struct Animation_frame_record {
 	int delay;
 	int delay_unit;
 	size_t frame_index;
+};
+
+template <typename Resource>
+struct Resource_record {
+	std::string name;
+	Resource_id<Resource> id;
 };
 
 template <typename Image_table_iter, typename Sprite_table_iter>
