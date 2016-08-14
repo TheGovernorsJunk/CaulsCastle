@@ -40,7 +40,7 @@ struct Game_data {
 	flat_map<std::string, Image_record> image_table;
 	flat_map<std::string, Sprite_record> sprite_table;
 	flat_map<std::string, Animation_record> animation_table;
-	std::vector<Animation_sprite_record> animation_sprite_table;
+	std::vector<Animation_frame_record> animation_sprite_table;
 
 	vec2 pixel_to_world_scale;
 

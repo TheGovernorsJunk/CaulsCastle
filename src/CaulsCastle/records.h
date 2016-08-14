@@ -30,7 +30,7 @@ struct Animation_record {
 	std::string filename;
 };
 
-struct Animation_sprite_record {
+struct Animation_frame_record {
 	std::string animation_filename;
 	std::string sprite_filename;
 	int delay;
