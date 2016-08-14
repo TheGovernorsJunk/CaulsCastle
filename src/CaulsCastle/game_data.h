@@ -13,6 +13,7 @@
 
 #include <memory>
 #include <vector>
+#include <type_traits>
 
 class b2World;
 class b2Body;
@@ -42,6 +43,8 @@ struct Game_data {
 	flat_map<std::string, Sprite_record> sprite_table;
 	flat_map<std::string, Animation_record> animation_table;
 	std::vector<Animation_frame_record> animation_sprite_table;
+	flat_map<std::string, Resource_record<Texture>> texture_table;
+	flat_map<std::string, Resource_record<Mesh2>> mesh_table;
 
 	vec2 pixel_to_world_scale;
 
@@ -100,6 +103,56 @@ struct Game_data {
 };
 
 void set_animation(Game_data& data, Entity_id entity_id, Resource_id<Animation2>);
+
+template <typename Resource>
+Resource_id<Resource> get_or_create(const std::string& name, Game_data& data)
+{
+	auto& resource_table = detail::get_resource_table<Resource>(data);
+	auto resource_found = resource_table.find(name);
+	if (resource_found != resource_table.end()) {
+		return resource_found->second.id;
+	}
+
+	auto data_table = detail::get_data_table<Resource>(data);
+	auto data_found = data_table.find(name);
+	assert(data_found != data_table.end());
+	auto resource_id = detail::create_resource<Resource>(name, data);
+	resource_table.insert(std::remove_reference_t<decltype(resource_table)>::value_type{
+		name, {
+			name,
+			resource_id
+		}
+	});
+	return resource_id;
+}
+
+namespace detail {
+
+template <typename Resource>
+inline decltype(auto) get_resource_table(Game_data& data);
+template <>
+inline decltype(auto) get_resource_table<Texture>(Game_data& data)
+{
+	return data.texture_table;
+}
+
+template <typename Resource>
+inline decltype(auto) get_data_table(Game_data& data);
+template <>
+inline decltype(auto) get_data_table<Texture>(Game_data& data)
+{
+	return data.image_table;
+}
+
+template <typename Resource>
+inline Resource_id<Resource> create_resource(const std::string& name, Game_data& data);
+template <>
+inline Resource_id<Texture> create_resource(const std::string& name, Game_data& data)
+{
+	return data.textures.insert({ load_texture32(data.image_root + name) });
+}
+
+} // namespace detail
 
 } // namespace te
 

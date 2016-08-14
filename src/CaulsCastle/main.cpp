@@ -144,6 +144,7 @@ int main(int argc, char** argv)
 	data.image_root = "assets/spritesheets/";
 
 	load_image_data("assets/spritesheets/image_data.xml", data);
+	auto hero_texture_id = get_or_create<Texture>("hero.png", data);
 
 	std::map<std::string, Resource_id<Animation2>> animation_map;
 	load_animations("assets/spritesheets/hero_animations.xml", data, std::inserter(animation_map, animation_map.end()));
