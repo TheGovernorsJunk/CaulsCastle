@@ -37,6 +37,7 @@ private:
 };
 
 struct Game_data {
+	std::string image_root;
 	flat_map<std::string, Image_record> image_table;
 	flat_map<std::string, Sprite_record> sprite_table;
 	flat_map<std::string, Animation_record> animation_table;

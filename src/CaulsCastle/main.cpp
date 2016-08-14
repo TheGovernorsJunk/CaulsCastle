@@ -141,6 +141,7 @@ int main(int argc, char** argv)
 	Game_data data{};
 
 	data.pixel_to_world_scale = pixel_to_world_scale;
+	data.image_root = "assets/spritesheets/";
 
 	load_image_data("assets/spritesheets/image_data.xml", data);
 
