@@ -148,6 +148,8 @@ int main(int argc, char** argv)
 	assert(hero_texture_id == get_or_create<Texture>("hero.png", data));
 	auto slice_right_mesh_id = get_or_create<Mesh2>("hero_fe_slice_right0000.png", data);
 	assert(slice_right_mesh_id == get_or_create<Mesh2>("hero_fe_slice_right0000.png", data));
+	auto slice_right_anim_id = get_or_create<Animation2>("hero_fe_slice_right.csv", data);
+	assert(slice_right_anim_id == get_or_create<Animation2>("hero_fe_slice_right.csv", data));
 
 	std::map<std::string, Resource_id<Animation2>> animation_map;
 	load_animations("assets/spritesheets/hero_animations.xml", data, std::inserter(animation_map, animation_map.end()));
