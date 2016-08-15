@@ -22,7 +22,7 @@ void load_image_data(const std::string& data_filename, Game_data& data)
 		load_animation(dir,
 			       p_animation->first_attribute("name")->value(),
 			       std::inserter(data.animation_table, data.animation_table.begin()),
-			       std::back_inserter(data.animation_sprite_table));
+			       std::back_inserter(data.animation_frame_table));
 	}
 }
 
