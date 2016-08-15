@@ -44,7 +44,7 @@ struct Game_data {
 	flat_map<std::string, Animation_record> animation_table;
 	std::vector<Animation_frame_record> animation_sprite_table;
 	flat_map<std::string, Resource_record<Texture>> texture_table;
-	flat_map<std::string, Resource_record<Mesh2>> mesh_table;
+	flat_map<std::string, Resource_record<Mesh2>> mesh2_table;
 
 	vec2 pixel_to_world_scale;
 
@@ -116,7 +116,7 @@ Resource_id<Resource> get_or_create(const std::string& name, Game_data& data)
 	auto data_table = detail::get_data_table<Resource>(data);
 	auto data_found = data_table.find(name);
 	assert(data_found != data_table.end());
-	auto resource_id = detail::create_resource<Resource>(name, data);
+	auto resource_id = detail::create_resource<Resource>(data_found->second, data);
 	resource_table.insert(std::remove_reference_t<decltype(resource_table)>::value_type{
 		name, {
 			name,
@@ -129,27 +129,43 @@ Resource_id<Resource> get_or_create(const std::string& name, Game_data& data)
 namespace detail {
 
 template <typename Resource>
-inline decltype(auto) get_resource_table(Game_data& data);
+inline auto& get_resource_table(Game_data& data);
 template <>
-inline decltype(auto) get_resource_table<Texture>(Game_data& data)
+inline auto& get_resource_table<Texture>(Game_data& data)
 {
 	return data.texture_table;
 }
-
-template <typename Resource>
-inline decltype(auto) get_data_table(Game_data& data);
 template <>
-inline decltype(auto) get_data_table<Texture>(Game_data& data)
+inline auto& get_resource_table<Mesh2>(Game_data& data)
 {
-	return data.image_table;
+	return data.mesh2_table;
 }
 
 template <typename Resource>
-inline Resource_id<Resource> create_resource(const std::string& name, Game_data& data);
+inline auto& get_data_table(Game_data& data);
 template <>
-inline Resource_id<Texture> create_resource(const std::string& name, Game_data& data)
+inline auto& get_data_table<Texture>(Game_data& data)
 {
-	return data.textures.insert({ load_texture32(data.image_root + name) });
+	return data.image_table;
+}
+template <>
+inline auto& get_data_table<Mesh2>(Game_data& data)
+{
+	return data.sprite_table;
+}
+
+template <typename Resource, typename Record>
+inline Resource_id<Resource> create_resource(const Record& record, Game_data& data);
+template <>
+inline Resource_id<Texture> create_resource(const Image_record& record, Game_data& data)
+{
+	return data.textures.insert({ load_texture32(data.image_root + record.filename) });
+}
+template <>
+inline Resource_id<Mesh2> create_resource(const Sprite_record& record, Game_data& data)
+{
+	auto texture_id = get_or_create<Texture>(record.image_filename, data);
+	return data.meshes2.insert(make_mesh(record, data.textures.get(texture_id).get_texture_id()));
 }
 
 } // namespace detail
