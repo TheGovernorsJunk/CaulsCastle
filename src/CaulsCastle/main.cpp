@@ -156,7 +156,8 @@ int main(int argc, char** argv)
 
 	// make hero
 	auto hero_id = data.entity_manager.get_free_id();
-	set_animation(data, hero_id, animation_map.find("walk_right")->second);
+	data.positions[hero_id] = { 3, 3 };
+	set_animation(data, hero_id, slice_right_anim_id);
 
 	load_level("assets/maps/arena.tmx", data);
 
