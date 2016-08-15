@@ -44,6 +44,9 @@ struct Game_data {
 	flat_map<std::string, Sprite_record> sprite_table;
 	flat_map<std::string, Animation_record> animation_table;
 	std::vector<Animation_frame_record> animation_frame_table;
+	flat_map<std::string, Animation_group_record> animation_group_table;
+	std::vector<Animation_group_type_record> animation_group_type_table;
+
 	flat_map<std::string, Resource_record<Texture>> texture_table;
 	flat_map<std::string, Resource_record<Mesh2>> mesh2_table;
 	flat_map<std::string, Resource_record<Animation2>> animation2_table;

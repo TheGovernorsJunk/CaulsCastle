@@ -39,6 +39,16 @@ struct Animation_frame_record {
 	size_t frame_index;
 };
 
+struct Animation_group_record {
+	std::string name;
+};
+
+struct Animation_group_type_record {
+	std::string group_name;
+	std::string type;
+	std::string animation_filename;
+};
+
 template <typename Resource>
 struct Resource_record {
 	std::string name;
