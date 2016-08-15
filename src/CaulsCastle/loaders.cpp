@@ -19,7 +19,8 @@ void load_image_data(const std::string& data_filename, Game_data& data)
 			   std::inserter(data.sprite_table, data.sprite_table.end()));
 	}
 	for (auto* p_animation = p_root->first_node("animations")->first_node("file"); p_animation != NULL; p_animation = p_animation->next_sibling("file")) {
-		load_animation(dir + p_animation->first_attribute("name")->value(),
+		load_animation(dir,
+			       p_animation->first_attribute("name")->value(),
 			       std::inserter(data.animation_table, data.animation_table.begin()),
 			       std::back_inserter(data.animation_sprite_table));
 	}

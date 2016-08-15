@@ -72,11 +72,12 @@ void load_atlas(const std::string& filename,
 }
 
 template <typename Animation_table_iter, typename Animation_sprite_container_iter>
-void load_animation(const std::string& csv_filename,
+void load_animation(const std::string& dir,
+		    const std::string& csv_filename,
 		    Animation_table_iter animation_out,
 		    Animation_sprite_container_iter animation_sprite_out)
 {
-	Animation_csv csv{ csv_filename };
+	Animation_csv csv{ dir + csv_filename };
 	animation_out++ = { csv_filename, { csv_filename } };
 
 	size_t i = 0;
