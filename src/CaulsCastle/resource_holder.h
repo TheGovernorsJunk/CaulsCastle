@@ -13,6 +13,11 @@ class Resource_id {
 		: m_id{ id }
 	{}
 	int m_id;
+public:
+	inline bool operator==(const Resource_id& rhs) const
+	{
+		return m_id == rhs.m_id;
+	}
 };
 
 template <typename Resource>
