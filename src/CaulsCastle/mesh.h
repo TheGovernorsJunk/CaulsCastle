@@ -29,6 +29,9 @@ void draw(const Mesh<PositionVec, TexVec>& mesh)
 	glEnd();
 }
 
+struct Sprite_record;
+Mesh2 make_mesh(const Sprite_record&, GLuint gl_texture_id);
+
 namespace detail
 {
 

@@ -130,6 +130,7 @@
     <ClCompile Include="loaders.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="level.cpp" />
