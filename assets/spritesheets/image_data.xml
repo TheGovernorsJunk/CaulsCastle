@@ -5,11 +5,28 @@
     <file name="hero.xml" />
   </atlases>
   <animations>
-    <file name="hero_fe_slice_left.csv" />
-    <file name="hero_fe_slice_right.csv" />
-    <file name="hero_fe_walk_down.csv" />
-    <file name="hero_fe_walk_left.csv" />
-    <file name="hero_fe_walk_right.csv" />
-    <file name="hero_fe_walk_up.csv" />
+    <file name="hero_fe_slice_left.csv">
+      <group name="hero_fe" type="light_attack_left" />
+    </file>
+
+    <file name="hero_fe_slice_right.csv">
+      <group name="hero_fe" type="light_attack_right" />
+    </file>
+
+    <file name="hero_fe_walk_down.csv">
+      <group name="hero_fe" type="walk_down" />
+    </file>
+
+    <file name="hero_fe_walk_left.csv">
+      <group name="hero_fe" type="walk_left" />
+    </file>
+
+    <file name="hero_fe_walk_right.csv">
+      <group name="hero_fe" type="walk_right" />
+    </file>
+
+    <file name="hero_fe_walk_up.csv">
+      <group name="hero_fe" type="walk_up" />
+    </file>
   </animations>
 </image_data>
