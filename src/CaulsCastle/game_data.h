@@ -14,6 +14,7 @@
 #include <memory>
 #include <vector>
 #include <type_traits>
+#include <iterator>
 
 class b2World;
 class b2Body;
@@ -45,6 +46,7 @@ struct Game_data {
 	std::vector<Animation_frame_record> animation_frame_table;
 	flat_map<std::string, Resource_record<Texture>> texture_table;
 	flat_map<std::string, Resource_record<Mesh2>> mesh2_table;
+	flat_map<std::string, Resource_record<Animation2>> animation2_table;
 
 	vec2 pixel_to_world_scale;
 
@@ -140,6 +142,11 @@ inline auto& get_resource_table<Mesh2>(Game_data& data)
 {
 	return data.mesh2_table;
 }
+template <>
+inline auto& get_resource_table<Animation2>(Game_data& data)
+{
+	return data.animation2_table;
+}
 
 template <typename Resource>
 inline auto& get_data_table(Game_data& data);
@@ -152,6 +159,11 @@ template <>
 inline auto& get_data_table<Mesh2>(Game_data& data)
 {
 	return data.sprite_table;
+}
+template <>
+inline auto& get_data_table<Animation2>(Game_data& data)
+{
+	return data.animation_table;
 }
 
 template <typename Resource, typename Record>
@@ -166,6 +178,21 @@ inline Resource_id<Mesh2> create_resource(const Sprite_record& record, Game_data
 {
 	auto texture_id = get_or_create<Texture>(record.image_filename, data);
 	return data.meshes2.insert(make_mesh(record, data.textures.get(texture_id).get_texture_id()));
+}
+template <>
+inline Resource_id<Animation2> create_resource(const Animation_record& record, Game_data& data)
+{
+	std::vector<decltype(Game_data::animation_frame_table)::value_type> frames;
+	std::copy_if(data.animation_frame_table.begin(), data.animation_frame_table.end(), std::back_inserter(frames), [&record](auto& frame_record) {
+		return frame_record.animation_filename == record.filename;
+	});
+	assert(frames.size() > 0);
+	Animation<Mesh2> animation{ {}, frames[0].delay_unit };
+	for (auto& frame : frames) {
+		auto mesh_id = get_or_create<Mesh2>(frame.sprite_filename, data);
+		animation.frames.push_back({ frame.delay, mesh_id });
+	}
+	return data.animations2.insert(std::move(animation));
 }
 
 } // namespace detail
