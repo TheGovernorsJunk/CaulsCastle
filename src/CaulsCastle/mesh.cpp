@@ -27,14 +27,19 @@ Mesh2 make_mesh(const Sprite_record& record, GLuint gl_texture_id)
 	quad[3].tex_coords = { (Tex_coord)(record.x) / tex_width,
 			       (Tex_coord)(record.y + record.h) / tex_height };
 
-	quad[0].position = { (Position_coord)0,
-			     (Position_coord)0 };
-	quad[1].position = { (Position_coord)record.w,
-			     (Position_coord)0 };
-	quad[2].position = { (Position_coord)record.w,
-			     (Position_coord)record.h };
-	quad[3].position = { (Position_coord)0,
-			     (Position_coord)record.h };
+	using Position_vec = decltype(quad[0].position);
+	Position_vec offset{
+		-record.px * record.w,
+		-record.py * record.h
+	};
+	quad[0].position = Position_vec{ (Position_coord)0,
+					 (Position_coord)0 } + offset;
+	quad[1].position = Position_vec{ (Position_coord)record.w,
+					 (Position_coord)0 } + offset;
+	quad[2].position = Position_vec{ (Position_coord)record.w,
+					 (Position_coord)record.h } + offset;
+	quad[3].position = Position_vec{ (Position_coord)0,
+					 (Position_coord)record.h } + offset;
 
 	return { std::move(quad), gl_texture_id, GL_QUADS };
 }
