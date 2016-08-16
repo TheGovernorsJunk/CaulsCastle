@@ -144,6 +144,7 @@ int main(int argc, char** argv)
 
 	if (p_joystick) {
 		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
+		data.keymaps.insert(decltype(data.keymaps)::value_type{ 0, Keymap{} });
 	}
 
 	data.pixel_to_world_scale = pixel_to_world_scale;
