@@ -76,6 +76,7 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 							mesh_pair.second.draw_order = group.index;
 						}
 					}
+					data.avatars[0] = player_id;
 				}
 			}
 		}
