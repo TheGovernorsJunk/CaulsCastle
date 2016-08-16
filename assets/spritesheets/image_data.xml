@@ -28,5 +28,21 @@
     <file name="hero_fe_walk_up.csv">
       <group name="hero_fe" type="walk_up" />
     </file>
+
+    <file name="hero_fe_idle_down.csv">
+      <group name="hero_fe" type="idle_down" />
+    </file>
+
+    <file name="hero_fe_idle_left.csv">
+      <group name="hero_fe" type="idle_left" />
+    </file>
+
+    <file name="hero_fe_idle_right.csv">
+      <group name="hero_fe" type="idle_right" />
+    </file>
+
+    <file name="hero_fe_idle_up.csv">
+      <group name="hero_fe" type="idle_up" />
+    </file>
   </animations>
 </image_data>
