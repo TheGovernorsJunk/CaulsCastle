@@ -3,6 +3,7 @@
 #include "tmx.h"
 #include "texture.h"
 #include "tile_map_layer.h"
+#include "entity.h"
 
 #include <Box2D/Box2D.h>
 #include <glm/gtx/transform.hpp>
@@ -63,11 +64,18 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 		if (group.name == "Entities") {
 			for (auto& entity : group.objects) {
 				if (entity.name == "Player") {
-					auto player_id = data.entity_manager.get_free_id();
+					auto hero_found = data.entity_table.find("hero");
+					assert(hero_found != data.entity_table.end());
+					auto player_id = make_entity(hero_found->second, data);
 					data.positions[player_id] = {
-						entity.x + (entity.width * 0.5f),
-						entity.y + (entity.height * 0.5f)
+						(entity.x + (entity.width * 0.5f)) / data.pixel_to_world_scale.x,
+						(entity.y + (entity.height * 0.5f)) / data.pixel_to_world_scale.y
 					};
+					for (auto& mesh_pair : data.entity_meshes2) {
+						if (mesh_pair.first == player_id) {
+							mesh_pair.second.draw_order = group.index;
+						}
+					}
 				}
 			}
 		}
