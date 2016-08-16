@@ -188,6 +188,18 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">clips/hero_fe_idle_down0000.png</key>
+            <key type="filename">clips/hero_fe_idle_left0000.png</key>
+            <key type="filename">clips/hero_fe_idle_right0000.png</key>
+            <key type="filename">clips/hero_fe_idle_up0000.png</key>
+            <key type="filename">clips/hero_fe_slice_left0000.png</key>
+            <key type="filename">clips/hero_fe_slice_left0001.png</key>
+            <key type="filename">clips/hero_fe_slice_left0002.png</key>
+            <key type="filename">clips/hero_fe_slice_left0003.png</key>
+            <key type="filename">clips/hero_fe_slice_right0000.png</key>
+            <key type="filename">clips/hero_fe_slice_right0001.png</key>
+            <key type="filename">clips/hero_fe_slice_right0002.png</key>
+            <key type="filename">clips/hero_fe_slice_right0003.png</key>
             <key type="filename">clips/hero_fe_walk_down0000.png</key>
             <key type="filename">clips/hero_fe_walk_down0001.png</key>
             <key type="filename">clips/hero_fe_walk_down0002.png</key>
