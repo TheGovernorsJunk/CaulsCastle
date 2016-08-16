@@ -8,8 +8,11 @@ namespace te {
 Entity_animation::Entity_animation(const std::string& animation_group, Game_data& data)
 {
 	using Pair = std::pair<std::string, Resource_id<Animation2>*>;
-	const std::array<Pair, 7> anim_map = {
-		Pair{ "idle", &idle },
+	const std::array<Pair, 10> anim_map = {
+		Pair{ "idle_down", &idle_down },
+		Pair{ "idle_right", &idle_right },
+		Pair{ "idle_left", &idle_left },
+		Pair{ "idle_up", &idle_up },
 		Pair{ "walk_down", &walk_down },
 		Pair{ "walk_right", &walk_right },
 		Pair{ "walk_left", &walk_left },

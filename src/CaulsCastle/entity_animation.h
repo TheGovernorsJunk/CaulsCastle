@@ -10,7 +10,10 @@ namespace te {
 struct Game_data;
 
 struct Entity_animation {
-	Resource_id<Animation2> idle;
+	Resource_id<Animation2> idle_down;
+	Resource_id<Animation2> idle_right;
+	Resource_id<Animation2> idle_left;
+	Resource_id<Animation2> idle_up;
 
 	Resource_id<Animation2> walk_down;
 	Resource_id<Animation2> walk_right;
