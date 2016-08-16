@@ -151,19 +151,16 @@ int main(int argc, char** argv)
 	auto slice_right_anim_id = get_or_create<Animation2>("hero_fe_slice_right.csv", data);
 	assert(slice_right_anim_id == get_or_create<Animation2>("hero_fe_slice_right.csv", data));
 
-	std::map<std::string, Resource_id<Animation2>> animation_map;
-	load_animations("assets/spritesheets/hero_animations.xml", data, std::inserter(animation_map, animation_map.end()));
-
 	// make hero
 	auto hero_id = data.entity_manager.get_free_id();
 	data.positions[hero_id] = { 3, 3 };
 	set_animation(data, hero_id, slice_right_anim_id);
 
-	load_level("assets/maps/arena.tmx", data);
-
 	if (p_joystick) {
 		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
 	}
+
+	load_level("assets/maps/grassy.tmx", data);
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;
