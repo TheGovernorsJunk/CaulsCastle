@@ -9244,7 +9244,7 @@
   </data>
  </layer>
  <objectgroup name="Entities">
-  <object id="1" name="Player" x="160" y="112"/>
+  <object id="1" name="Player" x="400" y="208"/>
  </objectgroup>
  <layer name="Wall" width="64" height="48">
   <data>
