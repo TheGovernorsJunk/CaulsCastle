@@ -27,4 +27,21 @@ void load_entity_xml(const std::string& filename, Game_data& data)
 	}));
 }
 
+Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data)
+{
+	auto entity_id = data.entity_manager.get_free_id();
+
+	data.entity_animation_groups.insert(decltype(data.entity_animation_groups)::value_type{
+		entity_id,
+		Entity_animation{ entity_xml.animation_group, data }
+	});
+	auto group_found = data.entity_animation_groups.find(entity_id);
+	assert(group_found != data.entity_animation_groups.end());
+	set_animation(data,
+		      entity_id,
+		      group_found->second.idle_down);
+
+	return entity_id;
+}
+
 } // namespace te

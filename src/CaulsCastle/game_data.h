@@ -9,6 +9,7 @@
 #include "animation.h"
 #include "records.h"
 #include "entity.h"
+#include "entity_animation.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -78,6 +79,8 @@ struct Game_data {
 	component<Entity_id, float> max_speeds;
 	component<Entity_id, vec2> velocities;
 	component<Entity_id, vec2> positions;
+
+	component<Entity_id, Entity_animation> entity_animation_groups;
 
 	template <typename Mesh>
 	struct Animation_data {
