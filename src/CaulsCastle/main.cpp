@@ -6,6 +6,7 @@
 #include "level.h"
 #include "loaders.h"
 #include "records.h"
+#include "entity_animation.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -161,6 +162,7 @@ int main(int argc, char** argv)
 			break;
 		}
 	}
+	Entity_animation hero_animations{ "hero_fe", data };
 
 	if (p_joystick) {
 		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
