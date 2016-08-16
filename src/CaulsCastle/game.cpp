@@ -100,6 +100,10 @@ namespace {
 template <typename Resource_component>
 inline void draw(Game_data& game_data, Resource_component& render_data, const glm::mat4& model_view, const glm::mat4& post_translate)
 {
+	std::sort(std::begin(render_data), std::end(render_data), [](auto& a, auto& b) {
+		return a.second.draw_order < b.second.draw_order;
+	});
+
 	for (auto& data_pair : render_data) {
 		auto position = game_data.positions[data_pair.first];
 		glLoadMatrixf(glm::value_ptr(model_view

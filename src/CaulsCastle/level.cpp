@@ -24,14 +24,14 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 
 	auto map_id = data.entity_manager.get_free_id();
 	iterate_layers_and_tilesets(tmx, [map_id, &data, &tmx, &tileset_texture_ids](size_t layer_i, size_t tileset_i) {
-		Vertex_array<vec3, vec2> vertices{};
+		Vertex_array<vec2, vec2> vertices{};
 		get_tile_map_layer_vertices(tmx, layer_i, tileset_i, std::back_inserter(vertices));
-		auto id = data.meshes3.insert({
+		auto id = data.meshes2.insert({
 			std::move(vertices),
 			tileset_texture_ids[tileset_i],
 			GL_QUADS
 		});
-		data.entity_meshes3.push_back({ map_id, { id } });
+		data.entity_meshes2.push_back({ map_id, { id, {}, static_cast<int>(tileset_i) } });
 	});
 
 	for (auto& group : tmx.objectgroups) {

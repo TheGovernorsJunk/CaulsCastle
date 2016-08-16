@@ -97,6 +97,7 @@ struct Game_data {
 	struct Render_data {
 		Resource_id<Resource> resource_id;
 		glm::mat4 transform;
+		int draw_order;
 	};
 	Multi_component<Entity_id, Render_data<Mesh2>> entity_meshes2;
 	Multi_component<Entity_id, Render_data<Mesh3>> entity_meshes3;
