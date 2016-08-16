@@ -31,7 +31,7 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 			tileset_texture_ids[tileset_i],
 			GL_QUADS
 		});
-		data.entity_meshes2.push_back({ map_id, { id, {}, static_cast<int>(tileset_i) } });
+		data.entity_meshes2.push_back({ map_id, { id, {}, static_cast<int>(layer_i) } });
 	});
 
 	for (auto& group : tmx.objectgroups) {
