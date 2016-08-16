@@ -5,18 +5,6 @@
 
 namespace te {
 
-static inline bool assign_id(const std::string& type_name,
-			     const Animation_group_type_record& record,
-			     Game_data& data,
-			     Resource_id<Animation2>& id)
-{
-	if (record.type == type_name) {
-		id = get_or_create<Animation2>(record.animation_filename, data);
-		return true;
-	}
-	return false;
-}
-
 Entity_animation::Entity_animation(const std::string& animation_group, Game_data& data)
 {
 	using Pair = std::pair<std::string, Resource_id<Animation2>*>;
@@ -33,7 +21,8 @@ Entity_animation::Entity_animation(const std::string& animation_group, Game_data
 	for (auto& group_type_record : data.animation_group_type_table) {
 		if (group_type_record.group_name == animation_group) {
 			for (auto& pair : anim_map) {
-				if (assign_id(pair.first, group_type_record, data, *pair.second)) {
+				if (group_type_record.type == pair.first) {
+					*pair.second = get_or_create<Animation2>(group_type_record.animation_filename, data);
 					break;
 				}
 			}
