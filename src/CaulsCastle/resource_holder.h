@@ -14,6 +14,9 @@ class Resource_id {
 	{}
 	int m_id;
 public:
+	Resource_id()
+		: m_id{ 0 }
+	{}
 	inline bool operator==(const Resource_id& rhs) const
 	{
 		return m_id == rhs.m_id;
