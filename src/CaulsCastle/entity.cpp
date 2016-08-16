@@ -15,6 +15,7 @@ Entity_xml::Entity_xml(const std::string& filename)
 
 	name = p_root->first_attribute("name")->value();
 	animation_group = p_root->first_node("animationgroup")->first_attribute("name")->value();
+	max_speed = std::stof(p_root->first_node("speed")->first_attribute("value")->value());
 }
 
 void load_entity_xml(const std::string& filename, Game_data& data)
@@ -40,6 +41,7 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data)
 	set_animation(data,
 		      entity_id,
 		      group_found->second.idle_down);
+	data.max_speeds.insert(decltype(data.max_speeds)::value_type{ entity_id, entity_xml.max_speed });
 
 	return entity_id;
 }
