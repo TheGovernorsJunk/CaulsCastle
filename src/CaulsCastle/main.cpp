@@ -142,34 +142,15 @@ int main(int argc, char** argv)
 
 	Game_data data{};
 
+	if (p_joystick) {
+		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
+	}
+
 	data.pixel_to_world_scale = pixel_to_world_scale;
 	data.image_root = "assets/spritesheets/";
 
 	load_image_data("assets/spritesheets/image_data.xml", data);
-	auto hero_texture_id = get_or_create<Texture>("hero.png", data);
-	assert(hero_texture_id == get_or_create<Texture>("hero.png", data));
-	auto slice_right_mesh_id = get_or_create<Mesh2>("hero_fe_slice_right0000.png", data);
-	assert(slice_right_mesh_id == get_or_create<Mesh2>("hero_fe_slice_right0000.png", data));
-	auto slice_right_anim_id = get_or_create<Animation2>("hero_fe_slice_right.csv", data);
-	assert(slice_right_anim_id == get_or_create<Animation2>("hero_fe_slice_right.csv", data));
-
 	load_entity_xml("assets/entities/hero.xml", data);
-
-	// make hero
-	auto hero_id = data.entity_manager.get_free_id();
-	data.positions[hero_id] = { 3, 3 };
-	set_animation(data, hero_id, slice_right_anim_id);
-	for (auto& render_data_pair : data.entity_meshes2) {
-		if (render_data_pair.first == hero_id) {
-			render_data_pair.second.draw_order = 1;
-			break;
-		}
-	}
-	Entity_animation hero_animations{ "hero_fe", data };
-
-	if (p_joystick) {
-		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
-	}
 
 	load_level("assets/maps/arena.tmx", data);
 
