@@ -155,6 +155,12 @@ int main(int argc, char** argv)
 	auto hero_id = data.entity_manager.get_free_id();
 	data.positions[hero_id] = { 3, 3 };
 	set_animation(data, hero_id, slice_right_anim_id);
+	for (auto& render_data_pair : data.entity_meshes2) {
+		if (render_data_pair.first == hero_id) {
+			render_data_pair.second.draw_order = 1;
+			break;
+		}
+	}
 
 	if (p_joystick) {
 		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
