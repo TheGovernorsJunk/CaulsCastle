@@ -59,6 +59,18 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 
 			data.rigid_bodies.insert(std::pair<decltype(map_id), decltype(p_body)>{ map_id, std::move(p_body) });
 		}
+
+		if (group.name == "Entities") {
+			for (auto& entity : group.objects) {
+				if (entity.name == "Player") {
+					auto player_id = data.entity_manager.get_free_id();
+					data.positions[player_id] = {
+						entity.x + (entity.width * 0.5f),
+						entity.y + (entity.height * 0.5f)
+					};
+				}
+			}
+		}
 	}
 }
 
