@@ -7,6 +7,7 @@
 #include "loaders.h"
 #include "records.h"
 #include "entity_animation.h"
+#include "entity.h"
 
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -152,6 +153,8 @@ int main(int argc, char** argv)
 	auto slice_right_anim_id = get_or_create<Animation2>("hero_fe_slice_right.csv", data);
 	assert(slice_right_anim_id == get_or_create<Animation2>("hero_fe_slice_right.csv", data));
 
+	load_entity_xml("assets/entities/hero.xml", data);
+
 	// make hero
 	auto hero_id = data.entity_manager.get_free_id();
 	data.positions[hero_id] = { 3, 3 };
@@ -168,7 +171,7 @@ int main(int argc, char** argv)
 		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
 	}
 
-	load_level("assets/maps/grassy.tmx", data);
+	load_level("assets/maps/arena.tmx", data);
 
 	auto last_ticks = SDL_GetTicks();
 	decltype(last_ticks) time_since_last_update = 0;

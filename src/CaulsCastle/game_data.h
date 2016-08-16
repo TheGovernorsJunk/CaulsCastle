@@ -8,6 +8,7 @@
 #include "resource_holder.h"
 #include "animation.h"
 #include "records.h"
+#include "entity.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -46,6 +47,7 @@ struct Game_data {
 	std::vector<Animation_frame_record> animation_frame_table;
 	flat_map<std::string, Animation_group_record> animation_group_table;
 	std::vector<Animation_group_type_record> animation_group_type_table;
+	flat_map<std::string, Entity_xml> entity_table;
 
 	flat_map<std::string, Resource_record<Texture>> texture_table;
 	flat_map<std::string, Resource_record<Mesh2>> mesh2_table;
