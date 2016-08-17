@@ -96,6 +96,7 @@ struct Game_data {
 			, frame_index{ 0 }
 			, t{ 0.f }
 		{}
+		Animation_data() = default;
 	};
 	component<Entity_id, Animation_data<Mesh2>> entity_animations2;
 
