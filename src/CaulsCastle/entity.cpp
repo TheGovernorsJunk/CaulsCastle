@@ -14,8 +14,9 @@ Entity_xml::Entity_xml(const std::string& filename)
 	auto* p_root = xml.first_node("entity");
 
 	name = p_root->first_attribute("name")->value();
-	animation_group = p_root->first_node("animationgroup")->first_attribute("name")->value();
+	animation_group = p_root->first_node("animationgroup")->first_attribute("value")->value();
 	max_speed = std::stof(p_root->first_node("speed")->first_attribute("value")->value());
+	initial_state = p_root->first_node("state")->first_attribute("value")->value();
 }
 
 void load_entity_xml(const std::string& filename, Game_data& data)

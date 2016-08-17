@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity name="hero">
-  <animationgroup name="hero_fe" />
+  <animationgroup value="hero_fe" />
   <speed value="3" />
+  <state value="normal" />
 </entity>

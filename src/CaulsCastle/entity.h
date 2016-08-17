@@ -11,6 +11,7 @@ struct Entity_xml {
 	std::string name;
 	std::string animation_group;
 	float max_speed;
+	std::string initial_state;
 
 	Entity_xml(const std::string& filename);
 };
