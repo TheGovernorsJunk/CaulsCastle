@@ -85,6 +85,43 @@ static inline void step_rigid_bodies(Game_data& data)
 	}
 }
 
+static inline void set_animations(Game_data& data)
+{
+	for (const auto& group_pair : data.entity_animation_groups) {
+		const auto entity_id = group_pair.first;
+		const auto& group = group_pair.second;
+		const auto velocity = data.velocities[entity_id];
+		auto& animation = data.entity_animations2[entity_id];
+
+		const auto assign_if = [&animation](bool condition,
+						    Resource_id<Animation2> animation_id)
+		{
+			if (condition && animation.id != animation_id) {
+				animation.id = animation_id;
+				animation.frame_index = 0;
+				animation.t = 0;
+			}
+		};
+
+		auto x_mag = std::abs(velocity.x);
+		auto y_mag = std::abs(velocity.y);
+		if (x_mag > y_mag) {
+			assign_if(velocity.x > 0, group.walk_right);
+			assign_if(velocity.x < 0, group.walk_left);
+		}
+		else if (y_mag > x_mag) {
+			assign_if(velocity.y > 0, group.walk_down);
+			assign_if(velocity.y < 0, group.walk_up);
+		}
+		else {
+			assign_if(animation.id == group.walk_right, group.idle_right);
+			assign_if(animation.id == group.walk_left, group.idle_left);
+			assign_if(animation.id == group.walk_down, group.idle_down);
+			assign_if(animation.id == group.walk_up, group.idle_up);
+		}
+	}
+}
+
 static inline void step_animations(Game_data& data, float dt)
 {
 	for (auto& animation_pair : data.entity_animations2) {
@@ -134,6 +171,7 @@ void step_game(Game_data& data, float dt)
 	step_velocities(data, dt);
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
+	set_animations(data);
 	step_animations(data, dt);
 	set_view(data);
 	clear_inputs(data);
