@@ -27,6 +27,9 @@ void input_game(Game_data& data, const SDL_Event& evt)
 		if (evt.cbutton.button == keymap.dodge) {
 			set_button_input(input.dodge, evt.type);
 		}
+		else if (evt.cbutton.button == keymap.light_attack) {
+			set_button_input(input.light_attack, evt.type);
+		}
 	}
 }
 
