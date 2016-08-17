@@ -28,6 +28,7 @@ struct Keymap {
 	SDL_GameControllerAxis y_movement;
 
 	SDL_GameControllerButton dodge;
+	SDL_GameControllerButton light_attack;
 
 	Keymap();
 };
