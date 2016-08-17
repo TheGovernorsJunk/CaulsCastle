@@ -133,6 +133,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="normal_state.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_atlas.cpp" />
     <ClCompile Include="level.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_animation.h" />
+    <ClInclude Include="entity_states.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game_data.h" />
     <ClInclude Include="input.h" />

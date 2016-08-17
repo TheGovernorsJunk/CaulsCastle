@@ -1,6 +1,7 @@
 #include "game.h"
 #include "game_data.h"
 #include "xbox_controller.h"
+#include "entity_states.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
@@ -66,55 +67,6 @@ static inline void step_rigid_bodies(Game_data& data)
 	for (auto& body_pair : data.rigid_bodies) {
 		auto position = body_pair.second->GetPosition();
 		data.positions[body_pair.first] = { position.x, position.y };
-	}
-}
-
-static inline void step_normal_states(Game_data& data)
-{
-	auto player_entity_id = data.avatars[0];
-
-	for (const auto entity_id : data.normal_state_table) {
-		const auto& group = data.entity_animation_groups[entity_id];
-		const auto velocity = data.velocities[entity_id];
-		auto& animation = data.entity_animations2[entity_id];
-
-		const auto assign_if = [&animation](bool condition,
-						    Resource_id<Animation2> animation_id)
-		{
-			if (condition && animation.id != animation_id) {
-				animation.id = animation_id;
-				animation.frame_index = 0;
-				animation.t = 0;
-			}
-		};
-
-		auto x_mag = std::abs(velocity.x);
-		auto y_mag = std::abs(velocity.y);
-		if (x_mag > y_mag) {
-			assign_if(velocity.x > 0, group.walk_right);
-			assign_if(velocity.x < 0, group.walk_left);
-		}
-		else if (y_mag > x_mag) {
-			assign_if(velocity.y > 0, group.walk_down);
-			assign_if(velocity.y < 0, group.walk_up);
-		}
-		else {
-			assign_if(animation.id == group.walk_right, group.idle_right);
-			assign_if(animation.id == group.walk_left, group.idle_left);
-			assign_if(animation.id == group.walk_down, group.idle_down);
-			assign_if(animation.id == group.walk_up, group.idle_up);
-		}
-
-		if (entity_id == player_entity_id) {
-			using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
-			const auto& input = data.inputs[0];
-
-			auto max_speed = data.max_speeds[entity_id];
-			data.velocities[entity_id] = max_speed * Vec{
-				input.x_movement,
-				input.y_movement
-			};
-		}
 	}
 }
 
