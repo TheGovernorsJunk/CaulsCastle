@@ -122,6 +122,7 @@ void step_game(Game_data& data, float dt)
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
 	step_normal_states(data);
+	step_light_attack_states(data);
 	step_animations(data, dt);
 	set_view(data);
 	clear_inputs(data);

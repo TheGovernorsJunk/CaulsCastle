@@ -11,6 +11,7 @@ enum class State_mode {
 	Exit
 };
 void step_normal_states(Game_data&);
+void step_light_attack_states(Game_data&);
 
 } // namespace te
 

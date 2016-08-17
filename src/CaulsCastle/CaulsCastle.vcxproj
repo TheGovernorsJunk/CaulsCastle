@@ -129,6 +129,7 @@
     <ClCompile Include="entity_animation.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_data.cpp" />
+    <ClCompile Include="light_attack_state.cpp" />
     <ClCompile Include="loaders.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input.cpp" />
