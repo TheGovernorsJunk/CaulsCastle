@@ -83,6 +83,8 @@ struct Game_data {
 
 	component<Entity_id, Entity_animation> entity_animation_groups;
 
+	std::vector<Entity_id> normal_state_table;
+
 	template <typename Mesh>
 	struct Animation_data {
 		using Id = Resource_id<Animation<Mesh>>;

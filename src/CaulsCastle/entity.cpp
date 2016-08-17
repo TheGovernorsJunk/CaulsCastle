@@ -44,6 +44,10 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data)
 		      group_found->second.idle_down);
 	data.max_speeds.insert(decltype(data.max_speeds)::value_type{ entity_id, entity_xml.max_speed });
 
+	if (entity_xml.initial_state == "normal") {
+		data.normal_state_table.push_back(entity_id);
+	}
+
 	return entity_id;
 }
 

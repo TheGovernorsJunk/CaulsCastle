@@ -43,22 +43,6 @@ static inline void step_controllers(Game_data& data)
 	}
 }
 
-static inline void step_inputs(Game_data& data)
-{
-	using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
-	for (auto& input_pair : data.inputs) {
-		const auto player_id = input_pair.first;
-		const auto& input = input_pair.second;
-		const auto entity_id = data.avatars[player_id];
-
-		auto max_speed = data.max_speeds[entity_id];
-		data.velocities[entity_id] = max_speed * Vec{
-			input.x_movement,
-			input.y_movement
-		};
-	}
-}
-
 static inline void step_velocities(Game_data& data, float dt)
 {
 	for (auto& velocity_pair : data.velocities) {
@@ -85,11 +69,12 @@ static inline void step_rigid_bodies(Game_data& data)
 	}
 }
 
-static inline void set_animations(Game_data& data)
+static inline void step_normal_states(Game_data& data)
 {
-	for (const auto& group_pair : data.entity_animation_groups) {
-		const auto entity_id = group_pair.first;
-		const auto& group = group_pair.second;
+	auto player_entity_id = data.avatars[0];
+
+	for (const auto entity_id : data.normal_state_table) {
+		const auto& group = data.entity_animation_groups[entity_id];
 		const auto velocity = data.velocities[entity_id];
 		auto& animation = data.entity_animations2[entity_id];
 
@@ -118,6 +103,17 @@ static inline void set_animations(Game_data& data)
 			assign_if(animation.id == group.walk_left, group.idle_left);
 			assign_if(animation.id == group.walk_down, group.idle_down);
 			assign_if(animation.id == group.walk_up, group.idle_up);
+		}
+
+		if (entity_id == player_entity_id) {
+			using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
+			const auto& input = data.inputs[0];
+
+			auto max_speed = data.max_speeds[entity_id];
+			data.velocities[entity_id] = max_speed * Vec{
+				input.x_movement,
+				input.y_movement
+			};
 		}
 	}
 }
@@ -167,11 +163,10 @@ static inline void clear_inputs(Game_data& data)
 void step_game(Game_data& data, float dt)
 {
 	step_controllers(data);
-	step_inputs(data);
 	step_velocities(data, dt);
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
-	set_animations(data);
+	step_normal_states(data);
 	step_animations(data, dt);
 	set_view(data);
 	clear_inputs(data);
