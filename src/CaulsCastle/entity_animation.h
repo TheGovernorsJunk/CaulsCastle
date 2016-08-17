@@ -24,6 +24,7 @@ struct Entity_animation {
 	Resource_id<Animation2> light_attack_left;
 
 	Entity_animation(const std::string& animation_group, Game_data&);
+	Entity_animation() = default;
 };
 
 } // namespace te
