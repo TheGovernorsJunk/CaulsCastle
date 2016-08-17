@@ -131,6 +131,10 @@ inline Mesh3& get_resource(Game_data& game_data, Resource_id<Mesh3> id)
 
 void draw_game(Game_data& data)
 {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, data.resolution.x / data.pixel_to_world_scale.x, data.resolution.y / data.pixel_to_world_scale.y, 0, -10000.0, 10000.0);
+
 	glMatrixMode(GL_MODELVIEW);
 	auto pixel_scale = glm::scale(glm::vec3(1 / data.pixel_to_world_scale.x,
 					       1 / data.pixel_to_world_scale.y,

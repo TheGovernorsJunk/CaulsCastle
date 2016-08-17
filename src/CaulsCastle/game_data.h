@@ -55,6 +55,7 @@ struct Game_data {
 	flat_map<std::string, Resource_record<Animation2>> animation2_table;
 
 	vec2 pixel_to_world_scale;
+	vec2 resolution;
 
 	std::unique_ptr<b2World> physics_world;
 

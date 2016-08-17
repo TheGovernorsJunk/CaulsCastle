@@ -124,19 +124,11 @@ int main(int argc, char** argv)
 
 	Gl_context context{ *pWindow };
 
-	glViewport(0, 0, window_width, window_height);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, resolution_width / pixel_to_world_scale.x, resolution_height / pixel_to_world_scale.y, 0, -10000.0, 10000.0);
-	assert(glGetError() == GL_NO_ERROR);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	assert(glGetError() == GL_NO_ERROR);
-
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_DEPTH_TEST);
+
+	assert(glGetError() == GL_NO_ERROR);
 
 	glClearColor(0, 0, 0, 1.f);
 
@@ -148,6 +140,7 @@ int main(int argc, char** argv)
 	}
 
 	data.pixel_to_world_scale = pixel_to_world_scale;
+	data.resolution = { resolution_width, resolution_height };
 	data.image_root = "assets/spritesheets/";
 
 	load_image_data("assets/spritesheets/image_data.xml", data);
