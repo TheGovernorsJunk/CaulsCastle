@@ -29,11 +29,9 @@ void input_game(Game_data& data, const SDL_Event& evt)
 	}
 }
 
-void step_game(Game_data& data, float dt)
+static inline void step_controllers(Game_data& data)
 {
-	using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
-
-	for (auto& controller_pair : data.controllers) {
+	for (const auto& controller_pair : data.controllers) {
 		const auto player_id = controller_pair.first;
 		const auto& keymap = data.keymaps[player_id];
 		auto& input = data.inputs[player_id];
@@ -43,7 +41,11 @@ void step_game(Game_data& data, float dt)
 		input.y_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.keymaps[player_id].y_movement) / 32767.f;
 		if (std::abs(input.y_movement) < 0.3f) input.y_movement = 0;
 	}
+}
 
+static inline void step_inputs(Game_data& data)
+{
+	using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
 	for (auto& input_pair : data.inputs) {
 		const auto player_id = input_pair.first;
 		const auto& input = input_pair.second;
@@ -55,7 +57,10 @@ void step_game(Game_data& data, float dt)
 			input.y_movement
 		};
 	}
+}
 
+static inline void step_velocities(Game_data& data, float dt)
+{
 	for (auto& velocity_pair : data.velocities) {
 		auto found = data.rigid_bodies.find(velocity_pair.first);
 		if (found != data.rigid_bodies.end()) {
@@ -65,12 +70,23 @@ void step_game(Game_data& data, float dt)
 			data.positions[velocity_pair.first] += (float)dt * velocity_pair.second;
 		}
 	}
+}
+
+static inline void step_physics_world(Game_data& data, float dt)
+{
 	data.physics_world->Step(dt, 8, 3);
+}
+
+static inline void step_rigid_bodies(Game_data& data)
+{
 	for (auto& body_pair : data.rigid_bodies) {
 		auto position = body_pair.second->GetPosition();
 		data.positions[body_pair.first] = { position.x, position.y };
 	}
+}
 
+static inline void step_animations(Game_data& data, float dt)
+{
 	for (auto& animation_pair : data.entity_animations2) {
 		auto entity_id = animation_pair.first;
 		auto& entity_animation = animation_pair.second;
@@ -89,7 +105,10 @@ void step_game(Game_data& data, float dt)
 		assert(found != data.entity_meshes2.end());
 		found->second.resource_id = animation.frames[entity_animation.frame_index].mesh_id;
 	}
+}
 
+static inline void set_view(Game_data& data)
+{
 	auto avatar_found = data.avatars.find(0);
 	if (avatar_found != data.avatars.end()) {
 		auto position = data.positions[avatar_found->second];
@@ -99,10 +118,25 @@ void step_game(Game_data& data, float dt)
 			0
 		});
 	}
+}
 
+static inline void clear_inputs(Game_data& data)
+{
 	for (auto& input_pair : data.inputs) {
 		clear(input_pair.second);
 	}
+}
+
+void step_game(Game_data& data, float dt)
+{
+	step_controllers(data);
+	step_inputs(data);
+	step_velocities(data, dt);
+	step_physics_world(data, dt);
+	step_rigid_bodies(data);
+	step_animations(data, dt);
+	set_view(data);
+	clear_inputs(data);
 }
 
 namespace {
