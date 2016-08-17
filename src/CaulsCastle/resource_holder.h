@@ -21,6 +21,10 @@ public:
 	{
 		return m_id == rhs.m_id;
 	}
+	inline bool operator!=(const Resource_id& rhs) const
+	{
+		return !(*this == rhs);
+	}
 };
 
 template <typename Resource>
