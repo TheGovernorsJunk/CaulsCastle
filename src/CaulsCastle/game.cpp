@@ -90,6 +90,16 @@ void step_game(Game_data& data, float dt)
 		found->second.resource_id = animation.frames[entity_animation.frame_index].mesh_id;
 	}
 
+	auto avatar_found = data.avatars.find(0);
+	if (avatar_found != data.avatars.end()) {
+		auto position = data.positions[avatar_found->second];
+		data.view_matrix = glm::translate(glm::vec3{
+			-position.x + data.resolution.x / data.pixel_to_world_scale.x * 0.5f,
+			-position.y + data.resolution.y / data.pixel_to_world_scale.y * 0.5f,
+			0
+		});
+	}
+
 	for (auto& input_pair : data.inputs) {
 		clear(input_pair.second);
 	}
