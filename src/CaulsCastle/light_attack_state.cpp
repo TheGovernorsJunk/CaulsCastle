@@ -34,6 +34,8 @@ void Light_attack_state_table::step_entering(Record_type& record, Game_data& dat
 	}
 	record.max_duration = duration_found->second;
 	record.duration = 0.f;
+
+	data.velocities[record.id] = { 0, 0 };
 }
 
 void Light_attack_state_table::step_records(Record_type& record, Game_data& data, float dt)
