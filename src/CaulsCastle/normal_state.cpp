@@ -62,5 +62,11 @@ void Normal_state_table::step_animation(Entity_id entity_id, Game_data& data)
 	}
 }
 
+void Normal_state_table::step_records(Entity_id id, Game_data& data, float dt)
+{
+	step_input(id, data);
+	step_animation(id, data);
+}
+
 } // namespace te
 

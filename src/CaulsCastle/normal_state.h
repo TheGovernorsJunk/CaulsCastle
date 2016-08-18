@@ -10,12 +10,7 @@ class Normal_state_table : public State_table<Normal_state_table> {
 
 	void step_input(Entity_id id, Game_data& data);
 	void step_animation(Entity_id entity_id, Game_data& data);
-
-	void step_records(Entity_id id, Game_data& data, float dt)
-	{
-		step_input(id, data);
-		step_animation(id, data);
-	}
+	void step_records(Entity_id id, Game_data& data, float dt);
 };
 
 } // namespace te
