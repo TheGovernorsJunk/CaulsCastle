@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <numeric>
 
 namespace te {
 
@@ -32,6 +33,14 @@ struct Animation {
 	std::vector<Frame> frames;
 	int delay_unit;
 };
+
+template <typename Animation>
+float get_duration(const Animation& animation)
+{
+	return std::accumulate(std::begin(animation.frames), std::end(animation.frames), 0.f, [](float curr_total, const auto& frame) {
+		return curr_total + frame.delay;
+	}) / animation.delay_unit;
+}
 
 using Animation2 = Animation<Mesh2>;
 using Animation3 = Animation<Mesh3>;
