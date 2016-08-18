@@ -121,7 +121,7 @@ void step_game(Game_data& data, float dt)
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
 	data.normal_state_table.step(data, dt);
-	//step_light_attack_states(data);
+	data.light_attack_state_table.step(data, dt);
 	step_animations(data, dt);
 	set_view(data);
 	clear_inputs(data);

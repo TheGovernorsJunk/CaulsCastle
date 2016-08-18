@@ -20,10 +20,10 @@ void Normal_state_table::step_input(Entity_id entity_id, Game_data& data)
 				input.y_movement
 			};
 
-			//if (input.light_attack.fire) {
-			//	data.light_attack_state_table[entity_id] = { State_mode::Enter };
-			//	data.normal_state_table.erase(entity_id);
-			//}
+			if (input.light_attack.fire) {
+				data.light_attack_state_table.insert(entity_id);
+				exit_state(entity_id);
+			}
 		}
 	}
 }

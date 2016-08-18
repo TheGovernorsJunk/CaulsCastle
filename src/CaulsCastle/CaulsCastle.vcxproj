@@ -129,6 +129,7 @@
     <ClCompile Include="entity_animation.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_data.cpp" />
+    <ClCompile Include="light_attack_state.cpp" />
     <ClCompile Include="loaders.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="game_data.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="light_attack_state.h" />
     <ClInclude Include="loaders.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="normal_state.h" />

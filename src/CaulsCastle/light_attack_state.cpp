@@ -1,10 +1,10 @@
-#include "entity_states.h"
+#include "light_attack_state.h"
 #include "game_data.h"
 #include <iostream>
 
 namespace te {
 
-static inline void enter_state(Entity_id entity_id, Game_data& data)
+void Light_attack_state_table::step_entering(Entity_id entity_id, Game_data& data, float dt)
 {
 	const auto& animation_group = data.entity_animation_groups[entity_id];
 	auto& animation = data.entity_animations2[entity_id];
@@ -25,21 +25,8 @@ static inline void enter_state(Entity_id entity_id, Game_data& data)
 		  animation_group.light_attack_right);
 }
 
-void step_light_attack_states(Game_data& data)
+void Light_attack_state_table::step_records(Entity_id entity_id, Game_data& data, float dt)
 {
-	for (auto& record_pair : data.light_attack_state_table) {
-		const auto entity_id = record_pair.first;
-		switch (record_pair.second.mode) {
-		case State_mode::Enter:
-			enter_state(entity_id, data);
-			record_pair.second.mode = State_mode::Neutral;
-			break;
-		case State_mode::Neutral:
-			break;
-		default:
-			assert(false);
-		}
-	}
 }
 
 } // namespace te
