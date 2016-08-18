@@ -25,14 +25,14 @@ class b2Body;
 
 namespace te {
 
-struct Keymap {
+struct Controllermap {
 	SDL_GameControllerAxis x_movement;
 	SDL_GameControllerAxis y_movement;
 
 	SDL_GameControllerButton dodge;
 	SDL_GameControllerButton light_attack;
 
-	Keymap();
+	Controllermap();
 };
 
 class Entity_manager {
@@ -70,7 +70,7 @@ struct Game_data {
 	Entity_manager entity_manager;
 
 	flat_map<Player_id, std::unique_ptr<SDL_GameController, decltype(&SDL_GameControllerClose)>> controllers;
-	flat_map<Player_id, Keymap> keymaps;
+	flat_map<Player_id, Controllermap> controllermaps;
 	flat_map<Player_id, Player_input> inputs;
 	flat_map<Player_id, Entity_id> avatars;
 

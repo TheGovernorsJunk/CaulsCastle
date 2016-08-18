@@ -20,13 +20,13 @@ void input_game(Game_data& data, const SDL_Event& evt)
 {
 	if (evt.type == SDL_CONTROLLERBUTTONDOWN || evt.type == SDL_CONTROLLERBUTTONUP) {
 		const auto player_id = evt.cbutton.which;
-		const auto& keymap = data.keymaps[player_id];
+		const auto& controllermap = data.controllermaps[player_id];
 		auto& input = data.inputs[player_id];
 
-		if (evt.cbutton.button == keymap.dodge) {
+		if (evt.cbutton.button == controllermap.dodge) {
 			set_button_input(input.dodge, evt.type);
 		}
-		else if (evt.cbutton.button == keymap.light_attack) {
+		else if (evt.cbutton.button == controllermap.light_attack) {
 			set_button_input(input.light_attack, evt.type);
 		}
 	}
@@ -36,12 +36,12 @@ static inline void step_controllers(Game_data& data)
 {
 	for (const auto& controller_pair : data.controllers) {
 		const auto player_id = controller_pair.first;
-		const auto& keymap = data.keymaps[player_id];
+		const auto& controllermap = data.controllermaps[player_id];
 		auto& input = data.inputs[player_id];
 
-		input.x_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.keymaps[player_id].x_movement) / 32767.f;
+		input.x_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.controllermaps[player_id].x_movement) / 32767.f;
 		if (std::abs(input.x_movement) < 0.3f) input.x_movement = 0;
-		input.y_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.keymaps[player_id].y_movement) / 32767.f;
+		input.y_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.controllermaps[player_id].y_movement) / 32767.f;
 		if (std::abs(input.y_movement) < 0.3f) input.y_movement = 0;
 	}
 }
