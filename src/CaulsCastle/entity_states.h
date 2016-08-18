@@ -14,6 +14,8 @@ class State_table {
 public:
 	using Record_type = Record;
 
+	virtual ~State_table() = default;
+
 	template <typename R = Record_type>
 	void insert(R&& record)
 	{
