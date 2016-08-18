@@ -9,59 +9,62 @@ namespace te {
 
 struct Game_data;
 
-template <class Derived_table>
+template <class Derived_table, class Record = Entity_id>
 class State_table {
 public:
-	void insert(Entity_id id)
+	using Record_type = Record;
+
+	template <typename R = Record_type>
+	void insert(R&& record)
 	{
-		m_entering_records.push_back(id);
+		m_entering_records.push_back(std::forward<R>(record));
 	}
 	void step(Game_data& data, float dt)
 	{
-		for (auto entity_id : m_entering_records) {
-			static_cast<Derived_table*>(this)->step_entering(entity_id, data, dt);
+		for (auto& record : m_entering_records) {
+			static_cast<Derived_table*>(this)->step_entering(record, data, dt);
 		}
 		m_records.insert(m_records.end(), m_entering_records.begin(), m_entering_records.end());
 		m_entering_records.clear();
 
-		for (auto entity_id : m_records) {
-			static_cast<Derived_table*>(this)->step_records(entity_id, data, dt);
+		for (auto& record : m_records) {
+			static_cast<Derived_table*>(this)->step_records(record, data, dt);
 		}
 
 		if (m_pending_removals.size() > 0) {
 			auto remove = std::remove_if(m_records.begin(),
 						     m_records.end(),
-						     [this](auto removal_id) {
+						     [this](const auto& removal_record) {
 				return std::find(m_pending_removals.begin(),
 						 m_pending_removals.end(),
-						 removal_id) != m_pending_removals.end();
+						 removal_record) != m_pending_removals.end();
 			});
 			assert(remove != m_records.end());
 			m_records.erase(remove, m_records.end());
 			m_pending_removals.clear();
 		}
 
-		for (auto entity_id : m_records) {
-			static_cast<Derived_table*>(this)->step_exiting(entity_id, data, dt);
+		for (auto& record : m_records) {
+			static_cast<Derived_table*>(this)->step_exiting(record, data, dt);
 		}
 		m_exiting_records.clear();
 	}
 protected:
-	void exit_state(Entity_id id)
+	void exit_state(const Record_type& record)
 	{
-		m_pending_removals.push_back(id);
-		m_exiting_records.push_back(id);
+		m_pending_removals.push_back(record);
+		m_exiting_records.push_back(record);
 	}
 private:
 	friend Derived_table;
 
-	inline void step_entering(Entity_id, Game_data&, float) {}
-	inline void step_exiting(Entity_id, Game_data&, float) {}
+	inline void step_entering(const Record_type&, Game_data&, float) {}
+	inline void step_exiting(const Record_type&, Game_data&, float) {}
 
-	std::vector<Entity_id> m_entering_records;
-	std::vector<Entity_id> m_records;
-	std::vector<Entity_id> m_pending_removals;
-	std::vector<Entity_id> m_exiting_records;
+	std::vector<Record_type> m_entering_records;
+	std::vector<Record_type> m_records;
+	std::vector<Record_type> m_pending_removals;
+	std::vector<Record_type> m_exiting_records;
 };
 
 } // namespace te
