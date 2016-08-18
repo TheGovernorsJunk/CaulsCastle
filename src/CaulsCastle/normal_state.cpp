@@ -54,7 +54,7 @@ void Normal_state_table::step_animation(Entity_id entity_id, Game_data& data)
 		assign_if(velocity.y > 0, group.walk_down);
 		assign_if(velocity.y < 0, group.walk_up);
 	}
-	else {
+	else if (x_mag == 0 && y_mag == 0) {
 		assign_if(animation.id == group.walk_right, group.idle_right);
 		assign_if(animation.id == group.walk_left, group.idle_left);
 		assign_if(animation.id == group.walk_down, group.idle_down);
