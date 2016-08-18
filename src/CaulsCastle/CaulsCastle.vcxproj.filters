@@ -60,6 +60,9 @@
     <ClCompile Include="light_attack_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mappings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="light_attack_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mappings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,6 +12,7 @@
 #include "entity_animation.h"
 #include "normal_state.h"
 #include "light_attack_state.h"
+#include "mappings.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -24,16 +25,6 @@ class b2World;
 class b2Body;
 
 namespace te {
-
-struct Controllermap {
-	SDL_GameControllerAxis x_movement;
-	SDL_GameControllerAxis y_movement;
-
-	SDL_GameControllerButton dodge;
-	SDL_GameControllerButton light_attack;
-
-	Controllermap();
-};
 
 class Entity_manager {
 public:

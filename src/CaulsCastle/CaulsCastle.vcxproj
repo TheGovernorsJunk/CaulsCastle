@@ -133,6 +133,7 @@
     <ClCompile Include="loaders.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="mappings.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="normal_state.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="light_attack_state.h" />
     <ClInclude Include="loaders.h" />
+    <ClInclude Include="mappings.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="normal_state.h" />
     <ClInclude Include="records.h" />
