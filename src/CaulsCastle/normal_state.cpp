@@ -21,7 +21,7 @@ void Normal_state_table::step_input(Entity_id entity_id, Game_data& data)
 			};
 
 			if (input.light_attack.fire) {
-				data.light_attack_state_table.insert(entity_id);
+				data.light_attack_state_table.insert({ entity_id });
 				exit_state(entity_id);
 			}
 		}

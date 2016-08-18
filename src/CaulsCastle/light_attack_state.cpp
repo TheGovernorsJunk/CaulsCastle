@@ -4,10 +4,10 @@
 
 namespace te {
 
-void Light_attack_state_table::step_entering(Entity_id entity_id, Game_data& data, float dt)
+void Light_attack_state_table::step_entering(Record_type& record, Game_data& data, float dt)
 {
-	const auto& animation_group = data.entity_animation_groups[entity_id];
-	auto& animation = data.entity_animations2[entity_id];
+	const auto& animation_group = data.entity_animation_groups[record.id];
+	auto& animation = data.entity_animations2[record.id];
 
 	const auto assign_if = [&animation](bool condition, Resource_id<Animation2> id)
 	{
@@ -23,10 +23,26 @@ void Light_attack_state_table::step_entering(Entity_id entity_id, Game_data& dat
 		  animation_group.light_attack_left);
 	assign_if(curr_anim == animation_group.idle_right || curr_anim == animation_group.walk_right,
 		  animation_group.light_attack_right);
+
+	auto duration_found = m_animation_durations.find(animation.id);
+	if (duration_found == m_animation_durations.end()) {
+		auto pair = m_animation_durations.insert(decltype(m_animation_durations)::value_type{
+			animation.id,
+			get_duration(data.animations2.get(animation.id))
+		});
+		duration_found = pair.first;
+	}
+	record.max_duration = duration_found->second;
+	record.duration = 0.f;
 }
 
-void Light_attack_state_table::step_records(Entity_id entity_id, Game_data& data, float dt)
+void Light_attack_state_table::step_records(Record_type& record, Game_data& data, float dt)
 {
+	record.duration += dt;
+	if (record.duration >= record.max_duration) {
+		exit_state(record);
+		data.normal_state_table.insert(record.id);
+	}
 }
 
 } // namespace te
