@@ -62,6 +62,7 @@ struct Game_data {
 
 	flat_map<Player_id, std::unique_ptr<SDL_GameController, decltype(&SDL_GameControllerClose)>> controllers;
 	flat_map<Player_id, Controllermap> controllermaps;
+	flat_map<Player_id, Keymap> keymaps;
 	flat_map<Player_id, Player_input> inputs;
 	flat_map<Player_id, Entity_id> avatars;
 

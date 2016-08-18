@@ -12,8 +12,12 @@ namespace te {
 
 static inline void set_button_input(Player_input::Button_state& button_state, decltype(SDL_Event::type) type)
 {
-	button_state.fire = type == SDL_CONTROLLERBUTTONDOWN;
-	button_state.release = type == SDL_CONTROLLERBUTTONUP;
+	button_state.fire = (type == SDL_CONTROLLERBUTTONDOWN)
+		|| (type == SDL_KEYDOWN)
+		|| (type == SDL_MOUSEBUTTONDOWN);
+	button_state.release = (type == SDL_CONTROLLERBUTTONUP)
+		|| (type == SDL_KEYUP)
+		|| (type == SDL_MOUSEBUTTONUP);
 }
 
 void input_game(Game_data& data, const SDL_Event& evt)
@@ -30,6 +34,21 @@ void input_game(Game_data& data, const SDL_Event& evt)
 			set_button_input(input.light_attack, evt.type);
 		}
 	}
+	else if (data.controllers.find(0) == data.controllers.end()) {
+		const auto& keymap = data.keymaps[0];
+		auto& input = data.inputs[0];
+
+		if (evt.type == SDL_KEYDOWN || evt.type == SDL_KEYUP) {
+			if (evt.key.keysym.sym == keymap.dodge) {
+				set_button_input(input.dodge, evt.type);
+			}
+		}
+		else if (evt.type == SDL_MOUSEBUTTONDOWN || evt.type == SDL_MOUSEBUTTONUP) {
+			if (evt.button.button == keymap.light_attack) {
+				set_button_input(input.light_attack, evt.type);
+			}
+		}
+	}
 }
 
 static inline void step_controllers(Game_data& data)
@@ -43,6 +62,25 @@ static inline void step_controllers(Game_data& data)
 		if (std::abs(input.x_movement) < 0.3f) input.x_movement = 0;
 		input.y_movement = SDL_GameControllerGetAxis(controller_pair.second.get(), data.controllermaps[player_id].y_movement) / 32767.f;
 		if (std::abs(input.y_movement) < 0.3f) input.y_movement = 0;
+	}
+}
+
+static inline void step_keyboard(Game_data& data)
+{
+	if (data.controllers.find(0) != data.controllers.end()) {
+		return;
+	}
+
+	const auto& keymap = data.keymaps[0];
+	auto& input = data.inputs[0];
+	const auto* key_states = SDL_GetKeyboardState(NULL);
+
+	input.x_movement = (float)key_states[keymap.right] - key_states[keymap.left];
+	input.y_movement = (float)key_states[keymap.down] - key_states[keymap.up];
+	if (input.x_movement != 0 && input.y_movement != 0) {
+		auto normalized_movement = glm::normalize(glm::vec2{ input.x_movement, input.y_movement });
+		input.x_movement = normalized_movement.x;
+		input.y_movement = normalized_movement.y;
 	}
 }
 
@@ -117,6 +155,7 @@ static inline void clear_inputs(Game_data& data)
 void step_game(Game_data& data, float dt)
 {
 	step_controllers(data);
+	step_keyboard(data);
 	step_velocities(data, dt);
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);

@@ -134,6 +134,7 @@ int main(int argc, char** argv)
 
 	Game_data data{};
 
+	data.keymaps.insert(decltype(data.keymaps)::value_type{ 0, Keymap{} });
 	if (p_joystick) {
 		data.controllers.insert(std::pair<Player_id, decltype(Game_data::controllers)::mapped_type>{ 0, std::move(p_joystick) });
 		data.controllermaps.insert(decltype(data.controllermaps)::value_type{ 0, Controllermap{} });
