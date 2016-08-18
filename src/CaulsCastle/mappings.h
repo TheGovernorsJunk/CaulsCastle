@@ -15,6 +15,20 @@ struct Controllermap {
 	Controllermap();
 };
 
+struct Keymap {
+	SDL_Scancode left;
+	SDL_Scancode right;
+	SDL_Scancode up;
+	SDL_Scancode down;
+
+	SDL_Keycode dodge;
+
+	using Mouse_button = decltype(SDL_MouseButtonEvent::button);
+	Mouse_button light_attack;
+
+	Keymap();
+};
+
 } // namespace te
 
 #endif
