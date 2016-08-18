@@ -9,6 +9,8 @@ template <typename Resource>
 class Resource_id {
 	template <typename T = Resource>
 	friend class Resource_holder;
+	template <typename T = Resource_id>
+	friend struct ::std::hash;
 	Resource_id(int id)
 		: m_id{ id }
 	{}
@@ -56,5 +58,18 @@ private:
 };
 
 } // namespace te
+
+namespace std {
+
+template <typename T>
+struct hash<te::Resource_id<T>>
+{
+	size_t operator()(const te::Resource_id<T>& id) const
+	{
+		return std::hash<int>{}(id.m_id);
+	}
+};
+
+} // namespace std
 
 #endif
