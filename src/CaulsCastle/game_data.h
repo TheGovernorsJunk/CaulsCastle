@@ -10,7 +10,7 @@
 #include "records.h"
 #include "entity.h"
 #include "entity_animation.h"
-#include "entity_states.h"
+#include "normal_state.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -85,11 +85,8 @@ struct Game_data {
 
 	component<Entity_id, Entity_animation> entity_animation_groups;
 
-	struct Entity_state {
-		State_mode mode;
-	};
-	component<Entity_id, Entity_state> normal_state_table;
-	component<Entity_id, Entity_state> light_attack_state_table;
+	Normal_state_table normal_state_table;
+	//std::vector<Entity_id> light_attack_state_table;
 
 	template <typename Mesh>
 	struct Animation_data {

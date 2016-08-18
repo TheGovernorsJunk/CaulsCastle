@@ -1,7 +1,6 @@
 #include "game.h"
 #include "game_data.h"
 #include "xbox_controller.h"
-#include "entity_states.h"
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
@@ -121,8 +120,8 @@ void step_game(Game_data& data, float dt)
 	step_velocities(data, dt);
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
-	step_normal_states(data);
-	step_light_attack_states(data);
+	data.normal_state_table.step(data, dt);
+	//step_light_attack_states(data);
 	step_animations(data, dt);
 	set_view(data);
 	clear_inputs(data);

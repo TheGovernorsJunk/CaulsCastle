@@ -46,7 +46,7 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data)
 	data.max_speeds.insert(decltype(data.max_speeds)::value_type{ entity_id, entity_xml.max_speed });
 
 	if (entity_xml.initial_state == "normal") {
-		data.normal_state_table.insert(decltype(data.normal_state_table)::value_type{ entity_id, { State_mode::Neutral } });
+		data.normal_state_table.insert(entity_id);
 	}
 
 	return entity_id;
