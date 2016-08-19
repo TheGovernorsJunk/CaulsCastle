@@ -73,7 +73,8 @@ struct Game_data {
 	};
 	component<Entity_id, std::unique_ptr<b2Body, Body_deleter>> rigid_bodies;
 	component<Entity_id, float> max_speeds;
-	component<Entity_id, vec2> velocities;
+	component<Entity_id, float> speeds;
+	component<Entity_id, vec2> headings;
 	component<Entity_id, vec2> positions;
 
 	component<Entity_id, Entity_animation> entity_animation_groups;

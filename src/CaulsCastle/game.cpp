@@ -86,13 +86,17 @@ static inline void step_keyboard(Game_data& data)
 
 static inline void step_velocities(Game_data& data, float dt)
 {
-	for (auto& velocity_pair : data.velocities) {
-		auto found = data.rigid_bodies.find(velocity_pair.first);
+	for (auto& heading_pair : data.headings) {
+		const auto entity_id = heading_pair.first;
+		const auto speed = data.speeds[entity_id];
+		const auto velocity = speed * heading_pair.second;
+
+		auto found = data.rigid_bodies.find(entity_id);
 		if (found != data.rigid_bodies.end()) {
-			found->second->SetLinearVelocity({ velocity_pair.second.x, velocity_pair.second.y });
+			found->second->SetLinearVelocity({ velocity.x, velocity.y });
 		}
 		else {
-			data.positions[velocity_pair.first] += (float)dt * velocity_pair.second;
+			data.positions[entity_id] += (float)dt * velocity;
 		}
 	}
 }
@@ -156,11 +160,11 @@ void step_game(Game_data& data, float dt)
 {
 	step_controllers(data);
 	step_keyboard(data);
+	data.normal_state_table.step(data, dt);
+	data.light_attack_state_table.step(data, dt);
 	step_velocities(data, dt);
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
-	data.normal_state_table.step(data, dt);
-	data.light_attack_state_table.step(data, dt);
 	step_animations(data, dt);
 	set_view(data);
 	clear_inputs(data);

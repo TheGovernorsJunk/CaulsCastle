@@ -12,13 +12,16 @@ void Normal_state_table::step_input(Entity_id entity_id, Game_data& data)
 		const auto player_entity_id = data.avatars[player_id];
 
 		if (player_entity_id == entity_id) {
-			using Vec = std::remove_reference_t<decltype(data.velocities[0])>;
-
 			auto max_speed = data.max_speeds[entity_id];
-			data.velocities[entity_id] = max_speed * Vec{
-				input.x_movement,
-				input.y_movement
-			};
+			auto input_mag = glm::length(glm::vec2{ input.x_movement, input.y_movement });
+			const auto speed = max_speed * input_mag;
+			data.speeds[entity_id] = speed;
+			if (speed > 0) {
+				data.headings[entity_id] = glm::vec2{
+					input.x_movement,
+					input.y_movement
+				} / input_mag;
+			}
 
 			if (input.light_attack.fire) {
 				data.light_attack_state_table.insert({ entity_id });
@@ -31,7 +34,8 @@ void Normal_state_table::step_input(Entity_id entity_id, Game_data& data)
 void Normal_state_table::step_animation(Entity_id entity_id, Game_data& data)
 {
 	const auto& group = data.entity_animation_groups[entity_id];
-	const auto velocity = data.velocities[entity_id];
+	const auto speed = data.speeds[entity_id];
+	const auto heading = data.headings[entity_id];
 	auto& animation = data.entity_animations2[entity_id];
 
 	const auto assign_if = [&animation](bool condition,
@@ -44,21 +48,21 @@ void Normal_state_table::step_animation(Entity_id entity_id, Game_data& data)
 		}
 	};
 
-	auto x_mag = std::abs(velocity.x);
-	auto y_mag = std::abs(velocity.y);
-	if (x_mag > y_mag) {
-		assign_if(velocity.x > 0, group.walk_right);
-		assign_if(velocity.x < 0, group.walk_left);
-	}
-	else if (y_mag > x_mag) {
-		assign_if(velocity.y > 0, group.walk_down);
-		assign_if(velocity.y < 0, group.walk_up);
-	}
-	else if (x_mag == 0 && y_mag == 0) {
+	auto x_mag = std::abs(heading.x);
+	auto y_mag = std::abs(heading.y);
+	if (speed == 0) {
 		assign_if(animation.id == group.walk_right, group.idle_right);
 		assign_if(animation.id == group.walk_left, group.idle_left);
 		assign_if(animation.id == group.walk_down, group.idle_down);
 		assign_if(animation.id == group.walk_up, group.idle_up);
+	}
+	else if (x_mag > y_mag) {
+		assign_if(heading.x > 0, group.walk_right);
+		assign_if(heading.x < 0, group.walk_left);
+	}
+	else if (y_mag > x_mag) {
+		assign_if(heading.y > 0, group.walk_down);
+		assign_if(heading.y < 0, group.walk_up);
 	}
 }
 
