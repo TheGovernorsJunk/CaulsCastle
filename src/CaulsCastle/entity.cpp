@@ -77,7 +77,7 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 		};
 		p_rigid_body = {
 			data.physics_world->CreateBody(&body_def),
-			Game_data::Body_deleter{ *data.physics_world }
+			deleter
 		};
 	}
 	if (p_rigid_body.get()) {
