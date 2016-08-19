@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:a665c509a10fbdfc058140f7db481bb9:9e59928b0e86c415a53fe2e18f0cced9:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
+<!-- $TexturePacker:SmartUpdate:8bfe5234349bcae755ad254ecfeabcb8:9e59928b0e86c415a53fe2e18f0cced9:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -24,14 +24,14 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="hero_fe_idle_left0000.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_idle_right0000.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_idle_up0000.png" x="103" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0000.png" x="137" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0001.png" x="203" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0002.png" x="269" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0003.png" x="335" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0000.png" x="401" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0001.png" x="467" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0002.png" x="533" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0003.png" x="599" y="1" w="64" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0000.png" x="137" y="1" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0001.png" x="203" y="1" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0002.png" x="269" y="1" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0003.png" x="335" y="1" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0000.png" x="401" y="1" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0001.png" x="467" y="1" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0002.png" x="533" y="1" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0003.png" x="599" y="1" w="64" h="32" pX="0.25" pY="0.9375"/>
     <sprite n="hero_fe_walk_down0000.png" x="665" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_walk_down0001.png" x="699" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_walk_down0002.png" x="733" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>

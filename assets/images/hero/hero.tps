@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.2.2</string>
+        <string>4.2.3</string>
         <key>fileName</key>
         <string>C:/Users/Tanner/Projects/CaulsCastle/assets/images/hero/hero.tps</string>
         <key>autoSDSettings</key>
@@ -192,14 +192,6 @@
             <key type="filename">clips/hero_fe_idle_left0000.png</key>
             <key type="filename">clips/hero_fe_idle_right0000.png</key>
             <key type="filename">clips/hero_fe_idle_up0000.png</key>
-            <key type="filename">clips/hero_fe_slice_left0000.png</key>
-            <key type="filename">clips/hero_fe_slice_left0001.png</key>
-            <key type="filename">clips/hero_fe_slice_left0002.png</key>
-            <key type="filename">clips/hero_fe_slice_left0003.png</key>
-            <key type="filename">clips/hero_fe_slice_right0000.png</key>
-            <key type="filename">clips/hero_fe_slice_right0001.png</key>
-            <key type="filename">clips/hero_fe_slice_right0002.png</key>
-            <key type="filename">clips/hero_fe_slice_right0003.png</key>
             <key type="filename">clips/hero_fe_walk_down0000.png</key>
             <key type="filename">clips/hero_fe_walk_down0001.png</key>
             <key type="filename">clips/hero_fe_walk_down0002.png</key>
@@ -235,6 +227,22 @@
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_slice_left0000.png</key>
+            <key type="filename">clips/hero_fe_slice_left0001.png</key>
+            <key type="filename">clips/hero_fe_slice_left0002.png</key>
+            <key type="filename">clips/hero_fe_slice_left0003.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.75,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_slice_right0000.png</key>
+            <key type="filename">clips/hero_fe_slice_right0001.png</key>
+            <key type="filename">clips/hero_fe_slice_right0002.png</key>
+            <key type="filename">clips/hero_fe_slice_right0003.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.25,0.9375</point_f>
             </struct>
         </map>
         <key>fileList</key>
