@@ -66,11 +66,10 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 				if (entity.name == "Player") {
 					auto hero_found = data.entity_table.find("hero");
 					assert(hero_found != data.entity_table.end());
-					auto player_id = make_entity(hero_found->second, data);
-					data.positions[player_id] = {
+					auto player_id = make_entity(hero_found->second, data, {
 						(entity.x + (entity.width * 0.5f)) / data.pixel_to_world_scale.x,
 						(entity.y + (entity.height * 0.5f)) / data.pixel_to_world_scale.y
-					};
+					});
 					for (auto& mesh_pair : data.entity_meshes2) {
 						if (mesh_pair.first == player_id) {
 							mesh_pair.second.draw_order = group.index;

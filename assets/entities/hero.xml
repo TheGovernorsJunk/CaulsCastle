@@ -3,4 +3,7 @@
   <animationgroup value="hero_fe" />
   <speed value="3" />
   <state value="normal" />
+  <rigidbody type="dynamic">
+    <fixture type="rect" halfwidth="0.5" halfheight="0.5" />
+  </rigidbody>
 </entity>
