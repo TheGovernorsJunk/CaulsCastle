@@ -4,6 +4,34 @@
 
 namespace te {
 
+void Normal_state_table::step_entering(Entity_id entity_id, Game_data& data, float dt)
+{
+	const auto heading = data.headings[entity_id];
+	const auto x_mag = std::abs(heading.x);
+	const auto y_mag = std::abs(heading.y);
+	const auto& animation_group = data.entity_animation_groups[entity_id];
+	auto& animator = data.entity_animations2[entity_id];
+
+	if (x_mag > y_mag) {
+		if (heading.x > 0) {
+			animator.id = animation_group.idle_right;
+		}
+		else {
+			animator.id = animation_group.idle_left;
+		}
+	}
+	else {
+		if (heading.y > 0) {
+			animator.id = animation_group.idle_down;
+		}
+		else {
+			animator.id = animation_group.idle_up;
+		}
+	}
+	animator.frame_index = 0;
+	animator.t = 0;
+}
+
 void Normal_state_table::step_input(Entity_id entity_id, Game_data& data)
 {
 	for (auto& input_pair : data.inputs) {
