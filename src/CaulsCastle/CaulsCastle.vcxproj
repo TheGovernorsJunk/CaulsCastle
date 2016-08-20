@@ -161,6 +161,7 @@
     <ClInclude Include="tile_map_layer.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="tmx.h" />
+    <ClInclude Include="tri_bool.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="utilities.h" />
     <ClInclude Include="xbox_controller.h" />
