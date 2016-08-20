@@ -192,6 +192,10 @@
             <key type="filename">clips/hero_fe_idle_left0000.png</key>
             <key type="filename">clips/hero_fe_idle_right0000.png</key>
             <key type="filename">clips/hero_fe_idle_up0000.png</key>
+            <key type="filename">clips/hero_fe_slice_up0000.png</key>
+            <key type="filename">clips/hero_fe_slice_up0001.png</key>
+            <key type="filename">clips/hero_fe_slice_up0002.png</key>
+            <key type="filename">clips/hero_fe_slice_up0003.png</key>
             <key type="filename">clips/hero_fe_walk_down0000.png</key>
             <key type="filename">clips/hero_fe_walk_down0001.png</key>
             <key type="filename">clips/hero_fe_walk_down0002.png</key>
