@@ -12,22 +12,9 @@ void Normal_state_table::step_entering(Entity_id entity_id, Game_data& data, flo
 	const auto& animation_group = data.entity_animation_groups[entity_id];
 	auto& animator = data.entity_animations2[entity_id];
 
-	if (x_mag > y_mag) {
-		if (heading.x > 0) {
-			animator.id = animation_group.idle_right;
-		}
-		else {
-			animator.id = animation_group.idle_left;
-		}
-	}
-	else {
-		if (heading.y > 0) {
-			animator.id = animation_group.idle_down;
-		}
-		else {
-			animator.id = animation_group.idle_up;
-		}
-	}
+	animator.id = animation_group.lookup_table.get(
+		Entity_animation::Query{ false, false, {}, x_mag > y_mag, heading.x > 0, heading.y > 0 }
+	);
 	animator.frame_index = 0;
 	animator.t = 0;
 }
@@ -66,31 +53,20 @@ void Normal_state_table::step_animation(Entity_id entity_id, Game_data& data)
 	const auto heading = data.headings[entity_id];
 	auto& animation = data.entity_animations2[entity_id];
 
-	const auto assign_if = [&animation](bool condition,
-					    Resource_id<Animation2> animation_id)
-	{
-		if (condition && animation.id != animation_id) {
-			animation.id = animation_id;
-			animation.frame_index = 0;
-			animation.t = 0;
-		}
-	};
+	const auto x_mag = std::abs(heading.x);
+	const auto y_mag = std::abs(heading.y);
 
-	auto x_mag = std::abs(heading.x);
-	auto y_mag = std::abs(heading.y);
-	if (speed == 0) {
-		assign_if(animation.id == group.walk_right, group.idle_right);
-		assign_if(animation.id == group.walk_left, group.idle_left);
-		assign_if(animation.id == group.walk_down, group.idle_down);
-		assign_if(animation.id == group.walk_up, group.idle_up);
-	}
-	else if (x_mag > y_mag) {
-		assign_if(heading.x > 0, group.walk_right);
-		assign_if(heading.x < 0, group.walk_left);
-	}
-	else if (y_mag > x_mag) {
-		assign_if(heading.y > 0, group.walk_down);
-		assign_if(heading.y < 0, group.walk_up);
+	auto new_id = group.lookup_table.get(Entity_animation::Query(
+		false,
+		speed > 0,
+		false,
+		x_mag > y_mag,
+		heading.x > 0,
+		heading.y > 0));
+	if (new_id != animation.id) {
+		animation.id = new_id;
+		animation.frame_index = 0;
+		animation.t = 0;
 	}
 }
 
