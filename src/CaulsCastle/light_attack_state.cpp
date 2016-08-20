@@ -23,6 +23,8 @@ void Light_attack_state_table::step_entering(Record_type& record, Game_data& dat
 		  animation_group.light_attack_left);
 	assign_if(curr_anim == animation_group.idle_right || curr_anim == animation_group.walk_right,
 		  animation_group.light_attack_right);
+	assign_if(curr_anim == animation_group.idle_up || curr_anim == animation_group.walk_up,
+		  animation_group.light_attack_up);
 
 	auto duration_found = m_animation_durations.find(animation.id);
 	if (duration_found == m_animation_durations.end()) {

@@ -24,6 +24,7 @@ struct Entity_animation {
 
 	Resource_id<Animation2> light_attack_right;
 	Resource_id<Animation2> light_attack_left;
+	Resource_id<Animation2> light_attack_up;
 
 	struct Query {
 		Tri_bool is_light_attacking;

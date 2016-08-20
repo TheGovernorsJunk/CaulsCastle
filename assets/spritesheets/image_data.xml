@@ -13,6 +13,10 @@
       <group name="hero_fe" type="light_attack_right" />
     </file>
 
+    <file name="hero_fe_slice_up.csv">
+      <group name="hero_fe" type="light_attack_up" />
+    </file>
+
     <file name="hero_fe_walk_down.csv">
       <group name="hero_fe" type="walk_down" />
     </file>
