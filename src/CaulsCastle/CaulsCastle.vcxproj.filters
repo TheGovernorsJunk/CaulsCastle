@@ -131,6 +131,9 @@
     <ClInclude Include="mappings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="condition_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="tri_bool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
