@@ -31,6 +31,24 @@ Entity_animation::Entity_animation(const std::string& animation_group, Game_data
 			}
 		}
 	}
+
+	lookup_table.assign_records({
+		// Idle
+		{ Query{ false, false, {}, true, true, {} }, idle_right },
+		{ Query{ false, false, {}, true, false, {} }, idle_left },
+		{ Query{ false, false, {}, false, {}, true }, idle_down },
+		{ Query{ false, false, {}, false, {}, false }, idle_up },
+
+		// Walking
+		{ Query{ false, true, false, true, true, {} }, walk_right },
+		{ Query{ false, true, false, true, false, {} }, walk_left },
+		{ Query{ false, true, false, true, {}, true }, walk_down },
+		{ Query{ false, true, false, true, {}, false }, walk_up },
+
+		// Light attacking
+		{ Query{ true, {}, {}, true, true, {} }, light_attack_right },
+		{ Query{ true, {}, {}, true, false, {} }, light_attack_left },
+	});
 }
 
 } // namespace te
