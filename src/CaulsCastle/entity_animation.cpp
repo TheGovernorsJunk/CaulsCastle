@@ -42,8 +42,8 @@ Entity_animation::Entity_animation(const std::string& animation_group, Game_data
 		// Walking
 		{ Query{ false, true, false, true, true, {} }, walk_right },
 		{ Query{ false, true, false, true, false, {} }, walk_left },
-		{ Query{ false, true, false, true, {}, true }, walk_down },
-		{ Query{ false, true, false, true, {}, false }, walk_up },
+		{ Query{ false, true, false, false, {}, true }, walk_down },
+		{ Query{ false, true, false, false, {}, false }, walk_up },
 
 		// Light attacking
 		{ Query{ true, {}, {}, true, true, {} }, light_attack_right },
