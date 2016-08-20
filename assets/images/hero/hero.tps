@@ -232,6 +232,14 @@
                 <key>pivotPoint</key>
                 <point_f>0.5,0.9375</point_f>
             </struct>
+            <key type="filename">clips/hero_fe_slice_down0000.png</key>
+            <key type="filename">clips/hero_fe_slice_down0001.png</key>
+            <key type="filename">clips/hero_fe_slice_down0002.png</key>
+            <key type="filename">clips/hero_fe_slice_down0003.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.46875</point_f>
+            </struct>
             <key type="filename">clips/hero_fe_slice_left0000.png</key>
             <key type="filename">clips/hero_fe_slice_left0001.png</key>
             <key type="filename">clips/hero_fe_slice_left0002.png</key>

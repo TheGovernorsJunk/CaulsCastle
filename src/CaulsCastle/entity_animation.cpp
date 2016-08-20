@@ -8,7 +8,7 @@ namespace te {
 Entity_animation::Entity_animation(const std::string& animation_group, Game_data& data)
 {
 	using Pair = std::pair<std::string, Resource_id<Animation2>*>;
-	const std::array<Pair, 11> anim_map = {
+	const std::array<Pair, 12> anim_map = {
 		Pair{ "idle_down", &idle_down },
 		Pair{ "idle_right", &idle_right },
 		Pair{ "idle_left", &idle_left },
@@ -17,6 +17,7 @@ Entity_animation::Entity_animation(const std::string& animation_group, Game_data
 		Pair{ "walk_right", &walk_right },
 		Pair{ "walk_left", &walk_left },
 		Pair{ "walk_up", &walk_up },
+		Pair{ "light_attack_down", &light_attack_down },
 		Pair{ "light_attack_right", &light_attack_right },
 		Pair{ "light_attack_left", &light_attack_left },
 		Pair{ "light_attack_up", &light_attack_up }
@@ -49,6 +50,7 @@ Entity_animation::Entity_animation(const std::string& animation_group, Game_data
 		// Light attacking
 		{ Query{ true, {}, {}, true, true, {} }, light_attack_right },
 		{ Query{ true, {}, {}, true, false, {} }, light_attack_left },
+		{ Query{ true, {}, {}, false, {}, true }, light_attack_down },
 		{ Query{ true, {}, {}, false, {}, false }, light_attack_up }
 	});
 }

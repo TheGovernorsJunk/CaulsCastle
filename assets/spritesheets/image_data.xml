@@ -5,6 +5,10 @@
     <file name="hero.xml" />
   </atlases>
   <animations>
+    <file name="hero_fe_slice_down.csv">
+      <group name="hero_fe" type="light_attack_down" />
+    </file>
+
     <file name="hero_fe_slice_left.csv">
       <group name="hero_fe" type="light_attack_left" />
     </file>

@@ -22,6 +22,7 @@ struct Entity_animation {
 	Resource_id<Animation2> walk_left;
 	Resource_id<Animation2> walk_up;
 
+	Resource_id<Animation2> light_attack_down;
 	Resource_id<Animation2> light_attack_right;
 	Resource_id<Animation2> light_attack_left;
 	Resource_id<Animation2> light_attack_up;
