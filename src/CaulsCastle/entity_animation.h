@@ -33,6 +33,20 @@ struct Entity_animation {
 		Tri_bool x_is_positive;
 		Tri_bool y_is_positive;
 
+		constexpr Query(Tri_bool is_light_attacking,
+				Tri_bool is_moving,
+				Tri_bool high_speed,
+				Tri_bool mag_x_gt_mag_y,
+				Tri_bool x_is_positive,
+				Tri_bool y_is_positive)
+			: is_light_attacking(is_light_attacking)
+			, is_moving(is_moving)
+			, high_speed(high_speed)
+			, mag_x_gt_mag_y(mag_x_gt_mag_y)
+			, x_is_positive(x_is_positive)
+			, y_is_positive(y_is_positive)
+		{}
+
 		constexpr bool operator==(const Query& rhs) const noexcept
 		{
 			return is_light_attacking == rhs.is_light_attacking
