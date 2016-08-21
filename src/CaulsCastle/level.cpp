@@ -63,20 +63,21 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 
 		if (group.name == "Entities") {
 			for (auto& entity : group.objects) {
-				if (entity.name == "Player") {
-					const std::string type = entity.type.length() > 0 ? entity.type : "hero";
-					auto hero_found = data.entity_table.find(type);
-					assert(hero_found != data.entity_table.end());
-					auto player_id = make_entity(hero_found->second, data, {
-						(entity.x + (entity.width * 0.5f)) / data.pixel_to_world_scale.x,
-						(entity.y + (entity.height * 0.5f)) / data.pixel_to_world_scale.y
-					});
-					for (auto& mesh_pair : data.entity_meshes2) {
-						if (mesh_pair.first == player_id) {
-							mesh_pair.second.draw_order = group.index;
-						}
+				const std::string type = entity.type.length() > 0 ? entity.type : "hero";
+				auto entity_found = data.entity_table.find(type);
+				assert(entity_found != data.entity_table.end());
+				auto entity_id = make_entity(entity_found->second, data, {
+					(entity.x + (entity.width * 0.5f)) / data.pixel_to_world_scale.x,
+					(entity.y + (entity.height * 0.5f)) / data.pixel_to_world_scale.y
+				});
+				for (auto& mesh_pair : data.entity_meshes2) {
+					if (mesh_pair.first == entity_id) {
+						mesh_pair.second.draw_order = group.index;
 					}
-					data.avatars[0] = player_id;
+				}
+
+				if (entity.name == "Player") {
+					data.avatars[0] = entity_id;
 				}
 			}
 		}
