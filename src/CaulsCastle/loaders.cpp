@@ -25,12 +25,7 @@ void load_image_data(const std::string& data_filename, Game_data& data)
 			       std::inserter(data.animation_table, data.animation_table.begin()),
 			       std::back_inserter(data.animation_frame_table));
 
-		auto* p_group = p_animation->first_node("group");
-		if (p_group == NULL) {
-			continue;
-		}
-
-		for (; p_group != NULL; p_group = p_group->next_sibling("group")) {
+		for (auto* p_group = p_animation->first_node("group"); p_group != NULL; p_group = p_group->next_sibling("group")) {
 			std::string group_name{ p_group->first_attribute("name")->value() };
 			if (data.animation_group_table.find(group_name) == data.animation_group_table.end()) {
 				data.animation_group_table.insert(decltype(data.animation_group_table)::value_type{
