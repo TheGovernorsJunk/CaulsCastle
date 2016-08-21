@@ -64,7 +64,8 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 		if (group.name == "Entities") {
 			for (auto& entity : group.objects) {
 				if (entity.name == "Player") {
-					auto hero_found = data.entity_table.find("hero");
+					const std::string type = entity.type.length() > 0 ? entity.type : "hero";
+					auto hero_found = data.entity_table.find(type);
 					assert(hero_found != data.entity_table.end());
 					auto player_id = make_entity(hero_found->second, data, {
 						(entity.x + (entity.width * 0.5f)) / data.pixel_to_world_scale.x,
