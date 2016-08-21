@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="16" tileheight="16" nextobjectid="54">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="16" tileheight="16" nextobjectid="55">
  <tileset firstgid="1" name="dungeon" tilewidth="16" tileheight="16" tilecount="1368">
   <image source="../private/timefantasy_tiles/dungeon.png" width="912" height="384"/>
  </tileset>
@@ -9245,6 +9245,7 @@
  </layer>
  <objectgroup name="Entities">
   <object id="1" name="Player" type="hero" x="400" y="208"/>
+  <object id="54" name="Enemy" type="hero" x="416" y="352" width="16" height="16"/>
  </objectgroup>
  <layer name="Wall" width="64" height="48">
   <data>
