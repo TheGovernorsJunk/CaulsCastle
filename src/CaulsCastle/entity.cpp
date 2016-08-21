@@ -1,6 +1,7 @@
 #include "entity.h"
 #include "game_data.h"
 #include "entity_states.h"
+#include "utilities.h"
 
 #include <rapidxml.hpp>
 #include <rapidxml_utils.hpp>
@@ -93,6 +94,21 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 	}
 
 	return entity_id;
+}
+
+void load_entities_xml(const std::string& filename, Game_data& data)
+{
+	const auto dir = get_directory(filename);
+
+	rapidxml::file<> file{ filename.c_str() };
+	rapidxml::xml_document<> xml;
+	xml.parse<0>(file.data());
+	auto* p_root = xml.first_node("entities");
+
+	for (auto* p_file = p_root->first_node("file"); p_file != NULL; p_file = p_file->next_sibling("file")) {
+		std::string filename{ p_file->first_attribute("name")->value() };
+		load_entity_xml(dir + filename, data);
+	}
 }
 
 } // namespace te

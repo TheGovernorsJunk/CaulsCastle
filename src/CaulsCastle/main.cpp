@@ -145,7 +145,7 @@ int main(int argc, char** argv)
 	data.image_root = "assets/spritesheets/";
 
 	load_image_data("assets/spritesheets/image_data.xml", data);
-	load_entity_xml("assets/entities/hero.xml", data);
+	load_entities_xml("assets/entities/entities.xml", data);
 
 	load_level("assets/maps/arena.tmx", data);
 
