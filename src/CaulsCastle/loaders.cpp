@@ -39,6 +39,20 @@ void load_image_data(const std::string& data_filename, Game_data& data)
 				animation_filename
 			});
 		}
+
+		for (auto* p_collider = p_animation->first_node("collider"); p_collider != NULL; p_collider = p_collider->next_sibling("collider")) {
+			Collider_record collider_record{
+				animation_filename,
+				std::stoi(p_collider->first_attribute("x")->value()),
+				std::stoi(p_collider->first_attribute("y")->value()),
+				std::stoi(p_collider->first_attribute("w")->value()),
+				std::stoi(p_collider->first_attribute("h")->value()),
+				std::stoi(p_collider->first_attribute("frame-start")->value()),
+				std::stoi(p_collider->first_attribute("frame-end")->value())
+			};
+			assert(collider_record.frame_start <= collider_record.frame_end);
+			data.collider_table.push_back(std::move(collider_record));
+		}
 	}
 }
 

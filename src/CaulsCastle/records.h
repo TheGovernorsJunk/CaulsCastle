@@ -55,6 +55,16 @@ struct Resource_record {
 	Resource_id<Resource> id;
 };
 
+struct Collider_record {
+	std::string animation_name;
+	int x;
+	int y;
+	int w;
+	int h;
+	size_t frame_start;
+	size_t frame_end;
+};
+
 template <typename Image_table_iter, typename Sprite_table_iter>
 void load_atlas(const std::string& filename,
 		Image_table_iter image_out,
