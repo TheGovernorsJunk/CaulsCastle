@@ -13,6 +13,7 @@
 #include "normal_state.h"
 #include "light_attack_state.h"
 #include "mappings.h"
+#include "physics_manager.h"
 
 #include <boost/container/flat_map.hpp>
 
@@ -52,7 +53,7 @@ struct Game_data {
 	vec2 pixel_to_world_scale;
 	vec2 resolution;
 
-	std::unique_ptr<b2World> physics_world;
+	Physics_manager physics_manager;
 
 	Resource_holder<Texture> textures;
 	Resource_holder<Mesh2> meshes2;
@@ -67,12 +68,6 @@ struct Game_data {
 	flat_map<Player_id, Player_input> inputs;
 	flat_map<Player_id, Entity_id> avatars;
 
-	struct Body_deleter {
-		Body_deleter(b2World& world);
-		void operator()(b2Body*) const;
-		b2World* p_world;
-	};
-	component<Entity_id, std::unique_ptr<b2Body, Body_deleter>> rigid_bodies;
 	component<Entity_id, float> max_speeds;
 	component<Entity_id, float> speeds;
 	component<Entity_id, vec2> headings;

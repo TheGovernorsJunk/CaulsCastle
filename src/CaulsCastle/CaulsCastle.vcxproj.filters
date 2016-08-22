@@ -63,6 +63,9 @@
     <ClCompile Include="mappings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="physics_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tri_bool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

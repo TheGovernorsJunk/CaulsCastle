@@ -91,8 +91,8 @@ static inline void step_velocities(Game_data& data, float dt)
 		const auto speed = data.speeds[entity_id];
 		const auto velocity = speed * heading_pair.second;
 
-		auto found = data.rigid_bodies.find(entity_id);
-		if (found != data.rigid_bodies.end()) {
+		auto found = data.physics_manager.find_rigid_body(entity_id);
+		if (found != data.physics_manager.end()) {
 			found->second->SetLinearVelocity({ velocity.x, velocity.y });
 		}
 		else {
@@ -103,12 +103,12 @@ static inline void step_velocities(Game_data& data, float dt)
 
 static inline void step_physics_world(Game_data& data, float dt)
 {
-	data.physics_world->Step(dt, 8, 3);
+	data.physics_manager.step(dt);
 }
 
 static inline void step_rigid_bodies(Game_data& data)
 {
-	for (auto& body_pair : data.rigid_bodies) {
+	for (auto& body_pair : data.physics_manager) {
 		auto position = body_pair.second->GetPosition();
 		data.positions[body_pair.first] = { position.x, position.y };
 	}

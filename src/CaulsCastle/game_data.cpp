@@ -15,18 +15,9 @@ Entity_id Entity_manager::get_free_id()
 }
 
 Game_data::Game_data()
-	: physics_world{ std::make_unique<b2World>(b2Vec2{ 0, 0 }) }
+	: physics_manager{ *this }
 {}
 Game_data::~Game_data() = default;
-
-Game_data::Body_deleter::Body_deleter(b2World& world)
-	: p_world{ &world }
-{}
-
-void Game_data::Body_deleter::operator()(b2Body* p_body) const
-{
-	p_world->DestroyBody(p_body);
-}
 
 void set_animation(Game_data& data, Entity_id entity_id, Resource_id<Animation2> animation_id)
 {

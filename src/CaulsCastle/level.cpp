@@ -37,14 +37,11 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 
 	for (auto& group : tmx.objectgroups) {
 		if (group.name == "Collisions") {
-			assert(data.rigid_bodies.find(map_id) == data.rigid_bodies.end());
+			assert(data.physics_manager.find_rigid_body(map_id) == data.physics_manager.end());
 
 			b2BodyDef body_def{};
 			body_def.type = b2_staticBody;
-			decltype(Game_data::rigid_bodies)::mapped_type p_body{
-				data.physics_world->CreateBody(&body_def),
-				{ *data.physics_world }
-			};
+			b2Body& p_body = data.physics_manager.add_rigid_body(map_id, body_def);
 
 			for (auto& polygon : group.objects) {
 				b2PolygonShape shape{};
@@ -55,10 +52,8 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 					b2Vec2{ polygon.x / data.pixel_to_world_scale.x, (polygon.y + polygon.height) / data.pixel_to_world_scale.y }
 				};
 				shape.Set(points.data(), 4);
-				p_body->CreateFixture(&shape, 0);
+				p_body.CreateFixture(&shape, 0);
 			}
-
-			data.rigid_bodies.insert(std::pair<decltype(map_id), decltype(p_body)>{ map_id, std::move(p_body) });
 		}
 
 		if (group.name == "Entities") {

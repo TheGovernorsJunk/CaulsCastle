@@ -67,8 +67,7 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 
 	data.positions[entity_id] = position;
 
-	Game_data::Body_deleter deleter{ *data.physics_world };
-	decltype(Game_data::rigid_bodies)::mapped_type p_rigid_body = { nullptr, deleter };
+	b2Body* p_rigid_body = nullptr;
 	if (entity_xml.rigid_body_type == "dynamic") {
 		b2BodyDef body_def;
 		body_def.type = b2_dynamicBody;
@@ -76,21 +75,14 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 			position.x,
 			position.y
 		};
-		p_rigid_body = {
-			data.physics_world->CreateBody(&body_def),
-			deleter
-		};
+		p_rigid_body = &data.physics_manager.add_rigid_body(entity_id, body_def);
 	}
-	if (p_rigid_body.get()) {
+	if (p_rigid_body) {
 		for (const auto& rect_fixture : entity_xml.rect_fixtures) {
 			b2PolygonShape rect_shape{};
 			rect_shape.SetAsBox(rect_fixture.half_width, rect_fixture.half_height);
 			p_rigid_body->CreateFixture(&rect_shape, 1);
 		}
-		data.rigid_bodies.insert(decltype(data.rigid_bodies)::value_type{
-			entity_id,
-			std::move(p_rigid_body)
-		});
 	}
 
 	return entity_id;
