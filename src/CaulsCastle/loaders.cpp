@@ -50,7 +50,7 @@ void load_image_data(const std::string& data_filename, Game_data& data)
 				std::stoi(p_collider->first_attribute("frame-start")->value()),
 				std::stoi(p_collider->first_attribute("frame-end")->value())
 			};
-			assert(collider_record.frame_start <= collider_record.frame_end);
+			assert(collider_record.frame_start < collider_record.frame_end);
 			data.collider_table.push_back(std::move(collider_record));
 		}
 	}

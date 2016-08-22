@@ -15,7 +15,7 @@
 
     <file name="hero_fe_slice_right.csv">
       <group name="hero_fe" type="light_attack_right" />
-      <collider x="25" y="2" w="25" h="30" frame-start="2" frame-end="2" />
+      <collider x="25" y="2" w="25" h="30" frame-start="2" frame-end="3" />
     </file>
 
     <file name="hero_fe_slice_up.csv">
