@@ -17,6 +17,7 @@ struct Entity_xml {
 	struct Rect_fixture {
 		float half_width;
 		float half_height;
+		bool is_hitbox;
 	};
 	std::vector<Rect_fixture> rect_fixtures;
 

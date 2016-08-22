@@ -27,9 +27,11 @@ Entity_xml::Entity_xml(const std::string& filename)
 		rigid_body_type = p_rigid_body->first_attribute("type")->value();
 		for (auto* p_fixture = p_rigid_body->first_node("fixture"); p_fixture != NULL; p_fixture = p_fixture->next_sibling("fixture")) {
 			if (p_fixture->first_attribute("type")->value() == std::string{ "rect" }) {
+				auto* hitbox_node = p_fixture->first_attribute("is-hitbox");
 				rect_fixtures.push_back({
 					std::stof(p_fixture->first_attribute("halfwidth")->value()),
-					std::stof(p_fixture->first_attribute("halfheight")->value())
+					std::stof(p_fixture->first_attribute("halfheight")->value()),
+					hitbox_node && hitbox_node->value() == std::string{"true"} ? true : false
 				});
 			}
 		}
@@ -81,7 +83,8 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 		for (const auto& rect_fixture : entity_xml.rect_fixtures) {
 			b2PolygonShape rect_shape{};
 			rect_shape.SetAsBox(rect_fixture.half_width, rect_fixture.half_height);
-			p_rigid_body->CreateFixture(&rect_shape, 1);
+			auto* p_fixture = p_rigid_body->CreateFixture(&rect_shape, 1);
+			p_fixture->SetSensor(rect_fixture.is_hitbox);
 		}
 	}
 
