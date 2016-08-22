@@ -44,6 +44,11 @@ b2Body& Physics_manager::add_rigid_body(Entity_id entity_id, const b2BodyDef& bo
 	return body;
 }
 
+void Physics_manager::query_aabb(b2QueryCallback& callback, const b2AABB& aabb) const
+{
+	return mp_world->QueryAABB(&callback, aabb);
+}
+
 Physics_manager::Body_deleter::Body_deleter(b2World& world)
 	: p_world{ &world }
 {}

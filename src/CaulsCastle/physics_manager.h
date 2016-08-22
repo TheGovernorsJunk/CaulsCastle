@@ -9,6 +9,8 @@
 class b2World;
 class b2Body;
 struct b2BodyDef;
+class b2QueryCallback;
+struct b2AABB;
 
 namespace te {
 
@@ -27,6 +29,7 @@ public:
 	auto begin() const noexcept { return m_rigid_bodies.begin(); }
 	auto end() noexcept { return m_rigid_bodies.end(); }
 	auto end() const noexcept { return m_rigid_bodies.end(); }
+	void query_aabb(b2QueryCallback& callback, const b2AABB& aabb) const;
 private:
 	struct Body_deleter {
 		Body_deleter(b2World& world);
