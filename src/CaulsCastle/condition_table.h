@@ -34,16 +34,17 @@ public:
 		}
 	}
 
-	const Out& get(const Query& query) const
+	bool get(const Query& query, Out& out) const
 	{
 		size_t i = 0;
 		for (auto& record : m_query_records) {
 			if (record == query) {
-				return m_output_records[i];
+				out = m_output_records[i];
+				return true;
 			}
 			++i;
 		}
-		assert(false && "No record found for query.");
+		return false;
 	}
 
 private:

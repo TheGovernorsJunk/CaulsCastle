@@ -10,13 +10,13 @@ void Light_attack_state_table::step_entering(Record_type& record, Game_data& dat
 	auto& animation = data.entity_animations2[record.id];
 	auto heading = data.headings[record.id];
 
-	animation.id = animation_group.lookup_table.get(Entity_animation::Query(
+	animation_group.lookup_table.get(Entity_animation::Query(
 		true,
 		{},
 		{},
 		std::abs(heading.x) > std::abs(heading.y),
 		heading.x > 0,
-		heading.y > 0));
+		heading.y > 0), animation.id);
 	animation.frame_index = 0;
 	animation.t = 0;
 

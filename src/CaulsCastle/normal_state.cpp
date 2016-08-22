@@ -12,8 +12,9 @@ void Normal_state_table::step_entering(Entity_id entity_id, Game_data& data, flo
 	const auto& animation_group = data.entity_animation_groups[entity_id];
 	auto& animator = data.entity_animations2[entity_id];
 
-	animator.id = animation_group.lookup_table.get(
-		Entity_animation::Query{ false, false, {}, x_mag > y_mag, heading.x > 0, heading.y > 0 }
+	animation_group.lookup_table.get(
+		Entity_animation::Query{ false, false, {}, x_mag > y_mag, heading.x > 0, heading.y > 0 },
+		animator.id
 	);
 	animator.frame_index = 0;
 	animator.t = 0;
@@ -56,15 +57,15 @@ void Normal_state_table::step_animation(Entity_id entity_id, Game_data& data)
 	const auto x_mag = std::abs(heading.x);
 	const auto y_mag = std::abs(heading.y);
 
-	auto new_id = group.lookup_table.get(Entity_animation::Query(
+	auto old_id = animation.id;
+	group.lookup_table.get(Entity_animation::Query(
 		false,
 		speed > 0,
 		false,
 		x_mag > y_mag,
 		heading.x > 0,
-		heading.y > 0));
-	if (new_id != animation.id) {
-		animation.id = new_id;
+		heading.y > 0), animation.id);
+	if (old_id != animation.id) {
 		animation.frame_index = 0;
 		animation.t = 0;
 	}
@@ -77,4 +78,3 @@ void Normal_state_table::step_records(Entity_id id, Game_data& data, float dt)
 }
 
 } // namespace te
-
