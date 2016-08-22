@@ -15,15 +15,13 @@
 #include "mappings.h"
 #include "physics_manager.h"
 
+#include <Box2D/Box2D.h>
 #include <boost/container/flat_map.hpp>
 
 #include <memory>
 #include <vector>
 #include <type_traits>
 #include <iterator>
-
-class b2World;
-class b2Body;
 
 namespace te {
 
@@ -77,6 +75,12 @@ struct Game_data {
 
 	Normal_state_table normal_state_table;
 	Light_attack_state_table light_attack_state_table;
+
+	struct Attack_query {
+		Entity_id entity_id;
+		b2AABB aabb;
+	};
+	std::vector<Attack_query> attack_queries;
 
 	template <typename Mesh>
 	struct Animation_data {

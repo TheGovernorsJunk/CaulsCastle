@@ -136,6 +136,22 @@ static inline void step_animations(Game_data& data, float dt)
 	}
 }
 
+static inline void step_attack_queries(Game_data& data)
+{
+	class Callback : public b2QueryCallback {
+		bool ReportFixture(b2Fixture* fixture) override
+		{
+			return true;
+		}
+	};
+	Callback query_callback{};
+
+	for (const auto& query : data.attack_queries) {
+		data.physics_manager.query_aabb(query_callback, query.aabb);
+	}
+	data.attack_queries.clear();
+}
+
 static inline void set_view(Game_data& data)
 {
 	auto avatar_found = data.avatars.find(0);
@@ -166,6 +182,7 @@ void step_game(Game_data& data, float dt)
 	step_physics_world(data, dt);
 	step_rigid_bodies(data);
 	step_animations(data, dt);
+	step_attack_queries(data);
 	set_view(data);
 	clear_inputs(data);
 }

@@ -1,6 +1,5 @@
 #include "light_attack_state.h"
 #include "game_data.h"
-#include <iostream>
 
 namespace te {
 
@@ -36,6 +35,21 @@ void Light_attack_state_table::step_entering(Record_type& record, Game_data& dat
 
 void Light_attack_state_table::step_records(Record_type& record, Game_data& data, float dt)
 {
+	const auto& animation = data.entity_animations2[record.id];
+	auto found = std::find_if(data.animation2_table.begin(),
+				  data.animation2_table.end(),
+				  [animation](const auto& pair) {
+		return pair.second.id == animation.id;
+	});
+	assert(found != data.animation2_table.end());
+	for (auto& collider_record : data.collider_table) {
+		if (collider_record.animation_name == found->first
+		    && collider_record.frame_start <= animation.frame_index
+		    && collider_record.frame_end > animation.frame_index) {
+			data.attack_queries.push_back({ record.id });
+		}
+	}
+
 	record.duration += dt;
 	if (record.duration >= record.max_duration) {
 		exit_state(record);
