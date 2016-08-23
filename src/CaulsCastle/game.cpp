@@ -138,15 +138,21 @@ static inline void step_animations(Game_data& data, float dt)
 
 static inline void step_attack_queries(Game_data& data)
 {
-	class Callback : public b2QueryCallback {
+	struct Callback : public b2QueryCallback {
+		Entity_id attacker_id;
+		Callback(Entity_id attacker_id) : attacker_id{ attacker_id } {}
 		bool ReportFixture(b2Fixture* fixture) override
 		{
+			Entity_id id = *static_cast<Entity_id*>(fixture->GetBody()->GetUserData());
+			if (id != attacker_id && fixture->IsSensor()) {
+				// Handle attack
+			}
 			return true;
 		}
 	};
-	Callback query_callback{};
 
 	for (const auto& query : data.attack_queries) {
+		Callback query_callback{ query.entity_id };
 		data.physics_manager.query_aabb(query_callback, query.aabb);
 	}
 	data.attack_queries.clear();
