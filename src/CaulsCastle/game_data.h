@@ -14,6 +14,7 @@
 #include "light_attack_state.h"
 #include "mappings.h"
 #include "physics_manager.h"
+#include "collider.h"
 
 #include <Box2D/Box2D.h>
 #include <boost/container/flat_map.hpp>
@@ -47,6 +48,8 @@ struct Game_data {
 	flat_map<std::string, Resource_record<Texture>> texture_table;
 	flat_map<std::string, Resource_record<Mesh2>> mesh2_table;
 	flat_map<std::string, Resource_record<Animation2>> animation2_table;
+
+	std::vector<Collider> colliders;
 
 	vec2 pixel_to_world_scale;
 	vec2 resolution;
@@ -187,7 +190,16 @@ template <>
 inline Resource_id<Mesh2> create_resource(const Sprite_record& record, Game_data& data)
 {
 	auto texture_id = get_or_create<Texture>(record.image_filename, data);
-	return data.meshes2.insert(make_mesh(record, data.textures.get(texture_id).get_texture_id()));
+	auto mesh_id = data.meshes2.insert(make_mesh(record, data.textures.get(texture_id).get_texture_id()));
+
+	std::vector<decltype(data.collider_table)::value_type> colliders{};
+	std::for_each(data.collider_table.begin(), data.collider_table.end(), [record, mesh_id, &data](const auto& collider_record) {
+		if (collider_record.image_name == record.filename) {
+			data.colliders.push_back({ mesh_id, collider_record.x, collider_record.y, collider_record.w, collider_record.h });
+		}
+	});
+
+	return mesh_id;
 }
 template <>
 inline Resource_id<Animation2> create_resource(const Animation_record& record, Game_data& data)

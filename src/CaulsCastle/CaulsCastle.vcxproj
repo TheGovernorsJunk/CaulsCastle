@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="collider.h" />
     <ClInclude Include="condition_table.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entity_animation.h" />

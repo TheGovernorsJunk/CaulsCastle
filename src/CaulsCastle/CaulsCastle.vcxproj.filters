@@ -143,6 +143,9 @@
     <ClInclude Include="physics_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\assets\spritesheets\image_data.xml">

@@ -35,17 +35,14 @@ void Light_attack_state_table::step_entering(Record_type& record, Game_data& dat
 
 void Light_attack_state_table::step_records(Record_type& record, Game_data& data, float dt)
 {
-	const auto& animation = data.entity_animations2[record.id];
-	auto found = std::find_if(data.animation2_table.begin(),
-				  data.animation2_table.end(),
-				  [animation](const auto& pair) {
-		return pair.second.id == animation.id;
-	});
-	assert(found != data.animation2_table.end());
-	for (auto& collider_record : data.collider_table) {
-		if (collider_record.animation_name == found->first
-		    && collider_record.frame_start <= animation.frame_index
-		    && collider_record.frame_end > animation.frame_index) {
+	Resource_id<Mesh2> mesh_id{};
+	for (const auto& mesh_pair : data.entity_meshes2) {
+		if (record.id == mesh_pair.first) {
+			mesh_id = mesh_pair.second.resource_id;
+		}
+	}
+	for (const auto& collider : data.colliders) {
+		if (collider.mesh_id == mesh_id) {
 			data.attack_queries.push_back({ record.id });
 		}
 	}

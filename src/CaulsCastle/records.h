@@ -56,13 +56,11 @@ struct Resource_record {
 };
 
 struct Collider_record {
-	std::string animation_name;
+	std::string image_name;
 	int x;
 	int y;
 	int w;
 	int h;
-	size_t frame_start;
-	size_t frame_end;
 };
 
 template <typename Image_table_iter, typename Sprite_table_iter>
