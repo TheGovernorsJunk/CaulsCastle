@@ -43,7 +43,14 @@ void Light_attack_state_table::step_records(Record_type& record, Game_data& data
 	}
 	for (const auto& collider : data.colliders) {
 		if (collider.mesh_id == mesh_id) {
-			data.attack_queries.push_back({ record.id });
+			b2AABB aabb{};
+			auto position = data.positions[record.id];
+			auto scale = data.pixel_to_world_scale;
+			aabb.lowerBound = b2Vec2(position.x + collider.x / scale.x,
+						 position.y + collider.y / scale.y);
+			aabb.upperBound = b2Vec2(aabb.lowerBound.x + collider.w / scale.x,
+						 aabb.lowerBound.y + collider.h / scale.y);
+			data.attack_queries.push_back({ record.id, aabb });
 		}
 	}
 
