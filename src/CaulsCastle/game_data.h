@@ -195,7 +195,8 @@ inline Resource_id<Mesh2> create_resource(const Sprite_record& record, Game_data
 	std::vector<decltype(data.collider_table)::value_type> colliders{};
 	std::for_each(data.collider_table.begin(), data.collider_table.end(), [record, mesh_id, &data](const auto& collider_record) {
 		if (collider_record.image_name == record.filename) {
-			data.colliders.push_back({ mesh_id, collider_record.x, collider_record.y, collider_record.w, collider_record.h });
+			vec2 origin{ record.w * record.px, record.h * record.py };
+			data.colliders.push_back({ mesh_id, collider_record.x - (int)origin.x, collider_record.y - (int)origin.y, collider_record.w, collider_record.h });
 		}
 	});
 
