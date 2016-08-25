@@ -3,6 +3,7 @@
 <image_data>
   <atlases>
     <file name="hero.xml" />
+    <file name="creature.xml" />
   </atlases>
   <animations>
     <file name="hero_fe_slice_down.csv">
@@ -51,6 +52,10 @@
 
     <file name="hero_fe_idle_up.csv">
       <group name="hero_fe" type="idle_up" />
+    </file>
+
+    <file name="creature.csv">
+      <group name="gargoyle" type="idle_down" />
     </file>
   </animations>
   <colliders>
