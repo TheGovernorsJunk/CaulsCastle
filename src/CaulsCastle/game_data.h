@@ -61,6 +61,8 @@ struct Game_data {
 	Resource_holder<Mesh3> meshes3;
 	Resource_holder<Animation2> animations2;
 
+	flat_map<int, Team_mask> team_masks;
+
 	Entity_manager entity_manager;
 
 	flat_map<Player_id, std::unique_ptr<SDL_GameController, decltype(&SDL_GameControllerClose)>> controllers;
@@ -73,6 +75,7 @@ struct Game_data {
 	component<Entity_id, float> speeds;
 	component<Entity_id, vec2> headings;
 	component<Entity_id, vec2> positions;
+	component<Entity_id, Team_mask> entity_team_masks;
 
 	component<Entity_id, Entity_animation> entity_animation_groups;
 

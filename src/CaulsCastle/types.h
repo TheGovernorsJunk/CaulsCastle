@@ -33,6 +33,8 @@ using Multi_component = std::vector<std::pair<K, V>>;
 template <typename PositionVec, typename TexVec>
 using Vertex_array = std::vector<vertex<PositionVec, TexVec>>;
 
+using Team_mask = unsigned;
+
 } // namespace te
 
 #endif
