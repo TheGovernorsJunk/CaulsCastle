@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:c82c6653938f71bb297cf5eab30780ca:4f53b6b081f730ce4a99574ac72cb677:beb124ac3f928b47f9cbf42c9b3555f6$ -->
+<!-- $TexturePacker:SmartUpdate:45104a8e019a19fca6144fb47af0734d:a814505757b11db872b1fe26b6ba2ee9:a3ccb332207686f530032326568d3913$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,11 +19,13 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="creature.png" width="204" height="34">
-    <sprite n="creature0000.png" x="1" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="creature0001.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="creature0002.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="creature0003.png" x="103" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="creature0004.png" x="137" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="creature0005.png" x="171" y="1" w="32" h="32" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="gargoyle.png" width="198" height="198">
+    <sprite n="gargoyle_idle_down0000.png" x="1" y="1" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0001.png" x="1" y="67" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0002.png" x="1" y="133" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0003.png" x="67" y="1" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0004.png" x="133" y="1" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0005.png" x="67" y="67" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0006.png" x="67" y="133" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="gargoyle_idle_down0007.png" x="133" y="67" w="64" h="64" pX="0.5" pY="0.5"/>
 </TextureAtlas>
