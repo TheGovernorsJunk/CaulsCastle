@@ -140,19 +140,43 @@ static inline void step_attack_queries(Game_data& data)
 {
 	struct Callback : public b2QueryCallback {
 		Entity_id attacker_id;
-		Callback(Entity_id attacker_id) : attacker_id{ attacker_id } {}
+		Team_mask collision_mask;
+		Game_data& data;
+
+		Callback(Entity_id attacker_id, Team_mask collision_mask, Game_data& data)
+			: attacker_id{ attacker_id }
+			, collision_mask{ collision_mask }
+			, data{ data }
+		{}
+
 		bool ReportFixture(b2Fixture* fixture) override
 		{
 			Entity_id id = *static_cast<Entity_id*>(fixture->GetBody()->GetUserData());
 			if (id != attacker_id && fixture->IsSensor()) {
-				// Handle attack
+				Team_mask team_mask = data.entity_team_masks[id];
+				if (collision_mask & team_mask) {
+					// Handle attack
+				}
 			}
 			return true;
 		}
 	};
 
 	for (const auto& query : data.attack_queries) {
-		Callback query_callback{ query.entity_id };
+		Entity_id attacker_id = query.entity_id;
+		auto attacker_mask_iter = data.entity_team_masks.find(attacker_id);
+		assert(attacker_mask_iter != data.entity_team_masks.end());
+		Team_mask attacker_mask = attacker_mask_iter->second;
+		Team_mask collision_mask = 0;
+		unsigned team_bit = 1;
+		while (team_bit <= attacker_mask) {
+			if (team_bit & attacker_mask) {
+				collision_mask |= data.team_masks[team_bit];
+				team_bit = team_bit << 1;
+			}
+		}
+
+		Callback query_callback{ attacker_id, collision_mask, data };
 		data.physics_manager.query_aabb(query_callback, query.aabb);
 	}
 	data.attack_queries.clear();

@@ -10,12 +10,22 @@
 
 #include <iterator>
 #include <array>
+#include <regex>
 
 namespace te {
+
+static const std::regex team_mask_regex{ "team_mask_(\\d+)" };
 
 void load_level(const std::string& tmx_filename, Game_data& data)
 {
 	Tmx tmx{ tmx_filename };
+
+	for (auto& prop : tmx.properties) {
+		std::smatch number_match;
+		if (std::regex_match(prop.first, number_match, team_mask_regex)) {
+			data.team_masks[std::stoi(number_match[1].str())] = std::stoul(prop.second, nullptr, 16);
+		}
+	}
 
 	std::vector<GLuint> tileset_texture_ids;
 	load_tileset_textures(tmx, std::back_inserter(tileset_texture_ids));
@@ -68,6 +78,11 @@ void load_level(const std::string& tmx_filename, Game_data& data)
 				for (auto& mesh_pair : data.entity_meshes2) {
 					if (mesh_pair.first == entity_id) {
 						mesh_pair.second.draw_order = group.index;
+					}
+				}
+				for (auto& prop : entity.properties) {
+					if (prop.first == "team_mask") {
+						data.entity_team_masks[entity_id] = std::stoi(prop.second, nullptr, 16);
 					}
 				}
 
