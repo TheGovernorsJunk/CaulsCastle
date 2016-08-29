@@ -13,6 +13,7 @@ namespace te {
 struct Tmx
 {
 	using Index = size_t;
+	using Property = std::pair<std::string, std::string>;
 
 	enum class Orientation {
 		Orthogonal,
@@ -31,6 +32,7 @@ struct Tmx
 		int width;
 		int height;
 		std::vector<Polygon> polygons;
+		std::vector<Property> properties;
 	};
 	struct ObjectGroup {
 		std::string name;
@@ -94,6 +96,7 @@ struct Tmx
 	int height;
 	int tilewidth;
 	int tileheight;
+	std::vector<Property> properties;
 	std::vector<Tileset> tilesets;
 	std::vector<Layer> layers;
 	std::vector<ObjectGroup> objectgroups;

@@ -40,6 +40,19 @@ bool Tmx::loadFromFile(const std::string& f)
 	tilewidth = std::stoi(pMapNode->first_attribute("tilewidth")->value());
 	tileheight = std::stoi(pMapNode->first_attribute("tileheight")->value());
 
+	if (auto* pProperties = pMapNode->first_node("properties")) {
+		decltype(properties) props;
+		for (auto* pProperty = pProperties->first_node("property");
+		     pProperty != NULL;
+		     pProperty = pProperty->next_sibling("property")) {
+			props.push_back({
+				pProperty->first_attribute("name")->value(),
+				pProperty->first_attribute("value")->value()
+			});
+		}
+		properties = std::move(props);
+	}
+
 	for (rapidxml::xml_node<char>* pTileset = tmx.first_node("map")->first_node("tileset"); pTileset != 0; pTileset = pTileset->next_sibling("tileset"))
 	{
 		std::vector<TileData> tiles;
@@ -159,6 +172,16 @@ bool Tmx::loadFromFile(const std::string& f)
 		std::vector<Object> objects;
 		for (rapidxml::xml_node<char>* pObject = pObjectgroup->first_node("object"); pObject != 0; pObject = pObject->next_sibling("object"))
 		{
+			std::vector<std::pair<std::string, std::string>> properties;
+			if (auto* pProperties = pObject->first_node("properties")) {
+				for (auto* pProperty = pProperties->first_node("property"); pProperty != NULL; pProperty = pProperty->next_sibling("property")) {
+					properties.push_back({
+						pProperty->first_attribute("name")->value(),
+						pProperty->first_attribute("value")->value()
+					});
+				}
+			}
+
 			objects.push_back({
 				std::stoi(pObject->first_attribute("id")->value()),
 				pObject->first_attribute("name") != 0 ? pObject->first_attribute("name")->value() : "",
@@ -166,7 +189,9 @@ bool Tmx::loadFromFile(const std::string& f)
 				std::stoi(pObject->first_attribute("x")->value()),
 				std::stoi(pObject->first_attribute("y")->value()),
 				pObject->first_attribute("width") != 0 ? std::stoi(pObject->first_attribute("width")->value()) : 0,
-				pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0
+				pObject->first_attribute("height") != 0 ? std::stoi(pObject->first_attribute("height")->value()) : 0,
+				{},
+				std::move(properties)
 			});
 		}
 		objectgroups.push_back({
