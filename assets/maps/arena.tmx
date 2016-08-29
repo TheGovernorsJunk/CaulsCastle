@@ -2,6 +2,7 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="48" tilewidth="16" tileheight="16" nextobjectid="55">
  <properties>
   <property name="team_mask_1" value="0x0002"/>
+  <property name="team_mask_2" value="0x0001"/>
  </properties>
  <tileset firstgid="1" name="dungeon" tilewidth="16" tileheight="16" tilecount="1368">
   <image source="../private/timefantasy_tiles/dungeon.png" width="912" height="384"/>
