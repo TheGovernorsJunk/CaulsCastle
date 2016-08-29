@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:4b4b5e4c05e6c6fe38408422be55380e:f9ffc16c1e5ddad963d6374569b05e68:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
+<!-- $TexturePacker:SmartUpdate:b2035f15cbece2b375092f085df02f84:4117810f699720e11d2e5500540b60ca:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -26,6 +26,13 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     <sprite n="hero_fe_dodge_down_left0003.png" x="137" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_dodge_down_left0004.png" x="69" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_dodge_down_left0005.png" x="1" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_end0000.png" x="137" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_end0001.png" x="69" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_end0002.png" x="1" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_start0000.png" x="35" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_start0001.png" x="103" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_start0002.png" x="171" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left_start0003.png" x="137" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_idle_down0000.png" x="35" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_idle_left0000.png" x="1" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_idle_right0000.png" x="101" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
