@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity name="gargoyle">
+  <animationgroup value="gargoyle" />
+  <speed value="3" />
+  <state value="normal" />
+  <rigidbody type="dynamic">
+    <fixture type="rect" halfwidth="0.5" halfheight="0.5" />
+    <fixture type="rect" halfwidth="0.5" halfheight="0.5" is-hitbox="true" />
+  </rigidbody>
+  <attacks>
+    <light damage="10" />
+  </attacks>
+</entity>
