@@ -37,9 +37,27 @@ Entity_xml::Entity_xml(const std::string& filename)
 		}
 	}
 
-	if (auto* p_attacks = p_root->first_node("attacks")) {
-		if (auto* p_light_attack = p_attacks->first_node("light")) {
-			attacks.light_attack.damage = std::stoi(p_light_attack->first_attribute("damage")->value());
+	if (auto* p_stats = p_root->first_node("stats")) {
+		for (auto* p_stat = p_root->first_node("stat");
+		     p_stat != NULL;
+		     p_stat = p_stat->next_sibling("stat")) {
+			std::string type = p_stat->first_attribute("type")->value();
+			int value = std::stoi(p_stat->first_attribute("value")->value());
+			if (type == "vitality") {
+				stats.vitality = value;
+			}
+			else if (type == "endurance") {
+				stats.endurance = value;
+			}
+			else if (type == "strength") {
+				stats.strength = value;
+			}
+			else if (type == "dexterity") {
+				stats.dexterity = value;
+			}
+			else {
+				assert(false && "Unsupported stat type");
+			}
 		}
 	}
 }
@@ -94,8 +112,11 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 		}
 	}
 
-	auto& attacks = data.entity_attacks[entity_id];
-	attacks.light_attack.damage = entity_xml.attacks.light_attack.damage;
+	auto& stats = data.stats[entity_id];
+	stats.vitality = entity_xml.stats.vitality;
+	stats.endurance = entity_xml.stats.endurance;
+	stats.strength = entity_xml.stats.strength;
+	stats.dexterity = entity_xml.stats.dexterity;
 
 	return entity_id;
 }

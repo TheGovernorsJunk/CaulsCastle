@@ -77,13 +77,13 @@ struct Game_data {
 	component<Entity_id, vec2> positions;
 	component<Entity_id, Team_mask> entity_team_masks;
 
-	struct Attack_data {
-		struct Attack {
-			int damage;
-		};
-		Attack light_attack;
+	struct Stats {
+		int vitality;
+		int endurance;
+		int strength;
+		int dexterity;
 	};
-	component<Entity_id, Attack_data> entity_attacks;
+	component<Entity_id, Stats> stats;
 
 	component<Entity_id, Entity_animation> entity_animation_groups;
 
