@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:df43302d07246c03d41fe998d3ceafe1:d6288c5dfbc70f8ea152946e4cd0947b:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
+<!-- $TexturePacker:SmartUpdate:4b4b5e4c05e6c6fe38408422be55380e:f9ffc16c1e5ddad963d6374569b05e68:5f7a6e04e05c6a4e4aed0ee96b7dec4f$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,57 +19,63 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="hero.png" width="506" height="168">
-    <sprite n="hero_fe_idle_down0000.png" x="167" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_idle_left0000.png" x="267" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_idle_right0000.png" x="335" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_idle_up0000.png" x="301" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_down0000.png" x="337" y="103" w="32" h="64" pX="0.5" pY="0.46875"/>
-    <sprite n="hero_fe_slice_down0001.png" x="405" y="103" w="32" h="64" pX="0.5" pY="0.46875"/>
-    <sprite n="hero_fe_slice_down0002.png" x="439" y="103" w="32" h="64" pX="0.5" pY="0.46875"/>
-    <sprite n="hero_fe_slice_down0003.png" x="371" y="103" w="32" h="64" pX="0.5" pY="0.46875"/>
-    <sprite n="hero_fe_slice_left0000.png" x="201" y="69" w="64" h="32" pX="0.75" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0001.png" x="101" y="69" w="64" h="32" pX="0.75" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0002.png" x="441" y="35" w="64" h="32" pX="0.75" pY="0.9375"/>
-    <sprite n="hero_fe_slice_left0003.png" x="369" y="69" w="64" h="32" pX="0.75" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0000.png" x="1" y="69" w="64" h="32" pX="0.25" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0001.png" x="375" y="35" w="64" h="32" pX="0.25" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0002.png" x="69" y="103" w="64" h="32" pX="0.25" pY="0.9375"/>
-    <sprite n="hero_fe_slice_right0003.png" x="135" y="103" w="64" h="32" pX="0.25" pY="0.9375"/>
-    <sprite n="hero_fe_slice_up0000.png" x="269" y="103" w="32" h="64" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_up0001.png" x="235" y="103" w="32" h="64" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_up0002.png" x="303" y="103" w="32" h="64" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_slice_up0003.png" x="201" y="103" w="32" h="64" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0000.png" x="435" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0001.png" x="469" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0002.png" x="35" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0003.png" x="1" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0004.png" x="67" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0005.png" x="341" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0006.png" x="205" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_down0007.png" x="273" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0000.png" x="341" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0001.png" x="307" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0002.png" x="239" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0003.png" x="171" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0004.png" x="1" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0005.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+<TextureAtlas imagePath="hero.png" width="238" height="370">
+    <sprite n="hero_fe_dodge_down_left0000.png" x="35" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left0001.png" x="103" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left0002.png" x="171" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left0003.png" x="137" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left0004.png" x="69" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_dodge_down_left0005.png" x="1" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_idle_down0000.png" x="35" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_idle_left0000.png" x="1" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_idle_right0000.png" x="101" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_idle_up0000.png" x="201" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_slice_down0000.png" x="199" y="239" w="32" h="64" pX="0.5" pY="0.46875"/>
+    <sprite n="hero_fe_slice_down0001.png" x="137" y="305" w="32" h="64" pX="0.5" pY="0.46875"/>
+    <sprite n="hero_fe_slice_down0002.png" x="205" y="305" w="32" h="64" pX="0.5" pY="0.46875"/>
+    <sprite n="hero_fe_slice_down0003.png" x="171" y="305" w="32" h="64" pX="0.5" pY="0.46875"/>
+    <sprite n="hero_fe_slice_left0000.png" x="135" y="137" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0001.png" x="35" y="137" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0002.png" x="133" y="205" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_left0003.png" x="133" y="239" w="64" h="32" pX="0.75" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0000.png" x="67" y="205" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0001.png" x="1" y="205" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0002.png" x="67" y="239" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_right0003.png" x="1" y="239" w="64" h="32" pX="0.25" pY="0.9375"/>
+    <sprite n="hero_fe_slice_up0000.png" x="103" y="305" w="32" h="64" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_slice_up0001.png" x="69" y="305" w="32" h="64" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_slice_up0002.png" x="1" y="305" w="32" h="64" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_slice_up0003.png" x="35" y="305" w="32" h="64" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0000.png" x="199" y="205" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0001.png" x="205" y="171" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0002.png" x="205" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0003.png" x="1" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0004.png" x="69" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0005.png" x="171" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0006.png" x="103" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_down0007.png" x="137" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0000.png" x="35" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0001.png" x="205" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0002.png" x="1" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0003.png" x="69" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0004.png" x="171" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0005.png" x="103" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_walk_left0006.png" x="137" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_left0007.png" x="103" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0000.png" x="375" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0001.png" x="443" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0002.png" x="137" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0003.png" x="205" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0004.png" x="307" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0005.png" x="239" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0006.png" x="273" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_right0007.png" x="171" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0000.png" x="103" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0001.png" x="409" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0002.png" x="301" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0003.png" x="1" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0004.png" x="69" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0005.png" x="35" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
-    <sprite n="hero_fe_walk_up0006.png" x="301" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_left0007.png" x="205" y="35" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0000.png" x="35" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0001.png" x="1" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0002.png" x="69" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0003.png" x="171" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0004.png" x="103" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0005.png" x="137" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0006.png" x="35" y="103" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_right0007.png" x="205" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0000.png" x="1" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0001.png" x="69" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0002.png" x="201" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0003.png" x="171" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0004.png" x="103" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0005.png" x="137" y="69" w="32" h="32" pX="0.5" pY="0.9375"/>
+    <sprite n="hero_fe_walk_up0006.png" x="201" y="137" w="32" h="32" pX="0.5" pY="0.9375"/>
     <sprite n="hero_fe_walk_up0007.png" x="35" y="1" w="32" h="32" pX="0.5" pY="0.9375"/>
 </TextureAtlas>
