@@ -141,11 +141,13 @@ static inline void step_attack_queries(Game_data& data)
 	struct Callback : public b2QueryCallback {
 		Entity_id attacker_id;
 		Team_mask collision_mask;
+		int damage;
 		Game_data& data;
 
-		Callback(Entity_id attacker_id, Team_mask collision_mask, Game_data& data)
+		Callback(Entity_id attacker_id, Team_mask collision_mask, int damage, Game_data& data)
 			: attacker_id{ attacker_id }
 			, collision_mask{ collision_mask }
+			, damage{ damage }
 			, data{ data }
 		{}
 
@@ -155,7 +157,7 @@ static inline void step_attack_queries(Game_data& data)
 			if (id != attacker_id && fixture->IsSensor()) {
 				Team_mask team_mask = data.entity_team_masks[id];
 				if (collision_mask & team_mask) {
-					// Handle attack
+					data.pending_hits.push_back({ id, damage });
 				}
 			}
 			return true;
@@ -176,10 +178,17 @@ static inline void step_attack_queries(Game_data& data)
 			}
 		}
 
-		Callback query_callback{ attacker_id, collision_mask, data };
+		Callback query_callback{ attacker_id, collision_mask, query.damage, data };
 		data.physics_manager.query_aabb(query_callback, query.aabb);
 	}
 	data.attack_queries.clear();
+}
+
+static inline void step_pending_hits(Game_data& data)
+{
+	for (auto hit : data.pending_hits) {
+	}
+	data.pending_hits.clear();
 }
 
 static inline void set_view(Game_data& data)
@@ -213,6 +222,7 @@ void step_game(Game_data& data, float dt)
 	step_rigid_bodies(data);
 	step_animations(data, dt);
 	step_attack_queries(data);
+	step_pending_hits(data);
 	set_view(data);
 	clear_inputs(data);
 }

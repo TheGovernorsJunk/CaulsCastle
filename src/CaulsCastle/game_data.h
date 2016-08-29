@@ -77,6 +77,14 @@ struct Game_data {
 	component<Entity_id, vec2> positions;
 	component<Entity_id, Team_mask> entity_team_masks;
 
+	struct Attack_data {
+		struct Attack {
+			int damage;
+		};
+		Attack light_attack;
+	};
+	component<Entity_id, Attack_data> entity_attacks;
+
 	component<Entity_id, Entity_animation> entity_animation_groups;
 
 	Normal_state_table normal_state_table;
@@ -85,8 +93,14 @@ struct Game_data {
 	struct Attack_query {
 		Entity_id entity_id;
 		b2AABB aabb;
+		int damage;
 	};
 	std::vector<Attack_query> attack_queries;
+	struct Pending_hits {
+		Entity_id entity_id;
+		int damage;
+	};
+	std::vector<Pending_hits> pending_hits;
 
 	template <typename Mesh>
 	struct Animation_data {

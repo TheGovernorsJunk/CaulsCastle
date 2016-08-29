@@ -50,7 +50,7 @@ void Light_attack_state_table::step_records(Record_type& record, Game_data& data
 						 position.y + collider.y / scale.y);
 			aabb.upperBound = b2Vec2(aabb.lowerBound.x + collider.w / scale.x,
 						 aabb.lowerBound.y + collider.h / scale.y);
-			data.attack_queries.push_back({ record.id, aabb });
+			data.attack_queries.push_back({ record.id, aabb, data.entity_attacks[record.id].light_attack.damage });
 		}
 	}
 

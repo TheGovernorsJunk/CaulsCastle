@@ -36,6 +36,12 @@ Entity_xml::Entity_xml(const std::string& filename)
 			}
 		}
 	}
+
+	if (auto* p_attacks = p_root->first_node("attacks")) {
+		if (auto* p_light_attack = p_attacks->first_node("light")) {
+			attacks.light_attack.damage = std::stoi(p_light_attack->first_attribute("damage")->value());
+		}
+	}
 }
 
 void load_entity_xml(const std::string& filename, Game_data& data)
@@ -87,6 +93,9 @@ Entity_id make_entity(const Entity_xml& entity_xml, Game_data& data, vec2 positi
 			p_fixture->SetSensor(rect_fixture.is_hitbox);
 		}
 	}
+
+	auto& attacks = data.entity_attacks[entity_id];
+	attacks.light_attack.damage = entity_xml.attacks.light_attack.damage;
 
 	return entity_id;
 }

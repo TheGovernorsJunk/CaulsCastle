@@ -21,6 +21,13 @@ struct Entity_xml {
 	};
 	std::vector<Rect_fixture> rect_fixtures;
 
+	struct Attack {
+		int damage;
+	};
+	struct Attacks {
+		Attack light_attack;
+	} attacks;
+
 	Entity_xml(const std::string& filename);
 };
 

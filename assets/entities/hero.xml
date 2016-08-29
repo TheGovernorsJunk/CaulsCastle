@@ -7,4 +7,7 @@
     <fixture type="rect" halfwidth="0.5" halfheight="0.5" />
     <fixture type="rect" halfwidth="0.5" halfheight="0.5" is-hitbox="true" />
   </rigidbody>
+  <attacks>
+    <light damage="10" />
+  </attacks>
 </entity>
