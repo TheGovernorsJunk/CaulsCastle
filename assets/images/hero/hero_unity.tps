@@ -141,7 +141,7 @@
             <key>datafile</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../../../Desktop/CaulsCastle/Assets/hero.tpsheet</filename>
+                <filename>../../../unity/CaulsCastle/Assets/Spritesheets/hero.tpsheet</filename>
             </struct>
         </map>
         <key>multiPack</key>
