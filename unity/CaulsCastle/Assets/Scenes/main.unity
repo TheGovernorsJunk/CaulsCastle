@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenVerticalPixels: 270
-  preferUncropped: 1
+  preferUncropped: 0
 --- !u!1 &1458577389
 GameObject:
   m_ObjectHideFlags: 0
