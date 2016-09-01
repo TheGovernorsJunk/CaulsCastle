@@ -1,0 +1,843 @@
+fileFormatVersion: 2
+guid: efa1492c77c449b4d847695a5ee63c27
+timeCreated: 1472563963
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: hero_fe_dodge_down_left0000
+    21300002: hero_fe_dodge_down_left0001
+    21300004: hero_fe_dodge_down_left0002
+    21300006: hero_fe_dodge_down_left0003
+    21300008: hero_fe_dodge_down_left0004
+    21300010: hero_fe_dodge_down_left0005
+    21300012: hero_fe_dodge_down_left_end0000
+    21300014: hero_fe_dodge_down_left_end0001
+    21300016: hero_fe_dodge_down_left_end0002
+    21300018: hero_fe_dodge_down_left_start0000
+    21300020: hero_fe_dodge_down_left_start0001
+    21300022: hero_fe_dodge_down_left_start0002
+    21300024: hero_fe_dodge_down_left_start0003
+    21300026: hero_fe_idle_down0000
+    21300028: hero_fe_idle_left0000
+    21300030: hero_fe_idle_right0000
+    21300032: hero_fe_idle_up0000
+    21300034: hero_fe_slice_down0000
+    21300036: hero_fe_slice_down0001
+    21300038: hero_fe_slice_down0002
+    21300040: hero_fe_slice_down0003
+    21300042: hero_fe_slice_left0000
+    21300044: hero_fe_slice_left0001
+    21300046: hero_fe_slice_left0002
+    21300048: hero_fe_slice_left0003
+    21300050: hero_fe_slice_right0000
+    21300052: hero_fe_slice_right0001
+    21300054: hero_fe_slice_right0002
+    21300056: hero_fe_slice_right0003
+    21300058: hero_fe_slice_up0000
+    21300060: hero_fe_slice_up0001
+    21300062: hero_fe_slice_up0002
+    21300064: hero_fe_slice_up0003
+    21300066: hero_fe_walk_down0000
+    21300068: hero_fe_walk_down0001
+    21300070: hero_fe_walk_down0002
+    21300072: hero_fe_walk_down0003
+    21300074: hero_fe_walk_down0004
+    21300076: hero_fe_walk_down0005
+    21300078: hero_fe_walk_down0006
+    21300080: hero_fe_walk_down0007
+    21300082: hero_fe_walk_left0000
+    21300084: hero_fe_walk_left0001
+    21300086: hero_fe_walk_left0002
+    21300088: hero_fe_walk_left0003
+    21300090: hero_fe_walk_left0004
+    21300092: hero_fe_walk_left0005
+    21300094: hero_fe_walk_left0006
+    21300096: hero_fe_walk_left0007
+    21300098: hero_fe_walk_right0000
+    21300100: hero_fe_walk_right0001
+    21300102: hero_fe_walk_right0002
+    21300104: hero_fe_walk_right0003
+    21300106: hero_fe_walk_right0004
+    21300108: hero_fe_walk_right0005
+    21300110: hero_fe_walk_right0006
+    21300112: hero_fe_walk_right0007
+    21300114: hero_fe_walk_up0000
+    21300116: hero_fe_walk_up0001
+    21300118: hero_fe_walk_up0002
+    21300120: hero_fe_walk_up0003
+    21300122: hero_fe_walk_up0004
+    21300124: hero_fe_walk_up0005
+    21300126: hero_fe_walk_up0006
+    21300128: hero_fe_walk_up0007
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: hero_fe_dodge_down_left0000
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 179
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left0001
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 122
+        width: 24
+        height: 32
+      alignment: 9
+      pivot: {x: 0.375, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left0002
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 161
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.42307693, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left0003
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 146
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3846154, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left0004
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 190
+        width: 25
+        height: 32
+      alignment: 9
+      pivot: {x: 0.36, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left0005
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 22
+        width: 21
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3809524, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_end0000
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 146
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3846154, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_end0001
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 190
+        width: 25
+        height: 32
+      alignment: 9
+      pivot: {x: 0.36, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_end0002
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 22
+        width: 21
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3809524, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_start0000
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 179
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_start0001
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 122
+        width: 24
+        height: 32
+      alignment: 9
+      pivot: {x: 0.375, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_start0002
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 161
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.42307693, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_down_left_start0003
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 146
+        width: 26
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3846154, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_idle_down0000
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 179
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_idle_left0000
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 190
+        width: 29
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4827586, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_idle_right0000
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 187
+        width: 27
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_idle_up0000
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 145
+        width: 20
+        height: 32
+      alignment: 9
+      pivot: {x: 0.45, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_down0000
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 19
+        width: 17
+        height: 35
+      alignment: 9
+      pivot: {x: 0.5882353, y: 0.25714287}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_down0001
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 20
+        width: 17
+        height: 34
+      alignment: 9
+      pivot: {x: 0.5882353, y: 0.32352942}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_down0002
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 213
+        width: 32
+        height: 42
+      alignment: 9
+      pivot: {x: 0.5, y: 0.45238096}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -15, y: 22}
+        - {x: -16, y: 17}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+        - {x: 6, y: 22}
+    - name: hero_fe_slice_down0003
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 221
+        width: 28
+        height: 34
+      alignment: 9
+      pivot: {x: 0.42857143, y: 0.4117647}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_left0000
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 112
+        width: 19
+        height: 31
+      alignment: 9
+      pivot: {x: 0.36842105, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_left0001
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 56
+        width: 19
+        height: 30
+      alignment: 9
+      pivot: {x: 0.47368422, y: 0.06666667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_left0002
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 224
+        width: 56
+        height: 31
+      alignment: 9
+      pivot: {x: 0.71428573, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_left0003
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 180
+        width: 27
+        height: 31
+      alignment: 9
+      pivot: {x: 0.44444445, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_right0000
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 123
+        width: 19
+        height: 31
+      alignment: 9
+      pivot: {x: 0.6315789, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_right0001
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 56
+        width: 19
+        height: 30
+      alignment: 9
+      pivot: {x: 0.5263158, y: 0.06666667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_right0002
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 228
+        width: 42
+        height: 27
+      alignment: 9
+      pivot: {x: 0.3809524, y: 0.074074075}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_right0003
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 161
+        width: 26
+        height: 27
+      alignment: 9
+      pivot: {x: 0.5769231, y: 0.074074075}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_up0000
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 18
+        width: 17
+        height: 36
+      alignment: 9
+      pivot: {x: 0.3529412, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_up0001
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 56
+        width: 21
+        height: 36
+      alignment: 9
+      pivot: {x: 0.47619048, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_up0002
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 216
+        width: 26
+        height: 39
+      alignment: 9
+      pivot: {x: 0.5769231, y: 0.102564104}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_slice_up0003
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 112
+        width: 22
+        height: 32
+      alignment: 9
+      pivot: {x: 0.6363636, y: 0.125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0000
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 122
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0001
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 45
+        width: 15
+        height: 31
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0002
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 119
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0003
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 114
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0004
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 114
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0005
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 12
+        width: 15
+        height: 31
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0006
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 88
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_down0007
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 56
+        width: 15
+        height: 32
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0000
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 156
+        width: 25
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0001
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 94
+        width: 23
+        height: 31
+      alignment: 9
+      pivot: {x: 0.3043478, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0002
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 223
+        width: 29
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4827586, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0003
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 93
+        width: 22
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4090909, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0004
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 127
+        width: 25
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0005
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 195
+        width: 30
+        height: 31
+      alignment: 9
+      pivot: {x: 0.46666667, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0006
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 127
+        width: 25
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_left0007
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 88
+        width: 22
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4090909, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0000
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 156
+        width: 27
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0001
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 156
+        width: 27
+        height: 31
+      alignment: 9
+      pivot: {x: 0.5925926, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0002
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 182
+        width: 27
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0003
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 223
+        width: 29
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4827586, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0004
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 153
+        width: 27
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0005
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 190
+        width: 28
+        height: 31
+      alignment: 9
+      pivot: {x: 0.53571427, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0006
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 148
+        width: 27
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5555556, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_right0007
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 189
+        width: 28
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0000
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 59
+        width: 20
+        height: 32
+      alignment: 9
+      pivot: {x: 0.45, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0001
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 25
+        width: 19
+        height: 32
+      alignment: 9
+      pivot: {x: 0.42105263, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0002
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 145
+        width: 20
+        height: 32
+      alignment: 9
+      pivot: {x: 0.45, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0003
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 78
+        width: 19
+        height: 32
+      alignment: 9
+      pivot: {x: 0.36842105, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0004
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 122
+        width: 18
+        height: 32
+      alignment: 9
+      pivot: {x: 0.3888889, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0005
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 90
+        width: 18
+        height: 31
+      alignment: 9
+      pivot: {x: 0.3888889, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0006
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 145
+        width: 20
+        height: 32
+      alignment: 9
+      pivot: {x: 0.45, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_walk_up0007
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 78
+        width: 17
+        height: 32
+      alignment: 9
+      pivot: {x: 0.4117647, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
