@@ -95,6 +95,8 @@ GameObject:
   - 4: {fileID: 381539280}
   - 212: {fileID: 381539279}
   - 95: {fileID: 381539278}
+  - 114: {fileID: 381539281}
+  - 50: {fileID: 381539282}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -161,6 +163,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &381539281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381539277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c075b00a4f4544e45908ef21fdadc056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &381539282
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381539277}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &1538645776
 Prefab:
   m_ObjectHideFlags: 0
@@ -241,6 +271,10 @@ Prefab:
     - target: {fileID: 466054, guid: 35b3e6366c4f3684ebfff63083adbc2f, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11440920, guid: 35b3e6366c4f3684ebfff63083adbc2f, type: 2}
+      propertyPath: preferUncropped
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35b3e6366c4f3684ebfff63083adbc2f, type: 2}
