@@ -3,23 +3,23 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
+	public float Speed = 5.0f;
+
 	private Rigidbody2D m_rigidbody;
-	private Vector2 m_direction;
+	private Vector2 m_heading;
 
 	void Start()
 	{
 		m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
-	void Update()
+	public void SetHeading(Vector2 heading)
 	{
-		float x = Input.GetAxisRaw("Horizontal");
-		float y = Input.GetAxisRaw("Vertical");
-		m_direction = new Vector2(x, y);
+		m_heading = heading.normalized;
 	}
 
 	void FixedUpdate()
 	{
-		m_rigidbody.velocity = m_direction * 5;
+		m_rigidbody.velocity = m_heading * Speed;
 	}
 }
