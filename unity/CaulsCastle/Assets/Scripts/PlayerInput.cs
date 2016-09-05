@@ -11,7 +11,7 @@ public class PlayerInput : MonoBehaviour {
 	void Start()
 	{
 		m_movement = GetComponent<Movement>();
-		m_animator = GetComponent<Animator>();
+		m_animator = GetComponentInChildren<Animator>();
 	}
 
 	bool attacking = false;
