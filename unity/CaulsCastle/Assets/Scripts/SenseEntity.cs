@@ -3,8 +3,13 @@ using System.Collections;
 
 public class SenseEntity : MonoBehaviour {
 
+	public string SenseTag = "Player";
+
 	void OnTriggerEnter2D(Collider2D collider)
 	{
-		print("Detected!");
+		if (collider.CompareTag(SenseTag))
+		{
+			print("Player detected");
+		}
 	}
 }
