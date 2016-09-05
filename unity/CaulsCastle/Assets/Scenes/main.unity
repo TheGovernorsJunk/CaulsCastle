@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 381539280}
   - 212: {fileID: 381539279}
+  - 61: {fileID: 381539286}
   - 95: {fileID: 381539278}
   - 50: {fileID: 381539282}
   - 61: {fileID: 381539284}
@@ -231,6 +232,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f6cc9d3ddb6894f9febbe7e1394879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &381539286
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381539277}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 1.030555, y: 0.76323104}
+  serializedVersion: 2
+  m_Size: {x: 2.111074, y: 1.7764621}
 --- !u!1001 &1538645776
 Prefab:
   m_ObjectHideFlags: 0
