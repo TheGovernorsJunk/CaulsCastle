@@ -95,10 +95,11 @@ GameObject:
   - 4: {fileID: 381539280}
   - 212: {fileID: 381539279}
   - 95: {fileID: 381539278}
-  - 114: {fileID: 381539281}
   - 50: {fileID: 381539282}
-  - 114: {fileID: 381539283}
   - 61: {fileID: 381539284}
+  - 114: {fileID: 381539283}
+  - 114: {fileID: 381539281}
+  - 114: {fileID: 381539285}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -176,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c075b00a4f4544e45908ef21fdadc056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  MaxSpeed: 5
 --- !u!50 &381539282
 Rigidbody2D:
   serializedVersion: 2
@@ -219,6 +220,17 @@ BoxCollider2D:
   m_Offset: {x: -0.03125, y: 0.28244424}
   serializedVersion: 2
   m_Size: {x: 0.9375, y: 1}
+--- !u!114 &381539285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381539277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40f6cc9d3ddb6894f9febbe7e1394879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1538645776
 Prefab:
   m_ObjectHideFlags: 0
