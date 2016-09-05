@@ -14,6 +14,8 @@ public class PlayerInput : MonoBehaviour {
 	{
 		float x = Input.GetAxisRaw("Horizontal");
 		float y = Input.GetAxisRaw("Vertical");
-		m_movement.Heading = new Vector2(x, y);
+		Vector2 input = new Vector2(x, y);
+		m_movement.Heading = input;
+		m_movement.Speed = input.magnitude * m_movement.MaxSpeed;
 	}
 }

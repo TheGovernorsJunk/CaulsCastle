@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour {
 		get { return m_heading; }
 		set { m_heading = value.normalized; }
 	}
+	public float Speed { get; set; }
 
 	private Rigidbody2D m_rigidbody;
 	private Vector2 m_heading;
@@ -20,6 +21,6 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		m_rigidbody.velocity = m_heading * MaxSpeed;
+		m_rigidbody.velocity = m_heading * Mathf.Min(MaxSpeed, Speed);
 	}
 }
