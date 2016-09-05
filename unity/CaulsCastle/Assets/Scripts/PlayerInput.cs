@@ -14,6 +14,6 @@ public class PlayerInput : MonoBehaviour {
 	{
 		float x = Input.GetAxisRaw("Horizontal");
 		float y = Input.GetAxisRaw("Vertical");
-		m_movement.SetHeading(new Vector2(x, y));
+		m_movement.Heading = new Vector2(x, y);
 	}
 }

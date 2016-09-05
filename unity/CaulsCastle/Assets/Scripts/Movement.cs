@@ -4,6 +4,11 @@ using System.Collections;
 public class Movement : MonoBehaviour {
 
 	public float Speed = 5.0f;
+	public Vector2 Heading
+	{
+		get { return m_heading; }
+		set { m_heading = value.normalized; }
+	}
 
 	private Rigidbody2D m_rigidbody;
 	private Vector2 m_heading;
@@ -19,11 +24,6 @@ public class Movement : MonoBehaviour {
 	{
 		m_rigidbody = GetComponent<Rigidbody2D>();
 		m_animator = GetComponent<Animator>();
-	}
-
-	public void SetHeading(Vector2 heading)
-	{
-		m_heading = heading.normalized;
 	}
 
 	void FixedUpdate()
