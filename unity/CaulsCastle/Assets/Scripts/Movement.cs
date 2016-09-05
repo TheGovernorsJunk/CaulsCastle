@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Movement : MonoBehaviour {
 
-	public float Speed = 5.0f;
+	public float MaxSpeed = 5.0f;
 	public Vector2 Heading
 	{
 		get { return m_heading; }
@@ -20,6 +20,6 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		m_rigidbody.velocity = m_heading * Speed;
+		m_rigidbody.velocity = m_heading * MaxSpeed;
 	}
 }
