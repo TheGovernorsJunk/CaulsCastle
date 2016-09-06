@@ -23,7 +23,8 @@ public class MobAnimator : MonoBehaviour {
 		Vector2 heading = m_movement.Heading;
 		float x = heading.x;
 		float y = heading.y;
-		if (x != 0 || y != 0)
+		float speed = m_movement.Speed;
+		if (speed > 0)
 		{
 			if (Mathf.Abs(x) > Mathf.Abs(y))
 			{
@@ -33,11 +34,7 @@ public class MobAnimator : MonoBehaviour {
 			{
 				m_animator.SetTrigger(y > 0 ? UP : DOWN);
 			}
-			m_animator.SetInteger(SPEED, 1);
 		}
-		else
-		{
-			m_animator.SetInteger(SPEED, 0);
-		}
+		m_animator.SetInteger(SPEED, (int)speed);
 	}
 }
