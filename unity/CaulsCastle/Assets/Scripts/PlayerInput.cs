@@ -22,7 +22,10 @@ public class PlayerInput : MonoBehaviour {
 		float x = Input.GetAxisRaw("Horizontal");
 		float y = Input.GetAxisRaw("Vertical");
 		Vector2 input = new Vector2(x, y);
-		m_movement.Heading = input;
+		if (x != 0 || y != 0)
+		{
+			m_movement.Heading = input;
+		}
 		m_movement.Speed = input.magnitude * m_movement.MaxSpeed;
 
 		float attackEvent = Input.GetAxisRaw("Fire1");
