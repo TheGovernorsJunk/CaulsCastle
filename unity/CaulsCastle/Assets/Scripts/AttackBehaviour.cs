@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AttackBehaviour : StateMachineBehaviour {
 
-	int IS_STILL = Animator.StringToHash("isStill");
+	static int IS_STILL = Animator.StringToHash("isStill");
 
 	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

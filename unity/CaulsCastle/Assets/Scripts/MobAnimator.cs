@@ -3,11 +3,11 @@ using System.Collections;
 
 public class MobAnimator : MonoBehaviour {
 
-	int UP = Animator.StringToHash("up");
-	int DOWN = Animator.StringToHash("down");
-	int LEFT = Animator.StringToHash("left");
-	int RIGHT = Animator.StringToHash("right");
-	int SPEED = Animator.StringToHash("speed");
+	static int UP = Animator.StringToHash("up");
+	static int DOWN = Animator.StringToHash("down");
+	static int LEFT = Animator.StringToHash("left");
+	static int RIGHT = Animator.StringToHash("right");
+	static int SPEED = Animator.StringToHash("speed");
 
 	Movement m_movement;
 	Animator m_animator;
