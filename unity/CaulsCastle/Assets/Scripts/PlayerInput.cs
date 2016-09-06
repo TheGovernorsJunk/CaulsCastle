@@ -10,8 +10,8 @@ public class PlayerInput : MonoBehaviour {
 
 	void Awake()
 	{
-		m_movement = GetComponentInChildren<Movement>();
-		m_animator = GetComponentInChildren<Animator>();
+		m_movement = GetComponent<Movement>();
+		m_animator = GetComponent<Animator>();
 	}
 
 	bool attacking = false;

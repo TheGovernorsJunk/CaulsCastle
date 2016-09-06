@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour {
 
 	void Awake()
 	{
-		m_rigidbody = GetComponentInParent<Rigidbody2D>();
+		m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
 	void FixedUpdate()
