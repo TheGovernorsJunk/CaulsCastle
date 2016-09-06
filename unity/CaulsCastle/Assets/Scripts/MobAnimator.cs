@@ -12,7 +12,7 @@ public class MobAnimator : MonoBehaviour {
 	Movement m_movement;
 	Animator m_animator;
 
-	void Start ()
+	void Awake ()
 	{
 		m_movement = GetComponentInChildren<Movement>();
 		m_animator = GetComponentInChildren<Animator>();

@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour {
 	Vector2 m_heading;
 	float m_speed;
 
-	void Start()
+	void Awake()
 	{
 		m_rigidbody = GetComponentInParent<Rigidbody2D>();
 	}
