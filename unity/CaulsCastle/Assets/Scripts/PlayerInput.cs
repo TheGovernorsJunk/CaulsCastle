@@ -28,7 +28,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 		m_movement.Speed = input.magnitude * m_movement.MaxSpeed;
 
-		float attackEvent = Input.GetAxisRaw("Fire1");
+		float attackEvent = Input.GetAxisRaw("LightAttack");
 		if (attackEvent > 0 && !attacking)
 		{
 			m_animator.SetTrigger(ATTACK);
