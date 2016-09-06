@@ -9,10 +9,15 @@ public class Movement : MonoBehaviour {
 		get { return m_heading; }
 		set { m_heading = value.normalized; }
 	}
-	public float Speed { get; set; }
+	public float Speed
+	{
+		get { return m_speed; }
+		set { m_speed = Mathf.Min(MaxSpeed, value); }
+	}
 
-	private Rigidbody2D m_rigidbody;
-	private Vector2 m_heading;
+	Rigidbody2D m_rigidbody;
+	Vector2 m_heading;
+	float m_speed;
 
 	void Start()
 	{
@@ -21,7 +26,7 @@ public class Movement : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		m_rigidbody.velocity = m_heading * Mathf.Min(MaxSpeed, Speed);
+		m_rigidbody.velocity = m_heading * m_speed;
 	}
 
 	void OnDisable()
