@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 381539280}
   - 50: {fileID: 381539282}
-  - 114: {fileID: 381539283}
   - 114: {fileID: 381539281}
   - 114: {fileID: 381539285}
   - 212: {fileID: 381539279}
@@ -167,7 +166,7 @@ Transform:
   - {fileID: 2125993208}
   - {fileID: 450922541}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!114 &381539281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,17 +196,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &381539283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 381539277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59475e5ce81f9c047af278b280371587, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &381539285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +249,46 @@ BoxCollider2D:
   m_Offset: {x: -0.03314121, y: 0.64862156}
   serializedVersion: 2
   m_Size: {x: 0.5170847, y: 1.009469}
+--- !u!1 &1154877484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1154877486}
+  - 114: {fileID: 1154877485}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1154877485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1154877484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59475e5ce81f9c047af278b280371587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Avatar: {fileID: 381539277}
+--- !u!4 &1154877486
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1154877484}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.63798785, y: -0.024411475, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1001 &1538645776
 Prefab:
   m_ObjectHideFlags: 0
@@ -550,7 +578,7 @@ GameObject:
   - 61: {fileID: 1566610204}
   m_Layer: 0
   m_Name: AttackBox
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -776,7 +804,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!114 &1723012460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,7 +914,7 @@ GameObject:
   - 61: {fileID: 2125993209}
   m_Layer: 0
   m_Name: PhysicsBox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

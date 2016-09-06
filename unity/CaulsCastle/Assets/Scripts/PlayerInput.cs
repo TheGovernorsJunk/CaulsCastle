@@ -3,15 +3,17 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour {
 
-	int ATTACK = Animator.StringToHash("attack");
+	public GameObject Avatar;
+
+	static int ATTACK = Animator.StringToHash("attack");
 
 	Movement m_movement;
 	Animator m_animator;
 
 	void Awake()
 	{
-		m_movement = GetComponent<Movement>();
-		m_animator = GetComponent<Animator>();
+		m_movement = Avatar.GetComponent<Movement>();
+		m_animator = Avatar.GetComponent<Animator>();
 	}
 
 	bool attacking = false;
