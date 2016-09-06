@@ -14,7 +14,7 @@ public class MobAnimator : MonoBehaviour {
 
 	void Start ()
 	{
-		m_movement = GetComponent<Movement>();
+		m_movement = GetComponentInChildren<Movement>();
 		m_animator = GetComponentInChildren<Animator>();
 	}
 	

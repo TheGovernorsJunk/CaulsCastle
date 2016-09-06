@@ -16,11 +16,17 @@ public class Movement : MonoBehaviour {
 
 	void Start()
 	{
-		m_rigidbody = GetComponent<Rigidbody2D>();
+		m_rigidbody = GetComponentInParent<Rigidbody2D>();
 	}
 
 	void FixedUpdate()
 	{
 		m_rigidbody.velocity = m_heading * Mathf.Min(MaxSpeed, Speed);
+	}
+
+	void OnDisable()
+	{
+		Speed = 0;
+		m_rigidbody.velocity = Vector2.zero;
 	}
 }

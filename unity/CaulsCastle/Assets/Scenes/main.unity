@@ -96,7 +96,6 @@ GameObject:
   - 50: {fileID: 381539282}
   - 61: {fileID: 381539284}
   - 114: {fileID: 381539283}
-  - 114: {fileID: 381539281}
   - 114: {fileID: 381539285}
   m_Layer: 0
   m_Name: Hero
@@ -118,18 +117,6 @@ Transform:
   - {fileID: 1566610202}
   m_Father: {fileID: 0}
   m_RootOrder: 2
---- !u!114 &381539281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 381539277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c075b00a4f4544e45908ef21fdadc056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxSpeed: 5
 --- !u!50 &381539282
 Rigidbody2D:
   serializedVersion: 2
@@ -472,6 +459,7 @@ GameObject:
   - 212: {fileID: 1566610205}
   - 61: {fileID: 1566610204}
   - 95: {fileID: 1566610203}
+  - 114: {fileID: 1566610206}
   m_Layer: 0
   m_Name: Animation
   m_TagString: Player
@@ -552,6 +540,18 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!114 &1566610206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1566610201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c075b00a4f4544e45908ef21fdadc056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxSpeed: 5
 --- !u!1001 &1635369711
 Prefab:
   m_ObjectHideFlags: 0
