@@ -8,6 +8,14 @@ public class LockOn : MonoBehaviour {
 	public float TargetDistance = 10f;
 	public string LockTag = "Enemy";
 
+	public bool IsLocked
+	{
+		get
+		{
+			return m_latest_target != null;
+		}
+	}
+
 	Movement m_movement;
 	GameObject m_latest_target = null;
 	float m_target_distance_sq;
@@ -43,8 +51,12 @@ public class LockOn : MonoBehaviour {
 
 	IEnumerator Lock(GameObject target)
 	{
-		while (target == m_latest_target && (transform.position - target.transform.position).sqrMagnitude <= m_target_distance_sq)
+		while (target == m_latest_target)
 		{
+			if ((transform.position - target.transform.position).sqrMagnitude > m_target_distance_sq)
+			{
+				m_latest_target = null;
+			}
 			Debug.Log("Locking: " + Time.time);
 			yield return null;
 		}
