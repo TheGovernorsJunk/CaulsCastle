@@ -19,8 +19,9 @@ public class Movement : MonoBehaviour {
 		get { return m_heading * m_speed; }
 		set
 		{
-			m_speed = value.magnitude;
-			m_heading = value / m_speed;
+			float magnitude = value.magnitude;
+			Speed = magnitude;
+			m_heading = value / magnitude;
 		}
 	}
 
