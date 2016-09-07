@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerInput : MonoBehaviour {
 
 	public GameObject Avatar;
+	public float MovementThreshold = 0.3f;
 
 	Movement m_movement;
 	LightAttack m_light_attack;
@@ -20,11 +21,15 @@ public class PlayerInput : MonoBehaviour {
 		float x = Input.GetAxisRaw("Horizontal");
 		float y = Input.GetAxisRaw("Vertical");
 		Vector2 input = new Vector2(x, y);
-		if (x != 0 || y != 0)
+		if (Mathf.Abs(x) > MovementThreshold || Mathf.Abs(y) > MovementThreshold)
 		{
 			m_movement.Heading = input;
+			m_movement.Speed = input.magnitude * m_movement.MaxSpeed;
 		}
-		m_movement.Speed = input.magnitude * m_movement.MaxSpeed;
+		else
+		{
+			m_movement.Speed = 0;
+		}
 
 		float attackEvent = Input.GetAxisRaw("LightAttack");
 		if (attackEvent > 0 && !attacking)
