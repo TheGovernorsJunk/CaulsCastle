@@ -99,7 +99,8 @@ GameObject:
   - 114: {fileID: 381539285}
   - 212: {fileID: 381539279}
   - 95: {fileID: 381539278}
-  m_Layer: 0
+  - 114: {fileID: 381539284}
+  m_Layer: 8
   m_Name: Hero
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -208,6 +209,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9721976bb7a634b8ac8d02b455cbbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &381539284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381539277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb9a3c60baa6f24ca8797abbb95f041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LockMask:
+    serializedVersion: 2
+    m_Bits: 256
+  LockDistance: 5
 --- !u!114 &381539285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,7 +700,7 @@ GameObject:
   - 114: {fileID: 1723012452}
   - 58: {fileID: 1723012454}
   - 114: {fileID: 1723012460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
