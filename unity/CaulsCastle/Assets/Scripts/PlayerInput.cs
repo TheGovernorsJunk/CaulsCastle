@@ -8,14 +8,17 @@ public class PlayerInput : MonoBehaviour {
 
 	Movement m_movement;
 	LightAttack m_light_attack;
+	LockOn m_lock_on;
 
 	void Awake()
 	{
 		m_movement = Avatar.GetComponent<Movement>();
 		m_light_attack = Avatar.GetComponent<LightAttack>();
+		m_lock_on = Avatar.GetComponent<LockOn>();
 	}
 
 	bool attacking = false;
+	bool locking = false;
 	void Update ()
 	{
 		float x = Input.GetAxisRaw("Horizontal");
@@ -39,6 +42,19 @@ public class PlayerInput : MonoBehaviour {
 		else if (attackEvent == 0)
 		{
 			attacking = false;
+		}
+
+		float lockEvent = Input.GetAxisRaw("Lock");
+		if (lockEvent > 0 && !locking)
+		{
+			float lockX = Input.GetAxisRaw("U");
+			float lockY = Input.GetAxisRaw("V");
+			m_lock_on.Trigger(new Vector2(lockX, lockY));
+			locking = true;
+		}
+		else if (lockEvent == 0)
+		{
+			locking = false;
 		}
 	}
 }
