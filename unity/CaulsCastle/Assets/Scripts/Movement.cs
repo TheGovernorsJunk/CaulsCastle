@@ -31,6 +31,7 @@ public class Movement : MonoBehaviour {
 
 	void Awake()
 	{
+		Assert.IsTrue(MaxSpeed > 0);
 		m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
