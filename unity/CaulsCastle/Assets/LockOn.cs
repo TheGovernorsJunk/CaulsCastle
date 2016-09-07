@@ -5,25 +5,48 @@ public class LockOn : MonoBehaviour {
 
 	public LayerMask LockMask = -1;
 	public float LockDistance = 5f;
+	public float TargetDistance = 10f;
 	public string LockTag = "Enemy";
 
 	Movement m_movement;
+	GameObject m_latest_target = null;
+	float m_target_distance_sq;
 
 	void Awake()
 	{
 		m_movement = GetComponent<Movement>();
+		m_target_distance_sq = TargetDistance * TargetDistance;
 	}
 
 	public void Trigger(Vector2 direction)
 	{
-		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, LockDistance, LockMask.value);
-		foreach (RaycastHit2D hit in hits)
+		if (!enabled) return;
+
+		if (m_latest_target == null)
 		{
-			if (hit.collider.CompareTag(LockTag))
+			RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, LockDistance, LockMask.value);
+			foreach (RaycastHit2D hit in hits)
 			{
-				Debug.Log("Lock!");
-				break;
+				if (hit.collider.CompareTag(LockTag))
+				{
+					m_latest_target = hit.collider.gameObject;
+					StartCoroutine(Lock(m_latest_target));
+					break;
+				}
 			}
+		}
+		else
+		{
+			m_latest_target = null;
+		}
+	}
+
+	IEnumerator Lock(GameObject target)
+	{
+		while (target == m_latest_target && (transform.position - target.transform.position).sqrMagnitude <= m_target_distance_sq)
+		{
+			Debug.Log("Locking: " + Time.time);
+			yield return null;
 		}
 	}
 }
