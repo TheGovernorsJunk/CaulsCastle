@@ -95,6 +95,7 @@ GameObject:
   - 4: {fileID: 381539280}
   - 50: {fileID: 381539282}
   - 114: {fileID: 381539281}
+  - 114: {fileID: 381539283}
   - 114: {fileID: 381539285}
   - 212: {fileID: 381539279}
   - 95: {fileID: 381539278}
@@ -196,6 +197,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &381539283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 381539277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9721976bb7a634b8ac8d02b455cbbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &381539285
 MonoBehaviour:
   m_ObjectHideFlags: 0
