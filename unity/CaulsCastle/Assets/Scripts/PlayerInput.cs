@@ -20,11 +20,10 @@ public class PlayerInput : MonoBehaviour {
 	{
 		float x = Input.GetAxisRaw("Horizontal");
 		float y = Input.GetAxisRaw("Vertical");
-		Vector2 input = new Vector2(x, y);
 		if (Mathf.Abs(x) > MovementThreshold || Mathf.Abs(y) > MovementThreshold)
 		{
-			m_movement.Heading = input;
-			m_movement.Speed = input.magnitude * m_movement.MaxSpeed;
+			Vector2 input = new Vector2(x, y);
+			m_movement.Velocity = input * m_movement.MaxSpeed;
 		}
 		else
 		{
