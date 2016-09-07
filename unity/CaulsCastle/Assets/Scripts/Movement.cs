@@ -14,6 +14,15 @@ public class Movement : MonoBehaviour {
 		get { return m_speed; }
 		set { m_speed = Mathf.Min(MaxSpeed, value); }
 	}
+	public Vector2 Velocity
+	{
+		get { return m_heading * m_speed; }
+		set
+		{
+			m_speed = value.magnitude;
+			m_heading = value / m_speed;
+		}
+	}
 
 	Rigidbody2D m_rigidbody;
 	Vector2 m_heading;
