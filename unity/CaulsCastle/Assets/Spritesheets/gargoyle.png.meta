@@ -1,0 +1,400 @@
+fileFormatVersion: 2
+guid: f5d564ae6131a6249a50cbb2d0f93c69
+timeCreated: 1473215820
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: gargoyle_idle_down0000
+    21300002: gargoyle_idle_down0001
+    21300004: gargoyle_idle_down0002
+    21300006: gargoyle_idle_down0003
+    21300008: gargoyle_idle_down0004
+    21300010: gargoyle_idle_down0005
+    21300012: gargoyle_idle_down0006
+    21300014: gargoyle_idle_down0007
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: gargoyle_idle_down0000
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 128
+        width: 64
+        height: 62
+      alignment: 9
+      pivot: {x: 0.5, y: 0.516129}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: -32}
+        - {x: 15, y: -32}
+        - {x: 17, y: -31}
+        - {x: 28, y: -10}
+        - {x: 32, y: -1}
+        - {x: 32, y: 14}
+        - {x: 31, y: 17}
+        - {x: 27, y: 27}
+        - {x: 22, y: 29}
+        - {x: 20, y: 29}
+        - {x: 18, y: 26}
+        - {x: 15, y: 19}
+        - {x: 11, y: 15}
+        - {x: 15, y: 20}
+        - {x: 15, y: 25}
+        - {x: 13, y: 29}
+        - {x: -12, y: 29}
+        - {x: -15, y: 24}
+        - {x: -15, y: 20}
+        - {x: -11, y: 16}
+        - {x: -14, y: 17}
+        - {x: -17, y: 27}
+        - {x: -19, y: 29}
+        - {x: -27, y: 29}
+        - {x: -32, y: 19}
+        - {x: -32, y: -9}
+        - {x: -30, y: -13}
+        - {x: -18, y: -32}
+        - {x: -6, y: -32}
+        - {x: 0, y: -26}
+        - {x: 0, y: -24}
+        - {x: 0, y: -26}
+    - name: gargoyle_idle_down0001
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 129
+        width: 64
+        height: 61
+      alignment: 9
+      pivot: {x: 0.5, y: 0.52459013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: -32}
+        - {x: 14, y: -32}
+        - {x: 16, y: -30}
+        - {x: 16, y: -28}
+        - {x: 29, y: -13}
+        - {x: 32, y: -4}
+        - {x: 32, y: 19}
+        - {x: 27, y: 28}
+        - {x: 24, y: 29}
+        - {x: 19, y: 29}
+        - {x: 18, y: 27}
+        - {x: 15, y: 20}
+        - {x: 11, y: 16}
+        - {x: 15, y: 21}
+        - {x: 15, y: 26}
+        - {x: 14, y: 29}
+        - {x: -13, y: 29}
+        - {x: -15, y: 25}
+        - {x: -15, y: 21}
+        - {x: -11, y: 17}
+        - {x: -14, y: 18}
+        - {x: -17, y: 28}
+        - {x: -18, y: 29}
+        - {x: -30, y: 29}
+        - {x: -32, y: 26}
+        - {x: -32, y: -23}
+        - {x: -26, y: -32}
+        - {x: -7, y: -32}
+        - {x: 0, y: -25}
+        - {x: 0, y: -23}
+        - {x: 0, y: -25}
+    - name: gargoyle_idle_down0002
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 191
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: -32}
+        - {x: 14, y: -32}
+        - {x: 16, y: -30}
+        - {x: 16, y: -20}
+        - {x: 30, y: -7}
+        - {x: 32, y: -2}
+        - {x: 32, y: 18}
+        - {x: 28, y: 30}
+        - {x: 25, y: 31}
+        - {x: 20, y: 31}
+        - {x: 18, y: 28}
+        - {x: 16, y: 23}
+        - {x: 11, y: 17}
+        - {x: 15, y: 22}
+        - {x: 15, y: 27}
+        - {x: 13, y: 31}
+        - {x: -12, y: 31}
+        - {x: -15, y: 26}
+        - {x: -15, y: 22}
+        - {x: -11, y: 18}
+        - {x: -14, y: 19}
+        - {x: -17, y: 29}
+        - {x: -19, y: 31}
+        - {x: -27, y: 31}
+        - {x: -32, y: 22}
+        - {x: -32, y: -8}
+        - {x: -16, y: -32}
+        - {x: -7, y: -32}
+        - {x: 0, y: -25}
+        - {x: 0, y: -23}
+        - {x: 0, y: -25}
+    - name: gargoyle_idle_down0003
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 192
+        width: 64
+        height: 63
+      alignment: 9
+      pivot: {x: 0.5, y: 0.50793654}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: -32}
+        - {x: 19, y: -32}
+        - {x: 32, y: 0}
+        - {x: 32, y: 18}
+        - {x: 31, y: 21}
+        - {x: 27, y: 30}
+        - {x: 24, y: 31}
+        - {x: 19, y: 31}
+        - {x: 18, y: 29}
+        - {x: 16, y: 24}
+        - {x: 11, y: 18}
+        - {x: 15, y: 23}
+        - {x: 15, y: 28}
+        - {x: 14, y: 31}
+        - {x: -13, y: 31}
+        - {x: -15, y: 27}
+        - {x: -15, y: 23}
+        - {x: -11, y: 19}
+        - {x: -14, y: 20}
+        - {x: -17, y: 30}
+        - {x: -19, y: 31}
+        - {x: -25, y: 31}
+        - {x: -31, y: 26}
+        - {x: -32, y: 19}
+        - {x: -32, y: 0}
+        - {x: -28, y: -8}
+        - {x: -18, y: -32}
+        - {x: -7, y: -32}
+        - {x: 0, y: -25}
+        - {x: 0, y: -23}
+        - {x: 0, y: -25}
+    - name: gargoyle_idle_down0004
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 125
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: -32}
+        - {x: 14, y: -32}
+        - {x: 16, y: -30}
+        - {x: 16, y: -20}
+        - {x: 30, y: -9}
+        - {x: 32, y: -2}
+        - {x: 32, y: 22}
+        - {x: 27, y: 31}
+        - {x: 24, y: 32}
+        - {x: 19, y: 32}
+        - {x: 18, y: 30}
+        - {x: 15, y: 23}
+        - {x: 11, y: 19}
+        - {x: 15, y: 23}
+        - {x: 15, y: 28}
+        - {x: 13, y: 32}
+        - {x: -12, y: 32}
+        - {x: -15, y: 27}
+        - {x: -15, y: 23}
+        - {x: -11, y: 19}
+        - {x: -14, y: 21}
+        - {x: -18, y: 30}
+        - {x: -19, y: 32}
+        - {x: -29, y: 32}
+        - {x: -32, y: 28}
+        - {x: -32, y: -21}
+        - {x: -25, y: -32}
+        - {x: -7, y: -32}
+        - {x: 0, y: -25}
+        - {x: 0, y: -23}
+        - {x: 0, y: -25}
+    - name: gargoyle_idle_down0005
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 192
+        width: 64
+        height: 63
+      alignment: 9
+      pivot: {x: 0.5, y: 0.50793654}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: -32}
+        - {x: 14, y: -32}
+        - {x: 16, y: -30}
+        - {x: 16, y: -19}
+        - {x: 30, y: -10}
+        - {x: 32, y: -3}
+        - {x: 32, y: 21}
+        - {x: 27, y: 30}
+        - {x: 24, y: 31}
+        - {x: 19, y: 31}
+        - {x: 18, y: 29}
+        - {x: 15, y: 22}
+        - {x: 11, y: 18}
+        - {x: 15, y: 22}
+        - {x: 15, y: 27}
+        - {x: 13, y: 31}
+        - {x: -12, y: 31}
+        - {x: -15, y: 26}
+        - {x: -15, y: 22}
+        - {x: -11, y: 18}
+        - {x: -14, y: 20}
+        - {x: -18, y: 29}
+        - {x: -20, y: 31}
+        - {x: -26, y: 31}
+        - {x: -32, y: 21}
+        - {x: -32, y: -8}
+        - {x: -17, y: -32}
+        - {x: -7, y: -32}
+        - {x: 0, y: -25}
+        - {x: 0, y: -23}
+        - {x: 0, y: -25}
+    - name: gargoyle_idle_down0006
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 59
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15, y: -32}
+        - {x: 18, y: -27}
+        - {x: 29, y: -12}
+        - {x: 32, y: -2}
+        - {x: 32, y: 20}
+        - {x: 27, y: 29}
+        - {x: 22, y: 31}
+        - {x: 20, y: 31}
+        - {x: 18, y: 28}
+        - {x: 15, y: 21}
+        - {x: 11, y: 17}
+        - {x: 15, y: 21}
+        - {x: 15, y: 26}
+        - {x: 13, y: 31}
+        - {x: -12, y: 31}
+        - {x: -15, y: 25}
+        - {x: -15, y: 21}
+        - {x: -11, y: 17}
+        - {x: -14, y: 19}
+        - {x: -18, y: 28}
+        - {x: -20, y: 31}
+        - {x: -27, y: 31}
+        - {x: -32, y: 26}
+        - {x: -32, y: -13}
+        - {x: -23, y: -32}
+        - {x: -6, y: -32}
+        - {x: 0, y: -25}
+        - {x: 0, y: -23}
+        - {x: 0, y: -25}
+        - {x: 7, y: -32}
+    - name: gargoyle_idle_down0007
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 66
+        width: 64
+        height: 61
+      alignment: 9
+      pivot: {x: 0.5, y: 0.52459013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14, y: -32}
+        - {x: 19, y: -27}
+        - {x: 30, y: -12}
+        - {x: 32, y: -5}
+        - {x: 32, y: 19}
+        - {x: 27, y: 28}
+        - {x: 24, y: 29}
+        - {x: 19, y: 29}
+        - {x: 18, y: 27}
+        - {x: 15, y: 20}
+        - {x: 11, y: 16}
+        - {x: 15, y: 20}
+        - {x: 15, y: 25}
+        - {x: 13, y: 29}
+        - {x: -12, y: 29}
+        - {x: -15, y: 24}
+        - {x: -15, y: 20}
+        - {x: -11, y: 16}
+        - {x: -14, y: 18}
+        - {x: -18, y: 27}
+        - {x: -20, y: 29}
+        - {x: -28, y: 29}
+        - {x: -32, y: 25}
+        - {x: -32, y: -12}
+        - {x: -23, y: -32}
+        - {x: -5, y: -32}
+        - {x: 0, y: -26}
+        - {x: 0, y: -24}
+        - {x: 0, y: -26}
+        - {x: 6, y: -32}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
