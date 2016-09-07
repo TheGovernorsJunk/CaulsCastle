@@ -5,15 +5,13 @@ public class PlayerInput : MonoBehaviour {
 
 	public GameObject Avatar;
 
-	static int ATTACK = Animator.StringToHash("attack");
-
 	Movement m_movement;
-	Animator m_animator;
+	LightAttack m_light_attack;
 
 	void Awake()
 	{
 		m_movement = Avatar.GetComponent<Movement>();
-		m_animator = Avatar.GetComponent<Animator>();
+		m_light_attack = Avatar.GetComponent<LightAttack>();
 	}
 
 	bool attacking = false;
@@ -31,7 +29,7 @@ public class PlayerInput : MonoBehaviour {
 		float attackEvent = Input.GetAxisRaw("LightAttack");
 		if (attackEvent > 0 && !attacking)
 		{
-			m_animator.SetTrigger(ATTACK);
+			m_light_attack.Trigger();
 			attacking = true;
 		}
 		else if (attackEvent == 0)
