@@ -10,17 +10,20 @@ public class MobAnimator : MonoBehaviour {
 	static int SPEED = Animator.StringToHash("speed");
 
 	Movement m_movement;
+	LockOn m_lock_on;
 	Animator m_animator;
 
 	void Awake ()
 	{
 		m_movement = GetComponent<Movement>();
+		m_lock_on = GetComponent<LockOn>();
 		m_animator = GetComponent<Animator>();
 	}
 	
 	void FixedUpdate ()
 	{
-		Vector2 heading = m_movement.Heading;
+		GameObject target = m_lock_on.Target;
+		Vector2 heading = target ? (Vector2)(target.transform.position - transform.position) : m_movement.Heading;
 		float x = heading.x;
 		float y = heading.y;
 		float speed = m_movement.Speed;
