@@ -9247,18 +9247,6 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="Entities">
-  <object id="1" name="Player" type="hero" x="400" y="208">
-   <properties>
-    <property name="team_mask" value="0x0001"/>
-   </properties>
-  </object>
-  <object id="54" name="Enemy" type="gargoyle" x="416" y="352" width="16" height="16">
-   <properties>
-    <property name="team_mask" value="0x0002"/>
-   </properties>
-  </object>
- </objectgroup>
  <layer name="Wall" width="64" height="48">
   <data>
    <tile gid="0"/>

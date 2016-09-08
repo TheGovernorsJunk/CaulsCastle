@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Tiled2Unity generated xml data-->
 <!--Do not modify by hand-->
-<!--Last exported: 9/1/2016 6:02:24 PM-->
+<!--Last exported: 9/7/2016 9:03:49 PM-->
 <Tiled2Unity version="1.0.2.1">
   <AssignMaterial mesh="mesh_0001" material="outside" />
   <AssignMaterial mesh="mesh_0002" material="dungeon" />
@@ -23,20 +23,10 @@
       <GameObject name="dungeon" copy="mesh_0004" sortingLayerName="" sortingOrder="2" opacity="1" />
     </GameObject>
     <GameObject name="Wall" x="0" y="0">
-      <GameObject name="dungeon" copy="mesh_0005" sortingLayerName="" sortingOrder="4" opacity="1" />
+      <GameObject name="dungeon" copy="mesh_0005" sortingLayerName="" sortingOrder="3" opacity="1" />
     </GameObject>
     <GameObject name="Floor Overlay" x="0" y="0">
-      <GameObject name="dungeon" copy="mesh_0006" sortingLayerName="" sortingOrder="5" opacity="1" />
-    </GameObject>
-    <GameObject name="Entities" x="0" y="0">
-      <GameObject name="Player" x="25" y="-13" rotation="0">
-        <Property name="team_mask" value="0x0001" />
-        <BoxCollider2D width="0" height="0" />
-      </GameObject>
-      <GameObject name="Enemy" x="26" y="-22" rotation="0">
-        <Property name="team_mask" value="0x0002" />
-        <BoxCollider2D width="1" height="1" />
-      </GameObject>
+      <GameObject name="dungeon" copy="mesh_0006" sortingLayerName="" sortingOrder="4" opacity="1" />
     </GameObject>
     <GameObject name="Collisions" x="0" y="0">
       <GameObject name="RectangleObject" x="23" y="-11" rotation="0">
