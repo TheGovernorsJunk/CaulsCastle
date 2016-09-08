@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 public class LockOn : MonoBehaviour {
@@ -15,15 +16,22 @@ public class LockOn : MonoBehaviour {
 			return m_latest_target;
 		}
 	}
+	public UnityEvent LockEvent
+	{
+		get
+		{
+			return m_lock_event;
+		}
+	}
 
-	Movement m_movement;
 	GameObject m_latest_target = null;
 	float m_target_distance_sq;
+	UnityEvent m_lock_event;
 
 	void Awake()
 	{
-		m_movement = GetComponent<Movement>();
 		m_target_distance_sq = TargetDistance * TargetDistance;
+		m_lock_event = new UnityEvent();
 	}
 
 	public void Trigger(Vector2 direction)
@@ -39,6 +47,7 @@ public class LockOn : MonoBehaviour {
 				{
 					m_latest_target = hit.collider.gameObject;
 					StartCoroutine(Lock(m_latest_target));
+					m_lock_event.Invoke();
 					break;
 				}
 			}
