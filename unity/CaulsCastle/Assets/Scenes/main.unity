@@ -96,10 +96,10 @@ GameObject:
   - 50: {fileID: 381539282}
   - 114: {fileID: 381539281}
   - 114: {fileID: 381539283}
+  - 114: {fileID: 381539284}
   - 114: {fileID: 381539285}
   - 212: {fileID: 381539279}
   - 95: {fileID: 381539278}
-  - 114: {fileID: 381539284}
   m_Layer: 8
   m_Name: Hero
   m_TagString: Player
@@ -224,6 +224,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   LockDistance: 5
+  LockTag: Enemy
+  TargetDistance: 10
 --- !u!114 &381539285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Avatar: {fileID: 381539277}
   MovementThreshold: 0.3
+  LockInfluenceThreshold: 0.3
 --- !u!4 &1154877486
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +372,7 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 194072, guid: b02a26b09e165274ab59915979cd00d3, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
@@ -405,7 +408,7 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 154948, guid: b02a26b09e165274ab59915979cd00d3, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
@@ -441,7 +444,7 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 197510, guid: b02a26b09e165274ab59915979cd00d3, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
@@ -549,7 +552,7 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 196092, guid: b02a26b09e165274ab59915979cd00d3, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
@@ -565,7 +568,7 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 137152, guid: b02a26b09e165274ab59915979cd00d3, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
@@ -713,7 +716,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1723012451}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40f6cc9d3ddb6894f9febbe7e1394879, type: 3}
   m_Name: 
@@ -946,6 +949,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Subject: {fileID: 381539277}
   Distance: 1
+--- !u!1001 &1820532805
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 463936, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11434654, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: Avatar
+      value: 
+      objectReference: {fileID: 381539277}
+    - target: {fileID: 11434654, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+      propertyPath: Offset.y
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: df42442814b1ea24486cc324aafdd8a4, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2125993207
 GameObject:
   m_ObjectHideFlags: 0
