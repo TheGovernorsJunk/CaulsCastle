@@ -5,14 +5,14 @@ public class LockOn : MonoBehaviour {
 
 	public LayerMask LockMask = -1;
 	public float LockDistance = 5f;
-	public float TargetDistance = 10f;
 	public string LockTag = "Enemy";
+	public float TargetDistance = 10f;
 
-	public bool IsLocked
+	public GameObject Target
 	{
 		get
 		{
-			return m_latest_target != null;
+			return m_latest_target;
 		}
 	}
 
