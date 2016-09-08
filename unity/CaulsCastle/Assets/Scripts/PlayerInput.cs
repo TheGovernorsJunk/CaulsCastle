@@ -5,6 +5,7 @@ public class PlayerInput : MonoBehaviour {
 
 	public GameObject Avatar;
 	public float MovementThreshold = 0.3f;
+	public float LockInfluenceThreshold = 0.3f;
 
 	Movement m_movement;
 	LightAttack m_light_attack;
@@ -49,7 +50,10 @@ public class PlayerInput : MonoBehaviour {
 		{
 			float lockX = Input.GetAxisRaw("U");
 			float lockY = Input.GetAxisRaw("V");
-			m_lock_on.Trigger(new Vector2(lockX, lockY));
+			Vector2 lockDirection = Mathf.Abs(lockX) > LockInfluenceThreshold || Mathf.Abs(lockY) > LockInfluenceThreshold
+				? new Vector2(lockX, lockY)
+				: new Vector2(m_movement.Heading.x, m_movement.Heading.y);
+			m_lock_on.Trigger(lockDirection);
 			locking = true;
 		}
 		else if (lockEvent == 0)
