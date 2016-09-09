@@ -210,7 +210,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
       propertyPath: m_Name
@@ -227,6 +227,14 @@ Prefab:
     - target: {fileID: 137672, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11441558, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: LockTag
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 176592, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
