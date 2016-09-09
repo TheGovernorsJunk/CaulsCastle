@@ -3,12 +3,15 @@ importPivots: 1
 tpsheetFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
 - Assets/Spritesheets/gargoyle.tpsheet
+- Assets/Spritesheets/hero.tpsheet
 - Assets/Spritesheets/ui.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
 - Assets/Spritesheets/gargoyle.png
+- Assets/Spritesheets/hero.png
 - Assets/Spritesheets/ui.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
 - 
 - 
