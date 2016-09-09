@@ -16,7 +16,7 @@ public class CameraFollow : MonoBehaviour
 		m_subject_lock_on = Subject.GetComponent<LockOn>();
 	}
 
-	void Update ()
+	void LateUpdate ()
 	{
 		GameObject target = m_subject_lock_on.Target;
 		if (target == null)
