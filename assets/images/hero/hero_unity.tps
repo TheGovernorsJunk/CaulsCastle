@@ -201,6 +201,13 @@
             <key type="filename">clips/hero_fe_dodge_down_left_start0001.png</key>
             <key type="filename">clips/hero_fe_dodge_down_left_start0002.png</key>
             <key type="filename">clips/hero_fe_dodge_down_left_start0003.png</key>
+            <key type="filename">clips/hero_fe_dodge_down_right0000.png</key>
+            <key type="filename">clips/hero_fe_dodge_down_right0001.png</key>
+            <key type="filename">clips/hero_fe_dodge_down_right0002.png</key>
+            <key type="filename">clips/hero_fe_dodge_down_right0003.png</key>
+            <key type="filename">clips/hero_fe_dodge_down_right0004.png</key>
+            <key type="filename">clips/hero_fe_dodge_down_right0005.png</key>
+            <key type="filename">clips/hero_fe_dodge_up_right0003.png</key>
             <key type="filename">clips/hero_fe_idle_down0000.png</key>
             <key type="filename">clips/hero_fe_idle_left0000.png</key>
             <key type="filename">clips/hero_fe_idle_right0000.png</key>
@@ -244,6 +251,31 @@
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_up_right0000.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.28125,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_up_right0001.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.296875,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_up_right0002.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.328125,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_up_right0004.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.703125,0.9375</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_up_right0005.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.734375,0.9375</point_f>
             </struct>
             <key type="filename">clips/hero_fe_slice_down0000.png</key>
             <key type="filename">clips/hero_fe_slice_down0001.png</key>
