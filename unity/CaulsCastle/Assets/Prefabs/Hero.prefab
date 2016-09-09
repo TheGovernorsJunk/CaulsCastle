@@ -55,22 +55,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &176592
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 423920}
-  - 58: {fileID: 5855302}
-  m_Layer: 9
-  m_Name: Aura
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &186182
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,18 +83,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 477042}
   m_RootOrder: 1
---- !u!4 &423920
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 477042}
-  m_RootOrder: 3
 --- !u!4 &433374
 Transform:
   m_ObjectHideFlags: 1
@@ -148,7 +120,6 @@ Transform:
   - {fileID: 433374}
   - {fileID: 405626}
   - {fileID: 443438}
-  - {fileID: 423920}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!50 &5079718
@@ -168,20 +139,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &5855302
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176592}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 5
 --- !u!61 &6194974
 BoxCollider2D:
   m_ObjectHideFlags: 1
