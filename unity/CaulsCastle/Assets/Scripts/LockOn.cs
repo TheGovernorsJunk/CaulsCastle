@@ -50,7 +50,7 @@ public class LockOn : MonoBehaviour {
 				matches = matches.Where(c => Vector2.Dot((Vector2)c.transform.position - position, targetRay.direction) >= 0);
 				if (matches.Count() > 0)
 				{
-					m_latest_target = matches.Aggregate((currTarget, next) => Vector3.Cross(targetRay.direction, currTarget.transform.position).sqrMagnitude < Vector3.Cross(targetRay.direction, next.transform.position).sqrMagnitude ? currTarget : next).gameObject;
+					m_latest_target = matches.Aggregate((currTarget, next) => Vector3.Cross(targetRay.direction, currTarget.transform.position - (Vector3)targetRay.origin).sqrMagnitude < Vector3.Cross(targetRay.direction, next.transform.position - (Vector3)targetRay.origin).sqrMagnitude ? currTarget : next).gameObject;
 					StartCoroutine(Lock(m_latest_target));
 					m_lock_event.Invoke();
 				}
