@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using System.Linq;
 
 public class LockOn : MonoBehaviour {
 
@@ -40,15 +41,18 @@ public class LockOn : MonoBehaviour {
 
 		if (m_latest_target == null)
 		{
-			RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, LockDistance, LockMask.value);
-			foreach (RaycastHit2D hit in hits)
+			Vector2 position = transform.position;
+			Collider2D[] collisions = Physics2D.OverlapCircleAll(position, LockDistance, LockMask);
+			var matches = collisions.Where(c => c.CompareTag(LockTag));
+			if (matches.Count() > 0)
 			{
-				if (hit.collider.CompareTag(LockTag))
+				Ray2D targetRay = new Ray2D(position, direction);
+				matches = matches.Where(c => Vector2.Dot((Vector2)c.transform.position - position, targetRay.direction) >= 0);
+				if (matches.Count() > 0)
 				{
-					m_latest_target = hit.collider.gameObject;
+					m_latest_target = matches.Aggregate((currTarget, next) => Vector3.Cross(targetRay.direction, currTarget.transform.position).sqrMagnitude < Vector3.Cross(targetRay.direction, next.transform.position).sqrMagnitude ? currTarget : next).gameObject;
 					StartCoroutine(Lock(m_latest_target));
 					m_lock_event.Invoke();
-					break;
 				}
 			}
 		}
