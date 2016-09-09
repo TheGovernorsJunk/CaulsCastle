@@ -70,7 +70,6 @@ public class LockOn : MonoBehaviour {
 			{
 				m_latest_target = null;
 			}
-			Debug.Log("Locking: " + Time.time);
 			yield return null;
 		}
 	}
