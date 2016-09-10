@@ -10,16 +10,19 @@ public class PlayerInput : MonoBehaviour {
 	Movement m_movement;
 	LightAttack m_light_attack;
 	LockOn m_lock_on;
+	Dodge m_dodge;
 
 	void Awake()
 	{
 		m_movement = Avatar.GetComponent<Movement>();
 		m_light_attack = Avatar.GetComponent<LightAttack>();
 		m_lock_on = Avatar.GetComponent<LockOn>();
+		m_dodge = Avatar.GetComponent<Dodge>();
 	}
 
 	bool attacking = false;
 	bool locking = false;
+	bool dodging = false;
 	void Update ()
 	{
 		float x = Input.GetAxisRaw("Horizontal");
@@ -59,6 +62,17 @@ public class PlayerInput : MonoBehaviour {
 		else if (lockEvent == 0)
 		{
 			locking = false;
+		}
+
+		float dodgeInput = Input.GetAxisRaw("Dodge");
+		if (dodgeInput > 0 && !dodging)
+		{
+			dodging = true;
+			m_dodge.Trigger();
+		}
+		else if (dodgeInput == 0)
+		{
+			dodging = false;
 		}
 	}
 }
