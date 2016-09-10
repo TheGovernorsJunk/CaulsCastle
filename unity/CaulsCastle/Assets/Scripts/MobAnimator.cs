@@ -8,6 +8,7 @@ public class MobAnimator : MonoBehaviour {
 	static int LEFT = Animator.StringToHash("left");
 	static int RIGHT = Animator.StringToHash("right");
 	static int SPEED = Animator.StringToHash("speed");
+	static int DODGING = Animator.StringToHash("dodging");
 
 	Movement m_movement;
 	LockOn m_lock_on;
@@ -23,7 +24,8 @@ public class MobAnimator : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		GameObject target = m_lock_on.Target;
-		Vector2 heading = target ? (Vector2)(target.transform.position - transform.position) : m_movement.Heading;
+		bool dodging = m_animator.GetBool(DODGING);
+		Vector2 heading = target && !dodging ? (Vector2)(target.transform.position - transform.position) : m_movement.Heading;
 		float x = heading.x;
 		float y = heading.y;
 		float speed = m_movement.Speed;
