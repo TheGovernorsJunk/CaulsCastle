@@ -32,6 +32,7 @@ GameObject:
   - 212: {fileID: 21254694}
   - 95: {fileID: 9534026}
   - 114: {fileID: 11487336}
+  - 114: {fileID: 11404558}
   m_Layer: 8
   m_Name: Hero
   m_TagString: Player
@@ -198,6 +199,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11404558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1d0074bb646cd44886cda1fac79ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11436476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LockMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 256
   LockDistance: 5
   LockTag: Enemy
   TargetDistance: 10

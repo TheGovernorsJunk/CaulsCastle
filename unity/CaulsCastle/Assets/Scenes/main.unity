@@ -128,10 +128,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 11441558, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
-      propertyPath: LockMask.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
   m_IsPrefabParent: 0
