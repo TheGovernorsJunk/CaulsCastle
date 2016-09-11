@@ -13,8 +13,9 @@ public class MobMotion : MonoBehaviour
 	Rigidbody2D mRigidbody;
 	LockOn mLockOn;
 
-	public Vector2 Movement { get; set; }
+	//public Vector2 Movement { get; set; }
 	public bool Attack { get; set; }
+	public Vector2 PendingMovement { get; set; }
 
 	void Awake()
 	{

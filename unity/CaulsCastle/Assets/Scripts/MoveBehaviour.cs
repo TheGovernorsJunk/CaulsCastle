@@ -8,7 +8,7 @@ public class MoveBehaviour : StateMachineBehaviour
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		MobMotion motion = animator.GetComponent<MobMotion>();
-		Vector2 movement = motion.Movement;
+		Vector2 movement = motion.PendingMovement;
 		animator.SetFloat(MovX, movement.x);
 		animator.SetFloat(MovY, movement.y);
 	}

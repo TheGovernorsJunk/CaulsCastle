@@ -26,7 +26,7 @@ public class PlayerMotionInput : MonoBehaviour
 	{
 		float x = Input.GetAxisRaw("Horizontal");
 		float y = Input.GetAxisRaw("Vertical");
-		mMobMotion.Movement = new Vector2(x, y);
+		mMobMotion.PendingMovement = new Vector2(x, y);
 
 		float attackInput = Input.GetAxisRaw("LightAttack");
 		if (attackInput > 0 && !attackDown)
