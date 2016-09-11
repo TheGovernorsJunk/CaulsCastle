@@ -8,6 +8,7 @@ using System.Collections;
 public class MobMotion : MonoBehaviour
 {
 	static int HasTarget = Animator.StringToHash("HasTarget");
+
 	Animator mAnimator;
 	Rigidbody2D mRigidbody;
 	LockOn mLockOn;
@@ -25,17 +26,7 @@ public class MobMotion : MonoBehaviour
 
 	void HandleLock()
 	{
-		StartCoroutine(Locking());
-	}
-
-	IEnumerator Locking()
-	{
-		while (mLockOn.Target)
-		{
-			mAnimator.SetBool(HasTarget, true);
-			yield return null;
-		}
-		mAnimator.SetBool(HasTarget, false);
+		mAnimator.SetBool(HasTarget, true);
 	}
 
 	void OnAnimatorMove()
