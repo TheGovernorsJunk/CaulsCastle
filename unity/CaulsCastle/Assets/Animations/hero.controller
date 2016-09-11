@@ -68,6 +68,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb909719411ec9741a8afa16c7f0bd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11410700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a2b116c0fd9f64294f5a9153f1fd85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11437956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -77,6 +88,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 053900e3eec6843498cb0716c4ab21dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11440450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a2b116c0fd9f64294f5a9153f1fd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11442804
@@ -99,6 +121,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 053900e3eec6843498cb0716c4ab21dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11486212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a2b116c0fd9f64294f5a9153f1fd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11498436
@@ -657,6 +690,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11442804}
   - {fileID: 11498436}
+  - {fileID: 11440450}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -683,6 +717,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 11437956}
   - {fileID: 11408330}
+  - {fileID: 11486212}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -735,6 +770,7 @@ AnimatorState:
   - {fileID: 110136154}
   m_StateMachineBehaviours:
   - {fileID: 11460668}
+  - {fileID: 11410700}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
