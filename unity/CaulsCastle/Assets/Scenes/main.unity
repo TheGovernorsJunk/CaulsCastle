@@ -171,6 +171,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 396f38cd7a893614aafb9992ff949ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &568677420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 568677413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb9a3c60baa6f24ca8797abbb95f041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LockMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  LockDistance: 5
+  LockTag: Enemy
+  TargetDistance: 10
 --- !u!1001 &686290501
 Prefab:
   m_ObjectHideFlags: 0
