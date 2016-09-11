@@ -10,6 +10,7 @@ public class MobMotion : MonoBehaviour
 	Rigidbody2D mRigidbody;
 
 	public Vector2 Movement { get; set; }
+	public bool Attack { get; set; }
 
 	void Awake()
 	{
