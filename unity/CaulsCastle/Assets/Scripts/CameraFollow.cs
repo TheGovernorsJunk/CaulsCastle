@@ -3,16 +3,18 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
-
 	public GameObject Subject;
 	public float Distance = 1.0f;
 
-	Movement m_subject_movement;
+	static int NormalX = Animator.StringToHash("NormalX");
+	static int NormalY = Animator.StringToHash("NormalY");
+
+	Animator m_subject_animator;
 	LockOn m_subject_lock_on;
 
 	void Awake ()
 	{
-		m_subject_movement = Subject.GetComponent<Movement>();
+		m_subject_animator = Subject.GetComponent<Animator>();
 		m_subject_lock_on = Subject.GetComponent<LockOn>();
 	}
 
@@ -22,7 +24,7 @@ public class CameraFollow : MonoBehaviour
 		if (target == null)
 		{
 			Vector2 position = Subject.transform.position;
-			position = position + (m_subject_movement.Heading * Distance);
+			position = position + (new Vector2(m_subject_animator.GetFloat(NormalX), m_subject_animator.GetFloat(NormalY)) * Distance);
 			transform.position = Vector3.Lerp(transform.position, new Vector3(position.x, position.y, transform.position.z), 0.1f);
 		}
 		else
