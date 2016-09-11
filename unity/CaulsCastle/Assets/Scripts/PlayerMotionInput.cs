@@ -10,8 +10,6 @@ public class PlayerMotionInput : MonoBehaviour
 	Animator mAnimator;
 
 	static float LockInfluenceThreshold = 0.3f;
-	static int NormalX = Animator.StringToHash("NormalX");
-	static int NormalY = Animator.StringToHash("NormalY");
 
 	void Awake()
 	{
@@ -43,11 +41,9 @@ public class PlayerMotionInput : MonoBehaviour
 		{
 			float lockX = Input.GetAxisRaw("U");
 			float lockY = Input.GetAxisRaw("V");
-			float headingX = mAnimator.GetFloat(NormalX);
-			float headingY = mAnimator.GetFloat(NormalY);
 			Vector2 lockDirection = Mathf.Abs(lockX) > LockInfluenceThreshold || Mathf.Abs(lockY) > LockInfluenceThreshold
 				? new Vector2(lockX, lockY)
-				: new Vector2(headingX, headingY);
+				: mMobMotion.Heading;
 			mLockOn.Trigger(lockDirection);
 			lockDown = true;
 		}
