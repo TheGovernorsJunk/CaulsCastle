@@ -31,7 +31,7 @@ public class PlayerMotionInput : MonoBehaviour
 		float attackInput = Input.GetAxisRaw("LightAttack");
 		if (attackInput > 0 && !attackDown)
 		{
-			mMobMotion.Attack = attackDown = true;
+			mMobMotion.PendingAttack = attackDown = true;
 		}
 		else if (attackInput == 0)
 		{

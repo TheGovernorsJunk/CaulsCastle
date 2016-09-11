@@ -8,10 +8,10 @@ public class CanAttackBehaviour : StateMachineBehaviour
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		MobMotion motion = animator.GetComponent<MobMotion>();
-		if (motion.Attack)
+		if (motion.PendingAttack)
 		{
 			animator.SetTrigger(Attack);
-			motion.Attack = false;
+			motion.PendingAttack = false;
 		}
 	}
 }
