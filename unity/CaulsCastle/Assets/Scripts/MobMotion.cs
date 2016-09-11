@@ -22,4 +22,9 @@ public class MobMotion : MonoBehaviour
 	{
 		mRigidbody.velocity = mAnimator.deltaPosition / Time.deltaTime;
 	}
+
+	void LateUpdate()
+	{
+		Attack = false;
+	}
 }
