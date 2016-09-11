@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WalkBehaviour : StateMachineBehaviour
+public class MoveBehaviour : StateMachineBehaviour
 {
 	static int MovX = Animator.StringToHash("MovX");
 	static int MovY = Animator.StringToHash("MovY");
@@ -15,12 +15,6 @@ public class WalkBehaviour : StateMachineBehaviour
 		Vector2 movement = motion.Movement;
 		animator.SetFloat(MovX, movement.x);
 		animator.SetFloat(MovY, movement.y);
-		if (Mathf.Abs(movement.x) >= NormalThreshold || Mathf.Abs(movement.y) >= NormalThreshold)
-		{
-			Vector2 normal = movement.normalized;
-			animator.SetFloat(NormalX, normal.x);
-			animator.SetFloat(NormalY, normal.y);
-		}
 
 		if (motion.Attack)
 		{
