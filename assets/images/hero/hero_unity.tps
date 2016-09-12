@@ -252,6 +252,24 @@
                 <key>pivotPoint</key>
                 <point_f>0.5,0.9375</point_f>
             </struct>
+            <key type="filename">clips/hero_fe_dodge_right0000.png</key>
+            <key type="filename">clips/hero_fe_dodge_right0001.png</key>
+            <key type="filename">clips/hero_fe_dodge_right0002.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.958333</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_right0003.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5625,0.958333</point_f>
+            </struct>
+            <key type="filename">clips/hero_fe_dodge_right0004.png</key>
+            <key type="filename">clips/hero_fe_dodge_right0005.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.59375,0.958333</point_f>
+            </struct>
             <key type="filename">clips/hero_fe_dodge_up_left0000.png</key>
             <key type="filename">clips/hero_fe_slice_left0000.png</key>
             <key type="filename">clips/hero_fe_slice_left0001.png</key>
