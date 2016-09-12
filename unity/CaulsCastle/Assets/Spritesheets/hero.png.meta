@@ -81,6 +81,12 @@ TextureImporter:
     21300148: hero_fe_dodge_up_right0003
     21300150: hero_fe_dodge_up_right0004
     21300152: hero_fe_dodge_up_right0005
+    21300154: hero_fe_dodge_up_left0000
+    21300156: hero_fe_dodge_up_left0001
+    21300158: hero_fe_dodge_up_left0002
+    21300160: hero_fe_dodge_up_left0003
+    21300162: hero_fe_dodge_up_left0004
+    21300164: hero_fe_dodge_up_left0005
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -130,8 +136,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left0000
       rect:
         serializedVersion: 2
-        x: 183
-        y: 157
+        x: 138
+        y: 447
         width: 15
         height: 32
       alignment: 9
@@ -141,8 +147,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left0001
       rect:
         serializedVersion: 2
-        x: 200
-        y: 157
+        x: 55
+        y: 337
         width: 24
         height: 32
       alignment: 9
@@ -152,8 +158,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left0002
       rect:
         serializedVersion: 2
-        x: 226
-        y: 157
+        x: 107
+        y: 379
         width: 26
         height: 32
       alignment: 9
@@ -163,8 +169,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left0003
       rect:
         serializedVersion: 2
-        x: 1
-        y: 128
+        x: 107
+        y: 345
         width: 26
         height: 32
       alignment: 9
@@ -174,8 +180,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left0004
       rect:
         serializedVersion: 2
-        x: 29
-        y: 128
+        x: 1
+        y: 378
         width: 25
         height: 32
       alignment: 9
@@ -185,8 +191,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left0005
       rect:
         serializedVersion: 2
-        x: 56
-        y: 125
+        x: 77
+        y: 272
         width: 21
         height: 32
       alignment: 9
@@ -196,8 +202,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_end0000
       rect:
         serializedVersion: 2
-        x: 1
-        y: 128
+        x: 107
+        y: 345
         width: 26
         height: 32
       alignment: 9
@@ -207,8 +213,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_end0001
       rect:
         serializedVersion: 2
-        x: 29
-        y: 128
+        x: 1
+        y: 378
         width: 25
         height: 32
       alignment: 9
@@ -218,8 +224,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_end0002
       rect:
         serializedVersion: 2
-        x: 56
-        y: 125
+        x: 77
+        y: 272
         width: 21
         height: 32
       alignment: 9
@@ -229,8 +235,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_start0000
       rect:
         serializedVersion: 2
-        x: 183
-        y: 157
+        x: 138
+        y: 447
         width: 15
         height: 32
       alignment: 9
@@ -240,8 +246,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_start0001
       rect:
         serializedVersion: 2
-        x: 200
-        y: 157
+        x: 55
+        y: 337
         width: 24
         height: 32
       alignment: 9
@@ -251,8 +257,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_start0002
       rect:
         serializedVersion: 2
-        x: 226
-        y: 157
+        x: 107
+        y: 379
         width: 26
         height: 32
       alignment: 9
@@ -262,8 +268,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_left_start0003
       rect:
         serializedVersion: 2
-        x: 1
-        y: 128
+        x: 107
+        y: 345
         width: 26
         height: 32
       alignment: 9
@@ -273,8 +279,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_right0000
       rect:
         serializedVersion: 2
-        x: 183
-        y: 157
+        x: 138
+        y: 447
         width: 15
         height: 32
       alignment: 9
@@ -284,8 +290,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_right0001
       rect:
         serializedVersion: 2
-        x: 190
-        y: 224
+        x: 1
+        y: 242
         width: 19
         height: 31
       alignment: 9
@@ -295,8 +301,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_right0002
       rect:
         serializedVersion: 2
-        x: 73
-        y: 225
+        x: 1
+        y: 346
         width: 25
         height: 30
       alignment: 9
@@ -306,8 +312,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_right0003
       rect:
         serializedVersion: 2
-        x: 211
-        y: 224
+        x: 183
+        y: 336
         width: 26
         height: 31
       alignment: 9
@@ -317,8 +323,8 @@ TextureImporter:
     - name: hero_fe_dodge_down_right0004
       rect:
         serializedVersion: 2
-        x: 79
-        y: 125
+        x: 155
+        y: 349
         width: 26
         height: 32
       alignment: 9
@@ -328,19 +334,85 @@ TextureImporter:
     - name: hero_fe_dodge_down_right0005
       rect:
         serializedVersion: 2
-        x: 1
-        y: 195
+        x: 26
+        y: 284
         width: 22
         height: 31
       alignment: 9
       pivot: {x: 0.5, y: 0.06451613}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+    - name: hero_fe_dodge_up_left0000
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 244
+        width: 17
+        height: 32
+      alignment: 9
+      pivot: {x: -0.47058824, y: 0.0625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_up_left0001
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 236
+        width: 17
+        height: 31
+      alignment: 9
+      pivot: {x: -0.4117647, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_up_left0002
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 317
+        width: 23
+        height: 31
+      alignment: 9
+      pivot: {x: -0.17391305, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_up_left0003
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 451
+        width: 30
+        height: 31
+      alignment: 9
+      pivot: {x: 0.33333334, y: 0.032258064}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_up_left0004
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 436
+        width: 30
+        height: 31
+      alignment: 9
+      pivot: {x: 0.73333335, y: 0.06451613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hero_fe_dodge_up_left0005
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 306
+        width: 24
+        height: 31
+      alignment: 9
+      pivot: {x: 0.9166667, y: 0.032258064}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
     - name: hero_fe_dodge_up_right0000
       rect:
         serializedVersion: 2
-        x: 107
-        y: 125
+        x: 85
+        y: 339
         width: 20
         height: 32
       alignment: 9
@@ -350,8 +422,8 @@ TextureImporter:
     - name: hero_fe_dodge_up_right0001
       rect:
         serializedVersion: 2
-        x: 25
-        y: 195
+        x: 135
+        y: 342
         width: 18
         height: 31
       alignment: 9
@@ -361,8 +433,8 @@ TextureImporter:
     - name: hero_fe_dodge_up_right0002
       rect:
         serializedVersion: 2
-        x: 45
-        y: 195
+        x: 107
+        y: 278
         width: 24
         height: 31
       alignment: 9
@@ -372,8 +444,8 @@ TextureImporter:
     - name: hero_fe_dodge_up_right0003
       rect:
         serializedVersion: 2
-        x: 100
-        y: 225
+        x: 107
+        y: 481
         width: 46
         height: 30
       alignment: 9
@@ -383,8 +455,8 @@ TextureImporter:
     - name: hero_fe_dodge_up_right0004
       rect:
         serializedVersion: 2
-        x: 71
-        y: 192
+        x: 59
+        y: 480
         width: 46
         height: 31
       alignment: 9
@@ -394,8 +466,8 @@ TextureImporter:
     - name: hero_fe_dodge_up_right0005
       rect:
         serializedVersion: 2
-        x: 119
-        y: 192
+        x: 155
+        y: 316
         width: 26
         height: 31
       alignment: 9
@@ -405,8 +477,8 @@ TextureImporter:
     - name: hero_fe_idle_down0000
       rect:
         serializedVersion: 2
-        x: 183
-        y: 157
+        x: 138
+        y: 447
         width: 15
         height: 32
       alignment: 9
@@ -416,8 +488,8 @@ TextureImporter:
     - name: hero_fe_idle_left0000
       rect:
         serializedVersion: 2
-        x: 129
-        y: 125
+        x: 107
+        y: 447
         width: 29
         height: 32
       alignment: 9
@@ -427,8 +499,8 @@ TextureImporter:
     - name: hero_fe_idle_right0000
       rect:
         serializedVersion: 2
-        x: 177
-        y: 123
+        x: 61
+        y: 446
         width: 27
         height: 32
       alignment: 9
@@ -438,8 +510,8 @@ TextureImporter:
     - name: hero_fe_idle_up0000
       rect:
         serializedVersion: 2
-        x: 107
-        y: 125
+        x: 85
+        y: 339
         width: 20
         height: 32
       alignment: 9
@@ -449,8 +521,8 @@ TextureImporter:
     - name: hero_fe_slice_down0000
       rect:
         serializedVersion: 2
-        x: 69
-        y: 20
+        x: 88
+        y: 409
         width: 17
         height: 35
       alignment: 9
@@ -460,8 +532,8 @@ TextureImporter:
     - name: hero_fe_slice_down0001
       rect:
         serializedVersion: 2
-        x: 20
-        y: 24
+        x: 88
+        y: 373
         width: 17
         height: 34
       alignment: 9
@@ -471,8 +543,8 @@ TextureImporter:
     - name: hero_fe_slice_down0002
       rect:
         serializedVersion: 2
-        x: 158
-        y: 11
+        x: 199
+        y: 469
         width: 32
         height: 42
       alignment: 9
@@ -488,8 +560,8 @@ TextureImporter:
     - name: hero_fe_slice_down0003
       rect:
         serializedVersion: 2
-        x: 39
-        y: 21
+        x: 217
+        y: 376
         width: 28
         height: 34
       alignment: 9
@@ -499,8 +571,8 @@ TextureImporter:
     - name: hero_fe_slice_left0000
       rect:
         serializedVersion: 2
-        x: 147
-        y: 192
+        x: 211
+        y: 310
         width: 19
         height: 31
       alignment: 9
@@ -510,8 +582,8 @@ TextureImporter:
     - name: hero_fe_slice_left0001
       rect:
         serializedVersion: 2
-        x: 148
-        y: 225
+        x: 183
+        y: 304
         width: 19
         height: 30
       alignment: 9
@@ -521,8 +593,8 @@ TextureImporter:
     - name: hero_fe_slice_left0002
       rect:
         serializedVersion: 2
-        x: 189
-        y: 191
+        x: 1
+        y: 480
         width: 56
         height: 31
       alignment: 9
@@ -532,8 +604,8 @@ TextureImporter:
     - name: hero_fe_slice_left0003
       rect:
         serializedVersion: 2
-        x: 1
-        y: 162
+        x: 184
+        y: 369
         width: 27
         height: 31
       alignment: 9
@@ -543,8 +615,8 @@ TextureImporter:
     - name: hero_fe_slice_right0000
       rect:
         serializedVersion: 2
-        x: 168
-        y: 192
+        x: 232
+        y: 310
         width: 19
         height: 31
       alignment: 9
@@ -554,8 +626,8 @@ TextureImporter:
     - name: hero_fe_slice_right0001
       rect:
         serializedVersion: 2
-        x: 169
-        y: 225
+        x: 155
+        y: 284
         width: 19
         height: 30
       alignment: 9
@@ -565,8 +637,8 @@ TextureImporter:
     - name: hero_fe_slice_right0002
       rect:
         serializedVersion: 2
-        x: 1
-        y: 228
+        x: 155
+        y: 484
         width: 42
         height: 27
       alignment: 9
@@ -576,8 +648,8 @@ TextureImporter:
     - name: hero_fe_slice_right0003
       rect:
         serializedVersion: 2
-        x: 45
-        y: 228
+        x: 30
+        y: 384
         width: 26
         height: 27
       alignment: 9
@@ -587,8 +659,8 @@ TextureImporter:
     - name: hero_fe_slice_up0000
       rect:
         serializedVersion: 2
-        x: 88
-        y: 19
+        x: 136
+        y: 409
         width: 17
         height: 36
       alignment: 9
@@ -598,8 +670,8 @@ TextureImporter:
     - name: hero_fe_slice_up0001
       rect:
         serializedVersion: 2
-        x: 107
-        y: 19
+        x: 1
+        y: 275
         width: 21
         height: 36
       alignment: 9
@@ -609,8 +681,8 @@ TextureImporter:
     - name: hero_fe_slice_up0002
       rect:
         serializedVersion: 2
-        x: 130
-        y: 16
+        x: 60
+        y: 405
         width: 26
         height: 39
       alignment: 9
@@ -620,8 +692,8 @@ TextureImporter:
     - name: hero_fe_slice_up0003
       rect:
         serializedVersion: 2
-        x: 206
-        y: 123
+        x: 233
+        y: 479
         width: 22
         height: 32
       alignment: 9
@@ -631,8 +703,8 @@ TextureImporter:
     - name: hero_fe_walk_down0000
       rect:
         serializedVersion: 2
-        x: 160
-        y: 125
+        x: 90
+        y: 446
         width: 15
         height: 32
       alignment: 9
@@ -642,8 +714,8 @@ TextureImporter:
     - name: hero_fe_walk_down0001
       rect:
         serializedVersion: 2
-        x: 239
-        y: 224
+        x: 119
+        y: 242
         width: 15
         height: 31
       alignment: 9
@@ -653,8 +725,8 @@ TextureImporter:
     - name: hero_fe_walk_down0002
       rect:
         serializedVersion: 2
-        x: 230
-        y: 123
+        x: 22
+        y: 216
         width: 15
         height: 32
       alignment: 9
@@ -665,7 +737,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 94
+        y: 208
         width: 15
         height: 32
       alignment: 9
@@ -675,8 +747,8 @@ TextureImporter:
     - name: hero_fe_walk_down0004
       rect:
         serializedVersion: 2
-        x: 18
-        y: 94
+        x: 204
+        y: 276
         width: 15
         height: 32
       alignment: 9
@@ -686,8 +758,8 @@ TextureImporter:
     - name: hero_fe_walk_down0005
       rect:
         serializedVersion: 2
-        x: 30
-        y: 162
+        x: 136
+        y: 242
         width: 15
         height: 31
       alignment: 9
@@ -697,8 +769,8 @@ TextureImporter:
     - name: hero_fe_walk_down0006
       rect:
         serializedVersion: 2
-        x: 35
-        y: 94
+        x: 176
+        y: 270
         width: 15
         height: 32
       alignment: 9
@@ -708,8 +780,8 @@ TextureImporter:
     - name: hero_fe_walk_down0007
       rect:
         serializedVersion: 2
-        x: 52
-        y: 91
+        x: 153
+        y: 250
         width: 15
         height: 32
       alignment: 9
@@ -719,8 +791,8 @@ TextureImporter:
     - name: hero_fe_walk_left0000
       rect:
         serializedVersion: 2
-        x: 69
-        y: 91
+        x: 58
+        y: 371
         width: 25
         height: 32
       alignment: 9
@@ -730,8 +802,8 @@ TextureImporter:
     - name: hero_fe_walk_left0001
       rect:
         serializedVersion: 2
-        x: 67
-        y: 159
+        x: 1
+        y: 313
         width: 23
         height: 31
       alignment: 9
@@ -741,8 +813,8 @@ TextureImporter:
     - name: hero_fe_walk_left0002
       rect:
         serializedVersion: 2
-        x: 96
-        y: 91
+        x: 155
+        y: 417
         width: 29
         height: 32
       alignment: 9
@@ -752,8 +824,8 @@ TextureImporter:
     - name: hero_fe_walk_left0003
       rect:
         serializedVersion: 2
-        x: 127
-        y: 91
+        x: 233
+        y: 445
         width: 22
         height: 32
       alignment: 9
@@ -763,8 +835,8 @@ TextureImporter:
     - name: hero_fe_walk_left0004
       rect:
         serializedVersion: 2
-        x: 175
-        y: 89
+        x: 107
+        y: 311
         width: 25
         height: 32
       alignment: 9
@@ -774,8 +846,8 @@ TextureImporter:
     - name: hero_fe_walk_left0005
       rect:
         serializedVersion: 2
-        x: 92
-        y: 159
+        x: 219
+        y: 412
         width: 30
         height: 31
       alignment: 9
@@ -785,8 +857,8 @@ TextureImporter:
     - name: hero_fe_walk_left0006
       rect:
         serializedVersion: 2
-        x: 202
-        y: 89
+        x: 28
+        y: 350
         width: 25
         height: 32
       alignment: 9
@@ -796,8 +868,8 @@ TextureImporter:
     - name: hero_fe_walk_left0007
       rect:
         serializedVersion: 2
-        x: 151
-        y: 91
+        x: 53
+        y: 303
         width: 22
         height: 32
       alignment: 9
@@ -807,8 +879,8 @@ TextureImporter:
     - name: hero_fe_walk_right0000
       rect:
         serializedVersion: 2
-        x: 1
-        y: 60
+        x: 31
+        y: 413
         width: 27
         height: 32
       alignment: 9
@@ -818,8 +890,8 @@ TextureImporter:
     - name: hero_fe_walk_right0001
       rect:
         serializedVersion: 2
-        x: 124
-        y: 159
+        x: 213
+        y: 343
         width: 27
         height: 31
       alignment: 9
@@ -829,8 +901,8 @@ TextureImporter:
     - name: hero_fe_walk_right0002
       rect:
         serializedVersion: 2
-        x: 51
-        y: 57
+        x: 1
+        y: 412
         width: 27
         height: 32
       alignment: 9
@@ -840,8 +912,8 @@ TextureImporter:
     - name: hero_fe_walk_right0003
       rect:
         serializedVersion: 2
-        x: 80
-        y: 57
+        x: 186
+        y: 402
         width: 29
         height: 32
       alignment: 9
@@ -851,8 +923,8 @@ TextureImporter:
     - name: hero_fe_walk_right0004
       rect:
         serializedVersion: 2
-        x: 111
-        y: 57
+        x: 107
+        y: 413
         width: 27
         height: 32
       alignment: 9
@@ -862,8 +934,8 @@ TextureImporter:
     - name: hero_fe_walk_right0005
       rect:
         serializedVersion: 2
-        x: 153
-        y: 159
+        x: 31
+        y: 447
         width: 28
         height: 31
       alignment: 9
@@ -873,8 +945,8 @@ TextureImporter:
     - name: hero_fe_walk_right0006
       rect:
         serializedVersion: 2
-        x: 140
-        y: 57
+        x: 155
+        y: 383
         width: 27
         height: 32
       alignment: 9
@@ -884,8 +956,8 @@ TextureImporter:
     - name: hero_fe_walk_right0007
       rect:
         serializedVersion: 2
-        x: 169
-        y: 55
+        x: 1
+        y: 446
         width: 28
         height: 32
       alignment: 9
@@ -895,8 +967,8 @@ TextureImporter:
     - name: hero_fe_walk_up0000
       rect:
         serializedVersion: 2
-        x: 229
-        y: 89
+        x: 50
+        y: 269
         width: 20
         height: 32
       alignment: 9
@@ -906,8 +978,8 @@ TextureImporter:
     - name: hero_fe_walk_up0001
       rect:
         serializedVersion: 2
-        x: 30
-        y: 60
+        x: 134
+        y: 308
         width: 19
         height: 32
       alignment: 9
@@ -917,8 +989,8 @@ TextureImporter:
     - name: hero_fe_walk_up0002
       rect:
         serializedVersion: 2
-        x: 107
-        y: 125
+        x: 85
+        y: 339
         width: 20
         height: 32
       alignment: 9
@@ -928,8 +1000,8 @@ TextureImporter:
     - name: hero_fe_walk_up0003
       rect:
         serializedVersion: 2
-        x: 199
-        y: 55
+        x: 24
+        y: 250
         width: 19
         height: 32
       alignment: 9
@@ -939,8 +1011,8 @@ TextureImporter:
     - name: hero_fe_walk_up0004
       rect:
         serializedVersion: 2
-        x: 220
-        y: 55
+        x: 135
+        y: 375
         width: 18
         height: 32
       alignment: 9
@@ -950,8 +1022,8 @@ TextureImporter:
     - name: hero_fe_walk_up0005
       rect:
         serializedVersion: 2
-        x: 47
-        y: 162
+        x: 133
+        y: 275
         width: 18
         height: 31
       alignment: 9
@@ -961,8 +1033,8 @@ TextureImporter:
     - name: hero_fe_walk_up0006
       rect:
         serializedVersion: 2
-        x: 107
-        y: 125
+        x: 85
+        y: 339
         width: 20
         height: 32
       alignment: 9
@@ -972,8 +1044,8 @@ TextureImporter:
     - name: hero_fe_walk_up0007
       rect:
         serializedVersion: 2
-        x: 1
-        y: 26
+        x: 72
+        y: 238
         width: 17
         height: 32
       alignment: 9
