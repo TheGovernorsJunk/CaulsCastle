@@ -85,6 +85,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a2b116c0fd9f64294f5a9153f1fd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11414406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630006ce6997d7e408388029021a38c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11437956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,6 +127,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7333866e8a33ca349b298c089d059349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11454904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443f799e2a51ce44c836e29ba1071119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11456078
@@ -608,8 +630,16 @@ BlendTree:
     m_DirectBlendParameter: MovX
     m_Mirror: 0
   - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 009fd336dfb4dc240913a64538494f9f, type: 2}
+    m_Threshold: 0.33333334
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: MovX
+    m_Mirror: 0
+  - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 636fc8430560acc44aff95eb65733f86, type: 2}
-    m_Threshold: 0.5
+    m_Threshold: 0.6666667
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -766,6 +796,27 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &110142212
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 110233450}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -984,6 +1035,7 @@ AnimatorState:
   - {fileID: 11442804}
   - {fileID: 11498436}
   - {fileID: 11440450}
+  - {fileID: 11454904}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1032,9 +1084,11 @@ AnimatorState:
   m_Name: Dodging
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: 110142212}
   m_StateMachineBehaviours:
   - {fileID: 11456078}
+  - {fileID: 11414406}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
