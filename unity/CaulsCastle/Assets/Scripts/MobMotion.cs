@@ -10,6 +10,8 @@ public class MobMotion : MonoBehaviour
 	static int HasTarget = Animator.StringToHash("HasTarget");
 	static int NormalX = Animator.StringToHash("NormalX");
 	static int NormalY = Animator.StringToHash("NormalY");
+	static int MovX = Animator.StringToHash("MovX");
+	static int MovY = Animator.StringToHash("MovY");
 
 	Animator mAnimator;
 	Rigidbody2D mRigidbody;
@@ -23,8 +25,17 @@ public class MobMotion : MonoBehaviour
 		}
 	}
 
+	public Vector2 Movement
+	{
+		get
+		{
+			return new Vector2(mAnimator.GetFloat(MovX), mAnimator.GetFloat(MovY));
+		}
+	}
+
 	//public Vector2 Movement { get; set; }
 	public bool PendingAttack { get; set; }
+	public bool PendingDodge { get; set; }
 	public Vector2 PendingMovement { get; set; }
 
 	void Awake()
