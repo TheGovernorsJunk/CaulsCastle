@@ -20,6 +20,7 @@ public class PlayerMotionInput : MonoBehaviour
 
 	bool attackDown = false;
 	bool lockDown = false;
+	bool dodgeDown = false;
 	void Update()
 	{
 		float x = Input.GetAxisRaw("Horizontal");
@@ -50,6 +51,16 @@ public class PlayerMotionInput : MonoBehaviour
 		else if (lockInput == 0)
 		{
 			lockDown = false;
+		}
+
+		float dodgeInput = Input.GetAxisRaw("Dodge");
+		if (dodgeInput > 0 && !dodgeDown)
+		{
+			mMobMotion.PendingDodge = dodgeDown = true;
+		}
+		else if (dodgeInput == 0)
+		{
+			dodgeDown = false;
 		}
 	}
 }
