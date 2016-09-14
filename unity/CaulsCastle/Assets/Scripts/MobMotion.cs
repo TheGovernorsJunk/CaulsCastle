@@ -43,6 +43,10 @@ public class MobMotion : MonoBehaviour
 		mAnimator = GetComponent<Animator>();
 		mRigidbody = GetComponent<Rigidbody2D>();
 		mLockOn = GetComponent<LockOn>();
+	}
+
+	void Start()
+	{
 		mLockOn.LockEvent.AddListener(HandleLock);
 	}
 
