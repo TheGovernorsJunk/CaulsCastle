@@ -207,6 +207,12 @@
             <key type="filename">clips/hero_fe_dodge_down_right0003.png</key>
             <key type="filename">clips/hero_fe_dodge_down_right0004.png</key>
             <key type="filename">clips/hero_fe_dodge_down_right0005.png</key>
+            <key type="filename">clips/hero_fe_dodge_left0000.png</key>
+            <key type="filename">clips/hero_fe_dodge_left0001.png</key>
+            <key type="filename">clips/hero_fe_dodge_left0002.png</key>
+            <key type="filename">clips/hero_fe_dodge_left0003.png</key>
+            <key type="filename">clips/hero_fe_dodge_left0004.png</key>
+            <key type="filename">clips/hero_fe_dodge_left0005.png</key>
             <key type="filename">clips/hero_fe_dodge_up_right0003.png</key>
             <key type="filename">clips/hero_fe_idle_down0000.png</key>
             <key type="filename">clips/hero_fe_idle_left0000.png</key>
