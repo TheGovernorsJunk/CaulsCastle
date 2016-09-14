@@ -305,6 +305,14 @@ Prefab:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 9534026, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6284494dc61ecc849a9db65024030242, type: 2}
+    - target: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
   m_IsPrefabParent: 0
@@ -363,6 +371,119 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Avatar: {fileID: 568677413}
+--- !u!1001 &1255927784
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 7.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -6.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477042, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9534026, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 3b8aeddd40d152a49b0563f702eb7341,
+        type: 2}
+    - target: {fileID: 11436476, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_Name
+      value: Gargoyle
+      objectReference: {fileID: 0}
+    - target: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9534026, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 137672, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 21254694, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f5d564ae6131a6249a50cbb2d0f93c69,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: 11404558, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+    - {fileID: 11472228, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+    - {fileID: 11441558, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+    - {fileID: 11480832, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+    - {fileID: 11436476, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1 &1306000429 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+  m_PrefabInternal: {fileID: 1255927784}
+--- !u!114 &1306000430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306000429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb9a3c60baa6f24ca8797abbb95f041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LockMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  LockDistance: 5
+  LockTag: Enemy
+  TargetDistance: 10
+--- !u!114 &1306000431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306000429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 396f38cd7a893614aafb9992ff949ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1511645534
 Prefab:
   m_ObjectHideFlags: 0
@@ -425,6 +546,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
