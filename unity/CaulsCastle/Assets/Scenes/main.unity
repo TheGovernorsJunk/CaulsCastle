@@ -471,7 +471,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   LockDistance: 5
-  LockTag: Enemy
+  LockTag: Player
   TargetDistance: 10
 --- !u!114 &1306000431
 MonoBehaviour:
