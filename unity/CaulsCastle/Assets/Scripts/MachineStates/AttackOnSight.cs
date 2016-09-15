@@ -20,8 +20,11 @@ public class AttackOnSight : State
 
 	public override State Update(GameObject avatar)
 	{
-		LockOn lockOn = avatar.GetComponent<LockOn>();
-		if (lockOn.Target == null) return DetectionState.GetInstance();
+		GameObject target = avatar.GetComponent<LockOn>().Target;
+		if (target == null) return DetectionState.GetInstance();
+
+		MobMotion motion = avatar.GetComponent<MobMotion>();
+		motion.PendingMovement = (target.transform.position - avatar.transform.position).normalized;
 		return null;
 	}
 }
