@@ -23,9 +23,6 @@ public class SimpleAI : MonoBehaviour
 		Vector3 position = transform.position;
 		Collider2D[] collisions = Physics2D.OverlapCircleAll(position, SenseRadius, SenseMask);
 		Collider2D playerCollider = collisions.FirstOrDefault(c => c.tag == "Player");
-		if (playerCollider)
-		{
-			mLockOn.Trigger(playerCollider.transform.position - position);
-		}
+		if (playerCollider) mLockOn.Trigger(playerCollider.transform.position - position);
 	}
 }
