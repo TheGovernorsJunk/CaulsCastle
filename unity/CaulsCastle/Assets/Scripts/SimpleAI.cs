@@ -8,13 +8,11 @@ public class SimpleAI : MonoBehaviour
 	public float SenseRadius = 5f;
 	public LayerMask SenseMask = -1;
 
-	LockOn mLockOn;
 	StateMachine mStateMachine;
 
 	void Awake()
 	{
-		mLockOn = GetComponent<LockOn>();
-		mStateMachine = new StateMachine(AttackOnSight.GetInstance());
+		mStateMachine = new StateMachine(DetectionState.GetInstance());
 	}
 	
 	void Update ()
