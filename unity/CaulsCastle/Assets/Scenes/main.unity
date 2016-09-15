@@ -206,6 +206,10 @@ Prefab:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 11459142, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: LockTag
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
   m_IsPrefabParent: 0
@@ -631,6 +635,26 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35b3e6366c4f3684ebfff63083adbc2f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1655351738 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+  m_PrefabInternal: {fileID: 831272516}
+--- !u!114 &1655351746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1655351738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8980da2af25f194a8fbdac64432b5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SenseRadius: 5
+  SenseMask:
+    serializedVersion: 2
+    m_Bits: 256
+  AttackDistance: 1.5
 --- !u!1 &1818481084
 GameObject:
   m_ObjectHideFlags: 0
