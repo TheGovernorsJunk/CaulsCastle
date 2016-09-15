@@ -8,6 +8,7 @@ public class SimpleAI : MonoBehaviour
 {
 	public float SenseRadius = 5f;
 	public LayerMask SenseMask = -1;
+	public float AttackDistance = 1.5f;
 
 	StateMachine mStateMachine;
 
