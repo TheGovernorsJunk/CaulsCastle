@@ -24,7 +24,7 @@ public class AttackOnSight : State
 		if (target == null) return DetectionState.GetInstance();
 
 		MobMotion motion = avatar.GetComponent<MobMotion>();
-		motion.PendingMovement = (target.transform.position - avatar.transform.position).normalized;
+		motion.PendingMovement = (target.transform.position - avatar.transform.position).normalized * 0.5f;
 		return null;
 	}
 }
