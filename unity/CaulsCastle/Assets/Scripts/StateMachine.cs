@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface State
+public abstract class State
 {
-	void Update(GameObject gameObject);
+	public abstract State Update(GameObject gameObject);
+	public virtual void Enter() {}
+	public virtual void Exit() {}
 }
 
 public class StateMachine
@@ -17,6 +19,12 @@ public class StateMachine
 
 	public void Update(GameObject gameObject)
 	{
-		mCurrState.Update(gameObject);
+		State newState = mCurrState.Update(gameObject);
+		if (newState != null)
+		{
+			mCurrState.Exit();
+			mCurrState = newState;
+			mCurrState.Enter();
+		}
 	}
 }
