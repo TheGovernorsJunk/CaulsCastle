@@ -25,14 +25,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 477042}
   - 50: {fileID: 5079718}
-  - 114: {fileID: 11436476}
-  - 114: {fileID: 11480832}
-  - 114: {fileID: 11441558}
-  - 114: {fileID: 11472228}
   - 212: {fileID: 21254694}
   - 95: {fileID: 9534026}
   - 114: {fileID: 11487336}
-  - 114: {fileID: 11404558}
+  - 114: {fileID: 11461676}
+  - 114: {fileID: 11459142}
   m_Layer: 8
   m_Name: Hero
   m_TagString: Player
@@ -191,7 +188,7 @@ Animator:
   m_GameObject: {fileID: 162776}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6284494dc61ecc849a9db65024030242, type: 2}
+  m_Controller: {fileID: 9100000, guid: a192806ee50ea3044b3a544cc84774c6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -199,30 +196,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11404558
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 162776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1d0074bb646cd44886cda1fac79ff1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11436476
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 162776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c075b00a4f4544e45908ef21fdadc056, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxSpeed: 5
---- !u!114 &11441558
+--- !u!114 &11459142
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -235,11 +209,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LockMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 4294967295
   LockDistance: 5
   LockTag: Enemy
   TargetDistance: 10
---- !u!114 &11472228
+--- !u!114 &11461676
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -247,18 +221,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 162776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40f6cc9d3ddb6894f9febbe7e1394879, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11480832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 162776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df9721976bb7a634b8ac8d02b455cbbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 396f38cd7a893614aafb9992ff949ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11487336
