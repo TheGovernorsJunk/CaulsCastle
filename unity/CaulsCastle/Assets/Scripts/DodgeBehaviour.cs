@@ -7,7 +7,7 @@ public class DodgeBehaviour : StateMachineBehaviour
 
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		Vector2 movement = animator.GetComponent<MobMotion>().Movement;
+		Vector2 movement = animator.GetComponent<MobMotion>().PendingMovement;
 		movement.Normalize();
 		animator.SetFloat(MovX, movement.x);
 		animator.SetFloat(MovY, movement.y);
