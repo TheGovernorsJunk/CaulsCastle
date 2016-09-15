@@ -63,5 +63,6 @@ public class MobMotion : MonoBehaviour
 	void LateUpdate()
 	{
 		PendingAttack = false;
+		PendingDodge = false;
 	}
 }
