@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 405626}
   - 61: {fileID: 6197288}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PhysicsBox
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LockMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   LockDistance: 5
   LockTag: Enemy
   TargetDistance: 10

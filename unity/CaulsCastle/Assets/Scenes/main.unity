@@ -85,6 +85,25 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &95149122 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 162776, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+  m_PrefabInternal: {fileID: 1511645534}
+--- !u!114 &95149128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 95149122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8980da2af25f194a8fbdac64432b5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SenseRadius: 5
+  SenseMask:
+    serializedVersion: 2
+    m_Bits: 4294967240
 --- !u!1001 &284024498
 Prefab:
   m_ObjectHideFlags: 0
@@ -279,6 +298,10 @@ Prefab:
     - target: {fileID: 137672, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 11459142, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
+      propertyPath: LockTag
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 910103df0c657f9468c265c70ef2d6c6, type: 2}
