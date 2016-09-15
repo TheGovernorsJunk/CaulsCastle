@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(LockOn))]
+[RequireComponent(typeof(MobMotion))]
 
 public class SimpleAI : MonoBehaviour
 {
